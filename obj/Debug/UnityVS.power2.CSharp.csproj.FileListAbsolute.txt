@@ -1,0 +1,62 @@
+C:\Users\Public\Documents\Unity Projects\power2\power2\obj\Debug\UnityVS.power2.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Public\Documents\Unity Projects\power2\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Public\Documents\Unity Projects\power2\power2\obj\Debug\Assembly-CSharp.dll
+C:\Users\Public\Documents\Unity Projects\power2\power2\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Igor\Documents\Unity\Projects\power2\obj\Debug\UnityVS.power2.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Igor\Documents\Unity\Projects\power2\obj\Debug\Assembly-CSharp.dll
+C:\Users\Igor\Documents\Unity\Projects\power2\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Артем\Documents\UnityProjects\power2\obj\Debug\Assembly-CSharp.dll
+C:\Users\Артем\Documents\UnityProjects\power2\obj\Debug\Assembly-CSharp.pdb
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.xml
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
+C:\Users\Артем\Documents\UnityProjects\power2\obj\Debug\UnityVS.power2.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.dll
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.dll
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
+C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.xml
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.dll
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.dll
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.xml
+C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.xml
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\obj\Debug\UnityVS.power2.CSharp.csprojResolveAssemblyReference.cache
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\obj\Debug\Assembly-CSharp.dll
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\obj\Debug\Assembly-CSharp.pdb
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.xml
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.xml
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.xml
+C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.xml
