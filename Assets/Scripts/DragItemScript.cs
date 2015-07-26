@@ -138,8 +138,8 @@ public class DragItemScript : MonoBehaviour
                 var firstX = touchedItem.X;
                 var firstY = touchedItem.Y;
                 var gobj1 = pg.Items[firstX][firstY] as GameObject;
-                if (gobj1 != null)
-                {
+                if (gobj1 == null)
+                return;
                     var giObject = gobj1.GetComponent<GameItem>();
                     if (giObject != null &&
                         giObject.Type == GameItemType._StaticItem /*|| giObject.Type == GameItemType._DropDownItem)*/) return;
@@ -154,58 +154,106 @@ public class DragItemScript : MonoBehaviour
                         //gobj1.GetComponent<GameItemMovingScript>().CurrentDestination.ChangingDirection = false;
                         return;
                     }
-                }
 
                 
                 var deltaX = Math.Abs(realTouchPosition.x - touchOriginalPosition.x);
                 var deltaY = Math.Abs(realTouchPosition.y - touchOriginalPosition.y);
 
                 //if (deltaX < 0.0000001 && deltaY < 0.0000001) touchDirection = null;
-
                 float deltaXYZ = 0;
-                
-
-                if (deltaX > deltaY)
+                switch (giObject.MovingType)
                 {
-                    deltaXYZ = deltaX;
-                    if (deltaXYZ > pg.DeltaToMove)
-                    {
-                        if (
-                            !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
-                                (touchDirection = realTouchPosition.x > touchOriginalPosition.x
-                                    ? MoveDirections.Right
-                                    : MoveDirections.Left).Value))
+                    case GameItemMovingType.Standart:
+                        if (deltaX > deltaY)
                         {
+                            deltaXYZ = deltaX;
+                            if (deltaXYZ > pg.DeltaToMove)
+                            {
+                                if (
+                                    !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
+                                        (touchDirection = realTouchPosition.x > touchOriginalPosition.x
+                                            ? MoveDirections.Right
+                                            : MoveDirections.Left).Value))
+                                {
 
-                            if (!pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y, (touchDirection = realTouchPosition.y > touchOriginalPosition.y
-                            ? MoveDirections.Up
-                            : MoveDirections.Down).Value)) 
-                            return;
-                            deltaXYZ = deltaY;
-                        }
-                    }
-                }
-                else
-                {
-                    deltaXYZ = deltaY;
-                    if (deltaXYZ > pg.DeltaToMove)
-                    {
-                        if (
-                            !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
-                                (touchDirection = realTouchPosition.y > touchOriginalPosition.y
+                                    if (!pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y, (touchDirection = realTouchPosition.y > touchOriginalPosition.y
                                     ? MoveDirections.Up
                                     : MoveDirections.Down).Value))
-                        {
-                            if (!pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y, (touchDirection = realTouchPosition.x > touchOriginalPosition.x
-                            ? MoveDirections.Right
-                            : MoveDirections.Left).Value)) 
-                            return;
-
-                            deltaXYZ = deltaX;
+                                        return;
+                                    deltaXYZ = deltaY;
+                                }
+                            }
                         }
+                        else
+                        {
+                            deltaXYZ = deltaY;
+                            if (deltaXYZ > pg.DeltaToMove)
+                            {
+                                if (
+                                    !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
+                                        (touchDirection = realTouchPosition.y > touchOriginalPosition.y
+                                            ? MoveDirections.Up
+                                            : MoveDirections.Down).Value))
+                                {
+                                    if (!pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y, (touchDirection = realTouchPosition.x > touchOriginalPosition.x
+                                    ? MoveDirections.Right
+                                    : MoveDirections.Left).Value))
+                                        return;
 
-                    }
-                    else
+                                    deltaXYZ = deltaX;
+                                }
+
+                            }
+                            else
+                                return;//break;
+                        }
+                        break;
+                    case GameItemMovingType.Diagonal:
+
+                        if(deltaX > deltaY)
+                            deltaXYZ = deltaX;
+                        else
+                            deltaXYZ = deltaY;
+
+                        if (realTouchPosition.y > touchOriginalPosition.y)
+                        {
+                            if (realTouchPosition.x > touchOriginalPosition.x)
+                            {
+                                if (
+                                    !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
+                                       (touchDirection = MoveDirections.UL).Value))
+                                    return;
+
+                            }
+                            else
+                            {
+                                if (
+                                    !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
+                                       (touchDirection = MoveDirections.UR).Value))
+                                    return;
+                            } 
+                        }
+                        else
+                        {
+                            if (realTouchPosition.x > touchOriginalPosition.x)
+                            {
+                                if (
+                                    !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
+                                       (touchDirection = MoveDirections.DL).Value))
+                                    return;
+
+                            }
+                            else
+                            {
+                                if (
+                                    !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
+                                       (touchDirection = MoveDirections.DR).Value))
+                                    return;
+                            }   
+                        }
+                        break;
+                    case GameItemMovingType.Free:
+                        deltaXYZ = (float)Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
                         break;
                 }
 
@@ -269,8 +317,17 @@ public class DragItemScript : MonoBehaviour
                     var gims = gobj1.GetComponent<GameItemMovingScript>();
                     if (!gims.IsMoving)
                     {
-                        gims.transform.localPosition = new Vector3(touchedItemOriginalPosition.x + pg.AvailableMoveDirections[touchDirection.Value].x * deltaXYZ,
-                            touchedItemOriginalPosition.y + pg.AvailableMoveDirections[touchDirection.Value].y * deltaXYZ, touchedItemOriginalPosition.z);
+                        switch (giObject.MovingType)
+                        {
+                            case GameItemMovingType.Standart: case GameItemMovingType.Diagonal:
+                                gims.transform.localPosition = new Vector3(touchedItemOriginalPosition.x + pg.AvailableMoveDirections[touchDirection.Value].x * deltaXYZ,
+                                    touchedItemOriginalPosition.y + pg.AvailableMoveDirections[touchDirection.Value].y * deltaXYZ, touchedItemOriginalPosition.z);
+                                break;
+                            case GameItemMovingType.Free:
+                                gims.transform.localPosition = new Vector3(realTouchPosition.x,
+                                    realTouchPosition.y, touchedItemOriginalPosition.z);
+                                break;
+                        }
                     }
                     //var gi = gobj1.GetComponent<GameItem>();
                     //if (gi != null && gi.IsDraggableWhileMoving)

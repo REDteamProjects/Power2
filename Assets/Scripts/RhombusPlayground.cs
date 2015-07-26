@@ -197,7 +197,11 @@ namespace Assets.Scripts
                 { MoveDirections.Up, new Vector2(0, 2) },
                 { MoveDirections.Down, new Vector2(0, -2) },
                 { MoveDirections.Left, new Vector2(-2, 0) },
-                { MoveDirections.Right, new Vector2(2, 0) }
+                { MoveDirections.Right, new Vector2(2, 0) },
+                { MoveDirections.UL, new Vector2(-2, 2) },
+                { MoveDirections.UR, new Vector2(2, 2) },
+                { MoveDirections.DL, new Vector2(-2, -2) },
+                { MoveDirections.DR, new Vector2(2, -2) },
             })
         {}
 

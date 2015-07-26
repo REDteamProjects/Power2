@@ -24,6 +24,9 @@ namespace Assets.Scripts.Enums
         _16,
         _Gameover,
         _StaticItem,
-        _DropDownItem
+        _DropDownItem,
+        _RobotItem,
+        _TimeItem,
+        _BombItem
     }
 }
