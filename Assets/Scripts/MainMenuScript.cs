@@ -168,6 +168,16 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
+            var gui = GameObject.Find("/GUI");
+            var collection = gui.GetComponentsInChildren<Transform>();
+            foreach (var component in collection)
+            {
+                if (gui != component.gameObject)
+                    Destroy(component.gameObject);
+            }
+            //var label = Instantiate(Resources.Load("Prefabs/LoadingLabel")) as GameObject; ;
+            //label.transform.SetParent(gui.transform);
+            
             Application.LoadLevel(scene);
         }
 
