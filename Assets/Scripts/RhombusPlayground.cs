@@ -781,7 +781,7 @@ namespace Assets.Scripts
                         {
                             int col;
                             int row;
-                            while (Items[(col = RandomObject.Next(0, FieldSize))][(row = RandomObject.Next(0, FieldSize))] != null) { }
+                            while (Items[(col = RandomObject.Next(1, FieldSize-1))][(row = RandomObject.Next(1, FieldSize-1))] != null) { }
                             Items[col][row] = GenerateGameItem(GameItemType._StaticItem, col, row, new Vector2((col % 2 == 1 ? -col : col), col));
                             StaticItemsCount++;
                         }
