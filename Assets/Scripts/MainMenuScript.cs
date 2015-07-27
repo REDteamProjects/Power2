@@ -112,16 +112,16 @@ namespace Assets.Scripts
 
             _easyButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 0, 0), "NEWBIE", 50,
                 ((maximumLevel >= DifficultyLevel.easy) ? () => { Game.Difficulty = DifficultyLevel.easy; OnNavigationButtonClick(scene); } 
-                : (UnityAction)null), (maximumLevel >= DifficultyLevel.easy ? (Color?)null : Color.gray));
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.easy) ? (Color?)null : Color.gray));
             _mediumButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -80, 0), "PLAYER", 50,
-                ((maximumLevel >= DifficultyLevel.medium) ? () => { Game.Difficulty = DifficultyLevel.medium; OnNavigationButtonClick(scene); } 
-                : (UnityAction)null), maximumLevel >= DifficultyLevel.easy ? (Color?)null : Color.gray);
+                ((maximumLevel >= DifficultyLevel.medium) ? () => { Game.Difficulty = DifficultyLevel.medium; OnNavigationButtonClick(scene); }
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.medium) ? (Color?)null : Color.gray));
             _hardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -160, 0), "FIGHTER", 50,
-                ((maximumLevel >= DifficultyLevel.hard) ? () => { Game.Difficulty = DifficultyLevel.hard; OnNavigationButtonClick(scene); } 
-                : (UnityAction)null), maximumLevel >= DifficultyLevel.easy ? (Color?)null : Color.gray);
+                ((maximumLevel >= DifficultyLevel.hard) ? () => { Game.Difficulty = DifficultyLevel.hard; OnNavigationButtonClick(scene); }
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.hard) ? (Color?)null : Color.gray));
             _veryhardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -240, 0), "PSYCHO", 50,
-                ((maximumLevel >= DifficultyLevel.veryhard) ? () => { Game.Difficulty = DifficultyLevel.veryhard; OnNavigationButtonClick(scene); } 
-                : (UnityAction)null), maximumLevel >= DifficultyLevel.easy ? (Color?)null : Color.gray);
+                ((maximumLevel >= DifficultyLevel.veryhard) ? () => { Game.Difficulty = DifficultyLevel.veryhard; OnNavigationButtonClick(scene); }
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.veryhard) ? (Color?)null : Color.gray));
         }
 
         public void OnNewGameButtonClick()

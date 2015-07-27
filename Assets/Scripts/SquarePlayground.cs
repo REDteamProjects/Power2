@@ -575,7 +575,9 @@ namespace Assets.Scripts
                 case LineOrientation.Horizontal:
                     for (var i = 1; x + i < FieldSize; i++)
                     {
-                        if (Items[x + i][y] == null || Items[x + i][y] == DisabledItem || (Items[x + i][y] as GameObject).GetComponent<GameItemMovingScript>().IsMoving) break;
+                        var goItem = (Items[x + i][y] as GameObject);
+                        if (Items[x + i][y] == null || Items[x + i][y] == DisabledItem) break; //|| (
+                            //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
@@ -594,7 +596,9 @@ namespace Assets.Scripts
                 case LineOrientation.Vertical:
                     for (var i = 1; y + i < FieldSize; i++)
                     {
-                        if (Items[x][y + i] == null || Items[x][y + i] == DisabledItem || (Items[x][y + i] as GameObject).GetComponent<GameItemMovingScript>().IsMoving) break;
+                        var goItem = (Items[x][y + i] as GameObject);
+                        if (Items[x][y + i] == null || Items[x][y + i] == DisabledItem) break; // || (
+                            //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
