@@ -211,6 +211,8 @@ public class GameItemMovingScript : MonoBehaviour
         if (!IsMoving || !_isDirectionChangable)
             return;
 
+        if (!showFrom.HasValue) showFrom = CurrentDestination.ShowFrom;
+        if (!scaleTo.HasValue) scaleTo = CurrentDestination.ScaleTo;
         _destinations.Clear();
 
         MoveTo(x, y, movingSpeed, (gO, result) =>
