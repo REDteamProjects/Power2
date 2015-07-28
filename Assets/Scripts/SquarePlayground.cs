@@ -1179,6 +1179,7 @@ namespace Assets.Scripts
             {
                 var gobj2 = Items[i][row] as GameObject;
                 if (gobj2 == null) continue;
+                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
                 var gi2 = gobj2.GetComponent<GameItem>();
                 if (gi.Type == gi2.Type)
                     hor++;
@@ -1191,6 +1192,7 @@ namespace Assets.Scripts
                 {
                     var gobj2 = Items[i][row] as GameObject;
                     if (gobj2 == null) continue;
+                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
                     var gi2 = gobj2.GetComponent<GameItem>();
                     if (gi.Type == gi2.Type)
                         hor++;
@@ -1206,6 +1208,7 @@ namespace Assets.Scripts
             {
                 var gobj2 = Items[col][j] as GameObject;
                 if (gobj2 == null) continue;
+                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
                 var gi2 = gobj2.GetComponent<GameItem>();
                 if (gi.Type == gi2.Type)
                     vert++;
@@ -1217,6 +1220,7 @@ namespace Assets.Scripts
                 {
                     var gobj2 = Items[col][j] as GameObject;
                     if (gobj2 == null) continue;
+                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
                     var gi2 = gobj2.GetComponent<GameItem>();
                     if (gi.Type == gi2.Type)
                         vert++;
@@ -1224,9 +1228,7 @@ namespace Assets.Scripts
                 }
             }
             else return true;
-            if (vert > 1)
-                return true;
-            return false;
+            return vert > 1;
         }
         
         public virtual bool TryMakeMove(int x1, int y1, int x2, int y2)

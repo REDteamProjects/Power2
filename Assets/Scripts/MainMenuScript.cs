@@ -175,9 +175,10 @@ namespace Assets.Scripts
                 if (gui != component.gameObject)
                     Destroy(component.gameObject);
             }
-            //var label = Instantiate(Resources.Load("Prefabs/LoadingLabel")) as GameObject; ;
-            //label.transform.SetParent(gui.transform);
-            
+            var label = Instantiate(Resources.Load("Prefabs/LoadingLabel")) as GameObject;
+            label.transform.SetParent(gui.transform);
+            label.transform.localPosition = Vector3.zero;
+            label.transform.localScale = Vector3.one;
             Application.LoadLevel(scene);
         }
 

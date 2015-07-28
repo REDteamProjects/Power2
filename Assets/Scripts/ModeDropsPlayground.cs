@@ -15,6 +15,14 @@ namespace Assets.Scripts
         private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.42F, Y = 12.82F, Z = -1 };
         private const int GameOverPoints = 65536;
 
+        private Point _currentDroppingItem;
+
+        public Point CurrentDroppingItem 
+        {
+            get { return _currentDroppingItem; }
+            private set { if (_currentDroppingItem != value) _currentDroppingItem = value; }
+        }
+
         public override IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<ModeDropsPlayground>.Preferenses; }
@@ -67,125 +75,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        public override float GameItemSize { get { return 3.84f; } }
-
-        void Awake()
-        {
-            Items = new[]
-            {
-                new System.Object[FieldSize],
-                new System.Object[FieldSize],
-                new System.Object[FieldSize],
-                new System.Object[FieldSize],
-                new System.Object[FieldSize],
-                new System.Object[FieldSize],
-                new System.Object[FieldSize],
-                new System.Object[FieldSize]
-            };
-            //MaxType = GameItemType._8;
-
-            IPlaygroundSavedata sd = new ModeDropsPlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (SavedataHelper.IsSaveDataExist(sd))
-            {
-                SavedataHelper.LoadData(ref sd);
-                
-                //var gC = GetComponent<Game>();
-                //gC.Stats = sd.PlaygroundStat;
-
-                if (sd.Items != null)
-                {
-                    for (var i = 0; i < FieldSize; i++)
-                        for (var j = 0; j < FieldSize; j++)
-                        {
-                            Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
-                                ? (sd.Items[i][j] == GameItemType.DisabledItem
-                                    ? DisabledItem
-                                    : GenerateGameItem(sd.Items[i][j], i, j))
-                                : null;
-
-
-                            var newGameItem = Items[i][j] as GameObject;
-                            switch (sd.Items[i][j])
-                            {
-                                case GameItemType._DropDownItem:
-                                     if (newGameItem != null)
-                                        newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
-                                    DropDownItemsCount++;
-                                    break;
-                                case GameItemType._StaticItem:
-                                    if (newGameItem != null)
-                                        newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
-                                    StaticItemsCount++;
-                                    break;
-                                case GameItemType.DisabledItem:
-                                case GameItemType.NullItem:
-                                case GameItemType._Gameover:
-                                    break;
-                                default:
-                                    if (newGameItem != null)
-                                        newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
-                                    break;
-
-                            }
-                        }
-
-                    //var score = GetComponentInChildren<Text>();
-                    //if (score != null)
-                    //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
-
-                    CurrentTime = sd.CurrentPlaygroundTime;
-
-                    var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
-                    if (mit != MaxInitialElementType)
-                        MaxInitialElementType = mit;
-                    else
-                        ShowMaxInitialElement();
-                    GenerateField(true);
-                    RisePoints(sd.Score);
-                    return;
-                }
-            }
-
-            //var stat = GetComponent<Game>().Stats;
-            //if (stat != null)
-            //{
-            Preferenses.GamesPlayed++;
-            if (Preferenses.CurrentItemType < MaxType)
-                Preferenses.CurrentItemType = MaxType;
-
-
-            //}
-            GenerateField();
-            ShowMaxInitialElement();
-
-            //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
-            //DownPoint = a.transform.position.y;  
-        }
-
-        private void GenerateDropsModeItem(int col, int row, GameItemType type = GameItemType.NullItem)
-        {
-            var gameItem = (type != GameItemType.NullItem) ? 
-                GenerateGameItem(type, col, row, new Vector2(0, 1), true, 2, (sender, result) =>
-                    {
-                        while (ClearChains() > 0)
-                        {
-                            RemoveAdditionalItems();
-                        }
-                    }
-                    )
-                : GenerateGameItem(col, row, null, new Vector2(0, 1), true, 2, (sender, result) =>
-                {
-                    while (ClearChains() > 0)
-                    {
-                        RemoveAdditionalItems();
-                    }
-                }
-                );
-
-            if (gameItem != null)
-                gameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
-            Items[col][row] = gameItem;
-        }
+        public override float GameItemSize { get { return 3.84f; } }  
 
         public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
         {
@@ -279,12 +169,10 @@ namespace Assets.Scripts
             {
                 var res = base.GameItemsExchange(x1, y1, ref x2, ref y2, speed, isReverse, exchangeCallback ?? ((go, r) =>
                 {
-                    if (CallbacksCount == 1)
+                    if (CallbacksCount != 1) return;
+                    while (ClearChains() > 0)
                     {
-                        while (ClearChains() > 0)
-                        {
-                            RemoveAdditionalItems(); //TODO: ?
-                        }
+                        RemoveAdditionalItems(); //TODO: ?
                     }
                 }));
 
@@ -299,11 +187,9 @@ namespace Assets.Scripts
                 //var cc = GetCellCoordinates(x2, i);
                 //if (cc != Vector3.zero && cc.y >= (Items[x1][y1] as GameObject).transform.localPosition.y)
                 //    break;
-                if (Items[x2][i] == DisabledItem)
-                {
-                    y2 = i;
-                    break;
-                }
+                if (Items[x2][i] != DisabledItem) continue;
+                y2 = i;
+                break;
             }
             if (y2 < 0)
                 return false;
@@ -320,7 +206,7 @@ namespace Assets.Scripts
                 /* cdc.Speed.y + 4*/ speed,
                 (mItem, result) =>
                    item.MoveTo(toPoint.x, toPoint.y, cdc.Speed.y, cdc.MovingCallback, null, null, true));
-
+            CurrentDroppingItem = new Point{X = x2, Y = y2};
 
             //item.ChangeDirection(toPoint.x, toPoint.y >= (item.transform.localPosition.y - GameItemSize / 5) ? toPoint.y : item.transform.localPosition.y - GameItemSize / 5,
             //    /* cdc.Speed.y + 4*/ speed, 
@@ -509,6 +395,126 @@ namespace Assets.Scripts
             }
             if (counter == 0 && DropsCount == 0 && generateAfterDrop && CallbacksCount == 0)
                 GenerateField(true);
+        }
+
+        void Awake()
+        {
+            Items = new[]
+            {
+                new System.Object[FieldSize],
+                new System.Object[FieldSize],
+                new System.Object[FieldSize],
+                new System.Object[FieldSize],
+                new System.Object[FieldSize],
+                new System.Object[FieldSize],
+                new System.Object[FieldSize],
+                new System.Object[FieldSize]
+            };
+            //MaxType = GameItemType._8;
+
+            IPlaygroundSavedata sd = new ModeDropsPlaygroundSavedata { Difficulty = Game.Difficulty };
+            if (SavedataHelper.IsSaveDataExist(sd))
+            {
+                SavedataHelper.LoadData(ref sd);
+
+                //var gC = GetComponent<Game>();
+                //gC.Stats = sd.PlaygroundStat;
+
+                if (sd.Items != null)
+                {
+                    for (var i = 0; i < FieldSize; i++)
+                        for (var j = 0; j < FieldSize; j++)
+                        {
+                            Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
+                                ? (sd.Items[i][j] == GameItemType.DisabledItem
+                                    ? DisabledItem
+                                    : GenerateGameItem(sd.Items[i][j], i, j))
+                                : null;
+
+
+                            var newGameItem = Items[i][j] as GameObject;
+                            switch (sd.Items[i][j])
+                            {
+                                case GameItemType._DropDownItem:
+                                    if (newGameItem != null)
+                                        newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
+                                    DropDownItemsCount++;
+                                    break;
+                                case GameItemType._StaticItem:
+                                    if (newGameItem != null)
+                                        newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
+                                    StaticItemsCount++;
+                                    break;
+                                case GameItemType.DisabledItem:
+                                case GameItemType.NullItem:
+                                case GameItemType._Gameover:
+                                    break;
+                                default:
+                                    if (newGameItem != null)
+                                        newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
+                                    break;
+
+                            }
+                        }
+
+                    //var score = GetComponentInChildren<Text>();
+                    //if (score != null)
+                    //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
+
+                    CurrentTime = sd.CurrentPlaygroundTime;
+
+                    var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
+                    if (mit != MaxInitialElementType)
+                        MaxInitialElementType = mit;
+                    else
+                        ShowMaxInitialElement();
+                    GenerateField(true);
+                    RisePoints(sd.Score);
+                    return;
+                }
+            }
+
+            //var stat = GetComponent<Game>().Stats;
+            //if (stat != null)
+            //{
+            Preferenses.GamesPlayed++;
+            if (Preferenses.CurrentItemType < MaxType)
+                Preferenses.CurrentItemType = MaxType;
+
+
+            //}
+            GenerateField();
+            ShowMaxInitialElement();
+
+            //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
+            //DownPoint = a.transform.position.y;  
+        }
+
+        private void GenerateDropsModeItem(int col, int row, GameItemType type = GameItemType.NullItem)
+        {
+            var gameItem = (type != GameItemType.NullItem) ?
+                GenerateGameItem(type, col, row, new Vector2(0, 1), true, 2, (sender, result) =>
+                {
+                    while (ClearChains() > 0)
+                    {
+                        RemoveAdditionalItems();
+                    }
+                }
+                    )
+                : GenerateGameItem(col, row, null, new Vector2(0, 1), true, 2, (sender, result) =>
+                {
+                    while (ClearChains() > 0)
+                    {
+                        RemoveAdditionalItems();
+                    }
+                }
+                );
+
+            if (gameItem != null)
+                gameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
+            Items[col][row] = gameItem;
+
+            CurrentDroppingItem = new Point{X = col, Y = row};
         }
     }
 }
