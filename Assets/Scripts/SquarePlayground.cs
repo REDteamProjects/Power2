@@ -676,13 +676,13 @@ namespace Assets.Scripts
                         var cY = j;
 
                         CallbacksCount++;
-                        
+                        Items[cX][cY] = null;
                         c.MoveTo(null, toCell.y, 14, (item, result) =>
                         {
+                            LogFile.Message(cX + " " + cY);
                             CallbacksCount--;
                             if (!result) return;
-
-                            Items[cX][cY] = null;
+                           
                             Destroy(item);
                         });
 
@@ -712,13 +712,13 @@ namespace Assets.Scripts
                         var cY = l.Y1;
 
                         CallbacksCount++;
-                        
+                        Items[cX][cY] = null;
                         c.MoveTo(toCell.x, null, 14, (item, result) =>
                         {
+                            LogFile.Message(cX + " " + cY);
                             CallbacksCount--;
                             if (!result) return;
-                            
-                            Items[cX][cY] = null;
+
                             Destroy(item);                            
                         });
                     }
@@ -734,7 +734,8 @@ namespace Assets.Scripts
                     var newgobjtype = toGi.Type + 1;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
                         new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
-                    
+
+                    Items[l.X2][l.Y2] = null;
                     Destroy(toObj);
                     Items[l.X2][l.Y2] = newgobj;
                     var points = pointsMultiple * (int)Math.Pow(2, (double)newgobjtype);
@@ -787,18 +788,45 @@ namespace Assets.Scripts
             
             //CallbacksCount -= lines.Count;
             if (!IsGameOver) return linesCount;
-            var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            if (gameOverLabelObject == null) return linesCount;
-            var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
-            gameOverLabel.transform.SetParent(transform);
-            gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-                "Game over", Color.white, Color.gray, 60, 90);
-            //TODO: stop the game
+            GenerateGameOverMenu();            //TODO: stop the game
             //if (_callbackReady.WaitOne(1))
             //  Drop();
 			return linesCount;
         }
-        
+
+        private void GenerateGameOverMenu()
+        {
+            var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            if (gameOverLabelObject == null) return;
+            var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
+            gameOverLabel.transform.SetParent(transform);
+            gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
+                "Game over", Color.white, Color.gray, 60, 90);
+
+            var fg = GameObject.Find("/Foreground");
+
+            //var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
+            var backButton = Instantiate(Resources.Load("Prefabs/ToMainMenuButton")) as GameObject;
+            var resetButton = Instantiate(Resources.Load("Prefabs/ResetButton")) as GameObject;
+            var continueButton = Instantiate(Resources.Load("Prefabs/ResumeButton")) as GameObject;
+
+            if (fg != null)
+            {
+                //pausebackground.transform.SetParent(fg.transform);
+                backButton.transform.SetParent(fg.transform);
+                resetButton.transform.SetParent(fg.transform);
+            }
+
+            //pausebackground.transform.localPosition = Vector3.zero;
+            //(pausebackground.transform as RectTransform).sizeDelta = Vector2.zero;
+
+            resetButton.transform.localScale = Vector3.one;
+            resetButton.transform.localPosition = new Vector3(100, 0, 0);
+
+            backButton.transform.localScale = Vector3.one;
+            backButton.transform.localPosition = new Vector3(-100, 0, 0);
+        }
+
         public virtual void Drop()
         {
             var generateAfterDrop = true;
