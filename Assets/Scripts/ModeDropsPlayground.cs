@@ -492,23 +492,18 @@ namespace Assets.Scripts
 
         private void GenerateDropsModeItem(int col, int row, GameItemType type = GameItemType.NullItem)
         {
+            var callback = (MovingFinishedDelegate)((sender, result) =>
+            {
+                CurrentDroppingItem = null;
+                while (ClearChains() > 0)
+                {
+                    RemoveAdditionalItems();
+                }
+            })
+                ;
             var gameItem = (type != GameItemType.NullItem) ?
-                GenerateGameItem(type, col, row, new Vector2(0, 1), true, 2, (sender, result) =>
-                {
-                    while (ClearChains() > 0)
-                    {
-                        RemoveAdditionalItems();
-                    }
-                }
-                    )
-                : GenerateGameItem(col, row, null, new Vector2(0, 1), true, 2, (sender, result) =>
-                {
-                    while (ClearChains() > 0)
-                    {
-                        RemoveAdditionalItems();
-                    }
-                }
-                );
+                GenerateGameItem(type, col, row, new Vector2(0, 1), true, 2, callback)
+                : GenerateGameItem(col, row, null, new Vector2(0, 1), true, 2, callback);
 
             if (gameItem != null)
                 gameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;

@@ -11,14 +11,28 @@ public delegate void MovingFinishedDelegate(UnityEngine.Object movedItem, bool r
 
 public class Destination2D
 {
+    private Vector2 _showFrom;
     public Vector2 Direction { get; set; }
     public Vector3 Destination { get; set; }
     public Vector3 StartPoint { get; set; }
     public Vector2 Speed { get; set; }
     public LineOrientation MovementOrientation { get; set; }
     public MovingFinishedDelegate MovingCallback { get; set; }
-    public Vector2 ShowFrom { get; set; }
+
+    public Vector2 ShowFrom
+    {
+        get { return _showFrom; }
+        set
+        {
+            _showFrom = value;
+            Visible = (_showFrom == Vector2.zero);
+        }
+    }
+
     public Vector3 ScaleTo { get; set; }
+
+    public bool Visible { get; set; }
+
     public bool ChangingDirection { get; set; }
 }
 
@@ -61,9 +75,16 @@ public class GameItemMovingScript : MonoBehaviour
         //var finalPoint = _destinations[0];
         if (Math.Abs(transform.localPosition.x - CurrentDestination.Destination.x) > 0.01 || Math.Abs(transform.localPosition.y - CurrentDestination.Destination.y) > 0.01)
         {
-            if (CurrentDestination.ScaleTo != Vector3.zero && (Math.Abs(CurrentDestination.ShowFrom.x - transform.localPosition.x) < 0.01 || transform.localPosition.x > CurrentDestination.ShowFrom.x)
-                && (Math.Abs(transform.localPosition.y - CurrentDestination.ShowFrom.y) < 0.01 || transform.localPosition.y < CurrentDestination.ShowFrom.y))
+            if (!CurrentDestination.Visible && CurrentDestination.ScaleTo != Vector3.zero &&
+                (Math.Abs(CurrentDestination.ShowFrom.x - transform.localPosition.x) < 0.01 ||
+                 transform.localPosition.x > CurrentDestination.ShowFrom.x)
+                &&
+                (Math.Abs(transform.localPosition.y - CurrentDestination.ShowFrom.y) < 0.01 ||
+                 transform.localPosition.y < CurrentDestination.ShowFrom.y))
+            {
                 transform.localScale = CurrentDestination.ScaleTo;
+                CurrentDestination.Visible = true;
+            }
             var movement = new Vector3(
                 CurrentDestination.Speed.x * CurrentDestination.Direction.x,
                 CurrentDestination.Speed.y * CurrentDestination.Direction.y, 0f);
@@ -173,17 +194,9 @@ public class GameItemMovingScript : MonoBehaviour
         newMove.Destination = new Vector3(toX, toY, toZ);
         newMove.StartPoint = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
         newMove.Speed = new Vector2(movingSpeed, movingSpeed);
-        if (showFrom.HasValue && scaleTo.HasValue)
-        {
-            //transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, 6f);
-            newMove.ShowFrom = showFrom.Value;
-            newMove.ScaleTo = scaleTo.Value;
-        }
-        else
-        {
-            newMove.ShowFrom = Vector2.zero;
-            newMove.ScaleTo = Vector3.zero;
-        }
+        newMove.ShowFrom = showFrom.HasValue ? showFrom.Value : Vector2.zero;
+        newMove.ScaleTo = scaleTo.HasValue ? scaleTo.Value : Vector3.zero;
+
         if (movingCallback != null)
             newMove.MovingCallback = movingCallback;
         else
@@ -205,11 +218,12 @@ public class GameItemMovingScript : MonoBehaviour
         IsMoving = true;
     }
 
-
     public void ChangeDirection(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null)
     {
         if (!IsMoving || !_isDirectionChangable)
             return;
+
+        IsMoving = false;
 
         if (!showFrom.HasValue) showFrom = CurrentDestination.ShowFrom;
         if (!scaleTo.HasValue) scaleTo = CurrentDestination.ScaleTo;

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 58abd888a0711a247bf1efdd3712d279
-timeCreated: 1437395154
+guid: b77a814b4cfac8c4b9dbcb39bb020a32
+timeCreated: 1438169491
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -77,49 +77,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1920
-        width: 480
-        height: 480
+        y: 192
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_1
       rect:
         serializedVersion: 2
-        x: 480
-        y: 1920
-        width: 480
-        height: 480
+        x: 48
+        y: 192
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_2
       rect:
         serializedVersion: 2
-        x: 960
-        y: 1920
-        width: 480
-        height: 480
+        x: 96
+        y: 192
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_3
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 1920
-        width: 480
-        height: 480
+        x: 144
+        y: 192
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_4
       rect:
         serializedVersion: 2
-        x: 1920
-        y: 1920
-        width: 480
-        height: 480
+        x: 192
+        y: 192
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -127,49 +127,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1440
-        width: 480
-        height: 480
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_6
       rect:
         serializedVersion: 2
-        x: 480
-        y: 1440
-        width: 480
-        height: 480
+        x: 48
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_7
       rect:
         serializedVersion: 2
-        x: 960
-        y: 1440
-        width: 480
-        height: 480
+        x: 96
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_8
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 1440
-        width: 480
-        height: 480
+        x: 144
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_9
       rect:
         serializedVersion: 2
-        x: 1920
-        y: 1440
-        width: 480
-        height: 480
+        x: 192
+        y: 144
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,49 +177,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 960
-        width: 480
-        height: 480
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_11
       rect:
         serializedVersion: 2
-        x: 480
-        y: 960
-        width: 480
-        height: 480
+        x: 48
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_12
       rect:
         serializedVersion: 2
-        x: 960
-        y: 960
-        width: 480
-        height: 480
+        x: 96
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_13
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 960
-        width: 480
-        height: 480
+        x: 144
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_14
       rect:
         serializedVersion: 2
-        x: 1920
-        y: 960
-        width: 480
-        height: 480
+        x: 192
+        y: 96
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,49 +227,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 480
-        width: 480
-        height: 480
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_16
       rect:
         serializedVersion: 2
-        x: 480
-        y: 480
-        width: 480
-        height: 480
+        x: 48
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_17
       rect:
         serializedVersion: 2
-        x: 960
-        y: 480
-        width: 480
-        height: 480
+        x: 96
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_18
       rect:
         serializedVersion: 2
-        x: 1440
-        y: 480
-        width: 480
-        height: 480
+        x: 144
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_19
       rect:
         serializedVersion: 2
-        x: 1920
-        y: 480
-        width: 480
-        height: 480
+        x: 192
+        y: 48
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -278,40 +278,40 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 480
-        height: 480
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_21
       rect:
         serializedVersion: 2
-        x: 480
+        x: 48
         y: 0
-        width: 480
-        height: 480
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_22
       rect:
         serializedVersion: 2
-        x: 960
+        x: 96
         y: 0
-        width: 480
-        height: 480
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_23
       rect:
         serializedVersion: 2
-        x: 1440
+        x: 144
         y: 0
-        width: 480
-        height: 480
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

@@ -161,6 +161,11 @@ public class DragItemScript : MonoBehaviour
                 if (touchedItem == null && pg is ModeDropsPlayground)
                 {
                     var movingItem = (pg as ModeDropsPlayground).CurrentDroppingItem;
+                    if (movingItem == null) break;
+                    var movingItemGameObject = pg.Items[movingItem.X][movingItem.Y] as GameObject;
+                    if (
+                        movingItemGameObject == null || !(movingItemGameObject.GetComponent<GameItemMovingScript>()
+                            .CurrentDestination.Visible)) break;
                     touchedItem = movingItem;
                     touchedItemOriginalPosition = pg.GetCellCoordinates(movingItem.X, movingItem.Y);
                 }

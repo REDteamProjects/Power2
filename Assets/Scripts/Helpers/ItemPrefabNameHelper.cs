@@ -19,7 +19,7 @@ public class ItemPrefabNameHelper  {
             return "Prefabs/Rhombus/RhombusGameItem";
 
         if (typeT == typeof(SquarePlayground) || typeT.BaseType == typeof(SquarePlayground))
-            return "Prefabs/Standard/GameItem";
+            return "Prefabs/SD/Standard/GameItem";
 
         
 
