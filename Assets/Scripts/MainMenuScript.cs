@@ -21,8 +21,8 @@ namespace Assets.Scripts
         private GameObject _6x6button;
         private GameObject _backButton;
         private GameObject _newgamebutton;
-        private GameObject _soundButton;
-        private GameObject _helpButton;
+        //private GameObject _statbutton;
+        //private GameObject _aboutbutton;
 
         private GameObject _easyButton;
         private GameObject _mediumButton;
@@ -55,17 +55,6 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/GUI");
             _newgamebutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -280, 0), "Start Game", 50,
                 OnNewGameButtonClick);
-            var statsButton = GameObject.Find("/GUI/StatsButton");
-            var aboutButton = GameObject.Find("/GUI/AboutButton");
-
-            //_soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 60,
-            //    statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, () =>
-            //    {
-            //        _soundButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("StaticHeader_17"); //TODO: add change image and sound status
-
-            //    });
-            //_helpButton = GenerateMenuButton("Prefabs/HelpButton", fg.transform, Vector3.one, new Vector3(aboutButton.transform.localPosition.x - 60,
-            //    aboutButton.transform.localPosition.y, aboutButton.transform.localPosition.z), null, 0, () => OnNavigationButtonClick("Help"));
             //_statbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -180, 0), "STATISTICS",
             //    () => OnNavigationButtonClick("Statistics"));
             //_aboutbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -260, 0), "ABOUT",
@@ -123,16 +112,16 @@ namespace Assets.Scripts
 
             _easyButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 0, 0), "NEWBIE", 50,
                 ((maximumLevel >= DifficultyLevel.easy) ? () => { Game.Difficulty = DifficultyLevel.easy; OnNavigationButtonClick(scene); } 
-                : (UnityAction)null));
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.easy) ? (Color?)null : Color.gray));
             _mediumButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -80, 0), "PLAYER", 50,
                 ((maximumLevel >= DifficultyLevel.medium) ? () => { Game.Difficulty = DifficultyLevel.medium; OnNavigationButtonClick(scene); }
-                : (UnityAction)null));
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.medium) ? (Color?)null : Color.gray));
             _hardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -160, 0), "FIGHTER", 50,
                 ((maximumLevel >= DifficultyLevel.hard) ? () => { Game.Difficulty = DifficultyLevel.hard; OnNavigationButtonClick(scene); }
-                : (UnityAction)null));
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.hard) ? (Color?)null : Color.gray));
             _veryhardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -240, 0), "PSYCHO", 50,
                 ((maximumLevel >= DifficultyLevel.veryhard) ? () => { Game.Difficulty = DifficultyLevel.veryhard; OnNavigationButtonClick(scene); }
-                : (UnityAction)null));
+                : (UnityAction)null), ((maximumLevel >= DifficultyLevel.veryhard) ? (Color?)null : Color.gray));
         }
 
         public void OnNewGameButtonClick()
@@ -171,8 +160,8 @@ namespace Assets.Scripts
                 () => OnModeSelect("Drops", GameSettingsHelper<ModeDropsPlayground>.Preferenses.MaximumOpenedLevel));
             _match3button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -320, 0), "MATCH3", 50,
                 () => OnModeSelect("Match3", GameSettingsHelper<ModeMatch3Playground>.Preferenses.MaximumOpenedLevel));
-            _backButton = GenerateMenuButton("Prefabs/BackButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x, 
-                -statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0,
+            _backButton = GenerateMenuButton("Prefabs/BackButton", fg.transform, Vector3.one, new Vector3(-statsButton.transform.localPosition.x, 
+                statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0,
                 OnBackButtonPress);
 
         }
@@ -202,15 +191,12 @@ namespace Assets.Scripts
             rectTransform.localScale = localScale;
             rectTransform.localPosition = localPosition;
 
-            var buttonComponent = button.GetComponent<Button>();
-            if (buttonComponent != null)
+            if (onClickCall != null)
             {
-                if (onClickCall != null)
+                var buttonComponent = button.GetComponent<Button>();
+                if (buttonComponent != null)
                     buttonComponent.onClick.AddListener(onClickCall);
-                else
-                    buttonComponent.interactable = false;
             }
-
 
             if (String.IsNullOrEmpty(buttonText)) return button;
 
