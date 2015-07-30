@@ -288,6 +288,8 @@ public class DragItemScript : MonoBehaviour
                     case GameItemMovingType.Free:
                         deltaXYZ = (float)Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
                         break;
+                    case GameItemMovingType.Static:
+                        return;
                 }
 
                 if (!touchDirection.HasValue) return;
