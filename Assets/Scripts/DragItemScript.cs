@@ -319,7 +319,7 @@ public class DragItemScript : MonoBehaviour
                     if (result)
                     {
                         if (!pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, false)) return;
-                        var o = pg.Items[secondX][secondY] as GameObject;
+                        //var o = pg.Items[secondX][secondY] as GameObject;
 
                         //if (o != null)
                         //{

@@ -23,8 +23,6 @@ namespace Assets.Scripts
         private int _dropsCount;
         private RealPoint _item00;
         private float _timeCounter = -1;
-        private float _moveTimer = 8;
-        private float _moveTimerMultiple = 10;
         private GameObject _selectedPoint1;
         private GameObject _selectedPoint2;
         private Point _selectedPoint1Coordinate;
@@ -290,12 +288,6 @@ namespace Assets.Scripts
             set { _timeCounter = value; }
         }
 
-        public float MoveTimer
-        {
-            get { return _moveTimer; }
-            set { _moveTimer = value; }
-        }
-
         public RealPoint Item00
         {
             get { return _item00; }
@@ -364,27 +356,7 @@ namespace Assets.Scripts
                     DropDownItemsCount--;
                 }
         }
-
-
-        protected void OnGUI()
-        {
-           Vector2 pos = new Vector2(75, 140);
-           Vector2 size = new Vector2(200,20);
-           var g = GetComponent<Game>();
-            // draw the background:
-           GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
-           GUI.Box(new Rect(0, 0, size.x, size.y), g.emptyProgressBar);
-
-           //draw the filled-in part:
-           if (MoveTimer * _moveTimerMultiple > size.x)
-               _moveTimerMultiple = size.x / MoveTimer;
-           GUI.BeginGroup(new Rect(0, 0, MoveTimer * _moveTimerMultiple, size.y));
-           GUI.Box(new Rect(0, 0, size.x, size.y), g.fullProgressBar);
-           GUI.EndGroup();
-           GUI.EndGroup();
-
-        }
-
+        
         protected virtual void Update()
         {
             if (IsGameOver) return;
@@ -419,12 +391,6 @@ namespace Assets.Scripts
                 _selectedPoint2.transform.localPosition = Vector3.zero;
             }
             TimeCounter += Time.deltaTime;
-            MoveTimer -= Time.deltaTime;
-            if(MoveTimer <= 0)
-            {
-                IsGameOver = true;
-                GenerateGameOverMenu();//gameOver
-            }
             //CurrentTime += Time.time;
         }
 
@@ -610,7 +576,7 @@ namespace Assets.Scripts
                 case LineOrientation.Horizontal:
                     for (var i = 1; x + i < FieldSize; i++)
                     {
-                        var goItem = (Items[x + i][y] as GameObject);
+                        //var goItem = (Items[x + i][y] as GameObject);
                         if (Items[x + i][y] == null || Items[x + i][y] == DisabledItem) break; //|| (
                             //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
@@ -631,7 +597,7 @@ namespace Assets.Scripts
                 case LineOrientation.Vertical:
                     for (var i = 1; y + i < FieldSize; i++)
                     {
-                        var goItem = (Items[x][y + i] as GameObject);
+                        //var goItem = (Items[x][y + i] as GameObject);
                         if (Items[x][y + i] == null || Items[x][y + i] == DisabledItem) break; // || (
                             //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
@@ -690,7 +656,6 @@ namespace Assets.Scripts
                 if (l.Orientation == LineOrientation.Vertical)
                 {
                     pointsMultiple += l.Y2 - l.Y1 - 2;
-
                     for (var j = l.Y2 - 1; j >= l.Y1; j--)
                     {
                         if (Items[l.X1][j] == null || Items[l.X1][j] == DisabledItem)
@@ -799,7 +764,7 @@ namespace Assets.Scripts
                 lines.Remove(l);
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
-                MoveTimer += pointsMultiple * 2;
+
                 if (l != null) continue;
                 lines = GetAllLines();
                 l = lines.FirstOrDefault();
@@ -844,7 +809,6 @@ namespace Assets.Scripts
             //var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
             var backButton = Instantiate(Resources.Load("Prefabs/ToMainMenuButton")) as GameObject;
             var resetButton = Instantiate(Resources.Load("Prefabs/ResetButton")) as GameObject;
-            var continueButton = Instantiate(Resources.Load("Prefabs/ResumeButton")) as GameObject;
 
             if (fg != null)
             {

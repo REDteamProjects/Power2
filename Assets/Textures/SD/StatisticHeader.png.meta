@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b77a814b4cfac8c4b9dbcb39bb020a32
-timeCreated: 1438169491
+timeCreated: 1438267589
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -28,6 +28,7 @@ TextureImporter:
     21300042: StatisticHeader_21
     21300044: StatisticHeader_22
     21300046: StatisticHeader_23
+    21300048: StatisticHeader_24
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -261,7 +262,7 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_19
       rect:
@@ -271,7 +272,7 @@ TextureImporter:
         width: 48
         height: 48
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: StatisticHeader_20
       rect:
@@ -307,6 +308,16 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: StatisticHeader_24
+      rect:
+        serializedVersion: 2
+        x: 192
         y: 0
         width: 48
         height: 48
