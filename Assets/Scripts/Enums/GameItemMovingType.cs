@@ -6,6 +6,7 @@ namespace Assets.Scripts.Enums
     {
         Standart,
         Diagonal,
-        Free
+        Free,
+        Static
     }
 }

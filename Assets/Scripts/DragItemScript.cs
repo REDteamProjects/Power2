@@ -179,7 +179,7 @@ public class DragItemScript : MonoBehaviour
                 return;
                     var giObject = gobj1.GetComponent<GameItem>();
                     if (giObject != null &&
-                        giObject.Type == GameItemType._StaticItem /*|| giObject.Type == GameItemType._DropDownItem)*/) return;
+                        giObject.MovingType == GameItemMovingType.Static /*|| giObject.Type == GameItemType._DropDownItem)*/) return;
 
                     var gobj1Gims = gobj1.GetComponent<GameItemMovingScript>();
                     if (gobj1Gims.CurrentDestination != null && gobj1Gims.CurrentDestination.ChangingDirection)

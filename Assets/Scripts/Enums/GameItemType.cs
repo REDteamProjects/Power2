@@ -23,7 +23,7 @@ namespace Assets.Scripts.Enums
         _15,
         _16,
         _Gameover,
-        _StaticItem,
+        _XItem,
         _DropDownItem,
         _RobotItem,
         _TimeItem,

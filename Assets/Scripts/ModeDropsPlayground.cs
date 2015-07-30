@@ -118,12 +118,12 @@ namespace Assets.Scripts
                     {
                         case DifficultyLevel.hard:
                         case DifficultyLevel.veryhard:
-                            if (StaticItemsCount < maxAdditionalItemsCount)
+                            if (XItemsCount < maxAdditionalItemsCount)
                             {
                                 if (RandomObject.Next(0, FieldSize) % 3 == 0)
                                 {
-                                    GenerateDropsModeItem(respCol, availibleColumns[respCol], GameItemType._StaticItem);
-                                    StaticItemsCount++;
+                                    GenerateDropsModeItem(respCol, availibleColumns[respCol], GameItemType._XItem);
+                                    XItemsCount++;
                                     return;
                                 }
                             }
@@ -330,19 +330,19 @@ namespace Assets.Scripts
 
                     var o = Items[col][row] as GameObject;
                     if (o != null &&
-                        (!AreStaticItemsDroppable && o.GetComponent<GameItem>().Type == GameItemType._StaticItem))
+                        (!AreStaticItemsDroppable && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                         continue;
 
                     if (Items[col][row + 1] != null)
                     {
                         var gameObject1 = Items[col][row + 1] as GameObject;
-                        if (gameObject1 != null && gameObject1.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                        if (gameObject1 != null && gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         {
                             var rowStaticCounter = 1;
                             var o1 = Items[col][row + rowStaticCounter] as GameObject;
                             while (o1 != null &&
                                    ((row + rowStaticCounter) < FieldSize && Items[col][row + rowStaticCounter] != null
-                                    && o1.GetComponent<GameItem>().Type == GameItemType._StaticItem))
+                                    && o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                                 rowStaticCounter++;
                             if ((row + rowStaticCounter) >= FieldSize || Items[col][row + rowStaticCounter] != null)
                                 continue;
@@ -440,10 +440,10 @@ namespace Assets.Scripts
                                         newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
                                     DropDownItemsCount++;
                                     break;
-                                case GameItemType._StaticItem:
+                                case GameItemType._XItem:
                                     if (newGameItem != null)
                                         newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
-                                    StaticItemsCount++;
+                                    XItemsCount++;
                                     break;
                                 case GameItemType.DisabledItem:
                                 case GameItemType.NullItem:

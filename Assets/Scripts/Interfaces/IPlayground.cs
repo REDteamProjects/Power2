@@ -151,7 +151,7 @@ namespace Assets.Scripts.Interfaces
         /// <param name="deniedTypes">Types of items, deny to be created</param>
         /// <param name="generateOnY">?</param>
         /// <returns></returns>
-        GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null);
+        GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart);
 
         /// <summary>
         /// Exchange two visual items

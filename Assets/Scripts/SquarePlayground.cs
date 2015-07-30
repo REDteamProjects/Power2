@@ -37,7 +37,7 @@ namespace Assets.Scripts
         protected const int maxAdditionalItemsCount = 2;
         protected readonly DifficultyLevel Difficulty;
         protected int DropDownItemsCount;
-        protected int StaticItemsCount;
+        protected int XItemsCount;
 
         public virtual IGameSettingsHelper Preferenses
         {
@@ -394,7 +394,7 @@ namespace Assets.Scripts
             //CurrentTime += Time.time;
         }
 
-        public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale)
+        public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
             var newgobj = Instantiate(Resources.Load(ItemPrefabName + itemType)) as GameObject;
             if (newgobj == null) return null;
@@ -404,9 +404,10 @@ namespace Assets.Scripts
             newgobj.transform.SetParent(transform);
             newgobj.transform.localPosition = localPosition;
             newgobj.transform.localScale = localScale;
+            newgobj.GetComponent<GameItem>().MovingType = movingType;
             return newgobj;
         }
-        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null)
+        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
             if (!generateOn.HasValue)
                 generateOn = new Vector2(0, FieldSize - j);
@@ -416,7 +417,7 @@ namespace Assets.Scripts
             var gobj = InstantiateGameItem(itemType, new Vector3(
                 (float)Math.Round(cell.x + generateOn.Value.x * GameItemSize, 2),
                 (float)Math.Round(Item00.Y + generateOn.Value.y * GameItemSize, 2),
-                Item00.Z), Vector3.zero);
+                Item00.Z), Vector3.zero, movingType);
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize));
             CallbacksCount++;
@@ -435,15 +436,15 @@ namespace Assets.Scripts
             }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), isItemDirectionChangable);
             return gobj;
         }
-        public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null)
+        public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
             //var minType = MaxType - FieldSize;
             var newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 : (int)GameItemType._1, (int)MaxInitialElementType + 1);
             if (deniedTypes == null || deniedTypes.Count <= 0)
-                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
         }
         
         //private bool IsEndPoint(IEnumerable<Line> lines, int currentX, int currentY)
@@ -527,7 +528,7 @@ namespace Assets.Scripts
                     if (selectedObject != null)
                     {
                         var gi = selectedObject.GetComponent<GameItem>();
-                        if (gi.Type == GameItemType._StaticItem || gi.Type == GameItemType.NullItem || gi.Type == GameItemType.DisabledItem)
+                        if (gi.MovingType == GameItemMovingType.Static || gi.Type == GameItemType.NullItem || gi.Type == GameItemType.DisabledItem)
                             continue;
                     }
                 }
@@ -842,7 +843,7 @@ namespace Assets.Scripts
                         continue;
                     
                     var o = Items[col][row] as GameObject;
-                    if (o != null && (!AreStaticItemsDroppable && o.GetComponent<GameItem>().Type == GameItemType._StaticItem))
+                    if (o != null && (!AreStaticItemsDroppable && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                         continue;
 
                     //if (DropsCount == 0)
@@ -851,12 +852,12 @@ namespace Assets.Scripts
                     if (Items[col][row + 1] != null)
                     {
                         var gameObject1 = Items[col][row + 1] as GameObject;
-                        if (gameObject1 != null && gameObject1.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                        if (gameObject1 != null && gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         {
                             var rowStaticCounter = 1;
                             GameObject o1;
-                            while ((row + rowStaticCounter) < FieldSize && (o1 = Items[col][row + rowStaticCounter] as GameObject) != null &&  
-                                o1.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                            while ((row + rowStaticCounter) < FieldSize && (o1 = Items[col][row + rowStaticCounter] as GameObject) != null &&
+                                o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                                 rowStaticCounter++;
                             if ((row + rowStaticCounter) >= FieldSize || Items[col][row + rowStaticCounter] != null)
                                 continue;
@@ -919,13 +920,13 @@ namespace Assets.Scripts
                     {
                         case DifficultyLevel.hard:
                         case DifficultyLevel.veryhard:
-                            while (StaticItemsCount < maxAdditionalItemsCount)
+                            while (XItemsCount < maxAdditionalItemsCount)
                             {
                                 int col;
                                 int row;
                                 while (Items[(col = RandomObject.Next(1, FieldSize-1))][(row = RandomObject.Next(1, FieldSize-1))] != null) { }
-                                Items[col][row] = GenerateGameItem(GameItemType._StaticItem, col, row);
-                                StaticItemsCount++;
+                                Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, null, false, null, null, GameItemMovingType.Static);
+                                XItemsCount++;
                             }
                             break;
                     }
@@ -1015,7 +1016,7 @@ namespace Assets.Scripts
                             if (Items[i][j] == null || Items[i][j] == DisabledItem)
                                 continue;
                             var go = Items[i][j] as GameObject;
-                            if (go == null || go.GetComponent<GameItem>().Type == GameItemType._StaticItem) continue;
+                            if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
                             toMixList.Add(Items[i][j]);
                         }
                     }
@@ -1026,7 +1027,7 @@ namespace Assets.Scripts
                             if (Items[i][j] == null || Items[i][j] == DisabledItem)
                                 continue;
                             var go = Items[i][j] as GameObject;
-                            if (go == null || go.GetComponent<GameItem>().Type == GameItemType._StaticItem) continue;
+                            if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
 
                             var index = RandomObject.Next(0, toMixList.Count);
                             Items[i][j] = toMixList[index];
@@ -1041,7 +1042,7 @@ namespace Assets.Scripts
                         if (Items[i][j] == null || Items[i][j] == DisabledItem)
                             continue;
                         var gameObject1 = Items[i][j] as GameObject;
-                        if (gameObject1 == null || gameObject1.GetComponent<GameItem>().Type == GameItemType._StaticItem) continue;
+                        if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
 
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var to = GetCellCoordinates(i, j);
@@ -1156,7 +1157,7 @@ namespace Assets.Scripts
                 return false;
 
             var gameObject1 = Items[col][row] as GameObject;
-            if (gameObject1 == null || gameObject1.GetComponent<GameItem>().Type == GameItemType._StaticItem) return false;
+            if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return false;
 
             switch (mdir)
             {
@@ -1165,7 +1166,7 @@ namespace Assets.Scripts
                         return false;
                     var objectUp = Items[col][row - 1] as GameObject;
                     
-                    if (objectUp == null || objectUp.GetComponent<GameItemMovingScript>().IsMoving || objectUp.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                    if (objectUp == null || objectUp.GetComponent<GameItemMovingScript>().IsMoving || objectUp.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         return false;
                     break;
                 case MoveDirections.Down:
@@ -1173,7 +1174,7 @@ namespace Assets.Scripts
                         return false;
                     var objectDown = Items[col][row + 1] as GameObject;
 
-                    if (objectDown == null || objectDown.GetComponent<GameItemMovingScript>().IsMoving || objectDown.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                    if (objectDown == null || objectDown.GetComponent<GameItemMovingScript>().IsMoving || objectDown.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         return false;
                     break;
                 case MoveDirections.Left:
@@ -1181,7 +1182,7 @@ namespace Assets.Scripts
                         return false;
                     var objectLeft = Items[col - 1][row] as GameObject;
                     
-                    if (objectLeft == null || objectLeft.GetComponent<GameItemMovingScript>().IsMoving || objectLeft.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                    if (objectLeft == null || objectLeft.GetComponent<GameItemMovingScript>().IsMoving || objectLeft.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         return false;
                     break;
                 case MoveDirections.Right:
@@ -1189,7 +1190,7 @@ namespace Assets.Scripts
                         return false;
                     var objectRight = Items[col + 1][row] as GameObject;
                     
-                    if (objectRight == null || objectRight.GetComponent<GameItemMovingScript>().IsMoving || objectRight.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                    if (objectRight == null || objectRight.GetComponent<GameItemMovingScript>().IsMoving || objectRight.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         return false;
                     break;
             }

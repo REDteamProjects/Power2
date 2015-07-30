@@ -324,7 +324,7 @@ namespace Assets.Scripts
                     if (selectedObject != null)
                     {
                         var gi = selectedObject.GetComponent<GameItem>();
-                        if (gi.Type == GameItemType._StaticItem || gi.Type == GameItemType.NullItem || gi.Type == GameItemType.DisabledItem)
+                        if (gi.MovingType == GameItemMovingType.Static || gi.Type == GameItemType.NullItem || gi.Type == GameItemType.DisabledItem)
                             continue;
                     }
                 }
@@ -711,14 +711,14 @@ namespace Assets.Scripts
                         }
                     }
                     var o = Items[col][row] as GameObject;
-                    if (o != null && (Items[col][row] != null && Items[col][row] != DisabledItem && o.GetComponent<GameItem>().Type == GameItemType._StaticItem))
+                    if (o != null && (Items[col][row] != null && Items[col][row] != DisabledItem && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                         continue;
                     var gameObject1 = Items[col + downItemSide][row + 1] as GameObject;
-                    if (gameObject1 != null && (Items[col + downItemSide][row + 1] != null && Items[col + downItemSide][row + 1] != DisabledItem && gameObject1.GetComponent<GameItem>().Type == GameItemType._StaticItem))
+                    if (gameObject1 != null && (Items[col + downItemSide][row + 1] != null && Items[col + downItemSide][row + 1] != DisabledItem && gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                     {
                         var rowStaticCounter = 1;
                         GameObject o1;
-                        while ((row + rowStaticCounter) < FieldSize && (o1 = Items[col + downItemSide * (rowStaticCounter)][row + rowStaticCounter] as GameObject) != null && o1.GetComponent<GameItem>().Type == GameItemType._StaticItem)
+                        while ((row + rowStaticCounter) < FieldSize && (o1 = Items[col + downItemSide * (rowStaticCounter)][row + rowStaticCounter] as GameObject) != null && o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                             rowStaticCounter++;
                         if ((row + rowStaticCounter) >= FieldSize || Items[col + downItemSide * rowStaticCounter][row + rowStaticCounter] != null)
                             continue;
@@ -777,13 +777,13 @@ namespace Assets.Scripts
                 {
                     case DifficultyLevel.hard:
                     case DifficultyLevel.veryhard:
-                        while (StaticItemsCount < maxAdditionalItemsCount)
+                        while (XItemsCount < maxAdditionalItemsCount)
                         {
                             int col;
                             int row;
                             while (Items[(col = RandomObject.Next(1, FieldSize-1))][(row = RandomObject.Next(1, FieldSize-1))] != null) { }
-                            Items[col][row] = GenerateGameItem(GameItemType._StaticItem, col, row, new Vector2((col % 2 == 1 ? -col : col), col));
-                            StaticItemsCount++;
+                            Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, new Vector2((col % 2 == 1 ? -col : col), col), false, null, null, GameItemMovingType.Static);
+                            XItemsCount++;
                         }
                         break;
                 }
@@ -871,7 +871,7 @@ namespace Assets.Scripts
                             if (Items[i][j] == null || Items[i][j] == DisabledItem)
                                 continue;
                             var go = Items[i][j] as GameObject;
-                            if (go == null || go.GetComponent<GameItem>().Type == GameItemType._StaticItem) continue;
+                            if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
                             toMixList.Add(Items[i][j]);
                         }
                     }
@@ -882,7 +882,7 @@ namespace Assets.Scripts
                             if (Items[i][j] == null || Items[i][j] == DisabledItem)
                                 continue;
                             var go = Items[i][j] as GameObject;
-                            if (go == null || go.GetComponent<GameItem>().Type == GameItemType._StaticItem) continue;
+                            if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
                             var index = RandomObject.Next(0, toMixList.Count);
                             Items[i][j] = toMixList[index];
                             toMixList.RemoveAt(index);
@@ -896,7 +896,7 @@ namespace Assets.Scripts
                         if (Items[i][j] == null || Items[i][j] == DisabledItem)
                             continue;
                         var gameObject1 = Items[i][j] as GameObject;
-                        if (gameObject1 == null || gameObject1.GetComponent<GameItem>().Type == GameItemType._StaticItem) continue;
+                        if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var to = GetCellCoordinates(i, j);
                         CallbacksCount++;
@@ -984,8 +984,8 @@ namespace Assets.Scripts
             var newY = row - (int)direction.y;
             var o = Items[newX][newY] as GameObject;
             var gameObject1 = Items[col][row] as GameObject;
-            return gameObject1 != null && (o != null && (newX >= 0 && newX <= FieldSize - 1 && newY >= 0 && newY <= FieldSize - 1 && Items[newX][newY] != null && Items[newX][newY] != DisabledItem && 
-                                                                           o.GetComponent<GameItem>().Type != GameItemType._StaticItem && Items[newX][newY] != DisabledItem && gameObject1.GetComponent<GameItem>().Type != GameItemType._StaticItem));
+            return gameObject1 != null && (o != null && (newX >= 0 && newX <= FieldSize - 1 && newY >= 0 && newY <= FieldSize - 1 && Items[newX][newY] != null && Items[newX][newY] != DisabledItem &&
+                                                                           o.GetComponent<GameItem>().MovingType != GameItemMovingType.Static && Items[newX][newY] != DisabledItem && gameObject1.GetComponent<GameItem>().MovingType != GameItemMovingType.Static));
         }
         public override bool IsPointInLine(int col, int row)
         {

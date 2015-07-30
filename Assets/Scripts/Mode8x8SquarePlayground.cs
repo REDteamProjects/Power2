@@ -94,8 +94,8 @@ namespace Assets.Scripts
                                 case GameItemType._DropDownItem:
                                     DropDownItemsCount++;
                                     break;
-                                case GameItemType._StaticItem:
-                                    StaticItemsCount++;
+                                case GameItemType._XItem:
+                                    XItemsCount++;
                                     break;
                             }
                         }
