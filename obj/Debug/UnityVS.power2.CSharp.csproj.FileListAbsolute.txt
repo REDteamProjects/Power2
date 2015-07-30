@@ -37,12 +37,6 @@ C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityE
 C:\Users\Артем\Documents\UnityProjects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.xml
 C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.dll
 C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.dll
-C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.xml
-C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.xml
-C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.UI.xml
-C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Networking.xml
-C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEngine.Analytics.xml
-C:\Users\Igor\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.iOS.Extensions.Xcode.xml
 C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.dll
 C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\Assembly-CSharp.pdb
 C:\Users\gorchakov_ia\Documents\Unity\Projects\power2\Temp\UnityVS_bin\Debug\UnityEditor.dll

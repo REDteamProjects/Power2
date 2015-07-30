@@ -610,7 +610,7 @@ namespace Assets.Scripts
                 case LineOrientation.Horizontal:
                     for (var i = 1; x + i < FieldSize; i++)
                     {
-                        var goItem = (Items[x + i][y] as GameObject);
+                        //var goItem = (Items[x + i][y] as GameObject);
                         if (Items[x + i][y] == null || Items[x + i][y] == DisabledItem) break; //|| (
                             //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
@@ -631,7 +631,7 @@ namespace Assets.Scripts
                 case LineOrientation.Vertical:
                     for (var i = 1; y + i < FieldSize; i++)
                     {
-                        var goItem = (Items[x][y + i] as GameObject);
+                        //var goItem = (Items[x][y + i] as GameObject);
                         if (Items[x][y + i] == null || Items[x][y + i] == DisabledItem) break; // || (
                             //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
@@ -844,7 +844,6 @@ namespace Assets.Scripts
             //var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
             var backButton = Instantiate(Resources.Load("Prefabs/ToMainMenuButton")) as GameObject;
             var resetButton = Instantiate(Resources.Load("Prefabs/ResetButton")) as GameObject;
-            var continueButton = Instantiate(Resources.Load("Prefabs/ResumeButton")) as GameObject;
 
             if (fg != null)
             {

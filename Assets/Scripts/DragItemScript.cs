@@ -319,7 +319,7 @@ public class DragItemScript : MonoBehaviour
                     if (result)
                     {
                         if (!pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, false)) return;
-                        var o = pg.Items[secondX][secondY] as GameObject;
+                        //var o = pg.Items[secondX][secondY] as GameObject;
 
                         //if (o != null)
                         //{
@@ -372,7 +372,7 @@ public class DragItemScript : MonoBehaviour
                 exchangeSpeedMultiple = 0;
                 if (touchedItem != null)
                 {
-                    if (pg.Items[touchedItem.X][touchedItem.Y] == null ||
+                    if (pg.Items == null || pg.Items[touchedItem.X][touchedItem.Y] == null ||
                         pg.Items[touchedItem.X][touchedItem.Y] == pg.DisabledItem)
                     {
                         touchedItem = null;

@@ -119,4 +119,10 @@ public class PauseButtonScript : MonoBehaviour
         DestroyPauseMenu();
         PauseMenuActive = false;
     }
+
+    public void OnApplicationPause(bool pause)
+    {
+        if (!PauseMenuActive)
+            CreatePauseMenu();
+    }
 }
