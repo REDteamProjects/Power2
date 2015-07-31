@@ -264,15 +264,18 @@ namespace Assets.Scripts
             ChainCounter++;
             RisePoints(pointsBank * ChainCounter);
 
-            if (!IsGameOver) return linesCount;
-            CallbacksCount -= lines.Count;
-            var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            if (labelObject == null) return linesCount;
-            var gameOverLabel = labelObject.GetComponent<LabelShowing>();
-            gameOverLabel.transform.SetParent(transform);
-            gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-                "Game over", Color.white, Color.gray, 60, 90);
+            //if (!IsGameOver) return linesCount;
+            //CallbacksCount -= lines.Count;
+            //var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            //if (labelObject == null) return linesCount;
+            //var gameOverLabel = labelObject.GetComponent<LabelShowing>();
+            //gameOverLabel.transform.SetParent(transform);
+            //gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
+            //    "Game over", Color.white, Color.gray, 60, 90);
             //TODO: stop the game
+            if (!IsGameOver) return linesCount;
+
+            GenerateGameOverMenu();
 			return linesCount;
         }
 

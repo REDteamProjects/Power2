@@ -368,10 +368,11 @@ namespace Assets.Scripts
 
         protected void OnGUI()
         {
-           Vector2 size = new Vector2(Screen.width/2, 20);
-           Vector2 pos = new Vector2(Screen.width/4, Screen.height/2 - transform.localPosition.y - Screen.width/2 - size.y*1.5f);
+           var size = new Vector2(Screen.width / 2, 20);
+           var pos = new Vector2(Screen.width / 4, Screen.height / 2 - transform.localPosition.y - Screen.width/2 - size.y * 1.5f);
            var g = GetComponent<Game>();
-            // draw the background:
+           
+           // draw the background:
            GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
            GUI.Box(new Rect(0, 0, size.x, size.y), g.emptyProgressBar);
 
@@ -388,6 +389,13 @@ namespace Assets.Scripts
         protected virtual void Update()
         {
             if (IsGameOver) return;
+
+            //MoveTimer -= Time.deltaTime; TODO: Uncomment
+            if (MoveTimer <= 0)
+            {
+                IsGameOver = true;
+                GenerateGameOverMenu();
+            }
 
             if (CallbacksCount == 0)
                 Drop();
@@ -419,13 +427,6 @@ namespace Assets.Scripts
                 _selectedPoint2.transform.localPosition = Vector3.zero;
             }
             TimeCounter += Time.deltaTime;
-            MoveTimer -= Time.deltaTime;
-            if(MoveTimer <= 0)
-            {
-                IsGameOver = true;
-                GenerateGameOverMenu();//gameOver
-            }
-            //CurrentTime += Time.time;
         }
 
         public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale, GameItemMovingType movingType = GameItemMovingType.Standart)
@@ -799,7 +800,9 @@ namespace Assets.Scripts
                 lines.Remove(l);
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
+
                 MoveTimer += pointsMultiple * 2;
+
                 if (l != null) continue;
                 lines = GetAllLines();
                 l = lines.FirstOrDefault();
@@ -830,7 +833,7 @@ namespace Assets.Scripts
 			return linesCount;
         }
 
-        private void GenerateGameOverMenu()
+        public void GenerateGameOverMenu()
         {   
             var fg = GameObject.Find("/Foreground");
 

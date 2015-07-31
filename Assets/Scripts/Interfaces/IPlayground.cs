@@ -120,6 +120,11 @@ namespace Assets.Scripts.Interfaces
         int ClearChains();
 
         /// <summary>
+        /// Generating menu when game is over
+        /// </summary>
+        void GenerateGameOverMenu();
+
+        /// <summary>
         /// Checking if it is available to move item to selected direction
         /// </summary>
         /// <param name="col">Items X coordinate</param>
