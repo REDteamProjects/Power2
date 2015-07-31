@@ -12,7 +12,7 @@ namespace Assets.Scripts.Helpers
     {
         bool SoundEnabled { get; set; }
 
-        bool VibrationEnabled { get; set; }
+        //bool VibrationEnabled { get; set; }
 
         DifficultyLevel MaximumOpenedLevel { get; set; }
 
@@ -45,31 +45,31 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_SoundEnabled"))
-                    return PlayerPrefs.GetInt(GetType().FullName + "_SoundEnabled") != 0;
-                PlayerPrefs.SetInt(GetType().FullName + "_SoundEnabled", 1);
+                if (PlayerPrefs.HasKey("General_SoundEnabled"))
+                    return PlayerPrefs.GetInt("General_SoundEnabled") != 0;
+                PlayerPrefs.SetInt("General_SoundEnabled", 1);
                 return true;
             }
             set
             {
-                PlayerPrefs.SetInt(GetType().FullName + "SoundEnabled", value ? 1: 0);
+                PlayerPrefs.SetInt("General_SoundEnabled", value ? 1 : 0);
             }
         }
 
-        public bool VibrationEnabled
-        {
-            get
-            {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_VibrationEnabled"))
-                    return PlayerPrefs.GetInt(GetType().FullName + "_VibrationEnabled") != 0;
-                PlayerPrefs.SetInt(GetType().FullName + "_VibrationEnabled", 1);
-                return true;
-            }
-            set
-            {
-                PlayerPrefs.SetInt(GetType().FullName + "_VibrationEnabled", value ? 1 : 0);
-            }
-        }
+        //public bool VibrationEnabled
+        //{
+        //    get
+        //    {
+        //        if (PlayerPrefs.HasKey(GetType().FullName + "_VibrationEnabled"))
+        //            return PlayerPrefs.GetInt(GetType().FullName + "_VibrationEnabled") != 0;
+        //        PlayerPrefs.SetInt(GetType().FullName + "_VibrationEnabled", 1);
+        //        return true;
+        //    }
+        //    set
+        //    {
+        //        PlayerPrefs.SetInt(GetType().FullName + "_VibrationEnabled", value ? 1 : 0);
+        //    }
+        //}
 
         public DifficultyLevel MaximumOpenedLevel
         {

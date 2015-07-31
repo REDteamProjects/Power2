@@ -63,7 +63,8 @@ public class LabelShowing : MonoBehaviour {
         }
 	}
 
-    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null)
+    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, 
+        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null)
     {
         transform.localPosition = position;
         var labelText = GetComponent<Text>();
@@ -90,5 +91,6 @@ public class LabelShowing : MonoBehaviour {
         DestroyAfterAnimation = destroyAfterAnimation;
         ScaleDifference = animateToSize - animateFromSize;
         DestroyTimeout = ScaleDifference + 10;
+        AnimationFinished = callback;
     }
 }

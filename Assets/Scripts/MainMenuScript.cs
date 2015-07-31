@@ -14,20 +14,36 @@ namespace Assets.Scripts
         //public static bool IsSoundOn { get; set; }
         public MenuState CurrentState;
         //private GUISkin skin;
-        private GameObject _rhombusbutton;
-        private GameObject _dropsbutton;
-        private GameObject _match3button;
-        private GameObject _8x8button;
-        private GameObject _6x6button;
-        private GameObject _backButton;
-        private GameObject _newgamebutton;
-        private GameObject _soundButton;
-        private GameObject _helpButton;
+        private static GameObject _rhombusbutton;
+        private static GameObject _dropsbutton;
+        private static GameObject _match3button;
+        private static GameObject _8x8button;
+        private static GameObject _6x6button;
+        private static GameObject _backButton;
+        private static GameObject _newgamebutton;
+        private static GameObject _soundButton;
+        //private GameObject _helpButton;
 
-        private GameObject _easyButton;
-        private GameObject _mediumButton;
-        private GameObject _hardButton;
-        private GameObject _veryhardButton;
+        private static GameObject _easyButton;
+        private static GameObject _mediumButton;
+        private static GameObject _hardButton;
+        private static GameObject _veryhardButton;
+
+
+        public bool SoundEnabled
+        {
+            get
+            {
+                if (PlayerPrefs.HasKey("General_SoundEnabled"))
+                    return PlayerPrefs.GetInt("General_SoundEnabled") != 0;
+                PlayerPrefs.SetInt("General_SoundEnabled", 1);
+                return true;
+            }
+            set
+            {
+                PlayerPrefs.SetInt("General_SoundEnabled", value ? 1 : 0);
+            }
+        }
 
         // Use this for initialization
         void Start()
@@ -56,14 +72,14 @@ namespace Assets.Scripts
             _newgamebutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -250, 0), "Start Game", 50,
                 OnNewGameButtonClick);
             var statsButton = GameObject.Find("/GUI/StatsButton");
-            var aboutButton = GameObject.Find("/GUI/AboutButton");
+            //var aboutButton = GameObject.Find("/GUI/AboutButton");
 
-            //_soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 60,
-            //    statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, () =>
-            //    {
-            //        _soundButton.GetComponent<Image>().sprite = Resources.Load<Sprite>("StaticHeader_17"); //TODO: add change image and sound status
+            _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 120,
+                statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
+            _soundButton.GetComponent<Image>().sprite = SoundEnabled
+                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[17]
+                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[16];
 
-            //    });
             //_helpButton = GenerateMenuButton("Prefabs/HelpButton", fg.transform, Vector3.one, new Vector3(aboutButton.transform.localPosition.x - 60,
             //    aboutButton.transform.localPosition.y, aboutButton.transform.localPosition.z), null, 0, () => OnNavigationButtonClick("Help"));
             //_statbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -180, 0), "STATISTICS",
@@ -72,11 +88,25 @@ namespace Assets.Scripts
             //    () => OnNavigationButtonClick("About"));
         }
 
+
+        public void OnSoundButtonPressed()
+        {
+            Vibration.Vibrate(10);
+
+            SoundEnabled = !SoundEnabled;
+
+            _soundButton.GetComponent<Image>().sprite = SoundEnabled
+                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[17]
+                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[16];
+        }
+
         public void OnBackButtonPress()
         {
             switch (CurrentState)
             {
                 case MenuState.ChooseMode:
+                    Vibration.Vibrate(10);
+
                     CurrentState = MenuState.MainMenu;
 
                     Destroy(_6x6button);
@@ -97,6 +127,8 @@ namespace Assets.Scripts
 
                     break;
                 case MenuState.ChooseLevel:
+                    Vibration.Vibrate(10);
+
                     Destroy(_backButton);
                     OnNewGameButtonClick();
                     break;
@@ -118,6 +150,8 @@ namespace Assets.Scripts
                     Destroy(_match3button);
                     break;
             }
+            Vibration.Vibrate(10);
+
             CurrentState = MenuState.ChooseLevel;
 
             var fg = GameObject.Find("/GUI");
@@ -157,6 +191,8 @@ namespace Assets.Scripts
                     Destroy(_veryhardButton);
                     break;
             }
+            Vibration.Vibrate(10);
+
             CurrentState = MenuState.ChooseMode;
 
             var statsButton = GameObject.Find("/GUI/StatsButton");
@@ -180,6 +216,8 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
+            Vibration.Vibrate(10);
+
             var gui = GameObject.Find("/GUI");
             var collection = gui.GetComponentsInChildren<Transform>();
             foreach (var component in collection)
@@ -191,6 +229,7 @@ namespace Assets.Scripts
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;
+
             Application.LoadLevel(scene);
         }
 

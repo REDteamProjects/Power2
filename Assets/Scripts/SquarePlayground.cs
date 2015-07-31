@@ -831,35 +831,42 @@ namespace Assets.Scripts
         }
 
         private void GenerateGameOverMenu()
-        {
-            var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            if (gameOverLabelObject == null) return;
-            var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
-            gameOverLabel.transform.SetParent(transform);
-            gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-                "Game over", Color.white, Color.gray, 60, 90);
-
+        {   
             var fg = GameObject.Find("/Foreground");
 
-            //var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
-            var backButton = Instantiate(Resources.Load("Prefabs/ToMainMenuButton")) as GameObject;
-            var resetButton = Instantiate(Resources.Load("Prefabs/ResetButton")) as GameObject;
-
+            var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
+            var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+ 
             if (fg != null)
             {
-                //pausebackground.transform.SetParent(fg.transform);
-                backButton.transform.SetParent(fg.transform);
-                resetButton.transform.SetParent(fg.transform);
+                pausebackground.transform.SetParent(fg.transform);
+                gameOverLabelObject.transform.SetParent(fg.transform); 
             }
 
-            //pausebackground.transform.localPosition = Vector3.zero;
-            //(pausebackground.transform as RectTransform).sizeDelta = Vector2.zero;
+            pausebackground.transform.localPosition = Vector3.zero;
+            (pausebackground.transform as RectTransform).sizeDelta = Vector2.zero; 
 
-            resetButton.transform.localScale = Vector3.one;
-            resetButton.transform.localPosition = new Vector3(100, 0, 0);
+            var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
+            gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
+                "Game over", Color.white, Color.gray, 60, 90, null, false, () =>
+                {
+                    var resetButton = Instantiate(Resources.Load("Prefabs/ResetButton")) as GameObject;
+                    var backButton = Instantiate(Resources.Load("Prefabs/ToMainMenuButton")) as GameObject;
 
-            backButton.transform.localScale = Vector3.one;
-            backButton.transform.localPosition = new Vector3(-100, 0, 0);
+                    if (fg != null)
+                    {
+                        resetButton.transform.SetParent(fg.transform);
+                        backButton.transform.SetParent(fg.transform); 
+                    }
+
+                    resetButton.transform.localScale = new Vector2(10, 10);
+                    resetButton.transform.localPosition = new Vector3(100, -80, 0);
+                    (resetButton.transform as RectTransform).sizeDelta = new Vector2(10, 10);
+
+                    backButton.transform.localScale = new Vector2(10, 10);
+                    backButton.transform.localPosition = new Vector3(-100, -80, 0);
+                    (backButton.transform as RectTransform).sizeDelta = new Vector2(10, 10);
+                });
         }
 
         public virtual void Drop()
