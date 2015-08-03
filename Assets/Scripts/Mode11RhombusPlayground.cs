@@ -139,6 +139,17 @@ namespace Assets.Scripts
 
             GenerateField();
             ShowMaxInitialElement();
+
+            var progressBar = ProgressBar;
+            if (progressBar != null)
+                PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+        }
+
+        private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
+        {
+            IsGameOver = true;
+            GenerateGameOverMenu();
+            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
 
     }

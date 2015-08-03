@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.DataClasses;
+﻿using System;
+using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
 using UnityEngine;
@@ -60,6 +61,10 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            //var progressBar = ProgressBar;
+            //if (progressBar != null)
+            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+
             Items = new[]
             {
                 new System.Object[FieldSize],
@@ -128,6 +133,13 @@ namespace Assets.Scripts
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
 
+        }
+
+        private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
+        {
+            IsGameOver = true;
+            GenerateGameOverMenu();
+            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
     }
 }

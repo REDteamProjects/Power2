@@ -66,6 +66,10 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            //var progressBar = ProgressBar;
+            //if (progressBar != null)
+            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+
             Items = new[]
             {
                 new System.Object[FieldSize],
@@ -119,6 +123,16 @@ namespace Assets.Scripts
 
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;  
+            //var progressBar = ProgressBar;
+            //if (progressBar != null)
+            //    PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+        }
+
+        private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
+        {
+            IsGameOver = true;
+            GenerateGameOverMenu();
+            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         } 
 
         public override int ClearChains()

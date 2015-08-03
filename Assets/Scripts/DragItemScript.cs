@@ -23,6 +23,8 @@ public class DragItemScript : MonoBehaviour
     {
         var pg = gameObject.GetComponent<IPlayground>();
 
+        if (pg == null || pg.IsGameOver) return;
+
         Vector3 realTouchPosition;
         var touchPhase = TouchPhase.Canceled;
 

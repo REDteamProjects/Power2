@@ -23,8 +23,8 @@ namespace Assets.Scripts
         private int _dropsCount;
         private RealPoint _item00;
         private float _timeCounter = -1;
-        private float _moveTimer = 8;
-        private float _moveTimerMultiple = 10;
+        //private float _moveTimer = 8;
+        //private float _moveTimerMultiple = 10;
         private GameObject _selectedPoint1;
         private GameObject _selectedPoint2;
         private Point _selectedPoint1Coordinate;
@@ -290,11 +290,11 @@ namespace Assets.Scripts
             set { _timeCounter = value; }
         }
 
-        public float MoveTimer
-        {
-            get { return _moveTimer; }
-            set { _moveTimer = value; }
-        }
+        //public float MoveTimer
+        //{
+        //    get { return _moveTimer; }
+        //    set { _moveTimer = value; }
+        //}
 
         public RealPoint Item00
         {
@@ -322,6 +322,11 @@ namespace Assets.Scripts
             get { return _selectedPoint2Coordinate; }
         }
 
+        public PlaygroundProgressBar ProgressBar
+        {
+            get { return GetComponent<PlaygroundProgressBar>(); }
+        }
+
         public SquarePlayground(Dictionary<MoveDirections, Vector2> dictionary)
         {
             AvailableMoveDirections = dictionary;
@@ -340,6 +345,7 @@ namespace Assets.Scripts
                 {MoveDirections.DR, new Vector2(1, -1)},
             })
         {}
+
 
         protected void RemoveAdditionalItems()
         {
@@ -364,38 +370,37 @@ namespace Assets.Scripts
                     DropDownItemsCount--;
                 }
         }
-
-
-        protected void OnGUI()
-        {
-           var size = new Vector2(Screen.width / 2, 20);
-           var pos = new Vector2(Screen.width / 4, Screen.height / 2 - transform.localPosition.y - Screen.width/2 - size.y * 1.5f);
-           var g = GetComponent<Game>();
+        
+        //protected void OnGUI()
+        //{
+        //   var size = new Vector2(Screen.width / 2, 20);
+        //   var pos = new Vector2(Screen.width / 4, Screen.height / 2 - transform.localPosition.y - Screen.width/2 - size.y * 1.5f);
+        //   var g = GetComponent<Game>();
            
-           // draw the background:
-           GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
-           GUI.Box(new Rect(0, 0, size.x, size.y), g.emptyProgressBar);
+        //   // draw the background:
+        //   GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
+        //   GUI.Box(new Rect(0, 0, size.x, size.y), g.emptyProgressBar);
 
-           //draw the filled-in part:
-           if (MoveTimer * _moveTimerMultiple > size.x)
-               _moveTimerMultiple = size.x / MoveTimer;
-           GUI.BeginGroup(new Rect(0, 0, MoveTimer * _moveTimerMultiple, size.y));
-           GUI.Box(new Rect(0, 0, size.x, size.y), g.fullProgressBar);
-           GUI.EndGroup();
-           GUI.EndGroup();
+        //   //draw the filled-in part:
+        //   if (MoveTimer * _moveTimerMultiple > size.x)
+        //       _moveTimerMultiple = size.x / MoveTimer;
+        //   GUI.BeginGroup(new Rect(0, 0, MoveTimer * _moveTimerMultiple, size.y));
+        //   GUI.Box(new Rect(0, 0, size.x, size.y), g.fullProgressBar);
+        //   GUI.EndGroup();
+        //   GUI.EndGroup();
 
-        }
+        //}
 
         protected virtual void Update()
         {
             if (IsGameOver) return;
 
             //MoveTimer -= Time.deltaTime; TODO: Uncomment
-            if (MoveTimer <= 0)
-            {
-                IsGameOver = true;
-                GenerateGameOverMenu();
-            }
+            //if (MoveTimer <= 0)
+            //{
+            //    IsGameOver = true;
+            //    GenerateGameOverMenu();
+            //}
 
             if (CallbacksCount == 0)
                 Drop();
@@ -801,7 +806,8 @@ namespace Assets.Scripts
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
 
-                MoveTimer += pointsMultiple * 2;
+                //MoveTimer += pointsMultiple * 2;
+                ProgressBar.AddTime(pointsMultiple * 2);
 
                 if (l != null) continue;
                 lines = GetAllLines();
