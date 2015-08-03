@@ -22,7 +22,7 @@ namespace Assets.Scripts.DataClasses
             var fg = GameObject.Find("/Foreground");
             _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
             _progressBar.transform.SetParent(fg.transform);
-            _progressBar.transform.localPosition = new Vector3(0,215,0);
+            _progressBar.transform.localPosition = new Vector3(0,-320,0);
             _progressBar.transform.localScale = Vector3.one;
             _progressBarLine = GameObject.Find("ProgressBarLine");
             _progressBarBank = ProgressBarBaseSize;
@@ -41,7 +41,7 @@ namespace Assets.Scripts.DataClasses
             if (_progressBarBankUpper > 0)
             {
                 var deltaXUpper = _moveTimerMultipleUpper * Time.deltaTime;
-                if (_progressBarBank + deltaXUpper > ProgressBarBaseSize)
+                if (_progressBarBank + deltaXUpper >= ProgressBarBaseSize)
                 {
                     _progressBarBank = ProgressBarBaseSize;
                     _progressBarBankUpper = 0;
@@ -72,7 +72,7 @@ namespace Assets.Scripts.DataClasses
         {
             _progressBarBankUpper += count * _moveTimerMultiple;
             if (_progressBarBank + _progressBarBankUpper > ProgressBarBaseSize)
-                _moveTimerMultiple *= ProgressBarBaseSize/_progressBarBank + _progressBarBankUpper;
+                _moveTimerMultiple *= ProgressBarBaseSize/(_progressBarBank + _progressBarBankUpper);
         }
 
         public void InnitializeBar(float count, float upper, float timeMultiple)

@@ -807,7 +807,8 @@ namespace Assets.Scripts
                 l = lines.FirstOrDefault();
 
                 //MoveTimer += pointsMultiple * 2;
-                ProgressBar.AddTime(pointsMultiple * 2);
+                if (ProgressBar != null)
+                    ProgressBar.AddTime(pointsMultiple * 2);
 
                 if (l != null) continue;
                 lines = GetAllLines();
@@ -880,6 +881,8 @@ namespace Assets.Scripts
 
         public virtual void Drop()
         {
+            if (Items == null) return;
+
             var generateAfterDrop = true;
             //if (DropsCount == 0) GenerateField(true);
 

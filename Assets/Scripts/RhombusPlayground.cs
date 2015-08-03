@@ -655,6 +655,8 @@ namespace Assets.Scripts
                 lines.Remove(l);
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
+
+                ProgressBar.AddTime(pointsMultiple * 2);
             }
             LogFile.Message("All lines collected");
             RemoveAdditionalItems();
@@ -692,9 +694,12 @@ namespace Assets.Scripts
 
         public override void Drop()
         {
+            if (Items == null) return;
+
             var generateAfterDrop = true;
             var counter = 0;
             //DropsCount += FieldSize * (FieldSize - 1);
+
             for (var row = 0; row < FieldSize - 1; row++)
             {
                 for (var col = 1; col < FieldSize; col++)

@@ -269,8 +269,9 @@ namespace Assets.Scripts
                 CallbacksCount--;
                 lines.Remove(l);
                 LogFile.Message("line collected");
-
                 l = lines.FirstOrDefault();
+
+                ProgressBar.AddTime(pointsMultiple * 2);
             }
             LogFile.Message("All lines collected");
 

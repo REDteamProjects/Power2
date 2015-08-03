@@ -71,6 +71,10 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            //var progressBar = ProgressBar;
+            //if (progressBar != null)
+            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+
             Items = new[]
             {
                 new []{ DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem, null,  DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem },
@@ -139,10 +143,6 @@ namespace Assets.Scripts
 
             GenerateField();
             ShowMaxInitialElement();
-
-            var progressBar = ProgressBar;
-            if (progressBar != null)
-                PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
         }
 
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
