@@ -26,7 +26,8 @@ namespace Assets.Scripts
                     Items = new GameItemType[FieldSize][],
                     //PlaygroundStat = GetComponent<Game>().Stats,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
-                    Difficulty = Game.Difficulty
+                    Difficulty = Game.Difficulty,
+                    ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper }
                 };
                 if (Items == null)
                     sd.Items = null;
@@ -114,8 +115,9 @@ namespace Assets.Scripts
                         MaxInitialElementType = mit;
                     else
                         ShowMaxInitialElement();
-
                     RisePoints(sd.Score);
+
+                    ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
                     return;
                 }
             }

@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.DataClasses
+namespace Assets.Scripts.Helpers
 {
     public class PlaygroundProgressBar : MonoBehaviour
     {
@@ -16,6 +16,10 @@ namespace Assets.Scripts.DataClasses
         public bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;
+        
+        public float Multiplier { get { return _moveTimerMultiple; } }
+        public float State { get { return _progressBarBank; } }
+        public float Upper { get { return _progressBarBankUpper; } }
 
         void Awake()
         {
@@ -77,9 +81,11 @@ namespace Assets.Scripts.DataClasses
 
         public void InnitializeBar(float count, float upper, float timeMultiple)
         {
-            _progressBarBank = count > ProgressBarBaseSize ? ProgressBarBaseSize : count;
+            ProgressBarRun = false;
+            _progressBarBank = count >= ProgressBarBaseSize ? ProgressBarBaseSize : count;
             _progressBarBankUpper = upper;
             _moveTimerMultiple = timeMultiple;
+            ProgressBarRun = true;
         }
     }
 }

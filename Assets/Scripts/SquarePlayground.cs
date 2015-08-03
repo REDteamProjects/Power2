@@ -1384,6 +1384,8 @@ namespace Assets.Scripts
                 return;
             }
             points *= (int)Difficulty;
+            LogFile.Message("Points " + points);
+
             CurrentScore += points;
             var plabel = GetComponentInChildren<Text>();
             plabel.text = CurrentScore.ToString(CultureInfo.InvariantCulture);

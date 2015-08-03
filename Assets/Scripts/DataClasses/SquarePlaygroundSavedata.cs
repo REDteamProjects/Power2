@@ -48,6 +48,13 @@ namespace Assets.Scripts.DataClasses
             get;
             set;
         }
+
+
+        public ProgressBarState ProgressBarStateData
+        {
+            get;
+            set;
+        }
     }
     [Serializable]
     public class Mode6x6SquarePlaygroundSavedata : SquarePlaygroundSavedata

@@ -44,7 +44,8 @@ namespace Assets.Scripts
                     Items = new GameItemType[FieldSize][],
                     //PlaygroundStat = GetComponent<Game>().Stats,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
-                    Difficulty = Game.Difficulty
+                    Difficulty = Game.Difficulty,
+                    ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper }
                 };
 
                 if (Items == null)
@@ -399,10 +400,6 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            //var progressBar = ProgressBar;
-            //if (progressBar != null)
-            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-
             Items = new[]
             {
                 new System.Object[FieldSize],
@@ -495,13 +492,6 @@ namespace Assets.Scripts
             //var progressBar = ProgressBar;
             //if (progressBar != null)
             //    PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-        }
-
-        private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
-        {
-            IsGameOver = true;
-            GenerateGameOverMenu();
-            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
 
         private void GenerateDropsModeItem(int col, int row, GameItemType type = GameItemType.NullItem)

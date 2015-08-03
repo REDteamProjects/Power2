@@ -74,7 +74,8 @@
     <Compile Include="Assets\Scripts\DataClasses\GameItem.cs" />
     <Compile Include="Assets\Scripts\DataClasses\Line.cs" />
     <Compile Include="Assets\Scripts\DataClasses\Match3PlaygroundSavedata.cs" />
-    <Compile Include="Assets\Scripts\DataClasses\PlaygroundProgressBar.cs" />
+    <Compile Include="Assets\Scripts\Helpers\PlaygroundProgressBar.cs" />
+    <Compile Include="Assets\Scripts\DataClasses\ProgressBarState.cs" />
     <Compile Include="Assets\Scripts\DataClasses\RhombusPlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\DataClasses\SquarePlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\DragItemScript.cs" />

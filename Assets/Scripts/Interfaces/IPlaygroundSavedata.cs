@@ -9,6 +9,8 @@ namespace Assets.Scripts.Interfaces
     {
         DifficultyLevel Difficulty { get; set; }
 
+        ProgressBarState ProgressBarStateData { get; set; }
+
         //Statistics PlaygroundStat { get; set; }
 
         String FileName { get; }

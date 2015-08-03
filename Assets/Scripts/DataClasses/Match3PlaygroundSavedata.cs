@@ -44,5 +44,11 @@ namespace Assets.Scripts.DataClasses
             get;
             set;
         }
+
+        public ProgressBarState ProgressBarStateData
+        {
+            get;
+            set;
+        }
     }
 }
