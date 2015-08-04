@@ -10,18 +10,16 @@ public class ItemPrefabNameHelper  {
     {
         var typeT = typeof (T);
         if (typeT == typeof(ModeDropsPlayground))
-            return "Prefabs/Drops/DropsGameItem";
+            return "Prefabs/SD/Drops/DropsGameItem";
 
         if (typeT == typeof(ModeMatch3Playground))
-            return "Prefabs/Match3/Match3GameItem";
+            return "Prefabs/SD/Match3/Match3GameItem";
 
         if (typeT == typeof(RhombusPlayground) || typeT.BaseType == typeof(RhombusPlayground))
-            return "Prefabs/Rhombus/RhombusGameItem";
+            return "Prefabs/SD/Rhombus/RhombusGameItem";
 
         if (typeT == typeof(SquarePlayground) || typeT.BaseType == typeof(SquarePlayground))
             return "Prefabs/SD/Standard/GameItem";
-
-        
 
         return null;
     }

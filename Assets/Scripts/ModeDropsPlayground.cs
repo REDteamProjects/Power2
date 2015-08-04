@@ -45,7 +45,7 @@ namespace Assets.Scripts
                     //PlaygroundStat = GetComponent<Game>().Stats,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
                     Difficulty = Game.Difficulty,
-                    ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper }
+                    //ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper }
                 };
 
                 if (Items == null)

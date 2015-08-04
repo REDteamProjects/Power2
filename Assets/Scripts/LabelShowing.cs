@@ -19,48 +19,45 @@ public class LabelShowing : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (DestroyTimeout != 0)
-        {
-            var labelText = GetComponent<Text>();
-            if (labelText.fontSize != ScaleFontTo && DestroyTimeout >= ScaleDifference)
-            {
-                if (labelText.fontSize > ScaleFontTo)
-                    labelText.fontSize--;
-                else
-                    labelText.fontSize++;
-            }
-            else
-            {
-                if (DestroyAfterAnimation)
-                {
-                    DestroyTimeout--;
-                    if (DestroyTimeout == 0)
-                    {
-                        Destroy(gameObject);
-                        DestroyAfterAnimation = false;
-                        if (AnimationFinished != null)
-                        {
-                            var callback = AnimationFinished;
-                            AnimationFinished = null;
-                            callback();
-                        }
-                    }
-                    else
-                        if (DestroyTimeout < ScaleDifference)
-                            labelText.fontSize--;
-                }
-                else
-                {
-                    DestroyTimeout = 0;
-                    if (AnimationFinished != null)
-                    {
-                        var callback = AnimationFinished;
-                        AnimationFinished = null;
-                        callback();
-                    }
-                }
-            }
-        }
+	    if (DestroyTimeout == 0) return;
+
+	    var labelText = GetComponent<Text>();
+
+        if (labelText.fontSize != ScaleFontTo && DestroyTimeout >= ScaleDifference)
+	    {
+	        if (labelText.fontSize > ScaleFontTo)
+	            labelText.fontSize--;
+	        else
+	            labelText.fontSize++;
+	    }
+	    else
+	    {
+            
+	        if (DestroyAfterAnimation)
+	        {
+	            DestroyTimeout--;
+	            if (DestroyTimeout == 0)
+	            {
+	                Destroy(gameObject);
+	                DestroyAfterAnimation = false;
+	                if (AnimationFinished == null) return;
+	                var callback = AnimationFinished;
+	                AnimationFinished = null;
+	                callback();
+	            }
+	            else
+	                if (DestroyTimeout < ScaleDifference)
+	                    labelText.fontSize--;
+	        }
+	        else
+	        {
+	            DestroyTimeout = 0;
+	            if (AnimationFinished == null) return;
+	            var callback = AnimationFinished;
+	            AnimationFinished = null;
+	            callback();
+	        }
+	    }
 	}
 
     public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, 

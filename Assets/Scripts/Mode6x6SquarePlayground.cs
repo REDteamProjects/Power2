@@ -16,6 +16,8 @@ namespace Assets.Scripts
             get { return GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses; }
         }
 
+        public override String ItemPrefabName { get { return ItemPrefabNameHelper.GetPrefabPath<Mode6x6SquarePlayground>(); } }
+
         public override IPlaygroundSavedata SavedataObject
         {
             get
@@ -142,6 +144,7 @@ namespace Assets.Scripts
             IsGameOver = true;
             GenerateGameOverMenu();
             PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+
         }
     }
 }

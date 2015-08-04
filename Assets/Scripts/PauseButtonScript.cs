@@ -120,9 +120,9 @@ public class PauseButtonScript : MonoBehaviour
         PauseMenuActive = false;
     }
 
-    public void OnApplicationPause(bool pause)
-    {
-        if (!PauseMenuActive)
-            CreatePauseMenu();
-    }
+    //public void OnApplicationPause(bool pause)
+    //{
+    //    if (!PauseMenuActive)
+    //        CreatePauseMenu();
+    //}
 }

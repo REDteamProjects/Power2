@@ -10,7 +10,7 @@ namespace Assets.Scripts.Helpers
         private GameObject _progressBarLine;
         private float _moveTimerMultiple = 10;
         private float _moveTimerMultipleUpper = 30;
-        private float _progressBarBank;
+        private float _progressBarBank = -1;
         private float _progressBarBankUpper;
 
         public bool ProgressBarRun;
@@ -26,17 +26,24 @@ namespace Assets.Scripts.Helpers
             var fg = GameObject.Find("/Foreground");
             _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
             _progressBar.transform.SetParent(fg.transform);
-            _progressBar.transform.localPosition = new Vector3(0,-320,0);
+            _progressBar.transform.localPosition = new Vector3(0,215,0);
             _progressBar.transform.localScale = Vector3.one;
             _progressBarLine = GameObject.Find("ProgressBarLine");
-            _progressBarBank = ProgressBarBaseSize;
+
+            if (_progressBarBank < 0)
+                _progressBarBank = ProgressBarBaseSize;
+            else
+            {
+                var rtrans = _progressBarLine.transform as RectTransform;
+                rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
+            }
 
             ProgressBarRun = true;
         }
 
         void Update()
         {
-            if (_progressBarBank == 0 || !ProgressBarRun) return;
+            if (_progressBarBank < 0 || !ProgressBarRun) return;
 
             var rtrans = _progressBarLine.transform as RectTransform;
 
@@ -48,7 +55,7 @@ namespace Assets.Scripts.Helpers
                 if (_progressBarBank + deltaXUpper >= ProgressBarBaseSize)
                 {
                     _progressBarBank = ProgressBarBaseSize;
-                    _progressBarBankUpper = 0;
+                    _progressBarBankUpper = -1;
                 }
                 else
                 {

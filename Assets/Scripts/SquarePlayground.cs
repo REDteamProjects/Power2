@@ -40,13 +40,25 @@ namespace Assets.Scripts
         protected readonly DifficultyLevel Difficulty;
         protected int DropDownItemsCount;
         protected int XItemsCount;
+        private bool _isGameOver;
 
         public virtual IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<SquarePlayground>.Preferenses; }
         }
 
-        public bool IsGameOver { get; set; }
+        public bool IsGameOver
+        {
+            get { return _isGameOver; }
+            set
+            {
+                _isGameOver = value;
+                if (value)
+                    SavedataHelper.SaveData(SavedataObject);
+            }
+        }
+
+        public int AdditionalItemCost { get { return 222; } }
 
         protected GameItemType MinType
         {
@@ -83,7 +95,7 @@ namespace Assets.Scripts
 
         public virtual float ScaleMultiplyer
         {
-            get { return 5.12f; }
+            get { return 0.512f; }
         }
 
         public virtual String ItemPrefabName { get { return "Prefabs/Standard/GameItem"; } }
@@ -156,7 +168,7 @@ namespace Assets.Scripts
             if (gobj == null) return;
             gobj.transform.SetParent(fg.transform);
             gobj.transform.localPosition = new Vector3(0, 350f + GameItemSize * 5f, 0);
-            gobj.transform.localScale = new Vector3(12, 12);
+            gobj.transform.localScale = new Vector3(120, 120);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y));
@@ -187,7 +199,10 @@ namespace Assets.Scripts
                         Destroy(gobj);
                     }
             }
+           
             RisePoints(pointsBank);
+            if (ProgressBar != null)
+                ProgressBar.AddTime(pointsBank * 2);
         }
         
         public virtual IPlaygroundSavedata SavedataObject
@@ -364,13 +379,16 @@ namespace Assets.Scripts
                         pointsLabel.ShowScalingLabel(new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1),
                             "+" + 222, Color.white, Color.gray, 60, 90, null, true);
                     }
-                    RisePoints(222);
+                    RisePoints(AdditionalItemCost);
+                    if (ProgressBar != null)
+                        ProgressBar.AddTime(AdditionalItemCost * 2);
+
                     Destroy(gobj);
                     Items[i][FieldSize - 1] = null;
                     DropDownItemsCount--;
                 }
         }
-        
+
         //protected void OnGUI()
         //{
         //   var size = new Vector2(Screen.width / 2, 20);
@@ -817,16 +835,7 @@ namespace Assets.Scripts
             LogFile.Message("All lines collected");
             RemoveAdditionalItems();
             if (linesCount > 1)
-            {
-                var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                if (labelObject != null)
-                {
-                    var comboLabel = labelObject.GetComponent<LabelShowing>();
-                    comboLabel.transform.SetParent(transform);
-                    comboLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize, -3),
-                                "Combo x" + linesCount + " lines!", GameColors.BackgroundColor, GameColors.BackgroundColor, 60, 90, null, true);
-                }
-            }
+                ShowComboLabel(linesCount);
 
             pointsBank *= linesCount;
             ChainCounter++;
@@ -1389,6 +1398,18 @@ namespace Assets.Scripts
             CurrentScore += points;
             var plabel = GetComponentInChildren<Text>();
             plabel.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public void ShowComboLabel(int count)
+        {
+            var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            if (labelObject == null) return;
+            var comboLabel = labelObject.GetComponent<LabelShowing>();
+            comboLabel.transform.SetParent(transform);
+
+            comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count%2 == 0 ? 30 : -30);
+            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -3),
+                "Combo x" + count + " lines!", GameColors.BackgroundColor, GameColors.BackgroundColor, 10, 50, null, true);
         }
 
         public virtual void RevertMovedItem(int col, int row)
