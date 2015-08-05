@@ -69,25 +69,33 @@ namespace Assets.Scripts
             //if (progressBar != null)
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
-            if (Advertisement.isSupported)
+            try
             {
-
-#if UNITY_ANDROID
-                Advertisement.Initialize("59864", true);
-#endif
-#if UNITY_IOS 
-                Advertisement.Initialize("59866", true);
-#endif
-
-                if (Advertisement.IsReady("ADSZone"))
+                if (Advertisement.isSupported)
                 {
-                    Advertisement.Show("ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
+
+                    #if UNITY_ANDROID
+                        Advertisement.Initialize("59864", true);
+                    #endif
+                    #if UNITY_IOS 
+                        Advertisement.Initialize("59866", true);
+                    #endif
+
+                    if (Advertisement.IsReady("ADSZone"))
+                    {
+                        Advertisement.Show("ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
+                    }
+                }
+                else
+                {
+                    Debug.Log("AD: Platform not supported");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                Debug.Log("AD: Platform not supported");
+                Debug.Log("AD exception: " + ex.Message);
             }
+            
 
             Items = new[]
             {

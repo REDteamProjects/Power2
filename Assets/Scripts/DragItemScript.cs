@@ -4,6 +4,7 @@ using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
+using Assets.Scripts.Helpers;
 using Assets.Scripts.Interfaces;
 using UnityEngine;
 using System.Collections;
@@ -15,7 +16,7 @@ public class DragItemScript : MonoBehaviour
     private Vector3 touchedItemOriginalPosition;
     private Vector3 touchOriginalPosition;
     private MoveDirections? touchDirection;
-    private bool MouseActive = false;
+    //private bool MouseActive = false;
     private float exchangeSpeedMultiple = 0;
 
     // Update is called once per frame
@@ -26,45 +27,51 @@ public class DragItemScript : MonoBehaviour
         if (pg == null || pg.IsGameOver) return;
 
         Vector3 realTouchPosition;
+
         var touchPhase = TouchPhase.Canceled;
 
-        if (Application.platform != RuntimePlatform.WindowsEditor)
-        {
-            if (Input.touchCount == 0) return;
-            var touch = Input.GetTouch(0);
-            touchPhase = touch.phase;
-            realTouchPosition = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(touch.position));
-            //LogFile.Message("touch.position: " + touch.position.x + " " + touch.position.y);
-            //LogFile.Message("realTouchPosition: " + realTouchPosition.x + " " + realTouchPosition.y);
-        }
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                touchPhase = TouchPhase.Began;
-                MouseActive = true;
-                //LogFile.Message("MouseButtonDown");
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                //if (Input.GetAxisRaw("Mouse X") == 0 && Input.GetAxisRaw("Mouse Y") == 0)
-                //    touchPhase = TouchPhase.Stationary;
-                //else
-                touchPhase = TouchPhase.Ended;
-                MouseActive = false;
-                //LogFile.Message("MouseButtonUp");
-            }
-            else if (Input.GetMouseButton(0))
-            {
-                touchPhase = TouchPhase.Moved;
-                //LogFile.Message("MouseButton");
-            }
-            if (!MouseActive && touchPhase != TouchPhase.Ended) return;
-            LogFile.Message("touchPhase = " + touchPhase);
-            realTouchPosition = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
-            //LogFile.Message("Input.mousePosition: " + Input.mousePosition.x + " " + Input.mousePosition.y);
-            //LogFile.Message("realTouchPosition: " + realTouchPosition.x + " " + realTouchPosition.y);
-        }
+        var touch = TouchActionAdapter.GetTouch();
+        if (touch.Count == 0) return;
+        touchPhase = touch[0].Phase;
+
+        realTouchPosition = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(touch[0].OriginalPosition));
+        //if (Application.platform != RuntimePlatform.WindowsEditor)
+        //{
+        //    if (Input.touchCount == 0) return;
+        //    var touch = Input.GetTouch(0);
+        //    touchPhase = touch.phase;
+        //    realTouchPosition = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(touch.position));
+        //    //LogFile.Message("touch.position: " + touch.position.x + " " + touch.position.y);
+        //    //LogFile.Message("realTouchPosition: " + realTouchPosition.x + " " + realTouchPosition.y);
+        //}
+        //else
+        //{
+        //    if (Input.GetMouseButtonDown(0))
+        //    {
+        //        touchPhase = TouchPhase.Began;
+        //        MouseActive = true;
+        //        //LogFile.Message("MouseButtonDown");
+        //    }
+        //    else if (Input.GetMouseButtonUp(0))
+        //    {
+        //        //if (Input.GetAxisRaw("Mouse X") == 0 && Input.GetAxisRaw("Mouse Y") == 0)
+        //        //    touchPhase = TouchPhase.Stationary;
+        //        //else
+        //        touchPhase = TouchPhase.Ended;
+        //        MouseActive = false;
+        //        //LogFile.Message("MouseButtonUp");
+        //    }
+        //    else if (Input.GetMouseButton(0))
+        //    {
+        //        touchPhase = TouchPhase.Moved;
+        //        //LogFile.Message("MouseButton");
+        //    }
+        //    if (!MouseActive && touchPhase != TouchPhase.Ended) return;
+        //    LogFile.Message("touchPhase = " + touchPhase);
+        //    realTouchPosition = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //    //LogFile.Message("Input.mousePosition: " + Input.mousePosition.x + " " + Input.mousePosition.y);
+        //    //LogFile.Message("realTouchPosition: " + realTouchPosition.x + " " + realTouchPosition.y);
+        //}
 
         // -- Drag ------------------------------------------------
         switch (touchPhase)

@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>Android:13</UnityBuildTarget>
     <UnityVersion>5.1.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -79,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\DataClasses\Game.cs" />
     <Compile Include="Assets\Scripts\DataClasses\GameItem.cs" />
+    <Compile Include="Assets\Scripts\DataClasses\GameTouch.cs" />
     <Compile Include="Assets\Scripts\DataClasses\Line.cs" />
     <Compile Include="Assets\Scripts\DataClasses\Match3PlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\DataClasses\ProgressBarState.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="Assets\Scripts\Helpers\PlaygroundProgressBar.cs" />
     <Compile Include="Assets\Scripts\Helpers\SavedataHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\ScoreHelper.cs" />
+    <Compile Include="Assets\Scripts\Helpers\TouchActionAdapter.cs" />
     <Compile Include="Assets\Scripts\Helpers\Vibration.cs" />
     <Compile Include="Assets\Scripts\HeplPageScript.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPlayground.cs" />
