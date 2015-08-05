@@ -104,6 +104,7 @@
     <Compile Include="Assets\Scripts\Helpers\SavedataHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\ScoreHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\Vibration.cs" />
+    <Compile Include="Assets\Scripts\HeplPageScript.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPlayground.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\Interfaces\ISceneDecorations.cs" />

@@ -8,6 +8,7 @@ using Assets.Scripts.Helpers;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
 using System.Collections.Generic;
+using UnityEngine.Advertisements;
 using UnityEngine.UI;
 namespace Assets.Scripts
 {
@@ -358,8 +359,7 @@ namespace Assets.Scripts
                 {MoveDirections.UR, new Vector2(1, 1)},
                 {MoveDirections.DL, new Vector2(-1, -1)},
                 {MoveDirections.DR, new Vector2(1, -1)},
-            })
-        {}
+            }){}
 
 
         protected void RemoveAdditionalItems()

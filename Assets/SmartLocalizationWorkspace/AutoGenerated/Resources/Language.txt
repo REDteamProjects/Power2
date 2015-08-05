@@ -116,7 +116,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-	<data name="MyFirst.Key" xml:space="preserve">
-		<value>MyFirstValue</value>
+	<data name="MainHelp" xml:space="preserve">
+		<value>Main help text </value>
+	</data>
+	<data name="GameModesHelp" xml:space="preserve">
+		<value>Help text about game modes</value>
 	</data>
 </root>
