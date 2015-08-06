@@ -170,7 +170,7 @@ namespace Assets.Scripts
             {
                 var res = base.GameItemsExchange(x1, y1, ref x2, ref y2, speed, isReverse, exchangeCallback ?? ((go, r) =>
                 {
-                    if (CallbacksCount != 1) return;
+                    if (CallbacksCount != 1 || isReverse) return;
                     while (ClearChains() > 0)
                     {
                         RemoveAdditionalItems(); //TODO: ?

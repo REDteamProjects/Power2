@@ -116,10 +116,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="6x6Mode" xml:space="preserve">
+		<value>6 НА 6</value>
+	</data>
+	<data name="8x8Mode" xml:space="preserve">
+		<value>8 НА 8</value>
+	</data>
+	<data name="DropsMode" xml:space="preserve">
+		<value>ПАДЕНИЯ</value>
+	</data>
+	<data name="Fighter" xml:space="preserve">
+		<value>БОЕЦ</value>
+	</data>
 	<data name="GameModesHelp" xml:space="preserve">
 		<value>Тут будет описание различных режимов игры</value>
 	</data>
 	<data name="MainHelp" xml:space="preserve">
 		<value>Тестовое значение для русской справки</value>
+	</data>
+	<data name="Match3Mode" xml:space="preserve">
+		<value>ТРИ В РЯД</value>
+	</data>
+	<data name="Newbie" xml:space="preserve">
+		<value>НОВИЧОК</value>
+	</data>
+	<data name="Player" xml:space="preserve">
+		<value>ИГРОК</value>
+	</data>
+	<data name="Psycho" xml:space="preserve">
+		<value>СУМАСШЕДШИЙ</value>
+	</data>
+	<data name="ResetAll" xml:space="preserve">
+		<value>СБРОС ЗНАЧЕНИЙ</value>
+	</data>
+	<data name="RhombusMode" xml:space="preserve">
+		<value>РОБМ</value>
+	</data>
+	<data name="StartGame" xml:space="preserve">
+		<value>НАЧАТЬ ИГРУ</value>
 	</data>
 </root>

@@ -56,10 +56,9 @@ namespace Assets.Scripts.Helpers
                 });
             }
 
-            return result;
-
             #endif
-      
+
+            return result;
         }
     }
 }

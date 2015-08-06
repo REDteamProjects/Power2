@@ -2,6 +2,7 @@
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
+using SmartLocalization;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -156,16 +157,16 @@ namespace Assets.Scripts
 
             var fg = GameObject.Find("/GUI");
 
-            _easyButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 0, 0), "NEWBIE", 50,
+            _easyButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 0, 0), LanguageManager.Instance.GetTextValue("Newbie"), 50,
                 ((maximumLevel >= DifficultyLevel.easy) ? () => { Game.Difficulty = DifficultyLevel.easy; OnNavigationButtonClick(scene); } 
                 : (UnityAction)null));
-            _mediumButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -80, 0), "PLAYER", 50,
+            _mediumButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -80, 0), LanguageManager.Instance.GetTextValue("Player"), 50,
                 ((maximumLevel >= DifficultyLevel.medium) ? () => { Game.Difficulty = DifficultyLevel.medium; OnNavigationButtonClick(scene); }
                 : (UnityAction)null));
-            _hardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -160, 0), "FIGHTER", 50,
+            _hardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -160, 0), LanguageManager.Instance.GetTextValue("Fighter"), 50,
                 ((maximumLevel >= DifficultyLevel.hard) ? () => { Game.Difficulty = DifficultyLevel.hard; OnNavigationButtonClick(scene); }
                 : (UnityAction)null));
-            _veryhardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -240, 0), "PSYCHO", 50,
+            _veryhardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -240, 0), LanguageManager.Instance.GetTextValue("Psycho"), 50,
                 ((maximumLevel >= DifficultyLevel.veryhard) ? () => { Game.Difficulty = DifficultyLevel.veryhard; OnNavigationButtonClick(scene); }
                 : (UnityAction)null));
         }
@@ -198,15 +199,15 @@ namespace Assets.Scripts
             var statsButton = GameObject.Find("/GUI/StatsButton");
             var fg = GameObject.Find("/GUI");
 
-            _6x6button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 20, 0), "6 X 6", 50,
+            _6x6button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 20, 0), LanguageManager.Instance.GetTextValue("6x6Mode"), 50,
                 () => OnModeSelect("6x6", GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.MaximumOpenedLevel));
-            _8x8button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -60, 0), "8 x 8", 50,
+            _8x8button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -60, 0), LanguageManager.Instance.GetTextValue("8x8Mode"), 50,
                 () => OnModeSelect("8x8", GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.MaximumOpenedLevel));
-            _rhombusbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -140, 0), "RHOMBUS", 50,
+            _rhombusbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -140, 0), LanguageManager.Instance.GetTextValue("RhombusMode"), 50,
                 () => OnModeSelect("11Rhombus", GameSettingsHelper<Mode11RhombusPlayground>.Preferenses.MaximumOpenedLevel));
-            _dropsbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -220, 0), "DROPS", 50,
+            _dropsbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -220, 0), LanguageManager.Instance.GetTextValue("DropsMode"), 50,
                 () => OnModeSelect("Drops", GameSettingsHelper<ModeDropsPlayground>.Preferenses.MaximumOpenedLevel));
-            _match3button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), "MATCH3", 50,
+            _match3button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), LanguageManager.Instance.GetTextValue("Match3Mode"), 50,
                 () => OnModeSelect("Match3", GameSettingsHelper<ModeMatch3Playground>.Preferenses.MaximumOpenedLevel));
             _backButton = GenerateMenuButton("Prefabs/BackButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x, 
                 -statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0,
