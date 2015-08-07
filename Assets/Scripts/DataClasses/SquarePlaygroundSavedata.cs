@@ -49,7 +49,6 @@ namespace Assets.Scripts.DataClasses
             set;
         }
 
-
         public ProgressBarState ProgressBarStateData
         {
             get;
@@ -68,12 +67,10 @@ namespace Assets.Scripts.DataClasses
     [Serializable]
     public class Mode8x8SquarePlaygroundSavedata : SquarePlaygroundSavedata
     {
-
         public override string FileName
         {
             get { return "/SquarePlayground8x8.sdf"; }
         }
-
     }
 
     [Serializable]
@@ -83,6 +80,5 @@ namespace Assets.Scripts.DataClasses
         {
             get { return "/DropsPlaygroundDefault.sdf"; }
         }
-
     }
 }

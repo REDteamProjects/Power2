@@ -33,8 +33,11 @@ public class LogFile
     {
         using (var stream = new StreamWriter(File.Open(Instanse.FileName, FileMode.Append)))
         {
-            stream.WriteLine(DateTime.Now.ToString("u") + "\t" + msg + "\t" + Environment.StackTrace);
-            //stream.Flush();
+            #if NETFX_CORE
+                stream.WriteLine(DateTime.Now.ToString("u") + "\t" + msg + "\t");
+            #else
+                stream.WriteLine(DateTime.Now.ToString("u") + "\t" + msg + "\t" + Environment.StackTrace);
+            #endif   
         }
 
         if (Instanse.Echo)
