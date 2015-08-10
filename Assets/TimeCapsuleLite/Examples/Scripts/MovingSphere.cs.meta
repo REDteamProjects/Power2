@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: fc232c39313de4d7bbaeee0685dbd320
+labels:
+- Time
+- Save
+- Capsule
+- Load
+- Serialization
+- Deserialization
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
