@@ -12,7 +12,7 @@
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
+    <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
     <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>GamePlugins:3</UnityProjectType>
     <UnityBuildTarget>WP8Player:26</UnityBuildTarget>
@@ -69,21 +69,11 @@
     <Reference Include="SmartLocalization_Runtime">
       <HintPath>Assets\SmartLocalization\SmartLocalization_Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="FullSerializer">
+      <HintPath>Assets\Plugins\WSA\FullSerializer\FullSerializer.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Plugins\LgJsonDataTest\LgJsonData_Test.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgBaseClass\LgBaseClass.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgBaseClass\LgBaseClass_Debug.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgBaseClass\LgBaseClass_EditorUtils.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgBaseClass\LgBaseClass_Log.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgBaseClass\LgBaseClass_SystemException.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgBaseClass\LgBaseClass_Utility.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgDateTime.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgJsonData\External\MiniJSON.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgJsonData\LgJsonData.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgJsonData\LgJsonDataSerializer.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgJsonData\LgJsonParamsDictionary.cs" />
-    <Compile Include="Assets\Plugins\LgOctEngine_CoreClasses\Scripts\LgTypes.cs" />
     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisement.cs" />
     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Misc\AsyncExec.cs" />
     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Misc\MiniJSON.cs" />
@@ -105,6 +95,8 @@
     <None Include="Assets\Plugins\Android\unityads\build.xml" />
     <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />
     <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
+    <None Include="Assets\Plugins\WSA\FullSerializer\FullSerializer.xml" />
+    <None Include="Assets\Plugins\WSA\FullSerializer\UnityEngine.xml" />
     <None Include="Assets\SmartLocalization\Editor\SmartLocalization_Editor.XML" />
     <None Include="Assets\SmartLocalization\README.txt" />
     <None Include="Assets\SmartLocalization\Resources\EmptyResourceHeader.txt" />

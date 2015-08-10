@@ -4,7 +4,9 @@ using Assets.Scripts.Interfaces;
 
 namespace Assets.Scripts.DataClasses
 {
+#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
     [Serializable]
+#endif
     public abstract class SquarePlaygroundSavedata : IPlaygroundSavedata
     {
         public virtual string FileName
@@ -55,7 +57,9 @@ namespace Assets.Scripts.DataClasses
             set;
         }
     }
+#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
     [Serializable]
+#endif
     public class Mode6x6SquarePlaygroundSavedata : SquarePlaygroundSavedata
     {
         public override string FileName
@@ -64,7 +68,9 @@ namespace Assets.Scripts.DataClasses
         }
     }
 
+#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
     [Serializable]
+#endif
     public class Mode8x8SquarePlaygroundSavedata : SquarePlaygroundSavedata
     {
         public override string FileName
@@ -73,7 +79,9 @@ namespace Assets.Scripts.DataClasses
         }
     }
 
+#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
     [Serializable]
+#endif
     public class ModeDropsPlaygroundSavedata : SquarePlaygroundSavedata
     {
         public override string FileName

@@ -33,11 +33,11 @@ public class LogFile
     {
         using (var stream = new StreamWriter(File.Open(Instanse.FileName, FileMode.Append)))
         {
-            #if NETFX_CORE
-                stream.WriteLine(DateTime.Now.ToString("u") + "\t" + msg + "\t");
-            #else
-                stream.WriteLine(DateTime.Now.ToString("u") + "\t" + msg + "\t" + Environment.StackTrace);
-            #endif   
+#if UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1
+            stream.WriteLine(DateTime.Now.ToString("u") + "\t" + msg + "\t");
+#else
+            stream.WriteLine(DateTime.Now.ToString("u") + "\t" + msg + "\t" + Environment.StackTrace);
+#endif   
         }
 
         if (Instanse.Echo)

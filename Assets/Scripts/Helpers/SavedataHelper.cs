@@ -1,5 +1,5 @@
 ﻿using System.IO;
-#if !NETFX_CORE
+#if !UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
 
@@ -14,15 +14,19 @@ namespace Assets.Scripts.Helpers
         {
             if (!IsSaveDataExist(data)) return;
 
-#if NETFX_CORE
-                var bf = new WindowsPhoneSerializer();
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+            var bf = new WinRTSerializer();
 #else
             var bf = new BinaryFormatter();
 #endif
             using (var file = File.Open(Application.persistentDataPath + data.FileName, FileMode.Open))
             {
                 var dl = data.Difficulty;
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+                data = (IPlaygroundSavedata)bf.Deserialize(file, data);
+#else
                 data = (IPlaygroundSavedata)bf.Deserialize(file);
+#endif
                 if (data.Difficulty != dl)
                     data.ResetDynamicPart();
             }
@@ -30,8 +34,8 @@ namespace Assets.Scripts.Helpers
 
         public static void SaveData(IPlaygroundSavedata data)
         {
-#if NETFX_CORE
-                var bf = new WindowsPhoneSerializer();
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+            var bf = new WinRTSerializer();
 #else
             var bf = new BinaryFormatter();
 #endif
