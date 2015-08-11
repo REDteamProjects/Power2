@@ -1,27 +1,35 @@
-﻿#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
-using UnityEngine;
+﻿//#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+using System;
 using System.IO;
-using System.Text;
+using Assets.Scripts.DataClasses;
+using FullSerializer;
+
 public class WinRTSerializer {
 
-    private static readonly FullSerializer.fsSerializer _serializer = new FullSerializer.fsSerializer();
+    //private static readonly FullSerializer.fsSerializer _serializer = new FullSerializer.fsSerializer();
 
     public void Serialize(Stream fileStream, object graph)
     {
-        FullSerializer.fsData data;
-        _serializer.TrySerialize(graph, out data);
-        var jsonString = FullSerializer.fsJsonPrinter.CompressedJson(data);
-        fileStream.Write(Encoding.UTF8.GetBytes(jsonString), 0, jsonString.Length);
+        fsData data;
+        var serializer = new fsSerializer();
+        serializer.TrySerialize(graph, out data);
+        var jsonString = fsJsonPrinter.CompressedJson(data);
+        fileStream.Write(System.Text.Encoding.UTF8.GetBytes(jsonString), 0, jsonString.Length);
     }
 
-    public object Deserialize(Stream fileStream, object result)
+    public object Deserialize(Stream fileStream, Type type)
     {
         var bytes = new byte[fileStream.Length];
-        fileStream.Read(bytes, 0, bytes.Length);
+        var count = fileStream.Read(bytes, 0, bytes.Length);
+       
+        var jsonString = System.Text.Encoding.UTF8.GetString(bytes, 0, count);
+        var data = fsJsonParser.Parse(jsonString);
 
-        var data = FullSerializer.fsJsonParser.Parse(Encoding.UTF8.GetString(bytes));
-        _serializer.TryDeserialize(data, ref result);
-        return result;
+        var serializer = new fsSerializer();
+        object refObject = null;
+
+        serializer.TryDeserialize(data, type, ref refObject);
+        return refObject;
     }
 }
-#endif
+//#endif

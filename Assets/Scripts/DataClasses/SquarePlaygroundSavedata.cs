@@ -1,10 +1,15 @@
 ﻿using System;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Interfaces;
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+using FullSerializer;
+#endif
 
 namespace Assets.Scripts.DataClasses
 {
-#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+    [fsObject]
+#else
     [Serializable]
 #endif
     public abstract class SquarePlaygroundSavedata : IPlaygroundSavedata
@@ -57,7 +62,9 @@ namespace Assets.Scripts.DataClasses
             set;
         }
     }
-#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+    [fsObject]
+#else
     [Serializable]
 #endif
     public class Mode6x6SquarePlaygroundSavedata : SquarePlaygroundSavedata
@@ -68,7 +75,9 @@ namespace Assets.Scripts.DataClasses
         }
     }
 
-#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+    [fsObject]
+#else
     [Serializable]
 #endif
     public class Mode8x8SquarePlaygroundSavedata : SquarePlaygroundSavedata
@@ -79,7 +88,9 @@ namespace Assets.Scripts.DataClasses
         }
     }
 
-#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+    [fsObject]
+#else
     [Serializable]
 #endif
     public class ModeDropsPlaygroundSavedata : SquarePlaygroundSavedata

@@ -1,4 +1,7 @@
 ﻿using System;
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+using FullSerializer;
+#endif
 
 namespace Assets.Scripts.DataClasses
 {
@@ -23,7 +26,11 @@ namespace Assets.Scripts.DataClasses
         public int Z { get; set; }
     }
 
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+    [fsObject]
+#else
     [Serializable]
+#endif
     public class RealPoint
     {
         public float X { get; set; }

@@ -69,11 +69,55 @@
     <Reference Include="SmartLocalization_Runtime">
       <HintPath>Assets\SmartLocalization\SmartLocalization_Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="FullSerializer">
-      <HintPath>Assets\Plugins\WSA\FullSerializer\FullSerializer.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\AnimationCurve_DirectConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\Bounds_DirectConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\Gradient_DirectConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\Keyframe_DirectConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\LayerMask_DirectConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\Rect_DirectConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsArrayConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsDateConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsDictionaryConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsEnumConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsGuidConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsIEnumerableConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsKeyValuePairConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsNullableConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsPrimitiveConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsReflectedConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsTypeConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\fsWeakReferenceConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Internal\fsCyclicReferenceManager.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Internal\fsOption.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Internal\fsPortableReflection.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Internal\fsTypeExtensions.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Internal\fsVersionManager.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Internal\fsVersionedType.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Reflection\fsMetaProperty.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Reflection\fsMetaType.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Reflection\fsReflectionUtility.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Reflection\fsTypeLookup.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsAotCompilationManager.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsBaseConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsConfig.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsContext.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsConverterRegistrar.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsData.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsDirectConverter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsExceptions.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsISerializationCallbacks.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsIgnoreAttribute.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsJsonParser.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsJsonPrinter.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsMemberSerialization.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsObjectAttribute.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsObjectProcessor.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsPropertyAttribute.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsResult.cs" />
+    <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\fsSerializer.cs" />
     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisement.cs" />
     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Misc\AsyncExec.cs" />
     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\Advertisements\Misc\MiniJSON.cs" />
@@ -95,8 +139,6 @@
     <None Include="Assets\Plugins\Android\unityads\build.xml" />
     <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />
     <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
-    <None Include="Assets\Plugins\WSA\FullSerializer\FullSerializer.xml" />
-    <None Include="Assets\Plugins\WSA\FullSerializer\UnityEngine.xml" />
     <None Include="Assets\SmartLocalization\Editor\SmartLocalization_Editor.XML" />
     <None Include="Assets\SmartLocalization\README.txt" />
     <None Include="Assets\SmartLocalization\Resources\EmptyResourceHeader.txt" />

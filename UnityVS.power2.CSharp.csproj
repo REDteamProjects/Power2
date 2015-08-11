@@ -69,9 +69,6 @@
     <Reference Include="SmartLocalization_Runtime">
       <HintPath>Assets\SmartLocalization\SmartLocalization_Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="FullSerializer">
-      <HintPath>Assets\Plugins\WSA\FullSerializer\FullSerializer.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="UnityVS.Power2.CSharp.Plugins.csproj">
@@ -137,8 +134,6 @@
     <None Include="Assets\Plugins\Android\unityads\build.xml" />
     <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />
     <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
-    <None Include="Assets\Plugins\WSA\FullSerializer\FullSerializer.xml" />
-    <None Include="Assets\Plugins\WSA\FullSerializer\UnityEngine.xml" />
     <None Include="Assets\SmartLocalization\Editor\SmartLocalization_Editor.XML" />
     <None Include="Assets\SmartLocalization\README.txt" />
     <None Include="Assets\SmartLocalization\Resources\EmptyResourceHeader.txt" />

@@ -1,5 +1,8 @@
-﻿using System.IO;
-#if !UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1
+﻿using System;
+using System.IO;
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+using FullSerializer;
+#else
 using System.Runtime.Serialization.Formatters.Binary;
 #endif
 
@@ -22,8 +25,9 @@ namespace Assets.Scripts.Helpers
             using (var file = File.Open(Application.persistentDataPath + data.FileName, FileMode.Open))
             {
                 var dl = data.Difficulty;
+                
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
-                data = (IPlaygroundSavedata)bf.Deserialize(file, data);
+                data = (IPlaygroundSavedata)bf.Deserialize(file, data.GetType());
 #else
                 data = (IPlaygroundSavedata)bf.Deserialize(file);
 #endif

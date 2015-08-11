@@ -57,7 +57,7 @@ public class StatisticPageScript : MonoBehaviour
             GenerateLevelTitle<TType>(GameItemType.DisabledItem);
             return;
         }
-        SavedataHelper.LoadData(ref sd);
+        //SavedataHelper.LoadData(ref sd);
 
         var pref = GameSettingsHelper<TType>.Preferenses;
 

@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Interfaces;
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+using FullSerializer;
+#endif
 
 namespace Assets.Scripts.DataClasses
 {
-#if !(UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+    [fsObject]
+#else
     [Serializable]
 #endif
     public class ModeMatch3PlaygroundSavedata : IPlaygroundSavedata

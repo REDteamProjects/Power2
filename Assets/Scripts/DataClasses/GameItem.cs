@@ -1,10 +1,17 @@
 ﻿using System;
 using Assets.Scripts.Enums;
 using UnityEngine;
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+using FullSerializer;
+#endif
 
 namespace Assets.Scripts.DataClasses
 {
+#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+    [fsObject]
+#else
     [Serializable]
+#endif
     public class GameItem : MonoBehaviour
     {
         public bool IsTouched;
