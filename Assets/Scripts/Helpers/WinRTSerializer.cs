@@ -36,12 +36,15 @@ public class WinRTSerializer {
     }
 }
 
-public class SquarePlaygroundSavedataConverter : fsConverter
+public class SquarePlaygroundSavedataConverter : fsDirectConverter
 {
+    public override Type ModelType { get { return typeof(SquarePlaygroundSavedata); } }
 
-    public override bool CanProcess(Type type)
+    public override object CreateInstance(fsData data, Type storageType)
     {
-        return type == typeof(SquarePlaygroundSavedata);
+        var obj = (SquarePlaygroundSavedata) storageType.GetConstructor(Type.EmptyTypes).Invoke(null);
+        obj.ProgressBarStateData = new ProgressBarState();
+        return obj;
     }
 
     public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
@@ -71,10 +74,10 @@ public class SquarePlaygroundSavedataConverter : fsConverter
 
     public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
     {
-        if (data.Type != fsDataType.String)
-        {
-            return fsResult.Fail("Expected string fsData type but got " + data.Type);
-        }
+        //if (data.Type != fsDataType.Array)
+        //{
+        //    return fsResult.Fail("Expected array fsData type but got " + data.Type);
+        //}
         if (instance == null) 
             instance = storageType.GetConstructor(Type.EmptyTypes).Invoke(null);
         
@@ -86,22 +89,27 @@ public class SquarePlaygroundSavedataConverter : fsConverter
         myType.Score = (Int32)dataItems[1].AsInt64; 
         myType.Difficulty = (DifficultyLevel)dataItems[2].AsInt64;
         myType.MaxInitialElementType = (GameItemType)dataItems[3].AsInt64;
-        if (dataItems[3].IsList && dataItems[3].AsList != null)
+        if (dataItems[4].IsList)
         {
-            var list = dataItems[3].AsList;
-            myType.Items = new GameItemType[list.Count][];
-            for (var i = 0; i < list.Count; i++)
+            var list = dataItems[4].AsList;
+            if (list != null && list.Count != 0)
             {
-                var localList = list[i].AsList;
-                myType.Items[i] = localList.Select(lli => (GameItemType)lli.AsInt64).ToArray();
+                myType.Items = new GameItemType[list.Count][];
+                for (var i = 0; i < list.Count; i++)
+                {
+                    var localList = list[i].AsList;
+                    myType.Items[i] = localList.Select(lli => (GameItemType) lli.AsInt64).ToArray();
+                }
             }
         }
 
-        if (!dataItems[4].IsList || dataItems[4].AsList == null) return fsResult.Success;
-        var progressBarData = dataItems[4].AsList;
+        if (!dataItems[5].IsList) return fsResult.Success;
+        var progressBarData = dataItems[5].AsList;
+        if (myType.ProgressBarStateData == null)
+            myType.ProgressBarStateData = new ProgressBarState();
         myType.ProgressBarStateData.Multiplier = (float)progressBarData[0].AsDouble;
-        myType.ProgressBarStateData.State = (float)progressBarData[0].AsDouble;
-        myType.ProgressBarStateData.Multiplier = (float)progressBarData[0].AsDouble;
+        myType.ProgressBarStateData.Upper = (float)progressBarData[1].AsDouble;
+        myType.ProgressBarStateData.State = (float)progressBarData[2].AsDouble;
 
         return fsResult.Success;
     }

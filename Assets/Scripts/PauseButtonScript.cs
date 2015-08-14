@@ -27,12 +27,12 @@ public class PauseButtonScript : MonoBehaviour
 
     void Update()
     {
-        if (Application.platform != RuntimePlatform.Android) return;
-        if (!Input.GetKeyDown(KeyCode.Escape)) return;
-        if (PauseMenuActive)
-            DestroyPauseMenu();
-        else
-            CreatePauseMenu();
+        //if (Application.platform != RuntimePlatform.Android) return;
+        //if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        //if (PauseMenuActive)
+        //    DestroyPauseMenu();
+        //else
+        //    CreatePauseMenu();
     }
 
     void CreatePauseMenu()
@@ -88,7 +88,9 @@ public class PauseButtonScript : MonoBehaviour
 
     public void OnPauseButtonClick()
     {
-        if (!PauseMenuActive)
+        if (PauseMenuActive)
+            DestroyPauseMenu();
+        else
             CreatePauseMenu();
     }
 
