@@ -66,14 +66,12 @@ namespace Assets.Scripts.Helpers
             }
 
             rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
-            if (_progressBarBank <= 0)
-            {
-                var eventHandler = ProgressBarOver;
-                if (eventHandler != null)
-                    eventHandler(gameObject, EventArgs.Empty);
+            if (!(_progressBarBank <= 0)) return;
+            var eventHandler = ProgressBarOver;
+            if (eventHandler != null)
+                eventHandler(gameObject, EventArgs.Empty);
 
-                ProgressBarRun = false;
-            }
+            ProgressBarRun = false;
 
 
             //rtrans.position = new Vector3(rtrans.position.x - _moveTimerMultiple * Time.deltaTime, rtrans.position.y, rtrans.position.z);

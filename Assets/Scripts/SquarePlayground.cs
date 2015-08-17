@@ -53,6 +53,7 @@ namespace Assets.Scripts
             get { return _isGameOver; }
             set
             {
+                if (value == _isGameOver) return;
                 _isGameOver = value;
                 if (value)
                     SavedataHelper.SaveData(SavedataObject);
@@ -340,7 +341,19 @@ namespace Assets.Scripts
 
         public PlaygroundProgressBar ProgressBar
         {
-            get { return GetComponent<PlaygroundProgressBar>(); }
+            get
+            {
+                PlaygroundProgressBar pb = null;
+                try
+                {
+                    pb = GetComponent<PlaygroundProgressBar>();
+                }
+                catch (Exception ex)
+                {
+                    LogFile.Message(ex.Message + " " + ex.StackTrace);
+                }
+                return pb;
+            }
         }
 
         public SquarePlayground(Dictionary<MoveDirections, Vector2> dictionary)
@@ -878,11 +891,11 @@ namespace Assets.Scripts
                         backButton.transform.SetParent(fg.transform); 
                     }
 
-                    resetButton.transform.localScale = new Vector2(10, 10);
+                    resetButton.transform.localScale = new Vector2(8, 8);
                     resetButton.transform.localPosition = new Vector3(100, -80, 0);
                     (resetButton.transform as RectTransform).sizeDelta = new Vector2(10, 10);
 
-                    backButton.transform.localScale = new Vector2(10, 10);
+                    backButton.transform.localScale = new Vector2(8, 8);
                     backButton.transform.localPosition = new Vector3(-100, -80, 0);
                     (backButton.transform as RectTransform).sizeDelta = new Vector2(10, 10);
                 });
@@ -1396,8 +1409,9 @@ namespace Assets.Scripts
             LogFile.Message("Points " + points);
 
             CurrentScore += points;
-            var plabel = GetComponentInChildren<Text>();
-            plabel.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
+            var plabel = GameObject.Find("Points");
+            var plbelText = plabel.GetComponent<Text>();
+            plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
         }
 
         public void ShowComboLabel(int count)

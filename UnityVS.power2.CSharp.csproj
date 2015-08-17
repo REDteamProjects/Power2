@@ -79,6 +79,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\ComplexMainMenuScript.cs" />
     <Compile Include="Assets\Scripts\DataClasses\Game.cs" />
     <Compile Include="Assets\Scripts\DataClasses\GameItem.cs" />
     <Compile Include="Assets\Scripts\DataClasses\GameTouch.cs" />
@@ -98,12 +99,14 @@
     <Compile Include="Assets\Scripts\Enums\MoveDirections.cs" />
     <Compile Include="Assets\Scripts\GameItemMovingScript.cs" />
     <Compile Include="Assets\Scripts\GameItemScalingScript.cs" />
+    <Compile Include="Assets\Scripts\Gradient.cs" />
     <Compile Include="Assets\Scripts\Helpers\CoinsHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\DeviceButtonsHelpers.cs" />
     <Compile Include="Assets\Scripts\Helpers\GameSettingsHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\ItemPrefabNameHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\LogFile.cs" />
     <Compile Include="Assets\Scripts\Helpers\PlaygroundProgressBar.cs" />
+    <Compile Include="Assets\Scripts\Helpers\PointsUpdater.cs" />
     <Compile Include="Assets\Scripts\Helpers\SavedataHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\ScoreHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\TouchActionAdapter.cs" />
@@ -115,7 +118,6 @@
     <Compile Include="Assets\Scripts\Interfaces\ISceneDecorations.cs" />
     <Compile Include="Assets\Scripts\ItemsColors.cs" />
     <Compile Include="Assets\Scripts\LabelShowing.cs" />
-    <Compile Include="Assets\Scripts\ComplexMainMenuScript.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\Mode11RhombusPlayground.cs" />
     <Compile Include="Assets\Scripts\Mode6x6SquarePlayground.cs" />

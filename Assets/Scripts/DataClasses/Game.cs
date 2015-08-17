@@ -11,7 +11,7 @@ namespace Assets.Scripts.DataClasses
         public Texture2D fullProgressBar;
         private IPlayground PlaygroundObject;
         //internal Statistics Stats;
-        public static DifficultyLevel Difficulty;
+        public static DifficultyLevel Difficulty = DifficultyLevel.easy;
 
         void Awake()
         {
