@@ -228,16 +228,14 @@ namespace Assets.Scripts
         
         public int CurrentScore
         {
-            get { return _score; }
+            get { return GetComponent<PointsUpdater>().CurrentScore; }
             set
             {
-                if (_score == value) return;
-                _score = value;
+                var c = GetComponent<PointsUpdater>();
+                c.RisePoints(value);
 
-                //var stat = GetComponent<Game>().Stats;
-                //if (stat != null && stat.ScoreRecord < _score)
-                if (Preferenses.ScoreRecord < _score)
-                    Preferenses.ScoreRecord = _score;
+                if (Preferenses.ScoreRecord < c.CurrentScore)
+                    Preferenses.ScoreRecord = c.CurrentScore;
             }
         }
 
@@ -1409,9 +1407,6 @@ namespace Assets.Scripts
             LogFile.Message("Points " + points);
 
             CurrentScore += points;
-            var plabel = GameObject.Find("Points");
-            var plbelText = plabel.GetComponent<Text>();
-            plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
         }
 
         public void ShowComboLabel(int count)
@@ -1423,7 +1418,7 @@ namespace Assets.Scripts
 
             comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count%2 == 0 ? 30 : -30);
             comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -3),
-                "Combo x" + count + " lines!", GameColors.BackgroundColor, GameColors.BackgroundColor, 10, 50, null, true);
+                "Combo x" + count + " lines!", new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
         }
 
         public virtual void RevertMovedItem(int col, int row)

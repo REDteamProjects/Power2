@@ -13,16 +13,22 @@ namespace Assets.Scripts
     {
         public MenuState CurrentState;
         private static GameObject _soundButton;
+        private static GameObject _mainCamera;
 
         void Awake()
         {
+            _mainCamera = GameObject.Find("Main Camera");
             var fg = GameObject.Find("/GUI");
             var statsButton = GameObject.Find("/GUI/StatsButton");
             _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 120,
                 statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
-                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[17]
-                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[16];
+                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[16]
+                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[17];
+            if (SoundEnabled)      
+                _mainCamera.GetComponent<AudioSource>().Play();
+
+
         }
 
         public bool SoundEnabled
@@ -37,6 +43,10 @@ namespace Assets.Scripts
             set
             {
                 PlayerPrefs.SetInt("General_SoundEnabled", value ? 1 : 0);
+                if (value)
+                    _mainCamera.GetComponent<AudioSource>().Play();
+                else
+                    _mainCamera.GetComponent<AudioSource>().Pause();
             }
         }
 
@@ -47,8 +57,8 @@ namespace Assets.Scripts
             SoundEnabled = !SoundEnabled;
 
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
-                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[17]
-                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[16];
+                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[16]
+                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[17];
         }
 
         public void OnNavigationButtonClick(String scene)

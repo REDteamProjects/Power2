@@ -13,6 +13,7 @@ namespace Assets.Scripts.Helpers
         private float _progressBarBank = -1;
         private float _progressBarBankUpper;
 
+        public Vector3 Coordinate = new Vector3(0, 200, 0);
         public bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;
@@ -26,7 +27,7 @@ namespace Assets.Scripts.Helpers
             var fg = GameObject.Find("/Foreground");
             _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
             _progressBar.transform.SetParent(fg.transform);
-            _progressBar.transform.localPosition = new Vector3(0,215,0);
+            _progressBar.transform.localPosition = Coordinate;
             _progressBar.transform.localScale = Vector3.one;
             _progressBarLine = GameObject.Find("ProgressBarLine");
 

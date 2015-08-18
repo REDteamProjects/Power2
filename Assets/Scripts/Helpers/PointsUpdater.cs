@@ -6,23 +6,37 @@ namespace Assets.Scripts.Helpers
 {
     public class PointsUpdater : MonoBehaviour
     {
-        private float _moveTimerMultiple;
-        private float _pscoreBankUpper;
-        private int _currentScore;
 
-        public float Multiplier { get { return _moveTimerMultiple; } }
-        public float Upper { get { return _pscoreBankUpper; } }
+        private int _pscoreBankUpper;
+        private int _currentScore;
+        private GameObject _plabel;
+
+        public int Upper { get { return _pscoreBankUpper; } }
         public int CurrentScore { get { return _currentScore; } }
-        
-        void Update()
+
+        void Awake()
         {
-            //TODO: update score object text
-            var plabel = GameObject.Find("Points");
-            var plbelText = plabel.GetComponent<Text>();
-            plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
+            _plabel = GameObject.Find("Points");
         }
 
-        protected void RisePoints(int points)
+
+        void Update()
+        {
+            var plbelText = _plabel.GetComponent<Text>();
+            if (plbelText.fontSize != 40)
+                plbelText.fontSize--;
+
+            if (Upper == 0) return;
+            
+            var s = Upper;
+            _currentScore += s;
+            _pscoreBankUpper -= s;
+
+            plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
+            plbelText.fontSize = 60;
+        }
+
+        public void RisePoints(int points)
         {
             _pscoreBankUpper += points;
         }     
