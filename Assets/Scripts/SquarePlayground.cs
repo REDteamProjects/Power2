@@ -173,7 +173,7 @@ namespace Assets.Scripts
                             {
                               int col;
                               int row;
-                              while (Items[(col = RandomObject.Next(1, FieldSize - 1))][(row = RandomObject.Next(1, FieldSize - 1))] != null) { }
+                              while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) > (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1)) { }
                               RemoveGameItem(col, row, (item, r) =>
                               {
                                   Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero, false, null, null, GameItemMovingType.Static);
@@ -541,7 +541,7 @@ namespace Assets.Scripts
 			if (generateOn == Vector2.zero)
             {
                 var c = gobj.GetComponent<GameItemScalingScript>();
-                c.ScaleTo(new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), 4, null);
+                c.ScaleTo(new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), 8, null);
             }
             else
             {
@@ -935,25 +935,18 @@ namespace Assets.Scripts
             (pausebackground.transform as RectTransform).sizeDelta = Vector2.zero; 
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
-            gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
+            gameOverLabel.ShowScalingLabel(new Vector3(0, 100, -3),
                 "Game over", Color.white, Color.gray, 60, 90, null, false, () =>
                 {
-                    var resetButton = Instantiate(Resources.Load("Prefabs/ResetButton")) as GameObject;
-                    var backButton = Instantiate(Resources.Load("Prefabs/ToMainMenuButton")) as GameObject;
+                    var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
 
                     if (fg != null)
                     {
-                        resetButton.transform.SetParent(fg.transform);
-                        backButton.transform.SetParent(fg.transform); 
+                        gameOverMenu.transform.SetParent(fg.transform);
+
                     }
-
-                    resetButton.transform.localScale = new Vector2(8, 8);
-                    resetButton.transform.localPosition = new Vector3(100, -80, 0);
-                    (resetButton.transform as RectTransform).sizeDelta = new Vector2(10, 10);
-
-                    backButton.transform.localScale = new Vector2(8, 8);
-                    backButton.transform.localPosition = new Vector3(-100, -80, 0);
-                    (backButton.transform as RectTransform).sizeDelta = new Vector2(10, 10);
+                    gameOverMenu.transform.localScale = Vector3.one;
+                    gameOverMenu.transform.localPosition = new Vector3(0, 0, 0);
                 });
         }
 
@@ -1447,7 +1440,7 @@ namespace Assets.Scripts
                 LogFile.Message("Rised 0 ponts");
                 return;
             }
-            points *= (int)Difficulty;
+            points *= (int)Game.Difficulty;
             LogFile.Message("Points " + points);
 
             CurrentScore += points;
@@ -1498,12 +1491,14 @@ namespace Assets.Scripts
         {
             var giss = (Items[i][j] as GameObject).GetComponent<GameItemScalingScript>();
             var toSize = GameItemSize / ScaleMultiplyer / 4;
-            giss.ScaleTo(new Vector3(toSize, toSize, 0), 3, (item, r) =>
+			CallbacksCount++;
+            giss.ScaleTo(new Vector3(toSize, toSize, 0), 8, (item, r) =>
             {
                 Items[i][j] = null;
                 Destroy(item);
                 if (removingCallback != null)
                     removingCallback(item, r);
+                CallbacksCount--;
             });
         }
     }

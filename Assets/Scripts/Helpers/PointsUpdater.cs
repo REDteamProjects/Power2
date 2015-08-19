@@ -29,8 +29,8 @@ namespace Assets.Scripts.Helpers
             if (Upper == 0) return;
             
             var s = Upper;
-            _currentScore += s;
             _pscoreBankUpper -= s;
+            _currentScore += s;
 
             plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
             plbelText.fontSize = 60;

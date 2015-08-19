@@ -188,29 +188,7 @@ namespace Assets.Scripts
                         var gobj = Items[l.X1][j] as GameObject;
                         if (gobj == null) continue;
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
-                        var c = gobj.GetComponent<GameItemScalingScript>();//gobj.GetComponent<GameItemMovingScript>();
-                        //if (!c.isMoving)
-                        //{
-                        //Items[l.X1][j] = null;
-                        var cX = l.X1;
-                        var cY = j;
-                        //LogFile.Message("Items[" + l.X1 + "][" + j + "] = null;");
-                        CallbacksCount++;
-                        //var l1 = l;
-                        //var j1 = j;
-                        c.ScaleTo(new Vector3(0, 0, 0), 8, (item, result) =>
-                        {
-                            if (!result) return;
-                            //LogFile.Message("RemoveItemAfterMoved Callback rised. CallbacksCount: " + CallbacksCount + "Items[" + l1.X1 + "][" + j1 + "]");
-                            Items[cX][cY] = null;
-                            Destroy(item);
-                            CallbacksCount--;
-                            //LogFile.Message("Item destroied. CallbacksCount: " + CallbacksCount);
-
-                            //if (_callbackReady.WaitOne(1))
-                            // Drop();
-                        });
-                        //}
+                        RemoveGameItem(l.X1, j);
                     }
                 }
                 else
@@ -231,25 +209,7 @@ namespace Assets.Scripts
                         var gobj = Items[i][l.Y1] as GameObject;
                         if (gobj == null) continue;
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
-                        var c = gobj.GetComponent<GameItemScalingScript>();//gobj.GetComponent<GameItemMovingScript>();
-                        var cX = i;
-                        var cY = l.Y1;
-                        //LogFile.Message("Items[" + i + "][" + l.Y1 + "] = null;");
-                        CallbacksCount++;
-
-                        c.ScaleTo(new Vector3(0, 0, 0), 8, (item, result) =>
-                        {
-                            if (!result) return;
-                            //LogFile.Message("RemoveItemAfterMoved Callback rised. CallbacksCount: " + CallbacksCount + "Items[" + i1 + "][" + l1.Y1 + "]");
-                            Items[cX][cY] = null;
-                            Destroy(item);
-                            CallbacksCount--;
-                            //LogFile.Message("Item destroied. CallbacksCount: " + CallbacksCount);
-
-                            //if (_callbackReady.WaitOne(1))
-                            //  Drop();
-                        });
-                        //}
+                        RemoveGameItem(i, l.Y1);
                     }
                 }
 
