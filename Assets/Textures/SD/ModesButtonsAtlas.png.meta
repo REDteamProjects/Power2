@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 97814f6152b53f14f8a39004523ec318
-timeCreated: 1439554113
+timeCreated: 1439985529
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,10 +8,14 @@ TextureImporter:
     21300002: ModesButtonsAtlas_8x8
     21300004: ModesButtonsAtlas_Match3
     21300006: ModesButtonsAtlas_Rhombus
+    21300008: ModesButtonsAtlas_0
+    21300010: ModesButtonsAtlas_1
+    21300012: ModesButtonsAtlas_2
+    21300014: ModesButtonsAtlas_3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -53,45 +57,45 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: ModesButtonsAtlas_6x6
+    - name: ModesButtonsAtlas_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 190
-        width: 190
-        height: 190
+        y: 192
+        width: 192
+        height: 192
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_8x8
+    - name: ModesButtonsAtlas_1
       rect:
         serializedVersion: 2
-        x: 190
-        y: 190
-        width: 190
-        height: 190
+        x: 192
+        y: 192
+        width: 192
+        height: 192
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_Match3
+    - name: ModesButtonsAtlas_2
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 190
-        height: 190
+        width: 192
+        height: 192
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_Rhombus
+    - name: ModesButtonsAtlas_3
       rect:
         serializedVersion: 2
-        x: 190
+        x: 192
         y: 0
-        width: 190
-        height: 190
+        width: 192
+        height: 192
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

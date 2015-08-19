@@ -24,6 +24,8 @@ namespace Assets.Scripts
         private int _dropsCount;
         private RealPoint _item00;
         private float _timeCounter = -1;
+        private float _mixTimeCounter = -1;
+        private const float _mixTimeCounterSize = 16; //every 16 seconds field mixes in veryhard difficulty mode
         //private float _moveTimer = 8;
         //private float _moveTimerMultiple = 10;
         private GameObject _selectedPoint1;
@@ -38,7 +40,6 @@ namespace Assets.Scripts
         protected GameItemType MaxType = GameItemType._3;
         
         protected const int maxAdditionalItemsCount = 2;
-        protected readonly DifficultyLevel Difficulty;
         protected int DropDownItemsCount;
         protected int XItemsCount;
         private bool _isGameOver;
@@ -153,6 +154,42 @@ namespace Assets.Scripts
                 //if (stat != null && stat.CurrentItemType < MaxType)
                 if (Preferenses.CurrentItemType < MaxType)
                     Preferenses.CurrentItemType = MaxType;
+				switch(MaxType)
+                {
+                    case GameItemType._7:
+                        Game.Difficulty = DifficultyLevel.medium;
+                        var mediumlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                        var mediumlabel = mediumlabelObject.GetComponent<LabelShowing>();
+                        mediumlabel.transform.SetParent(transform);
+                        mediumlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
+                        break;
+                    case GameItemType._10:
+                        Game.Difficulty = DifficultyLevel.hard;
+                        var hardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                        var hardlabel = hardlabelObject.GetComponent<LabelShowing>();
+                        hardlabel.transform.SetParent(transform);
+                        hardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true);
+                        while (XItemsCount < maxAdditionalItemsCount)
+                            {
+                              int col;
+                              int row;
+                              while (Items[(col = RandomObject.Next(1, FieldSize - 1))][(row = RandomObject.Next(1, FieldSize - 1))] != null) { }
+                              RemoveGameItem(col, row, (item, r) =>
+                              {
+                                  Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero, false, null, null, GameItemMovingType.Static);
+                              });
+                              XItemsCount++;
+                            }
+                        break;
+                    case GameItemType._13:
+                        Game.Difficulty = DifficultyLevel.veryhard;
+                        var veryhardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                        var veryhardlabel = veryhardlabelObject.GetComponent<LabelShowing>();
+                        veryhardlabel.transform.SetParent(transform);
+                        veryhardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true);
+                        MixTimeCounter = _mixTimeCounterSize;
+                        break;
+                }
                 if ((int) MaxType > FieldSize)
                 {
                     DestroyElements(MinType);
@@ -197,8 +234,9 @@ namespace Assets.Scripts
                         if (item.Type == GameItemType.DisabledItem || item.Type == GameItemType.NullItem || item.Type > withType) continue;
                         LogFile.Message("Item destroied: " + item.Type);
                         pointsBank += (int) Math.Pow(2, (double) item.Type);
-                        Items[i][j] = null;
-                        Destroy(gobj);
+						RemoveGameItem(i, j);
+                        //Items[i][j] = null;
+                        //Destroy(gobj);
                     }
             }
            
@@ -305,6 +343,11 @@ namespace Assets.Scripts
             set { _timeCounter = value; }
         }
 
+		public float MixTimeCounter
+        {
+            get { return _mixTimeCounter; }
+            set { _mixTimeCounter = value; }
+        }
         //public float MoveTimer
         //{
         //    get { return _moveTimer; }
@@ -357,7 +400,6 @@ namespace Assets.Scripts
         public SquarePlayground(Dictionary<MoveDirections, Vector2> dictionary)
         {
             AvailableMoveDirections = dictionary;
-            Difficulty = Game.Difficulty;
         }
 
         public SquarePlayground() : this(new Dictionary<MoveDirections, Vector2>
@@ -461,7 +503,16 @@ namespace Assets.Scripts
                 _selectedPoint2.transform.localPosition = Vector3.zero;
             }
             TimeCounter += Time.deltaTime;
-        }
+			if (Game.Difficulty >= DifficultyLevel.veryhard)
+            {
+                MixTimeCounter -= Time.deltaTime;
+                if(MixTimeCounter <= 0)
+                {
+                    GenerateField(false, true);
+                    MixTimeCounter = _mixTimeCounterSize;
+                }
+            }
+		}
 
         public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
@@ -487,22 +538,29 @@ namespace Assets.Scripts
                 (float)Math.Round(cell.x + generateOn.Value.x * GameItemSize, 2),
                 (float)Math.Round(Item00.Y + generateOn.Value.y * GameItemSize, 2),
                 Item00.Z), Vector3.zero, movingType);
-            var c = gobj.GetComponent<GameItemMovingScript>();
-            LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize));
-            CallbacksCount++;
-            c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) => 
+			if (generateOn == Vector2.zero)
             {
-                CallbacksCount--;
-				if (movingCallback != null)
-                    movingCallback(item, result);
-                else
+                var c = gobj.GetComponent<GameItemScalingScript>();
+                c.ScaleTo(new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), 4, null);
+            }
+            else
+            {
+                var c = gobj.GetComponent<GameItemMovingScript>();
+                LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize));
+                CallbacksCount++;
+                c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
                 {
-                    if (!result) return;
-                    if (CallbacksCount == 0)
-                    ClearChains();
-				}
-				
-            }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), isItemDirectionChangable);
+                    CallbacksCount--;
+                    if (movingCallback != null)
+                        movingCallback(item, result);
+                    else
+                    {
+                        if (!result) return;
+                        if (CallbacksCount == 0)
+                            ClearChains();
+                    }
+                }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), isItemDirectionChangable);
+            }
             return gobj;
         }
         public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart)
@@ -988,21 +1046,6 @@ namespace Assets.Scripts
         {        
             if (!mixCurrent)
             {
-                if (!completeCurrent)
-                    switch (Difficulty)
-                    {
-                        case DifficultyLevel.hard:
-                        case DifficultyLevel.veryhard:
-                            while (XItemsCount < maxAdditionalItemsCount)
-                            {
-                                int col;
-                                int row;
-                                while (Items[(col = RandomObject.Next(1, FieldSize-1))][(row = RandomObject.Next(1, FieldSize-1))] != null) { }
-                                Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, null, false, null, null, GameItemMovingType.Static);
-                                XItemsCount++;
-                            }
-                            break;
-                    }
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnY = 1;
@@ -1013,16 +1056,17 @@ namespace Assets.Scripts
                         //var itemsJ = FieldSize - 1 - j;
                         if (Items[i][j] != null || Items[i][j] == DisabledItem)
                             continue;
-                        switch (Difficulty)
+                        switch (Game.Difficulty)
                         {
                             case DifficultyLevel.medium:
+							case DifficultyLevel.hard:
                             case DifficultyLevel.veryhard:
                                 if (DropDownItemsCount < maxAdditionalItemsCount && j <= FieldSize / 2)
                                 {
                                     var resRow = RandomObject.Next(0, FieldSize);
                                     if (resCol == resRow)
                                     {
-                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j);
+                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(0, generateOnY));
                                         DropDownItemsCount++;
                                         generateOnY++;
                                         continue;
@@ -1448,6 +1492,19 @@ namespace Assets.Scripts
             Items = null;
             MaxType = GameItemType.NullItem;
             _score = 0;
+        }
+
+        public void RemoveGameItem(int i, int j, MovingFinishedDelegate removingCallback = null)
+        {
+            var giss = (Items[i][j] as GameObject).GetComponent<GameItemScalingScript>();
+            var toSize = GameItemSize / ScaleMultiplyer / 4;
+            giss.ScaleTo(new Vector3(toSize, toSize, 0), 3, (item, r) =>
+            {
+                Items[i][j] = null;
+                Destroy(item);
+                if (removingCallback != null)
+                    removingCallback(item, r);
+            });
         }
     }
 }

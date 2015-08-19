@@ -781,7 +781,7 @@ namespace Assets.Scripts
             LogFile.Message("Generating field...");
             if (!mixCurrent)
             {
-                switch (Difficulty)
+                /*switch (Game.Difficulty)
                 {
                     case DifficultyLevel.hard:
                     case DifficultyLevel.veryhard:
@@ -794,7 +794,7 @@ namespace Assets.Scripts
                             XItemsCount++;
                         }
                         break;
-                }
+                }*/
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnX = i % 2 == 1 ? -i : i;
@@ -805,16 +805,17 @@ namespace Assets.Scripts
                         var deniedList = new List<GameItemType>();
                         if (Items[i][j] != null || Items[i][j] == DisabledItem)
                             continue;
-                        switch (Difficulty)
+                        switch (Game.Difficulty)
                         {
                             case DifficultyLevel.medium:
+							case DifficultyLevel.hard:
                             case DifficultyLevel.veryhard:
                                 if (DropDownItemsCount < maxAdditionalItemsCount && j <= FieldSize / 2)
                                 {
                                     var resRow = RandomObject.Next(0, FieldSize);
                                     if (resCol == resRow)
                                     {
-                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(generateOnX, i));
+                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(generateOnX, i), false, 8 + i * 3);//may be calculate speed or generateOn vector in another way
                                         DropDownItemsCount++;
                                         generateOnX++;
                                         continue;

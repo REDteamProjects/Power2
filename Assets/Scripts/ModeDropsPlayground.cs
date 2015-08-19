@@ -115,8 +115,9 @@ namespace Assets.Scripts
                     }
                     while (!availibleColumns.ContainsKey(respCol = RandomObject.Next(0, FieldSize))) { }
                     //var res1 = RandomObject.Next(0, FieldSize);
-                    switch (Difficulty)
+                    switch (Game.Difficulty)
                     {
+                        case DifficultyLevel.medium:
                         case DifficultyLevel.hard:
                         case DifficultyLevel.veryhard:
                             if (XItemsCount < maxAdditionalItemsCount)
