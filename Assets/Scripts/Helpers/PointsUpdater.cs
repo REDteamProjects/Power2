@@ -10,8 +10,7 @@ namespace Assets.Scripts.Helpers
         private int _pscoreBankUpper;
         private int _currentScore;
         private GameObject _plabel;
-
-        public int Upper { get { return _pscoreBankUpper; } }
+        private bool raise = false;
         public int CurrentScore { get { return _currentScore; } }
 
         void Awake()
@@ -26,19 +25,17 @@ namespace Assets.Scripts.Helpers
             if (plbelText.fontSize != 40)
                 plbelText.fontSize--;
 
-            if (Upper == 0) return;
-            
-            var s = Upper;
-            _pscoreBankUpper -= s;
-            _currentScore += s;
+            if (!raise) return;
+            raise = false;
 
             plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
-            plbelText.fontSize = 60;
+            plbelText.fontSize = 47;
         }
 
-        public void RisePoints(int points)
+        public void RisePoints(int currentScore)
         {
-            _pscoreBankUpper += points;
+            raise = true;
+            _currentScore = currentScore;
         }     
     }
 }
