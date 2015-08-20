@@ -13,7 +13,7 @@ namespace Assets.Scripts.Helpers
         private float _progressBarBank = -1;
         private float _progressBarBankUpper;
 
-        public Vector3 Coordinate = new Vector3(0, 200, 0);
+        public Vector3 Coordinate = new Vector3(0, 190, 0);
         public bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;

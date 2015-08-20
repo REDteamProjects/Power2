@@ -146,7 +146,6 @@
     <None Include="Assets\Plugins\Android\unityads\build.xml" />
     <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />
     <None Include="Assets\Plugins\Android\unityads\res\values\strings.xml" />
-    <None Include="Assets\Resources\Materials\GradientShader.shader" />
     <None Include="Assets\SmartLocalization\Editor\SmartLocalization_Editor.XML" />
     <None Include="Assets\SmartLocalization\README.txt" />
     <None Include="Assets\SmartLocalization\Resources\EmptyResourceHeader.txt" />
