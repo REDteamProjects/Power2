@@ -162,7 +162,9 @@ public class DragItemScript : MonoBehaviour
 
                         touchDirection = null;
 
-                        Vibration.Vibrate(10);
+                        //Vibration.Vibrate(10);
+                        DeviceButtonsHelpers.OnButtonSoundAction("KeyPress", true);
+
                         break;
                     }
                 }

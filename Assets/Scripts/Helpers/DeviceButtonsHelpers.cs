@@ -25,4 +25,16 @@ public class DeviceButtonsHelpers : MonoBehaviour
 
 	    Application.LoadLevel("MainScene");
 	}
+
+    public static void OnButtonSoundAction(string audioClip, bool isVibrate)
+    {
+        var mainCamera = GameObject.Find("Main Camera");
+
+        var audioSource = mainCamera.GetComponent<AudioSource>();
+
+        audioSource.PlayOneShot(Resources.Load<AudioClip>(audioClip));
+
+        if (isVibrate)
+            Vibration.Vibrate(10);
+    }
 }

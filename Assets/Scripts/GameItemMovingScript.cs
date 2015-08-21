@@ -54,7 +54,9 @@ public class GameItemMovingScript : MonoBehaviour
 
             _isMoving = value;
             if (value)
+            {
                 _movingItems++;
+            }
             else
                 _movingItems--;
             LogFile.Message("Still moving " + _movingItems);
@@ -130,6 +132,8 @@ public class GameItemMovingScript : MonoBehaviour
             }
 
             transform.Translate(movement);
+            //DeviceButtonsHelpers.OnButtonSoundAction("ItemDrops", false);
+            //TODO: set timer of sound repeat
             return;
         }
 
