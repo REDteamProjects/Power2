@@ -13,11 +13,13 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile></CompilerResponseFile>
+    <CompilerResponseFile>
+    </CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>WP8Player:26</UnityBuildTarget>
     <UnityVersion>5.1.1f1</UnityVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -95,6 +97,7 @@
     <Compile Include="Assets\Scripts\Enums\LineOrientation.cs" />
     <Compile Include="Assets\Scripts\Enums\MenuState.cs" />
     <Compile Include="Assets\Scripts\Enums\MoveDirections.cs" />
+    <Compile Include="Assets\Scripts\Enums\Power2Sounds.cs" />
     <Compile Include="Assets\Scripts\GameItemMovingScript.cs" />
     <Compile Include="Assets\Scripts\GameItemScalingScript.cs" />
     <Compile Include="Assets\Scripts\Gradient.cs" />

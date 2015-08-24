@@ -1,4 +1,5 @@
 ﻿using System;
+using Assets.Scripts.Enums;
 using UnityEngine;
 
 namespace Assets.Scripts.Helpers
@@ -21,6 +22,7 @@ namespace Assets.Scripts.Helpers
         public float Multiplier { get { return _moveTimerMultiple; } }
         public float State { get { return _progressBarBank; } }
         public float Upper { get { return _progressBarBankUpper; } }
+        public double CriticalCount { get { return 100; } }
 
         void Awake()
         {
@@ -67,7 +69,22 @@ namespace Assets.Scripts.Helpers
             }
 
             rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
+
+            var audio = _progressBar.GetComponent<AudioSource>();
+            if (_progressBarBank < CriticalCount)
+            {
+                if (!audio.isPlaying)
+                    audio.Play();
+            }
+            else
+            {
+                if (audio.isPlaying)
+                    audio.Stop();
+            }
+
             if (!(_progressBarBank <= 0)) return;
+            audio.Stop();
+
             var eventHandler = ProgressBarOver;
             if (eventHandler != null)
                 eventHandler(gameObject, EventArgs.Empty);
@@ -77,7 +94,7 @@ namespace Assets.Scripts.Helpers
 
             //rtrans.position = new Vector3(rtrans.position.x - _moveTimerMultiple * Time.deltaTime, rtrans.position.y, rtrans.position.z);
         }
-
+ 
         public void AddTime(float count)
         {
             _progressBarBankUpper += count * _moveTimerMultiple;

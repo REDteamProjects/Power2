@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using UnityEngine;
 using System.Collections.Generic;
@@ -30,10 +31,9 @@ public class Destination2D
     }
 
     public Vector3 ScaleTo { get; set; }
-
     public bool Visible { get; set; }
-
     public bool ChangingDirection { get; set; }
+    public String MoveSound { get; set; }
 }
 
 
@@ -62,8 +62,13 @@ public class GameItemMovingScript : MonoBehaviour
             LogFile.Message("Still moving " + _movingItems);
         }
     }
+
+    public float DelayTime = 0.47f;
     private readonly List<Destination2D> _destinations = new List<Destination2D>();
+    
     private bool _isDirectionChangable;
+    private float _currentDelayTime;
+
     public bool ChangingDirection { get; private set; }
     public Destination2D CurrentDestination { get { return _destinations.FirstOrDefault(); } }
 
@@ -131,9 +136,20 @@ public class GameItemMovingScript : MonoBehaviour
                 }
             }
 
+            //if (!GetComponent<GameItem>().IsTouched)
+            //{
+            //    if (_currentDelayTime <= 0)
+            //    {
+            //        DeviceButtonsHelpers.OnButtonSoundAction(CurrentDestination.MoveSound, false);
+            //        _currentDelayTime = DelayTime;
+            //    }
+            //    else
+            //    {
+            //        _currentDelayTime -= Time.deltaTime;
+            //    }
+            //}
             transform.Translate(movement);
-            //DeviceButtonsHelpers.OnButtonSoundAction("ItemDrops", false);
-            //TODO: set timer of sound repeat
+
             return;
         }
 
@@ -160,7 +176,7 @@ public class GameItemMovingScript : MonoBehaviour
             LogFile.Message("No Moved() callback!");    
     }
 
-    public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null)
+    public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
     {
         if (IsMoving)
         {
@@ -200,6 +216,7 @@ public class GameItemMovingScript : MonoBehaviour
         newMove.Speed = new Vector2(movingSpeed, movingSpeed);
         newMove.ShowFrom = showFrom.HasValue ? showFrom.Value : Vector2.zero;
         newMove.ScaleTo = scaleTo.HasValue ? scaleTo.Value : Vector3.zero;
+        newMove.MoveSound = moveSound;
 
         if (movingCallback != null)
             newMove.MovingCallback = movingCallback;

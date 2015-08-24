@@ -4,10 +4,6 @@ using System;
 
 public class DropDownScript : MonoBehaviour
 {
-
-    // Use this for initialization
-    void Start() { }
-
     public Vector2 speed = new Vector2(0, 8);
 
     /// <summary>
@@ -41,6 +37,7 @@ public class DropDownScript : MonoBehaviour
     {
         destinationY = y;
         isMoving = true;
+        
     }
 
 }

@@ -156,14 +156,15 @@ public class DragItemScript : MonoBehaviour
                         var gims = gobj.GetComponent<GameItemMovingScript>();
                         var gi = gobj.GetComponent<GameItem>();
                         if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
-
+                        
+                        gi.IsTouched = true;
                         touchedItem = new Point { X = col, Y = row };
                         touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
 
                         touchDirection = null;
 
                         //Vibration.Vibrate(10);
-                        DeviceButtonsHelpers.OnButtonSoundAction("KeyPress", true);
+                        DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.KeyPress, true);
 
                         break;
                     }
@@ -351,6 +352,7 @@ public class DragItemScript : MonoBehaviour
                     if (result)
                     {
                         if (!pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, false)) return;
+                        //DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.Line, false);
                         //var o = pg.Items[secondX][secondY] as GameObject;
 
                         //if (o != null)
@@ -368,6 +370,7 @@ public class DragItemScript : MonoBehaviour
                     else
                     {
                         pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, true);
+                        DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.Fault, false);
                         //var gi = gobj1.GetComponent<GameItem>();
                         
                     }
@@ -422,7 +425,7 @@ public class DragItemScript : MonoBehaviour
                                 return;
                             }
                         }
-
+                        gobj.GetComponent<GameItem>().IsTouched = false;
                         //var gi = gobj.GetComponent<GameItem>();
                         //if (gi != null && gi.IsDraggableWhileMoving)
                         touchDirection = null;
