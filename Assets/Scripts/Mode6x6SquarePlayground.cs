@@ -68,7 +68,9 @@ namespace Assets.Scripts
             //var progressBar = ProgressBar;
             //if (progressBar != null)
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-
+            
+            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Start, false);
+            
             try
             {
                 if (Advertisement.isSupported)
@@ -163,6 +165,7 @@ namespace Assets.Scripts
             //}
             GenerateField();
             ShowMaxInitialElement();
+            
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
 
@@ -173,7 +176,6 @@ namespace Assets.Scripts
             IsGameOver = true;
             GenerateGameOverMenu();
             PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
-
         }
     }
 }

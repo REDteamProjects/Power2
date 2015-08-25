@@ -151,7 +151,7 @@ namespace Assets.Scripts
             {
                 if (MaxType == value) return;
                 MaxType = value;
-                DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.NextLevel, false);
+                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                 //var stat = GetComponent<Game>().Stats;
                 //if (stat != null && stat.CurrentItemType < MaxType)
                 if (Preferenses.CurrentItemType < MaxType)
@@ -209,7 +209,7 @@ namespace Assets.Scripts
             if (gobj == null) return;
             gobj.transform.SetParent(fg.transform);
             gobj.transform.localPosition = new Vector3(0, 350f + GameItemSize * 5f, 0);
-            gobj.transform.localScale = new Vector3(120, 120);
+            gobj.transform.localScale = new Vector3(80, 80);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y));
@@ -781,7 +781,6 @@ namespace Assets.Scripts
             var l = lines.FirstOrDefault();
             while (l != null && !IsGameOver)
             {
-                DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.Line, false);
                 var toObj = Items[l.X2][l.Y2] as GameObject;
                 var toCell = GetCellCoordinates(l.X2, l.Y2);
                 var pointsMultiple = 1;
@@ -895,6 +894,9 @@ namespace Assets.Scripts
                 }
                 //CallbacksCount--;
                 lines.Remove(l);
+                if (linesCount == 1)
+                    DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
+
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
 
@@ -903,13 +905,16 @@ namespace Assets.Scripts
                     ProgressBar.AddTime(pointsMultiple * 2);
 
                 if (l != null) continue;
+
+                if (linesCount > 1)
+                    ShowComboLabel(linesCount);
+
                 lines = GetAllLines();
+                linesCount = lines.Count;
                 l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected");
             RemoveAdditionalItems();
-            if (linesCount > 1)
-                ShowComboLabel(linesCount);
 
             pointsBank *= linesCount;
             ChainCounter++;
@@ -953,7 +958,7 @@ namespace Assets.Scripts
                     gameOverMenu.transform.localScale = Vector3.one;
                     gameOverMenu.transform.localPosition = new Vector3(0, 0, 0);
                 });
-            DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.GameOver, false);
+            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.GameOver, false, true);
         }
 
         public virtual void Drop()
@@ -1151,7 +1156,7 @@ namespace Assets.Scripts
                         }
                     }
                 }
-                DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.MixField, false);
+                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     for (var j = FieldSize - 1; j >= 0; j--)
@@ -1174,6 +1179,7 @@ namespace Assets.Scripts
                     }
                 }
             }
+            
             //if (!isNoLines && _callbackReady.WaitOne(1))
             // ClearChains();
         }
@@ -1463,7 +1469,7 @@ namespace Assets.Scripts
             comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count%2 == 0 ? 30 : -30);
             comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, 2),
                 "Combo x" + count + " lines!", new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
-            DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.Combo, false);
+            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
 
         public virtual void RevertMovedItem(int col, int row)

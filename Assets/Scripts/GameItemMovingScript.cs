@@ -140,7 +140,7 @@ public class GameItemMovingScript : MonoBehaviour
             //{
             //    if (_currentDelayTime <= 0)
             //    {
-            //        DeviceButtonsHelpers.OnButtonSoundAction(CurrentDestination.MoveSound, false);
+            //        DeviceButtonsHelpers.OnSoundAction(CurrentDestination.MoveSound, false);
             //        _currentDelayTime = DelayTime;
             //    }
             //    else

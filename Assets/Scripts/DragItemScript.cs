@@ -164,7 +164,7 @@ public class DragItemScript : MonoBehaviour
                         touchDirection = null;
 
                         //Vibration.Vibrate(10);
-                        DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.KeyPress, true);
+                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.KeyPress, true);
 
                         break;
                     }
@@ -352,7 +352,7 @@ public class DragItemScript : MonoBehaviour
                     if (result)
                     {
                         if (!pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, false)) return;
-                        //DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.Line, false);
+                        //DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
                         //var o = pg.Items[secondX][secondY] as GameObject;
 
                         //if (o != null)
@@ -370,7 +370,7 @@ public class DragItemScript : MonoBehaviour
                     else
                     {
                         pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, true);
-                        DeviceButtonsHelpers.OnButtonSoundAction(Power2Sounds.Fault, false);
+                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Fault, false);
                         //var gi = gobj1.GetComponent<GameItem>();
                         
                     }

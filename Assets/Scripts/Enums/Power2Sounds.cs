@@ -15,5 +15,6 @@ namespace Assets.Scripts.Enums
         public static String NextLevel { get { return "NextLevel"; } }
         public static String Combo { get { return "Combo"; } }
         public static String MixField { get { return "FieldMix"; } }
+        public static String Start { get { return "Beginning"; } }
     }
 }
