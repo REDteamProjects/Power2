@@ -8,7 +8,7 @@ namespace Assets.Scripts.Enums
     public static class Power2Sounds
     {
         public static String Drop { get { return "ItemDrops"; } }
-        public static String KeyPress { get { return "KeyPress"; } }
+        public static String KeyPress { get { return "KeyPress2"; } }
         public static String GameOver { get { return "GameOver"; } }
         public static String Line { get { return "Line"; } }
         public static String Fault { get { return "Fault"; } }

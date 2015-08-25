@@ -35,14 +35,11 @@ namespace Assets.Scripts
         {
             get
             {
-                if (PlayerPrefs.HasKey("General_SoundEnabled"))
-                    return PlayerPrefs.GetInt("General_SoundEnabled") != 0;
-                PlayerPrefs.SetInt("General_SoundEnabled", 1);
-                return true;
+                return GeneralSettings.SoundEnabled;
             }
             set
             {
-                PlayerPrefs.SetInt("General_SoundEnabled", value ? 1 : 0);
+                GeneralSettings.SoundEnabled = value;
                 if (value)
                     _mainCamera.GetComponent<AudioSource>().Play();
                 else

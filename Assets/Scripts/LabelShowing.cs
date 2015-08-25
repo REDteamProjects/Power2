@@ -64,6 +64,9 @@ public class LabelShowing : MonoBehaviour {
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null)
     {
         transform.localPosition = position;
+        //var fg = GameObject.Find("/Foreground");
+        //transform.SetParent(fg.transform);
+
         var labelText = GetComponent<Text>();
         if (textColor != shadowColor)
         {

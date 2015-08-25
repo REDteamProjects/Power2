@@ -9,188 +9,14 @@ namespace Assets.Scripts
 {
     class RhombusPlayground : SquarePlayground
     {
-        //private const float HintDelayTime = 4;
-        //protected GameItemType MaxType = GameItemType._3;
-        //protected const int maxAdditionalItemsCount = 2;
-        //private static readonly System.Object _disabledItem = new object();
-        //private static readonly System.Random RandomObject = new System.Random();
-        //private readonly AutoResetEvent _callbackReady = new AutoResetEvent(false);
-        //protected readonly DifficultyLevel Difficulty;
-        //protected int DropDownItemsCount;
-        //protected int StaticItemsCount;
-        //private volatile int _callbacksCount;
-        //private int _dropsCount;
-        //private RealPoint _item00;
-        //private float _timeCounter = -1;
-        //private GameObject _selectedPoint1;
-        //private GameObject _selectedPoint2;
-        //private Point _selectedPoint1Coordinate;
-        //private Point _selectedPoint2Coordinate;
-        //private int _chainCounter;
-		//private int _score;
-        //private float _currentTime;
-
 		public override String ItemPrefabName { get { return ItemPrefabNameHelper.GetPrefabPath<RhombusPlayground>(); } }
 
         public override float ScaleMultiplyer
         {
-            get { return 7.12f; }
+            //get { return 7.12f; }
+            get { return 1; }
         }
 
-        //public virtual bool isDisabledItemActive { get { return false; } }
-        //public System.Object DisabledItem { get { return _disabledItem; } }
-        /* public Point SelectedPoint1
-        {
-            set
-            {
-                if (_selectedPoint1 == null && value == null)
-                    return;
-                if (_selectedPoint1 != null)
-                {
-                    Destroy(_selectedPoint1);
-                    _selectedPoint1 = null;
-                }
-                if (value != null) LogFile.Message("SelectedPoint1 X = " + value.X + " Y= " + value.Y);
-                if (value == null || Items[value.X][value.Y] == null) return;
-                _selectedPoint1Coordinate = value;
-            }
-        }  */
-        /* public Point SelectedPoint2
-        {
-            set
-            {
-                if (_selectedPoint2 == null && value == null)
-                    return;
-                if (_selectedPoint2 != null)
-                {
-                    Destroy(_selectedPoint2);
-                    _selectedPoint2 = null;
-                }
-                if (value != null) LogFile.Message("SelectedPoint2 X = " + value.X + " Y= " + value.Y);
-                if (value == null || Items[value.X][value.Y] == null) return;
-                _selectedPoint2Coordinate = value;
-            }
-        } */
-		/* public virtual GameItemType MaxInitialElementType 
-        { 
-            get { return MaxType; }
-            set
-            {
-                if (MaxType == value) return;
-                MaxType = value;
-                var stat = GetComponent<Game>().Stats;
-                if (stat != null && stat.CurrentItemType < MaxType)
-                {
-                    stat.CurrentItemType = MaxType;
-                    LogFile.Message("MaxType rhombus is " + MaxType);
-                }
-            } 
-        } */
-		/* protected void ShowMaxInitialElement()
-        {
-            var fg = GameObject.Find("/Foreground");
-            var cmi = GameObject.Find("/Foreground/MaximumItem");
-            var gobj = Instantiate(Resources.Load(ItemPrefabName + MaxType)) as GameObject;
-            if (gobj == null) return;
-            gobj.transform.SetParent(fg.transform);
-            gobj.transform.localPosition = new Vector3(0, 360f + GameItemSize * 6, 0);
-            gobj.transform.localScale = new Vector3(15, 15);
-            gobj.name = "MaximumItem";
-            var c = gobj.GetComponent<GameItemMovingScript>();
-            LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y));
-            c.MoveTo(null, gobj.transform.localPosition.y - GameItemSize * 6, 2f, (item, result) =>
-            {
-                if (!result) return;
-                if (cmi != null)
-                    Destroy(cmi);
-            });
-        } */
-/*         protected int CallbacksCount
-        {
-            get
-            {
-                return _callbacksCount;
-            }
-            set
-            {
-                if (value == _callbacksCount)
-                {
-                    LogFile.Message("value == _callbacksCount: " + value);
-                    return;
-                }
-                _callbacksCount = value;
-                LogFile.Message("CallbacksCount = " + value);
-                if (value > 0)
-                {
-                    _callbackReady.Reset();
-                }
-                else
-                {
-                    _callbackReady.Set();
-                }
-            }
-        }
-        public virtual IPlaygroundSavedata SavedataObject
-        {
-            get { return null; }
-        } */
-        /* public virtual int FieldSize { get { return 0; } }
-        public float DeltaToExchange { get { return GameItemSize / 2f; } }
-        public float DeltaToMove { get { return GameItemSize / 4f; } }
-        public object[][] Items { get; set; }
-        public virtual float GameItemSize { get { return 0f; } }
-        public virtual RealPoint InitialGameItemPosition { get { return null; } } */
-        //public Dictionary<MoveDirections, Vector2> AvailableMoveDirections { get; private set; }
-		/* public int CurrentScore
-        {
-            get { return _score; }
-            set
-            {
-                if (_score == value) return;
-                _score = value;
-                var stat = GetComponent<Game>().Stats;
-                if (stat != null && stat.ScoreRecord < _score)
-                    stat.ScoreRecord = _score;
-            }
-        }
-        public float CurrentTime
-        {
-            get { return _currentTime; }
-            set
-            {
-                if (_currentTime == value) return;
-                _currentTime = value;
-                var stat = GetComponent<Game>().Stats;
-                if (stat != null && stat.LongestSession < _currentTime)
-                    stat.LongestSession = _currentTime;
-            }
-        } */
-        /* protected int DropsCount
-        {
-            get { return _dropsCount; }
-            set
-            {
-                if (value == _dropsCount)
-                {
-                    LogFile.Message("value == _dropsCount: " + value);
-                    return;
-                }
-                _dropsCount = value;
-                LogFile.Message("DropsCount = " + value);
-            }
-        } */
-		/* public int ChainCounter
-        {
-            get { return _chainCounter; }
-            set
-            {
-                if (_chainCounter == value) return;
-                _chainCounter = value;
-                var stat = GetComponent<Game>().Stats;
-                if (stat != null && stat.MaxMultiplier < _chainCounter)
-                    stat.MaxMultiplier = _chainCounter;
-            }
-        } */
         public RhombusPlayground()
             : base(new Dictionary<MoveDirections, Vector2>
             {
@@ -205,39 +31,6 @@ namespace Assets.Scripts
             })
         {}
 
-        //void Update()
-        //{
-        //     if (CallbacksCount ==0)
-        //        Drop();
-        //    if (!(_timeCounter >= 0)) return;
-        //    if (_timeCounter > HintDelayTime && _selectedPoint1 == null && _selectedPoint2 == null)
-        //    {
-        //        var parentGobj = Items[_selectedPoint1Coordinate.X][_selectedPoint1Coordinate.Y] as GameObject;
-        //        if (parentGobj == null) return;
-        //        _selectedPoint1 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
-        //        if (_selectedPoint1 == null)
-        //        {
-        //            LogFile.Message("SelectedPoint1 initialization failed");
-        //            return;
-        //        }
-        //        _selectedPoint1.transform.SetParent(parentGobj.transform);
-        //        _selectedPoint1.transform.localScale = Vector3.one;
-        //        _selectedPoint1.transform.localPosition = Vector3.zero;
-        //        parentGobj = Items[_selectedPoint2Coordinate.X][_selectedPoint2Coordinate.Y] as GameObject;
-        //        if (parentGobj == null) return;
-        //        _selectedPoint2 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
-        //        if (_selectedPoint2 == null)
-        //        {
-        //            LogFile.Message("SelectedPoint2 initialization failed");
-        //            return;
-        //        }
-        //        _selectedPoint2.transform.SetParent(parentGobj.transform);
-        //        _selectedPoint2.transform.localScale = Vector3.one;
-        //        _selectedPoint2.transform.localPosition = Vector3.zero;
-        //    }
-        //    _timeCounter += Time.deltaTime;
-        //    CurrentTime += Time.deltaTime; 
-        //}
         public override bool IsInAnotherLine(IEnumerable<Line> lines, int currentX, int currentY)
         {
             var count = 0;
@@ -254,15 +47,7 @@ namespace Assets.Scripts
             }
             return count > 1;//lines.Count(l => (l.X1 <= currentX && l.X2 >= currentX && l.Y1 <= currentY && l.Y2 >= currentY)) > 1;
         }
-        /* private bool MatchType(int x, int y, GameItemType itemType)
-        {
-            // убедимся, что фишка не выходит за пределы поля    
-            if ((x < 0) || (x >= FieldSize) || (y < 0) || (y >= FieldSize) || Items[x][y] == null || Items[x][y] == DisabledItem) return false;
-            var gobj = Items[x][y] as GameObject;
-            if (gobj == null) return false;
-            var gi = gobj.GetComponent<GameItem>();
-            return gi != null && gi.Type == itemType;
-        } */
+        
         public override Vector3 GetCellCoordinates(int col, int row)
         {
             var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.0625;
@@ -449,76 +234,7 @@ namespace Assets.Scripts
             }
             return count;
         }
-        /* public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale)
-        {
-            var newgobj = Instantiate(Resources.Load(ItemPrefabName + itemType)) as GameObject;
-            if (newgobj != null)
-            {
-                var rectTransform = newgobj.transform as RectTransform;
-                if (rectTransform != null)
-                    rectTransform.sizeDelta = new Vector2(GameItemSize * 0.9375f, GameItemSize * 0.9375f);
-                newgobj.transform.SetParent(transform);
-                newgobj.transform.localPosition = localPosition;
-                newgobj.transform.localScale = localScale;  
-            }
-            return newgobj;
-        } */
-/*         public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false)
-        {
-            if (!generateOn.HasValue)
-                generateOn = new Vector2(0, FieldSize - j);
-            if (_item00 == null)
-                _item00 = InitialGameItemPosition;
-            var cell = GetCellCoordinates(i, j);
-            var gobj = InstantiateGameItem(itemType, new Vector3(
-                (float)Math.Round(cell.x + generateOn.Value.x * GameItemSize, 2),
-                (float)Math.Round(_item00.Y + generateOn.Value.y * GameItemSize, 2),
-                _item00.Z), Vector3.zero);
-            var c = gobj.GetComponent<GameItemMovingScript>();
-            LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize));
-            CallbacksCount++;
-            LogFile.Message("c.MoveTo(" + cell.x + ", " + cell.y + ", " + (10 - i % 2 + j * 1.5f + ", ..."));
-            c.MoveTo(cell.x, cell.y, 10 - i % 2 + j * 1.5f, (item, result) =>
-            {
-                CallbacksCount--;
-                if (!result) return;
-                if (_callbackReady.WaitOne(1))
-                    ClearChains();
-            }, new Vector2(_item00.X, _item00.Y + GameItemSize / 2), new Vector3(GameItemSize / 7.12f, GameItemSize / 7.12f, 1f), isItemDirectionChangable);
-            return gobj;
-        } */
-        /* public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null)
-        {
-            var newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            if (deniedTypes == null || deniedTypes.Count <= 0)
-                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable);
-            while (deniedTypes.Contains((GameItemType)newType))
-                newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable);
-        } */
-        /* void RemoveAdditionalItems()
-        {
-            for (var i = 0; i < FieldSize; i++)
-            {
-                var onY = i <= FieldSize/2 ? FieldSize/2 + i : FieldSize*2 - FieldSize/2 - i;
-                var gobj = Items[i][onY] as GameObject;
-                if (gobj != null && (Items[i][onY] != null && Items[i][onY] != DisabledItem && gobj.GetComponent<GameItem>().Type == GameItemType._DropDownItem))
-                {
-                    var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (o != null)
-                    {
-                        var pointsLabel = o.GetComponent<LabelShowing>();
-                        pointsLabel.transform.SetParent(transform);
-                        pointsLabel.ShowScalingLabel(new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1),
-                            "+" + 222, Color.white, Color.gray, 60, 90, null, true);
-                    }
-                    RisePoints(222);
-                    Destroy(gobj);
-                    Items[i][onY] = null;
-                    DropDownItemsCount--;
-                }
-            }
-        } */
+        
         public override int ClearChains()
         {
             if (IsGameOver) return -1;
@@ -676,21 +392,12 @@ namespace Assets.Scripts
             ChainCounter++;
             RisePoints(pointsBank * ChainCounter);
 
-            //if (!IsGameOver) return linesCount;
-            //var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            //if (gameOverLabelObject == null) return linesCount;
-            //var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
-            //gameOverLabel.transform.SetParent(transform);
-            //gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-            //    "Game over", Color.white, Color.gray, 60, 90);
-            ////TODO: stop the game
             if (!IsGameOver) return linesCount;
             
             GenerateGameOverMenu();
             
             return linesCount;
         }
-
 
         public override void Drop()
         {
@@ -922,69 +629,7 @@ namespace Assets.Scripts
                 }
             }
         }
-        /* public bool GameItemsExchange(int x1, int y1, ref int x2, ref int y2, float speed, bool isReverse)
-        {
-            var item1 = Items[x1][y1] as GameObject;
-            var item2 = Items[x2][y2] as GameObject;
-            if (!isReverse)
-            {
-                Items[x1][y1] = item2;
-                Items[x2][y2] = item1;
-            }
-            var position1 = GetCellCoordinates(x1, y1);
-            var position2 = GetCellCoordinates(x2, y2);
-			LogFile.Message("Exchange items: " + position1.x + position1.y + " " + position2.x + " " + position2.y);
-            CallbacksCount++;
-			if (item1 != null)
-                item1.GetComponent<GameItemMovingScript>()
-                    .MoveTo((float?)position1.x == (float?)position2.x ? null : (float?)position2.x,
-                        (float?)position1.y == (float?)position2.y ? null : (float?)position2.y,
-                        15, (item, result) =>
-                        {
-                            CallbacksCount--;
-                            if (!result) return;
-                            var currentItem = item as GameObject;
-                            if (currentItem != null && isReverse)
-                            {
-                                currentItem.GetComponent<GameItemMovingScript>()
-                                    .MoveTo((float?)position1.x == (float?)position2.x ? null : (float?)position1.x,
-                                        (float?)position1.y == (float?)position2.y ? null : (float?)position1.y,
-                                        14, null);
-                            }
-                            else
-                            {
-                                if (_callbackReady.WaitOne(1))
-                                    ClearChains();
-                            }
-                        });
-            CallbacksCount++;
-            if (item2 != null)
-            {
-                item2.GetComponent<GameItemMovingScript>()
-                    .MoveTo((float?)position1.x == (float?)position2.x ? null : (float?)position1.x,
-                        (float?)position1.y == (float?)position2.y ? null : (float?)position1.y,
-                        15, (item, result) =>
-                        {
-                            CallbacksCount--;
-                            if (!result) return;
-                            var currentItem = item as GameObject;
-                            if (currentItem != null && isReverse)
-                            {
-                                currentItem.GetComponent<GameItemMovingScript>()
-                                    .MoveTo((float?)position1.x == (float?)position2.x ? null : (float?)position2.x,
-                                        (float?)position1.y == (float?)position2.y ? null : (float?)position2.y,
-                                        14, null);
-                            }
-                            else
-                            {
-                                if (_callbackReady.WaitOne(1))
-                                    ClearChains();
-                            }
-                        });
-                return true;
-            }
-            return false;
-        } */
+        
         public override bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
         {
             if (!AvailableMoveDirections.ContainsKey(mdir)) return false;
@@ -1065,20 +710,7 @@ namespace Assets.Scripts
                 return true;
             return horizontalCount > 1;
         }
-        /* public bool TryMakeMove(int x1, int y1, int x2, int y2)
-        {
-            if (Items[x1][y1] == null || Items[x1][y1] == DisabledItem ||
-                Items[x2][y2] == null || Items[x2][y2] == DisabledItem)
-                return false;
-            var tItem = Items[x1][y1];
-            Items[x1][y1] = Items[x2][y2];
-            Items[x2][y2] = tItem;
-            var ret = IsPointInLine(x1, y1) || IsPointInLine(x2, y2);
-            tItem = Items[x2][y2];
-            Items[x2][y2] = Items[x1][y1];
-            Items[x1][y1] = tItem;
-            return ret;
-        } */
+      
         public override bool CheckForPossibleMoves()
         {
             for (var col = 0; col < FieldSize; col++)
@@ -1126,20 +758,5 @@ namespace Assets.Scripts
                 }
             return false;
         }
-        /* void RisePoints(int points)
-        {
-			CurrentScore += points;
-            var plabel = GetComponentInChildren<Text>();
-            plabel.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
-        } */
-        /* public void RevertMovedItem(int col, int row)
-        {
-            var gobj = Items[col][row] as GameObject;
-            var pos = GetCellCoordinates(col, row);
-            LogFile.Message("Revert item to place: " + pos.x + " " + pos.y);
-            if (gobj == null) return;
-            var gims = gobj.GetComponent<GameItemMovingScript>();
-            gims.MoveTo(pos.x, pos.y, 14, null);
-        } */
     }
 }

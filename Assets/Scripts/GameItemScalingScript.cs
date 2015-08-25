@@ -109,10 +109,12 @@ public class GameItemScalingScript : MonoBehaviour
             //return;
         }
 
-        var newScaling = new Scaling2D();
-        newScaling.ScaleToSize = toSize;
-        newScaling.Speed = (toSize - transform.localScale) / scalingTime;
-        newScaling.ScalesLeft = scalingTime;
+        var newScaling = new Scaling2D
+        {
+            ScaleToSize = toSize,
+            Speed = (toSize - transform.localScale)/scalingTime,
+            ScalesLeft = scalingTime
+        };
         if (scalingCallback != null)
             newScaling.ScalingCallback = scalingCallback;
         else

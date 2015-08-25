@@ -8,6 +8,24 @@ using UnityEngine;
 
 namespace Assets.Scripts.Helpers
 {
+    public static class GeneralSettings
+    {
+        public static bool SoundEnabled
+        {
+            get
+            {
+                if (PlayerPrefs.HasKey("General_SoundEnabled"))
+                    return PlayerPrefs.GetInt("General_SoundEnabled") != 0;
+                PlayerPrefs.SetInt("General_SoundEnabled", 1);
+                return true;
+            }
+            set
+            {
+                PlayerPrefs.SetInt("General_SoundEnabled", value ? 1 : 0);
+            }
+        }
+    }
+
     public interface IGameSettingsHelper
     {
         bool SoundEnabled { get; set; }

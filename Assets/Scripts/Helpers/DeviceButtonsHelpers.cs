@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts.Enums;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 
 
@@ -30,6 +32,7 @@ public class DeviceButtonsHelpers : MonoBehaviour
 	    if (pbs != null)
 	    {
 	        pbs.OnPauseButtonClick();
+            OnSoundAction(Power2Sounds.KeyPress, false);
 	        return;
 	    }
 
@@ -38,15 +41,17 @@ public class DeviceButtonsHelpers : MonoBehaviour
 
     public static void OnSoundAction(string audioClip, bool isVibrate, bool stopCurrent = false)
     {
+        if (isVibrate)
+            Vibration.Vibrate(10);
+
+        if (!GeneralSettings.SoundEnabled) return;
+
         var mainCamera = GameObject.Find("Main Camera");
 
         var audioSource = mainCamera.GetComponent<AudioSource>();
         if (stopCurrent)
             audioSource.Stop();
 
-        audioSource.PlayOneShot(Resources.Load<AudioClip>(audioClip));
-
-        if (isVibrate)
-            Vibration.Vibrate(10);
+        audioSource.PlayOneShot(Resources.Load<AudioClip>(audioClip));  
     }
 }

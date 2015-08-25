@@ -468,13 +468,6 @@ namespace Assets.Scripts
         {
             if (IsGameOver) return;
 
-            //MoveTimer -= Time.deltaTime; TODO: Uncomment
-            //if (MoveTimer <= 0)
-            //{
-            //    IsGameOver = true;
-            //    GenerateGameOverMenu();
-            //}
-
             if (CallbacksCount == 0)
                 Drop();
 
@@ -490,7 +483,7 @@ namespace Assets.Scripts
                     return;
                 }
                 _selectedPoint1.transform.SetParent(parentGobj.transform);
-                _selectedPoint1.transform.localScale = new Vector3(1.45f, 1.45f);
+                _selectedPoint1.transform.localScale = new Vector3(1.3707f, 1.3707f);
                 _selectedPoint1.transform.localPosition = new Vector3(0, 0, -1);
                 parentGobj = Items[SelectedPoint2Coordinate.X][SelectedPoint2Coordinate.Y] as GameObject;
                 if (parentGobj == null) return;
@@ -501,7 +494,7 @@ namespace Assets.Scripts
                     return;
                 }
                 _selectedPoint2.transform.SetParent(parentGobj.transform);
-                _selectedPoint2.transform.localScale = new Vector3(1.45f, 1.45f);
+                _selectedPoint2.transform.localScale = new Vector3(1.3707f, 1.3707f);
                 _selectedPoint2.transform.localPosition = new Vector3(0, 0, -1);
             }
             TimeCounter += Time.deltaTime;
@@ -541,7 +534,7 @@ namespace Assets.Scripts
                 (float)Math.Round(cell.x + generateOn.Value.x * GameItemSize, 2),
                 (float)Math.Round(Item00.Y + generateOn.Value.y * GameItemSize, 2),
                 Item00.Z), Vector3.zero, movingType);
-			if (generateOn == Vector2.zero)
+			if (generateOn == Vector2.zero) //TODO: WHAT?
             {
                 var c = gobj.GetComponent<GameItemScalingScript>();
                 c.ScaleTo(new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), 8, null);
@@ -876,17 +869,17 @@ namespace Assets.Scripts
                     if (o != null)
                     {
                         var pointsLabel = o.GetComponent<LabelShowing>();
-                        pointsLabel.transform.SetParent(transform);
+                        
                         if (newgobjtype <= MaxInitialElementType)
                         {
                             pointsBank += points;
-                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
                                 "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
-                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
                                 "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
                         }
                     }
@@ -1124,7 +1117,7 @@ namespace Assets.Scripts
                 if (o != null)
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
-                    noMovesLabel.transform.SetParent(transform);
+                    
                     noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
                 }
                 while (!CheckForPossibleMoves())
@@ -1464,10 +1457,9 @@ namespace Assets.Scripts
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             if (labelObject == null) return;
             var comboLabel = labelObject.GetComponent<LabelShowing>();
-            comboLabel.transform.SetParent(transform);
 
             comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count%2 == 0 ? 30 : -30);
-            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, 2),
+            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -5),
                 "Combo x" + count + " lines!", new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
