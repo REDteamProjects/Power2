@@ -129,7 +129,7 @@
 		<value>FIGHTER</value>
 	</data>
 	<data name="GameModesHelp" xml:space="preserve">
-		<value>This is page about game modes</value>
+		<value>This page is about game modes</value>
 	</data>
 	<data name="MainHelp" xml:space="preserve">
 		<value>Test value for english help</value>
