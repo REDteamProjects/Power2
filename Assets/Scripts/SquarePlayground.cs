@@ -728,9 +728,10 @@ namespace Assets.Scripts
         public virtual int ClearChains()
         {
             if (IsGameOver) return -1;
-            //var gameOver = false;
+
             SelectedPoint1 = null;
             SelectedPoint2 = null;
+
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
@@ -740,13 +741,13 @@ namespace Assets.Scripts
                 {
                     LogFile.Message("No moves");
                     GenerateField(false, true);
-                    //ClearField();
                 }
                 UpdateTime();
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
             TimeCounter = -1;
+
             LogFile.Message("Start clear chaines. Lines: " + lines.Count);
             var linesCount = lines.Count;
             var pointsBank = 0;

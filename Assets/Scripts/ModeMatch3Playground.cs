@@ -60,6 +60,11 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
+        public override float ScaleMultiplyer
+        {
+            get { return 0.79f; }
+        }
+
         public override float GameItemSize { get { return 3.84f; } }
 
         ModeMatch3Playground()
@@ -146,7 +151,7 @@ namespace Assets.Scripts
         public override int ClearChains()
         {
             if (IsGameOver) return -1;
-            //var gameOver = false;
+
             SelectedPoint1 = null;
             SelectedPoint2 = null;
 
@@ -159,7 +164,6 @@ namespace Assets.Scripts
                 {
                     LogFile.Message("No moves");
                     GenerateField(false, true);
-                    //ClearField();
                 }
                 UpdateTime();
                 SavedataHelper.SaveData(SavedataObject);
@@ -167,7 +171,7 @@ namespace Assets.Scripts
             }
             TimeCounter = -1;
 
-            //LogFile.Message("Start clear chaines. Lines: " + lines.Count);
+            LogFile.Message("Start clear chaines. Lines: " + lines.Count);
             CallbacksCount = lines.Count;
             var linesCount = lines.Count;
             var pointsBank = 0;
@@ -233,13 +237,27 @@ namespace Assets.Scripts
                         pointsLabel.ShowScalingLabel(new Vector3(toCell.x,toCell.y + GameItemSize/2,toCell.z - 1), "+" + points, GameColors.ItemsColors[gi.Type], Color.gray, 60, 90, null, true);
                     }
                 }
-                IsGameOver = pointsBank >= GameOverPoints;
+                IsGameOver = CurrentScore >= GameOverPoints;
                 CallbacksCount--;
                 lines.Remove(l);
+
+                if (linesCount == 1)
+                    DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
+
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
 
-                ProgressBar.AddTime(pointsMultiple * 2);
+                if (ProgressBar != null)
+                    ProgressBar.AddTime(pointsMultiple * 2);
+
+                if (l != null) continue;
+
+                if (linesCount > 1)
+                    ShowComboLabel(linesCount);
+
+                lines = GetAllLines();
+                linesCount = lines.Count;
+                l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected");
 
@@ -247,18 +265,9 @@ namespace Assets.Scripts
             ChainCounter++;
             RisePoints(pointsBank * ChainCounter);
 
-            //if (!IsGameOver) return linesCount;
-            //CallbacksCount -= lines.Count;
-            //var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            //if (labelObject == null) return linesCount;
-            //var gameOverLabel = labelObject.GetComponent<LabelShowing>();
-            //gameOverLabel.transform.SetParent(transform);
-            //gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-            //    "Game over", Color.white, Color.gray, 60, 90);
-            //TODO: stop the game
             if (!IsGameOver) return linesCount;
-
             GenerateGameOverMenu();
+
 			return linesCount;
         }
 
