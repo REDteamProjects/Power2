@@ -1095,7 +1095,7 @@ namespace Assets.Scripts
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -1), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -1), "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {
@@ -1477,9 +1477,10 @@ namespace Assets.Scripts
             var giss = (Items[i][j] as GameObject).GetComponent<GameItemScalingScript>();
             var toSize = GameItemSize / ScaleMultiplyer / 4;
 			CallbacksCount++;
+            Items[i][j] = null;
+
             giss.ScaleTo(new Vector3(toSize, toSize, 0), 8, (item, r) =>
             {
-                Items[i][j] = null;
                 Destroy(item);
                 if (removingCallback != null)
                     removingCallback(item, r);
