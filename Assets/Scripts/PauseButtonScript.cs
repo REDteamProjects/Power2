@@ -2,6 +2,7 @@
 using System.Collections;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.Helpers;
+using Assets.Scripts.DataClasses;
 
 public class PauseButtonScript : MonoBehaviour
 {
@@ -76,6 +77,7 @@ public class PauseButtonScript : MonoBehaviour
         if (pg == null) return;
         pg.ResetPlayground();
         pg.UpdateTime();
+        Game.Difficulty = Assets.Scripts.Enums.DifficultyLevel.easy;
         SavedataHelper.SaveData(pg.SavedataObject);
         Application.LoadLevel(Application.loadedLevel);
 

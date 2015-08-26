@@ -175,7 +175,7 @@ namespace Assets.Scripts
                             {
                               int col;
                               int row;
-                              while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) > (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1)) { }
+                              while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) > (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) && !(Items[col][row] as GameObject).GetComponent<GameItemMovingScript>().IsMoving) { }
                               RemoveGameItem(col, row, (item, r) =>
                               {
                                   Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero, false, null, null, GameItemMovingType.Static);
@@ -1029,26 +1029,26 @@ namespace Assets.Scripts
                         //var itemsJ = FieldSize - 1 - j;
                         if (Items[i][j] != null || Items[i][j] == DisabledItem)
                             continue;
-                        switch (Game.Difficulty)
-                        {
-                            case DifficultyLevel.medium:
-							case DifficultyLevel.hard:
-                            case DifficultyLevel.veryhard:
-                                if (DropDownItemsCount < maxAdditionalItemsCount && j <= FieldSize / 2)
-                                {
-                                    var resRow = RandomObject.Next(0, FieldSize);
-                                    if (resCol == resRow)
-                                    {
-                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(0, generateOnY));
-                                        DropDownItemsCount++;
-                                        generateOnY++;
-                                        continue;
-                                    }
-                                }
-                                break;
-                        }
                         if (completeCurrent)
                         {
+                            switch (Game.Difficulty)
+                            {
+                                case DifficultyLevel.medium:
+                                case DifficultyLevel.hard:
+                                case DifficultyLevel.veryhard:
+                                    if (DropDownItemsCount < maxAdditionalItemsCount && j <= FieldSize / 2)
+                                    {
+                                        var resRow = RandomObject.Next(resCol, FieldSize);
+                                        if (resCol == resRow)
+                                        {
+                                            Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(0, generateOnY));
+                                            DropDownItemsCount++;
+                                            generateOnY++;
+                                            continue;
+                                        }
+                                    }
+                                    break;
+                            }
                             LogFile.Message("New gameItem need to i:" + i + "j: " + j);
                             Items[i][j] = GenerateGameItem(i, j, null, new Vector2(0, generateOnY));
                             generateOnY++;
@@ -1138,7 +1138,7 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var to = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        moving.MoveTo(to.x, to.y, 10, (item, result) =>
+                        moving.MoveTo(to.x, to.y, 6, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
