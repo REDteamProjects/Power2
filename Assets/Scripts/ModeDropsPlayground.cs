@@ -399,6 +399,12 @@ namespace Assets.Scripts
                 GenerateField(true);
         }
 
+        void OnLevelWasLoaded()
+        {
+            if (!IsGameOver)
+                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Start, false);
+        }
+
         void Awake()
         {
             Items = new[]

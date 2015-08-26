@@ -1,11 +1,4 @@
-﻿using System.Linq;
-using Assets.Scripts.Enums;
-using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System;
-using Assets.Scripts;
-using Assets.Scripts.Interfaces;
+﻿using UnityEngine;
 
 
 public class Scaling2D

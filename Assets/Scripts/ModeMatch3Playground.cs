@@ -65,6 +65,12 @@ namespace Assets.Scripts
         ModeMatch3Playground()
         { }
 
+        void OnLevelWasLoaded()
+        {
+            if (!IsGameOver)
+                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Start, false);
+        }
+
         void Awake()
         {
             //var progressBar = ProgressBar;

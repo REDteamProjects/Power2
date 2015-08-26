@@ -55,6 +55,7 @@ namespace Assets.Scripts
             var roundedY = Math.Round(Item00.Y - row * halfItem, 2);
             return new Vector3((float)roundedX, (float)roundedY, Item00.Z);
         }
+        
         public override bool MatchPattern(GameItemType itemType, Point firstItem, Point secondItem, IEnumerable<Point> pointForCheck)
         {
             var mainType = MatchType(firstItem.X + secondItem.X, firstItem.Y + secondItem.Y, itemType);
@@ -65,7 +66,7 @@ namespace Assets.Scripts
 
             foreach (var lineGenerationPoint in lineGenerationPoints)
             {
-                if (secondItem.Y < 0)
+                if (secondItem.Y < 0)//TODO: Recalculate directions, error somewhere
                 {
                     LogFile.Message("secondItem.Y < 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem "
                         + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y);
@@ -120,6 +121,7 @@ namespace Assets.Scripts
 
             return false;
         }
+        
         public override IList<Line> GetAllLines()
         {
             LogFile.Message("Finding lines...");
@@ -181,6 +183,7 @@ namespace Assets.Scripts
             LogFile.Message("Return lines: " + list.Count);
             return list;
         }
+        
         public override int CheckForLine(int x, int y, LineOrientation orientation)
         {
             var count = 1;
@@ -263,20 +266,19 @@ namespace Assets.Scripts
             var l = lines.FirstOrDefault();
             while (l != null && !IsGameOver)
             {
-                GameObject toObj;
-                Vector3 toCell;
+                var toObj = Items[l.X2][l.Y2] as GameObject;
+                var toCell = GetCellCoordinates(l.X2, l.Y2);
                 var pointsMultiple = 1;
                 //Vertical
                 if (l.Orientation == LineOrientation.Vertical)
                 {
-                    toObj = Items[l.X2][l.Y2] as GameObject;
-                    toCell = GetCellCoordinates(l.X2, l.Y2);
                     pointsMultiple += l.Y2 - l.Y1 - 2;
+
                     for (int i = l.X2 - 1, j = l.Y2 - 1; i >= l.X1 && j >= l.Y1; i--, j--)
                     {
                         if (Items[i][j] == null || Items[i][j] == DisabledItem)
                         {
-                            LogFile.Message("Items[i][j] == null || Items[i][j] == DisabledItem");
+                            //LogFile.Message("Items[i][j] == null || Items[i][j] == DisabledItem");
                             continue;
                         }
                         if (IsInAnotherLine(lines, i, j))
@@ -286,16 +288,21 @@ namespace Assets.Scripts
                         }
                         var gobj = Items[i][j] as GameObject;
                         if (gobj == null) continue;
+
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
                         var c = gobj.GetComponent<GameItemMovingScript>();
+                        if (c.IsMoving) continue;
                         var cX = i;
                         var cY = j;
+
                         CallbacksCount++;
+                        Items[cX][cY] = null;
                         c.MoveTo(toCell.x, toCell.y, 14, (item, result) =>
                         {
+                            LogFile.Message(cX + " " + cY);
                             CallbacksCount--;
                             if (!result) return;
-                            Items[cX][cY] = null;
+
                             Destroy(item);
                         });
                     }
@@ -305,32 +312,40 @@ namespace Assets.Scripts
                 {
                     toObj = Items[l.X1][l.Y1] as GameObject;
                     toCell = GetCellCoordinates(l.X1, l.Y1);
+
                     pointsMultiple += l.X2 - l.X1 - 2;
+
                     for (int i = l.X1 + 1, j = l.Y1 - 1; i <= l.X2 && j >= l.Y2; i++, j--)
                     {
                         if (Items[i][j] == null || Items[i][j] == DisabledItem)
                         {
-                            LogFile.Message("Items[i][j] == null || Items[i][j] == DisabledItem");
+                            //LogFile.Message("Items[i][j] == null || Items[i][j] == DisabledItem");
                             continue;
                         }
                         if (IsInAnotherLine(lines, i, j))
                         {
-                            LogFile.Message("Items[" + i + "][" + j + "] on another line");
+                            //LogFile.Message("Items[" + i + "][" + j + "] on another line");
                             continue;
                         }
                         var gobj = Items[i][j] as GameObject;
                         if (gobj == null) continue;
-                        gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
+                        gobj.transform.localPosition = 
+                            new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
                         var c = gobj.GetComponent<GameItemMovingScript>();
+                        if (c.IsMoving) continue;
+
                         var cX = i;
                         var cY = j;
+
                         CallbacksCount++;
+                        Items[cX][cY] = null;
                         c.MoveTo(toCell.x, toCell.y, 14, (item, result) =>
                         {
+                            LogFile.Message(cX + " " + cY);
                             CallbacksCount--;
                             if (!result) return;
-                            Items[cX][cY] = null;
-                            Destroy(item);
+
+                            Destroy(item); 
                         });
                     }
                 }
@@ -338,62 +353,66 @@ namespace Assets.Scripts
                 {
                     var toGi = toObj.GetComponent<GameItem>();
                     if (toGi.Type == MaxInitialElementType + 1)
-                    {
                         MaxInitialElementType++;
-                    }
                     var newgobjtype = toGi.Type + 1;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
                         new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f));
                     
                     Destroy(toObj);
-                    if (l.Orientation == LineOrientation.Vertical) Items[l.X2][l.Y2] = newgobj; else Items[l.X1][l.Y1] = newgobj;
+                    
+                    if (l.Orientation == LineOrientation.Vertical) 
+                        Items[l.X2][l.Y2] = newgobj;
+                    if (l.Orientation == LineOrientation.Horizontal)
+                        Items[l.X1][l.Y1] = newgobj;
+
                     var points = pointsMultiple * (int)Math.Pow(2, (double)newgobjtype);
-                    var gameObject1 = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (gameObject1 != null)
+                    var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                    if (o != null)
                     {
-                        var pointsLabel = gameObject1.GetComponent<LabelShowing>();
-                        pointsLabel.transform.SetParent(transform);
+                        var pointsLabel = o.GetComponent<LabelShowing>();
+                        
                         if (newgobjtype <= MaxInitialElementType)
                         {
                             pointsBank += points;
-                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                            pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
                                 "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
-                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                            pointsLabel.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
                                 "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._Gameover;
                 }
                 lines.Remove(l);
+                if (linesCount == 1)
+                    DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
+
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
 
-                ProgressBar.AddTime(pointsMultiple * 2);
+                if (ProgressBar != null)
+                    ProgressBar.AddTime(pointsMultiple * 2);
+
+                if (l != null) continue;
+
+                if (linesCount > 1)
+                    ShowComboLabel(linesCount);
+
+                lines = GetAllLines();
+                linesCount = lines.Count;
+                l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected");
             RemoveAdditionalItems();
-            if (linesCount > 1)
-            {
-                var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                if (labelObject != null)
-                {
-                    var comboLabel = labelObject.GetComponent<LabelShowing>();
-                    comboLabel.transform.SetParent(transform);
-                    comboLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize, -3),
-                                "Combo x" + linesCount + " lines!", GameColors.BackgroundColor, Color.gray, 60, 90, null, true);
-                }
-            }
 
             pointsBank *= linesCount;
             ChainCounter++;
             RisePoints(pointsBank * ChainCounter);
 
             if (!IsGameOver) return linesCount;
-            
             GenerateGameOverMenu();
             
             return linesCount;
@@ -483,30 +502,17 @@ namespace Assets.Scripts
                 && counter < (FieldSize - 1) * (FieldSize - 1))
                 GenerateField(true);
         }
+        
         public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
         {
             LogFile.Message("Generating field...");
             if (!mixCurrent)
             {
-                /*switch (Game.Difficulty)
-                {
-                    case DifficultyLevel.hard:
-                    case DifficultyLevel.veryhard:
-                        while (XItemsCount < maxAdditionalItemsCount)
-                        {
-                            int col;
-                            int row;
-                            while (Items[(col = RandomObject.Next(1, FieldSize-1))][(row = RandomObject.Next(1, FieldSize-1))] != null) { }
-                            Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, new Vector2((col % 2 == 1 ? -col : col), col), false, null, null, GameItemMovingType.Static);
-                            XItemsCount++;
-                        }
-                        break;
-                }*/
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnX = i % 2 == 1 ? -i : i;
                     var resCol = RandomObject.Next(0, FieldSize);
-                    //var generateOnY = Math.Abs(generateOnX);
+
                     for (var j = FieldSize - 1; j >= 0; j--)
                     {
                         var deniedList = new List<GameItemType>();
@@ -572,12 +578,13 @@ namespace Assets.Scripts
             }
             else
             {
+                LogFile.Message("Mix field...");
                 var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                 if (o != null)
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.2f, -1), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {
@@ -643,6 +650,7 @@ namespace Assets.Scripts
             return gameObject1 != null && (o != null && (newX >= 0 && newX <= FieldSize - 1 && newY >= 0 && newY <= FieldSize - 1 && Items[newX][newY] != null && Items[newX][newY] != DisabledItem &&
                                                                            o.GetComponent<GameItem>().MovingType != GameItemMovingType.Static && Items[newX][newY] != DisabledItem && gameObject1.GetComponent<GameItem>().MovingType != GameItemMovingType.Static));
         }
+        
         public override bool IsPointInLine(int col, int row)
         {
             var verticalCount = 0;

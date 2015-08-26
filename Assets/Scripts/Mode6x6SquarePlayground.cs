@@ -63,13 +63,19 @@ namespace Assets.Scripts
 
         public override float GameItemSize { get { return 5.12f; } }
 
+        void OnLevelWasLoaded()
+        {
+            if (!IsGameOver)
+                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Start, false);
+        }
+
         void Awake()
         {
             //var progressBar = ProgressBar;
             //if (progressBar != null)
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
             
-            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Start, false);
+            
             
             try
             {

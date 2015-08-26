@@ -18,7 +18,7 @@ namespace Assets.Scripts
         private static readonly System.Object _disabledItem = new object();
         private readonly AutoResetEvent _callbackReady = new AutoResetEvent(false);
         //private readonly ManualResetEvent _dropsReady = new ManualResetEvent(false);
-        private const float HintDelayTime = 4;
+        private const float HintDelayTime = 3;
 
         private volatile int _callbacksCount;
         private int _dropsCount;
@@ -444,26 +444,6 @@ namespace Assets.Scripts
                 }
         }
 
-        //protected void OnGUI()
-        //{
-        //   var size = new Vector2(Screen.width / 2, 20);
-        //   var pos = new Vector2(Screen.width / 4, Screen.height / 2 - transform.localPosition.y - Screen.width/2 - size.y * 1.5f);
-        //   var g = GetComponent<Game>();
-           
-        //   // draw the background:
-        //   GUI.BeginGroup(new Rect(pos.x, pos.y, size.x, size.y));
-        //   GUI.Box(new Rect(0, 0, size.x, size.y), g.emptyProgressBar);
-
-        //   //draw the filled-in part:
-        //   if (MoveTimer * _moveTimerMultiple > size.x)
-        //       _moveTimerMultiple = size.x / MoveTimer;
-        //   GUI.BeginGroup(new Rect(0, 0, MoveTimer * _moveTimerMultiple, size.y));
-        //   GUI.Box(new Rect(0, 0, size.x, size.y), g.fullProgressBar);
-        //   GUI.EndGroup();
-        //   GUI.EndGroup();
-
-        //}
-
         protected virtual void Update()
         {
             if (IsGameOver) return;
@@ -522,6 +502,7 @@ namespace Assets.Scripts
             newgobj.GetComponent<GameItem>().MovingType = movingType;
             return newgobj;
         }
+        
         public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, 
             GameItemMovingType movingType = GameItemMovingType.Standart)
         {
@@ -534,13 +515,13 @@ namespace Assets.Scripts
                 (float)Math.Round(cell.x + generateOn.Value.x * GameItemSize, 2),
                 (float)Math.Round(Item00.Y + generateOn.Value.y * GameItemSize, 2),
                 Item00.Z), Vector3.zero, movingType);
-			if (generateOn == Vector2.zero) //TODO: WHAT?
-            {
-                var c = gobj.GetComponent<GameItemScalingScript>();
-                c.ScaleTo(new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), 8, null);
-            }
-            else
-            {
+            //if (generateOn == Vector2.zero) //TODO: WHAT?
+            //{
+            //    var c = gobj.GetComponent<GameItemScalingScript>();
+            //    c.ScaleTo(new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), 8, null);
+            //}
+            //else
+            //{
                 var c = gobj.GetComponent<GameItemMovingScript>();
                 LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize));
                 CallbacksCount++;
@@ -557,9 +538,10 @@ namespace Assets.Scripts
                     }
                 }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), isItemDirectionChangable, 
                 null, Power2Sounds.Drop);
-            }
+            //}
             return gobj;
         }
+        
         public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
             //var minType = MaxType - FieldSize;
@@ -765,9 +747,6 @@ namespace Assets.Scripts
                 return 0;
             }
             TimeCounter = -1;
-            //var lc = lines.Count;
-            //LogFile.Message("Start clear chaines. Lines: " + lines.Count);
-            //CallbacksCount = lines.Count;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count);
             var linesCount = lines.Count;
             var pointsBank = 0;
@@ -795,6 +774,7 @@ namespace Assets.Scripts
                         }
                         var gobj = Items[l.X1][j] as GameObject;
                         if (gobj == null) continue;
+
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
                         var c = gobj.GetComponent<GameItemMovingScript>();
                         if (c.IsMoving) continue;
@@ -817,23 +797,26 @@ namespace Assets.Scripts
                 else
                 {
                     pointsMultiple += l.X2 - l.X1 - 2;
+
                     for (var i = l.X2 - 1; i >= l.X1; i--)
                     {
                         if (Items[i][l.Y1] == null || Items[i][l.Y1] == DisabledItem)
                         {
-                            LogFile.Message("Items[i][l.Y1] == null");
+                            //LogFile.Message("Items[i][l.Y1] == null");
                             continue;
                         }
                         if (IsInAnotherLine(lines, i, l.Y1))
                         {
-                            LogFile.Message("Items[" + i + "][" + l.Y1 + "] on another line");
+                            //LogFile.Message("Items[" + i + "][" + l.Y1 + "] on another line");
                             continue;
                         }
                         var gobj = Items[i][l.Y1] as GameObject;
                         if (gobj == null) continue;
+
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
                         var c = gobj.GetComponent<GameItemMovingScript>();
                         if (c.IsMoving) continue;
+
                         var cX = i;
                         var cY = l.Y1;
 
@@ -853,10 +836,7 @@ namespace Assets.Scripts
                 {
                     var toGi = toObj.GetComponent<GameItem>();
                     if (toGi.Type == MaxInitialElementType + 1)
-                    {
                         MaxInitialElementType++;
-                        //LogFile.Message("new MaxInitialElementType: " + MaxInitialElementType);
-                    }
                     var newgobjtype = toGi.Type + 1;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
                         new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
@@ -873,19 +853,18 @@ namespace Assets.Scripts
                         if (newgobjtype <= MaxInitialElementType)
                         {
                             pointsBank += points;
-                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
+                            pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
                                 "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
-                            pointsLabel.ShowScalingLabel(new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
+                            pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
                                 "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._Gameover;
                 }
-                //CallbacksCount--;
                 lines.Remove(l);
                 if (linesCount == 1)
                     DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
@@ -893,7 +872,6 @@ namespace Assets.Scripts
                 LogFile.Message("line collected");
                 l = lines.FirstOrDefault();
 
-                //MoveTimer += pointsMultiple * 2;
                 if (ProgressBar != null)
                     ProgressBar.AddTime(pointsMultiple * 2);
 
@@ -913,11 +891,9 @@ namespace Assets.Scripts
             ChainCounter++;
             RisePoints(pointsBank * ChainCounter);
             
-            //CallbacksCount -= lines.Count;
             if (!IsGameOver) return linesCount;
-            GenerateGameOverMenu();            //TODO: stop the game
-            //if (_callbackReady.WaitOne(1))
-            //  Drop();
+            GenerateGameOverMenu();
+
 			return linesCount;
         }
 
@@ -1117,8 +1093,8 @@ namespace Assets.Scripts
                 if (o != null)
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
-                    
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
+                    noMovesLabel.transform.SetParent(transform);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -1), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {
@@ -1457,9 +1433,11 @@ namespace Assets.Scripts
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             if (labelObject == null) return;
             var comboLabel = labelObject.GetComponent<LabelShowing>();
+            comboLabel.name = "ComboLabel";
+            comboLabel.transform.SetParent(transform);
 
             comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count%2 == 0 ? 30 : -30);
-            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -5),
+            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -1),
                 "Combo x" + count + " lines!", new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }

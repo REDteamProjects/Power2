@@ -60,12 +60,24 @@ public class LabelShowing : MonoBehaviour {
 	    }
 	}
 
+    public void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
+        int animateToSize, Font font = null,
+        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null)
+    {
+        var fg = GameObject.Find("/Foreground");
+        var wp = initGameObject.transform.position;
+        transform.SetParent(fg.transform);
+
+        var newPos = fg.transform.InverseTransformPoint(wp);
+        
+
+        ShowScalingLabel(newPos, text, textColor, shadowColor, animateFromSize, animateToSize, font, destroyAfterAnimation, callback);
+    }
+
     public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, 
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null)
     {
         transform.localPosition = position;
-        //var fg = GameObject.Find("/Foreground");
-        //transform.SetParent(fg.transform);
 
         var labelText = GetComponent<Text>();
         if (textColor != shadowColor)
