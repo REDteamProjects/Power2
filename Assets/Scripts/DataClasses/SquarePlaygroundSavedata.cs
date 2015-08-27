@@ -76,7 +76,7 @@ namespace Assets.Scripts.DataClasses
     }
 
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
-    [fsObject]
+    [fsObject(Converter = typeof(SquarePlaygroundSavedataConverter))]
 #else
     [Serializable]
 #endif

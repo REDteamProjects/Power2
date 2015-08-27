@@ -180,6 +180,7 @@ namespace Assets.Scripts
             {
                 var pointsMultiple = 1;
                 var toCell = (GetCellCoordinates(l.X2, l.Y2) + GetCellCoordinates(l.X1, l.Y1)) / 2;
+
                 if (l.Orientation == LineOrientation.Vertical)
                 {
                     pointsMultiple += l.Y2 - l.Y1 - 2;
@@ -234,7 +235,8 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(new Vector3(toCell.x,toCell.y + GameItemSize/2,toCell.z - 1), "+" + points, GameColors.ItemsColors[gi.Type], Color.gray, 60, 90, null, true);
+                        pointsLabel.ShowScalingLabel(new Vector3(toCell.x,toCell.y + GameItemSize/2,toCell.z - 1), "+" + points, GameColors.ItemsColors[gi.Type], Color.gray, 60, 90, null, true, () => RemoveGameItem(l.X2, l.Y2));
+
                     }
                 }
                 IsGameOver = CurrentScore >= GameOverPoints;
@@ -255,15 +257,17 @@ namespace Assets.Scripts
                 if (linesCount > 1)
                     ShowComboLabel(linesCount);
 
+                pointsBank *= linesCount;
+                ChainCounter++;
+                RisePoints(pointsBank * ChainCounter);
+
+                pointsBank = 0;
+
                 lines = GetAllLines();
                 linesCount = lines.Count;
                 l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected");
-
-            pointsBank *= linesCount;
-            ChainCounter++;
-            RisePoints(pointsBank * ChainCounter);
 
             if (!IsGameOver) return linesCount;
             GenerateGameOverMenu();

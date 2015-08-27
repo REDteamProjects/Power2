@@ -881,16 +881,17 @@ namespace Assets.Scripts
                 if (linesCount > 1)
                     ShowComboLabel(linesCount);
 
+                pointsBank *= linesCount;
+                ChainCounter++;
+                RisePoints(pointsBank * ChainCounter);
+
+                pointsBank = 0;
                 lines = GetAllLines();
                 linesCount = lines.Count;
                 l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected");
             RemoveAdditionalItems();
-
-            pointsBank *= linesCount;
-            ChainCounter++;
-            RisePoints(pointsBank * ChainCounter);
             
             if (!IsGameOver) return linesCount;
             GenerateGameOverMenu();

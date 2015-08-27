@@ -1,4 +1,4 @@
-﻿//#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+﻿#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -74,10 +74,6 @@ public class SquarePlaygroundSavedataConverter : fsDirectConverter
 
     public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
     {
-        //if (data.Type != fsDataType.Array)
-        //{
-        //    return fsResult.Fail("Expected array fsData type but got " + data.Type);
-        //}
         if (instance == null) 
             instance = storageType.GetConstructor(Type.EmptyTypes).Invoke(null);
         
@@ -114,4 +110,78 @@ public class SquarePlaygroundSavedataConverter : fsDirectConverter
         return fsResult.Success;
     }
 }
-//#endif
+public class ModeMatch3PlaygroundSavedataConverter : fsDirectConverter
+{
+    public override Type ModelType { get { return typeof(SquarePlaygroundSavedata); } }
+
+    public override object CreateInstance(fsData data, Type storageType)
+    {
+        var obj = (SquarePlaygroundSavedata) storageType.GetConstructor(Type.EmptyTypes).Invoke(null);
+        obj.ProgressBarStateData = new ProgressBarState();
+        return obj;
+    }
+
+    public override fsResult TrySerialize(object instance, out fsData serialized, Type storageType)
+    {
+        var myType = (ModeMatch3PlaygroundSavedata)instance;
+        serialized = new fsData(new List<fsData>
+        {
+            new fsData(myType.CurrentPlaygroundTime),
+            new fsData(myType.Score),
+            new fsData((Int32)myType.Difficulty),
+
+            new fsData(
+                myType.Items != null ?
+                myType.Items.Select(i => 
+                    new fsData(i.Select(ii => new fsData((Int32)ii)).ToList())
+                ).ToList() : null
+            ),
+            new fsData(new List<fsData>
+            {
+                new fsData(myType.ProgressBarStateData.Multiplier),
+                new fsData(myType.ProgressBarStateData.Upper),
+                new fsData(myType.ProgressBarStateData.State)
+            })
+        });
+        return fsResult.Success;
+    }
+
+    public override fsResult TryDeserialize(fsData data, ref object instance, Type storageType)
+    {
+        if (instance == null) 
+            instance = storageType.GetConstructor(Type.EmptyTypes).Invoke(null);
+        
+        var myType = (ModeMatch3PlaygroundSavedata)instance;
+
+        var dataItems = data.AsList;
+
+        myType.CurrentPlaygroundTime = (float)dataItems[0].AsDouble;
+        myType.Score = (Int32)dataItems[1].AsInt64; 
+        myType.Difficulty = (DifficultyLevel)dataItems[2].AsInt64;
+
+        if (dataItems[3].IsList)
+        {
+            var list = dataItems[3].AsList;
+            if (list != null && list.Count != 0)
+            {
+                myType.Items = new GameItemType[list.Count][];
+                for (var i = 0; i < list.Count; i++)
+                {
+                    var localList = list[i].AsList;
+                    myType.Items[i] = localList.Select(lli => (GameItemType) lli.AsInt64).ToArray();
+                }
+            }
+        }
+
+        if (!dataItems[4].IsList) return fsResult.Success;
+        var progressBarData = dataItems[4].AsList;
+        if (myType.ProgressBarStateData == null)
+            myType.ProgressBarStateData = new ProgressBarState();
+        myType.ProgressBarStateData.Multiplier = (float)progressBarData[0].AsDouble;
+        myType.ProgressBarStateData.Upper = (float)progressBarData[1].AsDouble;
+        myType.ProgressBarStateData.State = (float)progressBarData[2].AsDouble;
+
+        return fsResult.Success;
+    }
+}
+#endif
