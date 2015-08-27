@@ -151,7 +151,6 @@ namespace Assets.Scripts
             {
                 if (MaxType == value) return;
                 MaxType = value;
-                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                 //var stat = GetComponent<Game>().Stats;
                 //if (stat != null && stat.CurrentItemType < MaxType)
                 if (Preferenses.CurrentItemType < MaxType)
@@ -159,6 +158,7 @@ namespace Assets.Scripts
 				switch(MaxType)
                 {
                     case GameItemType._7:
+                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.medium;
                         var mediumlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var mediumlabel = mediumlabelObject.GetComponent<LabelShowing>();
@@ -166,6 +166,7 @@ namespace Assets.Scripts
                         mediumlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
                         break;
                     case GameItemType._10:
+                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.hard;
                         var hardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var hardlabel = hardlabelObject.GetComponent<LabelShowing>();
@@ -184,6 +185,7 @@ namespace Assets.Scripts
                             }
                         break;
                     case GameItemType._13:
+                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.veryhard;
                         var veryhardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var veryhardlabel = veryhardlabelObject.GetComponent<LabelShowing>();
