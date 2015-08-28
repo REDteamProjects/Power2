@@ -32,6 +32,9 @@ public class DragItemScript : MonoBehaviour
 
         var touch = TouchActionAdapter.GetTouch();
         if (touch.Count == 0) return;
+
+        if (PauseButtonScript.PauseMenuActive) return;
+
         touchPhase = touch[0].Phase;
 
         realTouchPosition = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(touch[0].OriginalPosition));

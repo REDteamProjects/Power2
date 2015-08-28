@@ -36,9 +36,13 @@ public class Destination2D
     public String MoveSound { get; set; }
 }
 
+public delegate void MovingItemFinishedEventHandler(object sender, int count);
+
 
 public class GameItemMovingScript : MonoBehaviour
 {
+    public static event MovingItemFinishedEventHandler MovingItemFinished;
+
     private static int _movingItems;
     private volatile bool _isMoving;
 
@@ -58,7 +62,13 @@ public class GameItemMovingScript : MonoBehaviour
                 _movingItems++;
             }
             else
+            {
                 _movingItems--;
+                var eventHandler = MovingItemFinished;
+                if (eventHandler != null)
+                    eventHandler(this, _movingItems);
+            }
+
             LogFile.Message("Still moving " + _movingItems);
         }
     }

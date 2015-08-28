@@ -8,7 +8,7 @@ using FullSerializer;
 namespace Assets.Scripts.DataClasses
 {
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
-    [fsObject(Converter = typeof(SquarePlaygroundSavedataConverter))]
+    [fsObject(Converter = typeof(RhombusPlaygroundSavedataConverter))]
 #else
     [Serializable]
 #endif
@@ -64,7 +64,7 @@ namespace Assets.Scripts.DataClasses
     }
 
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
-    [fsObject(Converter = typeof(SquarePlaygroundSavedataConverter))]
+    [fsObject(Converter = typeof(RhombusPlaygroundSavedataConverter))]
 #else
     [Serializable]
 #endif

@@ -141,6 +141,11 @@ namespace Assets.Scripts
             //    PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
         }
 
+        public void OnDestroy()
+        {
+            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+        }
+
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
         {
             IsGameOver = true;
@@ -186,7 +191,7 @@ namespace Assets.Scripts
                     pointsMultiple += l.Y2 - l.Y1 - 2;
                     for (var j = l.Y2; j >= l.Y1; j--)
                     {
-                        if (Items[l.X1][j] == null)
+                        if (Items[l.X1][j] == null || (j == l.Y2 && l.X1 == l.X2))
                         {
                             //LogFile.Message("Items[i][l.Y1] == null");
                             continue;
@@ -207,7 +212,7 @@ namespace Assets.Scripts
                     pointsMultiple += l.X2 - l.X1 - 2;
                     for (var i = l.X2; i >= l.X1; i--)
                     {
-                        if (Items[i][l.Y1] == null)
+                        if (Items[i][l.Y1] == null || (i == l.X2 && l.Y1 == l.Y2))
                         {
                             LogFile.Message("Items[i][l.Y1] == null");
                             continue;
@@ -235,7 +240,7 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(new Vector3(toCell.x,toCell.y + GameItemSize/2,toCell.z - 1), "+" + points, GameColors.ItemsColors[gi.Type], Color.gray, 60, 90, null, true, () => RemoveGameItem(l.X2, l.Y2));
+                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.ItemsColors[gi.Type], Color.gray, 60, 90, null, true, () => RemoveGameItem(l.X2, l.Y2));
 
                     }
                 }

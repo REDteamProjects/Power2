@@ -15,14 +15,14 @@ namespace Assets.Scripts.Helpers
         {
             var result = new List<GameTouch>();
 
-            if (Input.touchCount != 0) 
+            if (Input.touchCount != 0 && !PauseButtonScript.PauseMenuActive) 
             {
                 result.AddRange(Input.touches.Select(t => new GameTouch{FingerId = t.fingerId, OriginalPosition = t.position, Phase = t.phase}));
                 return result;
             }
             #if UNITY_EDITOR || UNITY_STANDALONE
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !PauseButtonScript.PauseMenuActive)
             {
                 result.Add(new GameTouch
                 {

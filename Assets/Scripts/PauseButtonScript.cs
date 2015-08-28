@@ -19,17 +19,14 @@ public class PauseButtonScript : MonoBehaviour
         }
     }
 
-    void Awake()
-    {
-    }
+    void Awake() { }
 
-    void Update()
-    {
-
-    }
+    void Update() { }
 
     void CreatePauseMenu()
     {
+        PauseMenuActive = true;
+
         Time.timeScale = 0F;
 
         var fg = GameObject.Find("/Foreground");
@@ -43,16 +40,15 @@ public class PauseButtonScript : MonoBehaviour
 
         _pauseMenu.transform.localScale = Vector3.one;
         _pauseMenu.transform.localPosition = new Vector3(0, 0, 0);
-
-        PauseMenuActive = true;
     }
 
     void DestroyPauseMenu()
     {
+        Time.timeScale = 1F;
+
         Destroy(_pauseMenu);
 
         PauseMenuActive = false;
-        Time.timeScale = 1F;
     }
 
     public void OnResumeButtonClick()

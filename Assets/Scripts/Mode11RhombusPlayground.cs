@@ -153,6 +153,11 @@ namespace Assets.Scripts
             ShowMaxInitialElement();
         }
 
+        public void OnDestroy()
+        {
+            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+        }
+
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
         {
             IsGameOver = true;

@@ -177,6 +177,11 @@ namespace Assets.Scripts
 
         }
 
+        public void OnDestroy()
+        {
+            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+        }
+
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
         {
             IsGameOver = true;

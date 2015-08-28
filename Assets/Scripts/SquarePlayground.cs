@@ -151,8 +151,6 @@ namespace Assets.Scripts
             {
                 if (MaxType == value) return;
                 MaxType = value;
-                //var stat = GetComponent<Game>().Stats;
-                //if (stat != null && stat.CurrentItemType < MaxType)
                 if (Preferenses.CurrentItemType < MaxType)
                     Preferenses.CurrentItemType = MaxType;
 				switch(MaxType)

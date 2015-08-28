@@ -148,6 +148,11 @@ namespace Assets.Scripts
             //DownPoint = a.transform.position.y;  
         }
 
+        public void OnDestroy()
+        {
+            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+        }
+
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
         {
             IsGameOver = true;

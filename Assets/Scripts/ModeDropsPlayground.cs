@@ -4,9 +4,7 @@ using Assets.Scripts.Enums;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
 using System.Collections.Generic;
-using UnityEngine.UI;
 using Assets.Scripts.Helpers;
-using System.Globalization;
 
 namespace Assets.Scripts
 {
@@ -16,6 +14,11 @@ namespace Assets.Scripts
         private const int GameOverPoints = 65536;
 
         private Point _currentDroppingItem;
+
+        public override float ScaleMultiplyer
+        {
+            get { return 1f; }
+        }
 
         public Point CurrentDroppingItem 
         {
@@ -148,15 +151,16 @@ namespace Assets.Scripts
                 if (mixCurrent && !IsGameOver)
                 {
                     IsGameOver = true;
-                    var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (labelObject != null)
-                    {
-                        var gameOverLabel = labelObject.GetComponent<LabelShowing>();
-                        gameOverLabel.transform.SetParent(transform);
-                        gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-                            "Game over", Color.white, Color.gray, 60, 90);
-                    }
-                    //TODO: stop the game
+                    //var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                    //if (labelObject != null)
+                    //{
+                    //    var gameOverLabel = labelObject.GetComponent<LabelShowing>();
+                    //    gameOverLabel.transform.SetParent(transform);
+                    //    gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
+                    //        "Game over", Color.white, Color.gray, 60, 90);
+                    //}
+                    ////TODO: stop the game
+                    GenerateGameOverMenu();
                 }
                 break;
             }
@@ -186,9 +190,7 @@ namespace Assets.Scripts
             //TODO: add check on localPositionCoordinates
             for (var i = FieldSize - 1; i >= 0; i--)
             {
-                //var cc = GetCellCoordinates(x2, i);
-                //if (cc != Vector3.zero && cc.y >= (Items[x1][y1] as GameObject).transform.localPosition.y)
-                //    break;
+
                 if (Items[x2][i] != DisabledItem) continue;
                 y2 = i;
                 break;
@@ -279,7 +281,6 @@ namespace Assets.Scripts
 
             //if (CallbacksCount != 0) return;
             //RemoveAdditionalItems();
-            
         }
 
         public override bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
@@ -391,6 +392,10 @@ namespace Assets.Scripts
                         //if (!c.isMoving)
                             DropsCount--;
                         if (!result) return;
+                        if (DropsCount == 0)
+                            while (ClearChains() > 0)
+                                RemoveAdditionalItems();
+
                         LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount);
                     });
                 }
@@ -405,8 +410,15 @@ namespace Assets.Scripts
                 DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Start, false);
         }
 
+        public void OnDestroy()
+        {
+            GameItemMovingScript.MovingItemFinished -= GameItemMovingScriptMovingItemFinished;
+        }
+
         void Awake()
         {
+            GameItemMovingScript.MovingItemFinished += GameItemMovingScriptMovingItemFinished;
+
             Items = new[]
             {
                 new System.Object[FieldSize],
@@ -499,6 +511,15 @@ namespace Assets.Scripts
             //var progressBar = ProgressBar;
             //if (progressBar != null)
             //    PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+        }
+
+        void GameItemMovingScriptMovingItemFinished(object sender, int count)
+        {
+            //if (Items == null || CallbacksCount > 1 || DropsCount > 1) return;
+            //while (ClearChains() > 0)
+            //{
+            //    RemoveAdditionalItems();
+            //}
         }
 
         private void GenerateDropsModeItem(int col, int row, GameItemType type = GameItemType.NullItem)
