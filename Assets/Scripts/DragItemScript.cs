@@ -346,11 +346,11 @@ public class DragItemScript : MonoBehaviour
                     //here we check touchDirection , select GameItem for exchange and call pg.GameItemsExchange(...)
 
                     exchangeSpeedMultiple += 1.7f;
-                    LogFile.Message("From:" + firstX + " " + firstY);
-                    LogFile.Message("To:" + secondX + " " + secondY);
+                    LogFile.Message("From:" + firstX + " " + firstY, true);
+                    LogFile.Message("To:" + secondX + " " + secondY, true);
 
                     var result = pg.TryMakeMove(firstX, firstY, secondX, secondY);
-                    LogFile.Message("Result:" + result);
+                    LogFile.Message("Result:" + result, true);
 
                     if (result)
                     {
@@ -366,8 +366,8 @@ public class DragItemScript : MonoBehaviour
                         //        : null;
                         //}
                         //else
-                        LogFile.Message("After exchange From:" + firstX + " " + firstY);
-                        LogFile.Message("After exchange To:" + secondX + " " + secondY);
+                        LogFile.Message("After exchange From:" + firstX + " " + firstY, true);
+                        LogFile.Message("After exchange To:" + secondX + " " + secondY, true);
 
                     }
                     else

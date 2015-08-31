@@ -167,7 +167,7 @@ namespace Assets.Scripts
                 if (TimeCounter < 0) TimeCounter = 0;
                 if (!CheckForPossibleMoves() && DropsCount == 0)
                 {
-                    LogFile.Message("No moves");
+                    LogFile.Message("No moves", true);
                     GenerateField(false, true);
                 }
                 UpdateTime();
@@ -176,7 +176,7 @@ namespace Assets.Scripts
             }
             TimeCounter = -1;
 
-            LogFile.Message("Start clear chaines. Lines: " + lines.Count);
+            LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             CallbacksCount = lines.Count;
             var linesCount = lines.Count;
             var pointsBank = 0;
@@ -184,14 +184,18 @@ namespace Assets.Scripts
             while (l != null && !IsGameOver)
             {
                 var pointsMultiple = 1;
-                var toCell = (GetCellCoordinates(l.X2, l.Y2) + GetCellCoordinates(l.X1, l.Y1)) / 2;
+                
+                var currentObj = Items[l.X2][l.Y2] as GameObject;
+                var gi = currentObj.GetComponent<GameItem>();
+                var cellType = gi.Type;
+                var toCell = currentObj.transform.position;//(GetCellCoordinates(l.X2, l.Y2) + GetCellCoordinates(l.X1, l.Y1)) / 2;
 
                 if (l.Orientation == LineOrientation.Vertical)
                 {
                     pointsMultiple += l.Y2 - l.Y1 - 2;
                     for (var j = l.Y2; j >= l.Y1; j--)
                     {
-                        if (Items[l.X1][j] == null || (j == l.Y2 && l.X1 == l.X2))
+                        if (Items[l.X1][j] == null)
                         {
                             //LogFile.Message("Items[i][l.Y1] == null");
                             continue;
@@ -212,14 +216,14 @@ namespace Assets.Scripts
                     pointsMultiple += l.X2 - l.X1 - 2;
                     for (var i = l.X2; i >= l.X1; i--)
                     {
-                        if (Items[i][l.Y1] == null || (i == l.X2 && l.Y1 == l.Y2))
+                        if (Items[i][l.Y1] == null)
                         {
-                            LogFile.Message("Items[i][l.Y1] == null");
+                            LogFile.Message("Items[i][l.Y1] == null", true);
                             continue;
                         }
                         if (IsInAnotherLine(lines, i, l.Y1))
                         {
-                            LogFile.Message("Items[" + i + "][" + l.Y1 + "] on another line");
+                            LogFile.Message("Items[" + i + "][" + l.Y1 + "] on another line", true);
                             continue;
                         }
                         var gobj = Items[i][l.Y1] as GameObject;
@@ -229,21 +233,22 @@ namespace Assets.Scripts
                     }
                 }
 
-                var currentObj = Items[l.X2][l.Y2] as GameObject;
-                if (currentObj != null)
-                {
-                    var gi = currentObj.GetComponent<GameItem>();
-                    var points = pointsMultiple * (int)Math.Pow(2, (double)gi.Type);
+                //var currentObj = Items[l.X2][l.Y2] as GameObject;
+                //if (currentObj != null)
+                //{
+                    //var gi = currentObj.GetComponent<GameItem>();
+                    var points = pointsMultiple * (int)Math.Pow(2, (double)cellType);
                     var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (scalingLabelObject != null)
                     {
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.ItemsColors[gi.Type], Color.gray, 60, 90, null, true, () => RemoveGameItem(l.X2, l.Y2));
+                        pointsLabel.ShowScalingLabel(toCell, "+" + points, GameColors.ItemsColors[cellType], Color.gray, 60, 90, null, true,
+                            null, true);
 
                     }
-                }
+                //}
                 IsGameOver = CurrentScore >= GameOverPoints;
                 CallbacksCount--;
                 lines.Remove(l);
@@ -251,7 +256,7 @@ namespace Assets.Scripts
                 if (linesCount == 1)
                     DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
 
-                LogFile.Message("line collected");
+                LogFile.Message("line collected", true);
                 l = lines.FirstOrDefault();
 
                 if (ProgressBar != null)
@@ -272,7 +277,7 @@ namespace Assets.Scripts
                 linesCount = lines.Count;
                 l = lines.FirstOrDefault();
             }
-            LogFile.Message("All lines collected");
+            LogFile.Message("All lines collected", true);
 
             if (!IsGameOver) return linesCount;
             GenerateGameOverMenu();

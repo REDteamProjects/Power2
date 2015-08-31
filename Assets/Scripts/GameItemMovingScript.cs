@@ -69,7 +69,7 @@ public class GameItemMovingScript : MonoBehaviour
                     eventHandler(this, _movingItems);
             }
 
-            LogFile.Message("Still moving " + _movingItems);
+            LogFile.Message("Still moving " + _movingItems, true);
         }
     }
 
@@ -165,7 +165,7 @@ public class GameItemMovingScript : MonoBehaviour
 
         //LogFile.Message("Moved callback on go");
         var callbackVariable = CurrentDestination.MovingCallback;
-        LogFile.Message("callbackVariable = " + (callbackVariable != null ? callbackVariable.ToString() : "null"));
+        LogFile.Message("callbackVariable = " + (callbackVariable != null ? callbackVariable.ToString() : "null"), true);
 
         _destinations.Remove(CurrentDestination);
 
@@ -173,7 +173,7 @@ public class GameItemMovingScript : MonoBehaviour
             IsMoving = false;
         else
         {
-            LogFile.Message("_destinations.Count = " + _destinations.Count);
+            LogFile.Message("_destinations.Count = " + _destinations.Count, true);
             return;
         }
 
@@ -183,14 +183,14 @@ public class GameItemMovingScript : MonoBehaviour
             //LogFile.Message("Moved callback rised");
         }
         else
-            LogFile.Message("No Moved() callback!");    
+            LogFile.Message("No Moved() callback!", true);    
     }
 
     public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
     {
         if (IsMoving)
         {
-            LogFile.Message("isMoving is true");
+            LogFile.Message("isMoving is true", true);
             //movingCallback(gameObject, false);
             //return;
         }
@@ -232,7 +232,7 @@ public class GameItemMovingScript : MonoBehaviour
             newMove.MovingCallback = movingCallback;
         else
         {
-            LogFile.Message("MoveTo: No movingCallback");
+            LogFile.Message("MoveTo: No movingCallback", true);
         }
         //LogFile.Message("Current localPosition: " + transform.localPosition.x + " " + transform.localPosition.y + "Deirection: " + direction.x + " " + direction.y + "Destination: " + destination.x + " " + destination.y + " " + movementOrientation);
 
@@ -241,7 +241,7 @@ public class GameItemMovingScript : MonoBehaviour
         else
             _destinations.Add(newMove);
 
-        LogFile.Message("new move added");
+        LogFile.Message("new move added", true);
 
         _isDirectionChangable = changingDirection;
         //newMove.ChangingDirection = changingDirection;

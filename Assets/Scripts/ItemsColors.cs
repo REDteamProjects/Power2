@@ -6,7 +6,8 @@ using Assets.Scripts.Enums;
 public class GameColors
 {
     public static Dictionary<GameItemType, Color> ItemsColors = new Dictionary<GameItemType, Color>();
-    public static readonly Color BackgroundColor = new Color(0.1f, 0.63f, 0.88f);
+    public static readonly Color BackgroundColor = new Color(0.157f, 0.157f, 0.157f);
+    public static readonly Color ForegroundColor = new Color(0.6f, 0.416f, 0.231f);
 
     static GameColors()
     {

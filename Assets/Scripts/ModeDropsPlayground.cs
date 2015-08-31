@@ -364,7 +364,7 @@ namespace Assets.Scripts
                                 if (!cS.IsMoving)
                                     DropsCount--;
                                 if (!result) return;
-                                LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] DC: " + DropsCount);
+                                LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] DC: " + DropsCount, true);
                             });
                         }
                         if (row + 2 < FieldSize && Items[col][row + 2] == null) generateAfterDrop = false;
@@ -396,7 +396,7 @@ namespace Assets.Scripts
                             while (ClearChains() > 0)
                                 RemoveAdditionalItems();
 
-                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount);
+                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount, true);
                     });
                 }
             }

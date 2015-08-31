@@ -78,11 +78,11 @@ namespace Assets.Scripts
             {
                 if (value == _callbacksCount)
                 {
-                    LogFile.Message("value == _callbacksCount: " + value);
+                    LogFile.Message("value == _callbacksCount: " + value, true);
                     return;
                 }
                 _callbacksCount = value;
-                LogFile.Message("CallbacksCount = " + value);
+                LogFile.Message("CallbacksCount = " + value, true);
                 if (value > 0)
                 {
                     CallbackReady.Reset();
@@ -91,7 +91,7 @@ namespace Assets.Scripts
                 else
                 {
                     CallbackReady.Set();
-                    LogFile.Message("_callbackReady.Set()");
+                    LogFile.Message("_callbackReady.Set()", true);
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace Assets.Scripts
                     Destroy(_selectedPoint1);
                     _selectedPoint1 = null;
                 }
-                if (value != null) LogFile.Message("SelectedPoint1 X = " + value.X + " Y= " + value.Y);
+                if (value != null) LogFile.Message("SelectedPoint1 X = " + value.X + " Y= " + value.Y, true);
                 if (value == null || Items[value.X][value.Y] == null) return;
                 _selectedPoint1Coordinate = value;
             }
@@ -138,7 +138,7 @@ namespace Assets.Scripts
                     Destroy(_selectedPoint2);
                     _selectedPoint2 = null;
                 }
-                if (value != null) LogFile.Message("SelectedPoint2 X = " + value.X + " Y= " + value.Y);
+                if (value != null) LogFile.Message("SelectedPoint2 X = " + value.X + " Y= " + value.Y, true);
                 if (value == null || Items[value.X][value.Y] == null) return;
                 _selectedPoint2Coordinate = value;
             }
@@ -161,7 +161,7 @@ namespace Assets.Scripts
                         var mediumlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var mediumlabel = mediumlabelObject.GetComponent<LabelShowing>();
                         mediumlabel.transform.SetParent(transform);
-                        mediumlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
+                        mediumlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
                         break;
                     case GameItemType._10:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
@@ -169,7 +169,7 @@ namespace Assets.Scripts
                         var hardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var hardlabel = hardlabelObject.GetComponent<LabelShowing>();
                         hardlabel.transform.SetParent(transform);
-                        hardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true);
+                        hardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true, null, true);
                         while (XItemsCount < maxAdditionalItemsCount)
                             {
                               int col;
@@ -188,7 +188,7 @@ namespace Assets.Scripts
                         var veryhardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var veryhardlabel = veryhardlabelObject.GetComponent<LabelShowing>();
                         veryhardlabel.transform.SetParent(transform);
-                        veryhardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true);
+                        veryhardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true, null, true);
                         MixTimeCounter = _mixTimeCounterSize;
                         break;
                 }
@@ -212,7 +212,7 @@ namespace Assets.Scripts
             gobj.transform.localScale = new Vector3(80, 80);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
-            LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y));
+            LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
             c.MoveTo(null, gobj.transform.localPosition.y - GameItemSize * 6, 2f, (item, result) =>
             {
                 if (!result) return;
@@ -234,7 +234,7 @@ namespace Assets.Scripts
                         if (gobj == null) continue;
                         var item = gobj.GetComponent<GameItem>();
                         if (item.Type == GameItemType.DisabledItem || item.Type == GameItemType.NullItem || item.Type > withType) continue;
-                        LogFile.Message("Item destroied: " + item.Type);
+                        LogFile.Message("Item destroied: " + item.Type, true);
                         pointsBank += (int) Math.Pow(2, (double) item.Type);
 						RemoveGameItem(i, j);
                         //Items[i][j] = null;
@@ -307,11 +307,11 @@ namespace Assets.Scripts
             {
                 if (value == _dropsCount)
                 {
-                    LogFile.Message("value == _dropsCount: " + value);
+                    LogFile.Message("value == _dropsCount: " + value, true);
                     return;
                 }
                 _dropsCount = value;
-                LogFile.Message("DropsCount = " + value);
+                LogFile.Message("DropsCount = " + value, true);
                 //if (value > 0)
                 //{
                 //    DropsReady.Reset();
@@ -459,23 +459,23 @@ namespace Assets.Scripts
                 _selectedPoint1 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
                 if (_selectedPoint1 == null)
                 {
-                    LogFile.Message("SelectedPoint1 initialization failed");
+                    LogFile.Message("SelectedPoint1 initialization failed", true);
                     return;
                 }
                 _selectedPoint1.transform.SetParent(parentGobj.transform);
-                _selectedPoint1.transform.localScale = new Vector3(1.3707f, 1.3707f);
-                _selectedPoint1.transform.localPosition = new Vector3(0, 0, -1);
+                _selectedPoint1.transform.localScale = new Vector3(1.2f, 1.2f);
+                _selectedPoint1.transform.localPosition = new Vector3(0, -0.03f, -1);
                 parentGobj = Items[SelectedPoint2Coordinate.X][SelectedPoint2Coordinate.Y] as GameObject;
                 if (parentGobj == null) return;
                 _selectedPoint2 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
                 if (_selectedPoint2 == null)
                 {
-                    LogFile.Message("SelectedPoint2 initialization failed");
+                    LogFile.Message("SelectedPoint2 initialization failed", true);
                     return;
                 }
                 _selectedPoint2.transform.SetParent(parentGobj.transform);
-                _selectedPoint2.transform.localScale = new Vector3(1.3707f, 1.3707f);
-                _selectedPoint2.transform.localPosition = new Vector3(0, 0, -1);
+                _selectedPoint2.transform.localScale = new Vector3(1.2f, 1.2f);
+                _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
             TimeCounter += Time.deltaTime;
 			if (Game.Difficulty >= DifficultyLevel.veryhard)
@@ -523,7 +523,7 @@ namespace Assets.Scripts
             //else
             //{
                 var c = gobj.GetComponent<GameItemMovingScript>();
-                LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize));
+                LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize), true);
                 CallbacksCount++;
                 c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
                 {
@@ -593,7 +593,7 @@ namespace Assets.Scripts
                 if (secondItem.X == 0)
                 {
                     LogFile.Message("secondItem.X == 0 and firstItem.X: " + firstItem.X + " firstItem.Y: " + firstItem.Y +
-                                    " secondItem.Y: " + secondItem.Y + "lineGenerationPoint.Y: " + lineGenerationPoint.Y);
+                                    " secondItem.Y: " + secondItem.Y + "lineGenerationPoint.Y: " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.Y) > 1)
                         SelectedPoint1 = new Point
                         {
@@ -612,7 +612,7 @@ namespace Assets.Scripts
                 else if (secondItem.Y == 0)
                 {
                     LogFile.Message("secondItem.Y == 0 and firstItem.X: " + firstItem.X + " firstItem.Y: " + firstItem.Y +
-                                    " secondItem.Y: " + secondItem.Y + "lineGenerationPoint.Y: " + lineGenerationPoint.Y);
+                                    " secondItem.Y: " + secondItem.Y + "lineGenerationPoint.Y: " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.X) > 1)
                         SelectedPoint1 = new Point
                         {
@@ -669,7 +669,7 @@ namespace Assets.Scripts
                         row += match - 1;
                     }
             if (list.Count > 0)
-                LogFile.Message("Find "+ list.Count + " lines");
+                LogFile.Message("Find " + list.Count + " lines", true);
             return list;
         }
         
@@ -739,7 +739,7 @@ namespace Assets.Scripts
                 if (TimeCounter < 0) TimeCounter = 0;
                 if (!CheckForPossibleMoves() && DropsCount == 0)
                 {
-                    LogFile.Message("No moves");
+                    LogFile.Message("No moves", true);
                     GenerateField(false, true);
                 }
                 UpdateTime();
@@ -748,7 +748,7 @@ namespace Assets.Scripts
             }
             TimeCounter = -1;
 
-            LogFile.Message("Start clear chaines. Lines: " + lines.Count);
+            LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
             var pointsBank = 0;
             var l = lines.FirstOrDefault();
@@ -786,7 +786,7 @@ namespace Assets.Scripts
                         Items[cX][cY] = null;
                         c.MoveTo(null, toCell.y, 14, (item, result) =>
                         {
-                            LogFile.Message(cX + " " + cY);
+                            LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
                             if (!result) return;
                            
@@ -825,7 +825,7 @@ namespace Assets.Scripts
                         Items[cX][cY] = null;
                         c.MoveTo(toCell.x, null, 14, (item, result) =>
                         {
-                            LogFile.Message(cX + " " + cY);
+                            LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
                             if (!result) return;
 
@@ -870,7 +870,7 @@ namespace Assets.Scripts
                 if (linesCount == 1)
                     DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
 
-                LogFile.Message("line collected");
+                LogFile.Message("line collected", true);
                 l = lines.FirstOrDefault();
 
                 if (ProgressBar != null)
@@ -890,7 +890,7 @@ namespace Assets.Scripts
                 linesCount = lines.Count;
                 l = lines.FirstOrDefault();
             }
-            LogFile.Message("All lines collected");
+            LogFile.Message("All lines collected", true);
             RemoveAdditionalItems();
             
             if (!IsGameOver) return linesCount;
@@ -982,7 +982,7 @@ namespace Assets.Scripts
                                 if (!cS.IsMoving)
                                     DropsCount--;
                                 if (!result) return;
-                                LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] DC: " + DropsCount);
+                                LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] DC: " + DropsCount, true);
                             });
                         }
                         if (row + 2 < FieldSize && Items[col][row + 2] == null) generateAfterDrop = false;
@@ -1005,7 +1005,7 @@ namespace Assets.Scripts
                         if (!c.IsMoving) 
                             DropsCount--;
                         if (!result) return;
-                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount);
+                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount, true);
 
                         //GenerateField(true);
                     });
@@ -1051,7 +1051,7 @@ namespace Assets.Scripts
                                     }
                                     break;
                             }
-                            LogFile.Message("New gameItem need to i:" + i + "j: " + j);
+                            LogFile.Message("New gameItem need to i:" + i + "j: " + j, true);
                             Items[i][j] = GenerateGameItem(i, j, null, new Vector2(0, generateOnY));
                             generateOnY++;
                             continue;
@@ -1090,13 +1090,13 @@ namespace Assets.Scripts
             }
             else
             {
-                LogFile.Message("Mix field...");
+                LogFile.Message("Mix field...", true);
                 var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                 if (o != null)
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -1), "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -1), "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {
@@ -1166,7 +1166,7 @@ namespace Assets.Scripts
             }
             var position1 = GetCellCoordinates(x1, y1);
             var position2 = GetCellCoordinates(x2, y2);
-            LogFile.Message("Exchange items: " + position1.x + position1.y + " " + position2.x + " " + position2.y);
+            LogFile.Message("Exchange items: " + position1.x + position1.y + " " + position2.x + " " + position2.y, true);
 
             if (item1 != null)
             {
@@ -1421,11 +1421,11 @@ namespace Assets.Scripts
         {
             if (points == 0)
             {
-                LogFile.Message("Rised 0 ponts");
+                LogFile.Message("Rised 0 ponts", true);
                 return;
             }
             points *= (int)Game.Difficulty;
-            LogFile.Message("Points " + points);
+            LogFile.Message("Points " + points, true);
 
             CurrentScore += points;
         }
@@ -1448,7 +1448,7 @@ namespace Assets.Scripts
         {
             var gobj = Items[col][row] as GameObject;
             var pos = GetCellCoordinates(col, row);
-            LogFile.Message("Revert item to place: " + pos.x + " " + pos.y);
+            LogFile.Message("Revert item to place: " + pos.x + " " + pos.y, true);
             if (gobj == null) return;
             var gims = gobj.GetComponent<GameItemMovingScript>();
             gims.MoveTo(pos.x, pos.y, 14, null);

@@ -30,7 +30,7 @@ public class GameItemScalingScript : MonoBehaviour
                 _scalingItems++;
             else
                 _scalingItems--;
-            LogFile.Message("Still scaling " + _scalingItems);
+            LogFile.Message("Still scaling " + _scalingItems, true);
         }
     }
     private System.Collections.Generic.List<Scaling2D> _scalings = new System.Collections.Generic.List<Scaling2D>();
@@ -80,7 +80,7 @@ public class GameItemScalingScript : MonoBehaviour
             isScaling = false;
         else
         {
-            LogFile.Message("_scalings.Count = " + _scalings.Count);
+            LogFile.Message("_scalings.Count = " + _scalings.Count, true);
             return;
         }
 
@@ -90,14 +90,14 @@ public class GameItemScalingScript : MonoBehaviour
             //LogFile.Message("Moved callback rised");
         }
         else
-            LogFile.Message("No Scaled() callback!");    
+            LogFile.Message("No Scaled() callback!", true);    
     }
 
     public void ScaleTo(Vector3 toSize, int scalingTime, MovingFinishedDelegate scalingCallback)
     {
         if (isScaling)
         {
-            LogFile.Message("isScaling is true");
+            LogFile.Message("isScaling is true", true);
             //movingCallback(gameObject, false);
             //return;
         }
@@ -112,7 +112,7 @@ public class GameItemScalingScript : MonoBehaviour
             newScaling.ScalingCallback = scalingCallback;
         else
         {
-            LogFile.Message("ScaleTo: No scalingCallback");
+            LogFile.Message("ScaleTo: No scalingCallback", true);
         }
         //LogFile.Message("Current localPosition: " + transform.localPosition.x + " " + transform.localPosition.y + "Deirection: " + direction.x + " " + direction.y + "Destination: " + destination.x + " " + destination.y + " " + movementOrientation);
 

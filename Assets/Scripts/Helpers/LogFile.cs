@@ -29,8 +29,10 @@ public class LogFile
     }
 
     //-------------------------------------------------------------------------------------------------------------------------
-    public static void Message(string msg)
+    public static void Message(string msg, bool debugMessage = false)
     {
+        if (debugMessage && !Debug.isDebugBuild) return;
+
         using (var stream = new StreamWriter(File.Open(Instanse.FileName, FileMode.Append)))
         {
 #if UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1

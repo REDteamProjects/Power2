@@ -69,7 +69,7 @@ namespace Assets.Scripts
                 if (secondItem.Y < 0)//TODO: Recalculate directions, error somewhere
                 {
                     LogFile.Message("secondItem.Y < 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem "
-                        + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y);
+                        + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.Y) > 1)
                         SelectedPoint1 = new Point
                         {
@@ -87,7 +87,8 @@ namespace Assets.Scripts
                 }
                 else if (secondItem.Y > 0)
                 {
-                    LogFile.Message("secondItem.Y > 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem " + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y);
+                    LogFile.Message("secondItem.Y > 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem " + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: "
+                        + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.X) > 1)
                         SelectedPoint1 = new Point
                         {
@@ -124,7 +125,7 @@ namespace Assets.Scripts
         
         public override IList<Line> GetAllLines()
         {
-            LogFile.Message("Finding lines...");
+            LogFile.Message("Finding lines...", true);
             var list = new List<Line>();
             //Vertical
             var startRow = FieldSize / 2;
@@ -146,7 +147,7 @@ namespace Assets.Scripts
                             Orientation = LineOrientation.Vertical
                         };
                         list.Add(line);
-                        LogFile.Message(match + " " + line);
+                        LogFile.Message(match + " " + line, true);
                         currentCol += match - 1;
                         row += match - 1;
                     }
@@ -173,14 +174,14 @@ namespace Assets.Scripts
                             Orientation = LineOrientation.Horizontal
                         };
                         list.Add(line);
-                        LogFile.Message(match + " " + line);
+                        LogFile.Message(match + " " + line, true);
                         currentCol += match;
                         row -= match - 1;
                     }
                     currentCol++;
                 }
             }
-            LogFile.Message("Return lines: " + list.Count);
+            LogFile.Message("Return lines: " + list.Count, true);
             return list;
         }
         
@@ -251,7 +252,7 @@ namespace Assets.Scripts
                 if (TimeCounter < 0) TimeCounter = 0;
                 if (!CheckForPossibleMoves() && DropsCount == 0)
                 {
-                    LogFile.Message("No moves");
+                    LogFile.Message("No moves", true);
                     GenerateField(false, true);
                     //ClearField();
                 }
@@ -260,7 +261,7 @@ namespace Assets.Scripts
                 return 0;
             }
             TimeCounter = -1;
-            LogFile.Message("Start clear chaines. Lines: " + lines.Count);
+            LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
             var pointsBank = 0;
             var l = lines.FirstOrDefault();
@@ -283,7 +284,7 @@ namespace Assets.Scripts
                         }
                         if (IsInAnotherLine(lines, i, j))
                         {
-                            LogFile.Message("Items[" + i + "][" + j + "] on another line");
+                            LogFile.Message("Items[" + i + "][" + j + "] on another line", true);
                             continue;
                         }
                         var gobj = Items[i][j] as GameObject;
@@ -299,7 +300,7 @@ namespace Assets.Scripts
                         Items[cX][cY] = null;
                         c.MoveTo(toCell.x, toCell.y, 14, (item, result) =>
                         {
-                            LogFile.Message(cX + " " + cY);
+                            LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
                             if (!result) return;
 
@@ -341,7 +342,7 @@ namespace Assets.Scripts
                         Items[cX][cY] = null;
                         c.MoveTo(toCell.x, toCell.y, 14, (item, result) =>
                         {
-                            LogFile.Message(cX + " " + cY);
+                            LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
                             if (!result) return;
 
@@ -390,7 +391,7 @@ namespace Assets.Scripts
                 if (linesCount == 1)
                     DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
 
-                LogFile.Message("line collected");
+                LogFile.Message("line collected", true);
                 l = lines.FirstOrDefault();
 
                 if (ProgressBar != null)
@@ -410,7 +411,7 @@ namespace Assets.Scripts
                 linesCount = lines.Count;
                 l = lines.FirstOrDefault();
             }
-            LogFile.Message("All lines collected");
+            LogFile.Message("All lines collected", true);
             RemoveAdditionalItems();
 
             if (!IsGameOver) return linesCount;
@@ -471,7 +472,7 @@ namespace Assets.Scripts
                             if (!cS.IsMoving)
                                 DropsCount--;
                             if (!result) return;
-                            LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] cc: " + CallbacksCount);
+                            LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] cc: " + CallbacksCount, true);
                         });
                         if (row + 2 < FieldSize && Items[col][row + 2] == null)
                             generateAfterDrop = false;
@@ -490,7 +491,7 @@ namespace Assets.Scripts
                         if (!c.IsMoving)
                             DropsCount--;
                         if (!result) return;
-                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] cc: " + CallbacksCount);
+                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] cc: " + CallbacksCount, true);
                     });
                     Items[col + downItemSide][row + 1] = Items[col][row];
                     Items[col][row] = null;
@@ -506,7 +507,7 @@ namespace Assets.Scripts
         
         public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
         {
-            LogFile.Message("Generating field...");
+            LogFile.Message("Generating field...", true);
             if (!mixCurrent)
             {
                 for (var i = FieldSize - 1; i >= 0; i--)
@@ -540,7 +541,7 @@ namespace Assets.Scripts
                         }
                         if (completeCurrent)
                         {
-                            LogFile.Message("New gameItem need to i:" + i + "j: " + j);
+                            LogFile.Message("New gameItem need to i:" + i + "j: " + j, true);
                             Items[i][j] = GenerateGameItem(i, j, null, new Vector2(generateOnX, i), false, 8 + i*3);//may be calculate speed or generateOn vector in another way
                             continue;
                         }
@@ -579,13 +580,13 @@ namespace Assets.Scripts
             }
             else
             {
-                LogFile.Message("Mix field...");
+                LogFile.Message("Mix field...", true);
                 var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                 if (o != null)
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.2f, -1), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {

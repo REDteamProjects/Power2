@@ -15,7 +15,7 @@ public class PauseButtonScript : MonoBehaviour
         set
         {
             _pauseMenuActive = value;
-            LogFile.Message("Pause active: " + _pauseMenuActive);
+            LogFile.Message("Pause active: " + _pauseMenuActive, true);
         }
     }
 
