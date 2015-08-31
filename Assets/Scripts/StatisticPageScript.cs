@@ -10,20 +10,14 @@ using UnityEngine.UI;
 
 public class StatisticPageScript : MonoBehaviour
 {
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{ }
+    private static GameTypes SelectedType = GameTypes._6x6;
+    private static GameObject SelectedItem;
 
     private void GenerateLevelTitle<T>(GameItemType type) where T:IPlayground
     {
         var typeObjectName = typeof (T).Name;
 
-        var levelTitle = GameObject.Find(typeObjectName.Substring(0, typeObjectName.Length - 10) + "/Level");
+        var levelTitle = GameObject.Find(/*typeObjectName.Substring(0, typeObjectName.Length - 10) + */"Body/Level");
 
         if (levelTitle == null) return;
 
@@ -60,38 +54,72 @@ public class StatisticPageScript : MonoBehaviour
         }
         //SavedataHelper.LoadData(ref sd);
 
+        SelectedItem = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10));
+
         var pref = GameSettingsHelper<TType>.Preferenses;
 
-        var scoreText = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10) + "/Score").GetComponent<Text>();
+        var scoreText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Score").GetComponent<Text>();
         scoreText.text = pref.ScoreRecord.ToString(CultureInfo.InvariantCulture);
 
-        var gamesText = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10) + "/Game").GetComponent<Text>();
+        var gamesText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) + */"Body/Game").GetComponent<Text>();
         gamesText.text = pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
 
         GenerateLevelTitle<TType>(pref.CurrentItemType);
 
         if (pref.LongestSession < 1) return;
 
-        var timeText = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10) + "/Time").GetComponent<Text>();
+        var timeText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Time").GetComponent<Text>();
         var time = new TimeSpan(0, 0, (int)(pref.LongestSession));
         timeText.text = (time.Hours > 0 ? time.Hours.ToString("D2") + ":" : "") + time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2");
     }
 
-    void LoadData()
-    {
-        LoadDataToView<Mode6x6SquarePlaygroundSavedata, Mode6x6SquarePlayground>();
-        LoadDataToView<Mode8x8SquarePlaygroundSavedata, Mode8x8SquarePlayground>();
-        LoadDataToView<ModeMatch3PlaygroundSavedata, ModeMatch3Playground>();
-        LoadDataToView<ModeDropsPlaygroundSavedata, ModeDropsPlayground>();
-        LoadDataToView<Mode11RhombusPlaygroundSavedata, Mode11RhombusPlayground>();
-    }
-
     void Awake()
     {
-        LoadData();
+        LoadLevelData(0);
 
         var fg = GameObject.Find("/GUI");
         MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), "Reset all", 50,
-                () => { PlayerPrefs.DeleteAll(); LoadData(); });
+                () => { PlayerPrefs.DeleteAll(); LoadLevelData((int)SelectedType); });
+    }
+
+    public void LoadLevelData(int ttype)
+    {
+        if (SelectedItem != null)
+        {
+            var lastbOject = gameObject.GetComponent<SpriteRenderer>();
+            if (lastbOject != null)
+            {
+                lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 0.5f);
+            }
+        }
+        var type = (GameTypes) ttype;
+        switch (type)
+        {
+            case GameTypes._6x6:
+                LoadDataToView<Mode6x6SquarePlaygroundSavedata, Mode6x6SquarePlayground>();
+                break;
+            case GameTypes._8x8:
+                LoadDataToView<Mode8x8SquarePlaygroundSavedata, Mode8x8SquarePlayground>();
+                break;
+            case GameTypes._rhombus:
+                LoadDataToView<Mode11RhombusPlaygroundSavedata, Mode11RhombusPlayground>();
+                break;
+            case GameTypes._match3:
+                LoadDataToView<ModeMatch3PlaygroundSavedata, ModeMatch3Playground>();
+                break;
+            case GameTypes._drops:
+                LoadDataToView<ModeDropsPlaygroundSavedata, ModeDropsPlayground>();
+                break;
+        }
+        SelectedType = type;
+
+        if (SelectedItem != null)
+        {
+            var lastbOject = gameObject.GetComponent<SpriteRenderer>();
+            if (lastbOject != null)
+            {
+                lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 0.5f);
+            }
+        }
     }
 }
