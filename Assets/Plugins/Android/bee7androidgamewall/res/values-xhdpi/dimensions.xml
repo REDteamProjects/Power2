@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bee7_button_close_padding">12dp</dimen>
+    <dimen name="bee7_gamewall_padding">17dp</dimen>
+    <dimen name="bee7_header_drawable_padding">6dp</dimen>
+    <dimen name="bee7_games_list_drawable_padding">18dp</dimen>
+    <dimen name="bee7_notification_amount_text_size">40dp</dimen>
+    <dimen name="bee7_notification_item_icon_size">60dp</dimen>
+</resources>

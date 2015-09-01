@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" 
+package="com.vserv.offerwall" android:theme="@android:style/Theme.NoTitleBar"
+ android:versionName="1.0" 
+ android:versionCode="1" 
+ android:installLocation="preferExternal">
+  <supports-screens android:smallScreens="true"
+   android:normalScreens="true" android:largeScreens="true"
+    android:xlargeScreens="true" android:anyDensity="true" />
+
+  <application 
+  android:icon="@drawable/app_icon" android:label="@string/app_name" android:debuggable="false"
+  android:hardwareAccelerated="true">
+  
+
+ <meta-data android:name="com.google.android.gms.version" 
+ android:value="@integer/google_play_services_version" />
+
+ <receiver
+            android:name="com.vserv.android.ads.network.VservPackageReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.vserv.installed.packages" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.vserv.android.ads.network.VservApplicationBroadcastService"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
+                <data android:scheme="package" />
+            </intent-filter>
+        </receiver>
+		
+    <activity
+     android:name="com.unity3d.player.UnityPlayerNativeActivity" 
+     android:label="@string/app_name" 
+     android:screenOrientation="fullSensor" 
+     android:launchMode="singleTask" 
+     android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|fontScale">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+		 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+      </intent-filter>
+	  <meta-data android:name="unityplayer.UnityActivity" android:value="true" />
+      <meta-data android:name="unityplayer.ForwardNativeEventsToDalvik" android:value="true" />
+	 
+
+    </activity>   
+            <activity
+            android:name="com.vserv.android.ads.vast.VastBillBoardActivity"
+            android:configChanges="touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize"
+            android:windowSoftInputMode="adjustPan" 
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity
+            android:name="com.vserv.android.ads.vast.VastBillBoardFrameActivity"
+            android:configChanges="touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize"
+            android:windowSoftInputMode="adjustPan" 
+            android:label="@string/app_name" >
+        </activity>
+        
+        <activity android:name="com.vserv.android.ads.webview.WebViewFullscreenActivity"
+        	android:configChanges="touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize"
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
+		
+		
+		 <!-- Start Vungle required Activities/Services -->
+
+        <activity
+            android:name="com.vungle.publisher.FullScreenAdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
+        <service
+            android:name="com.vungle.publisher.VungleService"
+            android:exported="false" />
+
+        <!-- End Vungle -->
+
+
+        <!-- Start Adcolony required Activities -->
+
+        <activity
+            android:name="com.jirbo.adcolony.AdColonyOverlay"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.jirbo.adcolony.AdColonyFullscreen"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.jirbo.adcolony.AdColonyBrowser"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+
+        <!-- End Adcolony -->
+
+
+        <!-- Start Admob required Activities -->
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+        <!-- End Admob -->
+		
+		<!-- Start Tapjoy required Activities -->
+        <activity
+            android:name="com.tapjoy.TJCOffersWebView"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.tapjoy.TapjoyFullScreenAdWebView"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.tapjoy.TapjoyVideoView"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.tapjoy.TJAdUnitView"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:hardwareAccelerated="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity
+            android:name="com.tapjoy.mraid.view.ActionHandler"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name="com.tapjoy.mraid.view.Browser"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <!-- End Tapjoy -->
+		
+ <!-- Start Facebook required Activities -->
+        <activity
+            android:name="com.facebook.ads.InterstitialAdActivity"
+            android:configChanges="keyboardHidden|orientation" />
+        <activity
+            android:name="com.facebook.ads.VideoAdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize" />
+        <!-- Apps targeting api v13 and higher should add '|screenSize' to the VideoAdActivity configChanges to support video rotation -->
+        <!-- End Facebook -->
+      
+	   <!-- Start Flurry required Activities -->
+        <activity
+            android:name="com.flurry.android.FlurryFullscreenTakeoverActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" >
+        </activity>
+
+        <!-- End Flurry -->
+
+
+        <!-- Start Millennial Media required Activities -->
+        <activity
+            android:name="com.millennialmedia.android.MMActivity"
+            android:configChanges="keyboardHidden|orientation|keyboard"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
+        <!-- End Millennial Media -->
+        			        
+  </application>
+  <uses-sdk android:minSdkVersion="9" android:targetSdkVersion="19" />
+  <uses-feature android:glEsVersion="0x00020000" />
+  
+   <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	 <!-- Vserv ads to location based ads -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Vserv ads to phone info -->
+	
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
+    <!-- Vserv ads to location info -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Added for Tapjoy/Charboost/Vungle/Adcolony/Flurry/MillenialMedia -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+ <!-- Permission make call 
+<uses-permission android:name="android.permission.CALL_PHONE" />
+
+
+<uses-permission android:name="android.permission.SEND_SMS"/>
+-->
+</manifest>

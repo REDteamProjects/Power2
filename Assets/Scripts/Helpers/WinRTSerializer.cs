@@ -1,4 +1,4 @@
-﻿//#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
+﻿#if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -260,4 +260,4 @@ public class RhombusPlaygroundSavedataConverter : fsDirectConverter
         return fsResult.Success;
     }
 }
-//#endif
+#endif

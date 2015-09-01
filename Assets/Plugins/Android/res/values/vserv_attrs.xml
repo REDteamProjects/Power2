@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="VservAdView">
+        <attr name="zone_id" format="string" />
+        <attr name="UX_type" format="integer" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bee7.gamewall.RewardPopupView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent" >
+
+  <RelativeLayout 
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:layout_centerInParent="true" >
+
+    <LinearLayout
+      android:id="@+id/popupBubbleLayout"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_centerVertical="true"
+      android:background="@drawable/bee7_reward_button"
+      android:gravity="center"
+      android:orientation="vertical" >
+
+      <LinearLayout
+            android:id="@+id/popupFreeTextLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+            <ImageView
+                android:id="@+id/popupAppIcon"
+                android:layout_width="@dimen/bee7_notification_item_icon_size"
+                android:layout_height="@dimen/bee7_notification_item_icon_size" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="5dp"/>
+      </LinearLayout>
+
+      <LinearLayout
+        android:id="@+id/popupAmountLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <LinearLayout 
+          android:id="@+id/popupAmountWrapper"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal" >
+          <TextView
+            android:id="@+id/popupAmount"
+            style="@style/bee7_rewardBubbleAmountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10" />
+          <View 
+            android:layout_width="20dp"
+            android:layout_height="0dp"/>
+        </LinearLayout>
+        <ImageView
+          android:id="@+id/rewardIcon"
+          android:layout_width="@dimen/bee7_notification_item_icon_size"
+          android:layout_height="@dimen/bee7_notification_item_icon_size"
+          android:src="@drawable/bee7_reward_icon" />
+      </LinearLayout>
+    </LinearLayout>
+  </RelativeLayout>
+</com.bee7.gamewall.RewardPopupView>

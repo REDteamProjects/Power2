@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bee7.gamewall"
+    android:versionCode="4"
+    android:versionName="1.0" >
+    
+    <uses-sdk android:minSdkVersion="9" />
+    
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
+    <application>
+        <receiver android:name="com.bee7.sdk.publisher.RewardReceiver" android:enabled="true" android:exported="true">
+            <intent-filter>
+                <action android:name="com.bee7.action.REWARD" />
+            </intent-filter>
+        </receiver>
+        
+        <receiver android:name="com.bee7.sdk.service.RewardingServiceReceiver" android:enabled="true" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.USER_PRESENT" />
+            </intent-filter>
+        </receiver>
+        
+        <service
+            android:name="com.bee7.sdk.service.RewardingService"
+            android:process=":rewardingservice"
+            android:enabled="true" >
+        </service>
+		
+		<activity
+          android:name="com.vserv.vmax.Bee7GameWallActivity"
+          android:launchMode="singleTop"
+          android:configChanges="orientation">
+          <intent-filter>
+              <action android:name="android.intent.action.VIEW" />				
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+
+              <data
+                  android:host="publisher"
+                  android:scheme="vservdemopublisher" />
+          </intent-filter>
+      	</activity>
+    </application>
+</manifest>

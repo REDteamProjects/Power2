@@ -1,0 +1,142 @@
+<resources>
+    <!-- Game Wall -->
+    <style name="bee7_gamewallStyle">
+        <item name="android:background">@android:color/white</item>
+    </style>
+
+    <!-- Game Wall Header -->
+    <style name="bee7_gamewallHeader">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:paddingLeft">@dimen/bee7_gamewall_side_padding</item>
+        <item name="android:paddingRight">@dimen/bee7_gamewall_side_padding</item>
+        <item name="android:paddingTop">1dp</item>
+        <item name="android:paddingBottom">1dp</item>
+    </style>
+
+    <style name="bee7_gamewallHeaderTitle">
+        <item name="android:textColor">#373F54</item>
+        <item name="android:textSize">@dimen/bee7_style_big_text_size</item>
+        <item name="android:gravity">center</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+    <!-- Game Wall ScrollView -->
+    <style name="bee7_gamewallScrollView">
+        <item name="android:fillViewport">true</item>
+    </style>
+
+    <!--
+        Offer Games list
+    -->
+    <style name="bee7_gamewallOffers">
+        <item name="android:background">@drawable/top_bg</item>
+    </style>
+
+    <style name="bee7_gamewallGamesListView">
+    </style>
+
+    <style name="bee7_gamewallGamesListSeparator">
+        <item name="android:src">@drawable/bee7_list_separator_short</item>
+    </style>
+
+    <style name="bee7_gamewallGamesListLoadMore">
+        <item name="android:textSize">@dimen/bee7_style_medium_text</item>
+        <item name="android:textColor">#373f54</item>
+        <item name="android:text">@string/bee7_more_games</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:drawableRight">@drawable/bee7_arrow_down</item>
+        <item name="android:drawablePadding">3dp</item>
+    </style>
+
+    <style name="bee7_gamewallGamesListItem">
+        <item name="android:paddingBottom">@dimen/bee7_gamewall_padding</item>
+        <item name="android:paddingLeft">@dimen/bee7_gamewall_padding</item>
+        <item name="android:paddingRight">@dimen/bee7_gamewall_padding</item>
+    </style>
+
+    <style name="bee7_gamewallGamesListItemIcon">
+        <item name="android:background">@drawable/bee7_icon_placeholder</item>
+    </style>
+
+    <style name="bee7_gamewallGamesListItemTitle">
+        <item name="android:textSize">@dimen/bee7_style_medium_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#373f54</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="bee7_gamewallGamesListItemDescription">
+        <item name="android:textSize">@dimen/bee7_style_small_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#373f54</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="bee7_gamewallGamesListItemButtonFree">
+        <item name="android:background">@drawable/bee7_button_free</item>
+        <item name="android:textColor">#49535d</item>
+        <item name="android:textSize">@dimen/bee7_style_normal_text</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">@string/bee7_button_install</item>
+    </style>
+
+
+
+    <!--
+        Connected Games grid
+    -->
+    <style name="bee7_gamewallGamesGrid">
+        <item name="android:background">#ebecf0</item>
+    </style>
+
+    <style name="bee7_gamewallGamesGridItem">
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingBottom">@dimen/bee7_gamewall_padding</item>
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+    </style>
+
+    <style name="bee7_gamewallGamesGridItemIcon">
+        <item name="android:background">@drawable/bee7_icon_placeholder</item>
+    </style>
+
+    <style name="bee7_gamewallGamesGridItemTitle">
+        <item name="android:textSize">@dimen/bee7_style_normal_text</item>
+        <item name="android:lines">2</item>
+        <item name="android:gravity">top|center_horizontal</item>
+        <item name="android:textColor">#373f54</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <!-- Reward Notification -->
+    <style name="bee7_rewardBubbleAmountText" parent="@android:style/TextAppearance">
+        <item name="android:shadowColor">#FFFFFF</item>
+        <item name="android:shadowRadius">1.5</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">@dimen/bee7_notification_amount_text_size</item>
+    </style>
+
+    <!--
+          Base application theme, dependent on API level. This theme is replaced
+          by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Light">
+        <!--
+                Theme customizations available in newer API levels can go in
+                res/values-vXX/styles.xml, while customizations related to
+                backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+    </style>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="bee7_play_and_earn">HER OYNADIĞINDA AKÇELER KAZAN</string>
+    <string name="bee7_more_games">DAHA FAZLA OYUN GÖSTER</string>
+    <string name="bee7_button_install">YÜKLE</string>
+    <string name="bee7_button_open">AÇ</string>
+    <string name="bee7_ok">TAMAM</string>
+    <string name="bee7_no_internet_connection">İnternet bağlantısı yok.</string>
+</resources>

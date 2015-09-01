@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bee7_gamewall_list_columns">1</string>
+    <string name="bee7_gamewall_grid_columns">4</string>
+    <string name="bee7_gamewall_list_items">2</string>
+</resources>

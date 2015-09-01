@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="bee7_play_and_earn">플레이할 때마다 코인을 획득하세요</string>
+    <string name="bee7_more_games">더 많은 게임 보기</string>
+    <string name="bee7_button_install">설치</string>
+    <string name="bee7_button_open">열기</string>
+    <string name="bee7_ok">예</string>
+    <string name="bee7_no_internet_connection">인터넷에 연결해주십시오.</string>
+</resources>

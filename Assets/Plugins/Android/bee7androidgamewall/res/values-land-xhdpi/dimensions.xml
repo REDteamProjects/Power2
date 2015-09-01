@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bee7_gamewall_padding">8dp</dimen>
+    <dimen name="bee7_games_list_drawable_padding">9dp</dimen>
+</resources>

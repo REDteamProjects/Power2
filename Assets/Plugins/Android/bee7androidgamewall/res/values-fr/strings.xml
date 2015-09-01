@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bee7_play_and_earn">REÇOIS DES PIÈCES À CHAQUE FOIS QUE TU JOUES</string>
+    <string name="bee7_more_games">AFFICHER PLUS DE JEUX</string>
+    <string name="bee7_button_install">INSTALLER</string>
+    <string name="bee7_button_open">OUVRIR</string>
+    <string name="bee7_ok">OK</string>
+    <string name="bee7_no_internet_connection">Pas de connection internet.</string>
+</resources>

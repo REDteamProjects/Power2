@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="bee7_play_and_earn">プレイするたびにコインを入手</string>
+    <string name="bee7_more_games">他のゲームを表示</string>
+    <string name="bee7_button_install">インストール</string>
+    <string name="bee7_button_open">開</string>
+    <string name="bee7_ok">OK</string>
+    <string name="bee7_no_internet_connection">インターネットに接続していません</string>
+</resources>

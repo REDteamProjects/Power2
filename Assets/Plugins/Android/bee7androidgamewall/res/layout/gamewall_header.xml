@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.bee7.gamewall.GameWallHeader xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    style="@style/bee7_gamewallHeader">
+
+    <TextView
+        android:id="@+id/gamewallHeaderTitleView"
+        style="@style/bee7_gamewallHeaderTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/bee7_play_and_earn"
+        android:gravity="center"
+        android:layout_weight="0.8"/>
+
+    <ImageView
+        android:id="@+id/bee7_gamewallHeaderCoins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bee7_coins"
+        android:gravity="center"
+        android:layout_weight="0.1"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/gamewallHeaderButtonClose"
+        android:padding="1dp"
+        android:src="@drawable/bee7_btn_close"
+        android:background="@android:color/transparent"
+        android:gravity="right"
+        android:layout_weight="0.1"
+        />
+</com.bee7.gamewall.GameWallHeader>
