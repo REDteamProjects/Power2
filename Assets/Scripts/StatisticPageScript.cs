@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class StatisticPageScript : MonoBehaviour
 {
-    private static GameTypes SelectedType = GameTypes._6x6;
+    private static GameTypes? SelectedType;
     private static GameObject SelectedItem;
 
     private void GenerateLevelTitle<T>(GameItemType type) where T:IPlayground
@@ -33,8 +33,8 @@ public class StatisticPageScript : MonoBehaviour
 
         newgobj.transform.SetParent(levelTitle.transform);
         newgobj.transform.localPosition = new Vector3(0, 0);
-        newgobj.transform.localScale = /*type <= GameItemType.DisabledItem ? new Vector3(4, 4) :*/ 
-            new Vector3(5, 5);
+        newgobj.transform.localScale = /*typeObjectName.Contains("Match3") ? new Vector3(5, 5) : */
+            new Vector3(80, 80);
     }
 
     private void LoadDataToView<TSavedataType, TType>()
@@ -66,9 +66,13 @@ public class StatisticPageScript : MonoBehaviour
 
         GenerateLevelTitle<TType>(pref.CurrentItemType);
 
-        if (pref.LongestSession < 1) return;
-
         var timeText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Time").GetComponent<Text>();
+        if (pref.LongestSession < 1)
+        {
+            timeText.text = "00:00";
+            return;
+        }
+
         var time = new TimeSpan(0, 0, (int)(pref.LongestSession));
         timeText.text = (time.Hours > 0 ? time.Hours.ToString("D2") + ":" : "") + time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2");
     }
@@ -84,15 +88,19 @@ public class StatisticPageScript : MonoBehaviour
 
     public void LoadLevelData(int ttype)
     {
+        var type = (GameTypes) ttype;
+
+        if (type == SelectedType) return;
+
         if (SelectedItem != null)
         {
-            var lastbOject = gameObject.GetComponent<SpriteRenderer>();
+            var lastbOject = SelectedItem.GetComponent<SpriteRenderer>();
             if (lastbOject != null)
             {
                 lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 0.5f);
             }
         }
-        var type = (GameTypes) ttype;
+        
         switch (type)
         {
             case GameTypes._6x6:
@@ -115,10 +123,10 @@ public class StatisticPageScript : MonoBehaviour
 
         if (SelectedItem != null)
         {
-            var lastbOject = gameObject.GetComponent<SpriteRenderer>();
+            var lastbOject = SelectedItem.GetComponent<SpriteRenderer>();
             if (lastbOject != null)
             {
-                lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 0.5f);
+                lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 1f);
             }
         }
     }
