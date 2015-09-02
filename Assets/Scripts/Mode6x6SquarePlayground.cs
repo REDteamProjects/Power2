@@ -4,6 +4,7 @@ using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
+using UnityEngine.Advertisements;
 
 namespace Assets.Scripts
 {
@@ -72,8 +73,37 @@ namespace Assets.Scripts
         {
             //var progressBar = ProgressBar;
             //if (progressBar != null)
-            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;        
-                      
+            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+            
+            
+            
+            try
+            {
+                if (Advertisement.isSupported)
+                {
+
+                    #if UNITY_ANDROID
+                        Advertisement.Initialize("59864", true);
+                    #endif
+                    #if UNITY_IOS 
+                        Advertisement.Initialize("59866", true);
+                    #endif
+
+                    if (Advertisement.IsReady("ADSZone"))
+                    {
+                        Advertisement.Show("ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
+                    }
+                }
+                else
+                {
+                    Debug.Log("AD: Platform not supported");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Log("AD exception: " + ex.Message);
+            }
+            
 
             Items = new[]
             {

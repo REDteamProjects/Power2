@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="bee7_play_and_earn">CONSIGUE MONEDAS CADA VEZ QUE JUEGAS</string>
-    <string name="bee7_more_games">MOSTRAR MÁS JUEGOS</string>
-    <string name="bee7_button_install">INSTALAR</string>
-    <string name="bee7_button_open">ABRIR</string>
-    <string name="bee7_ok">ACEPTAR</string>
-    <string name="bee7_no_internet_connection">No hay conexión a Internet.</string>
-</resources>

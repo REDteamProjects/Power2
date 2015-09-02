@@ -8,6 +8,8 @@ using Assets.Scripts.Helpers;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
 using System.Collections.Generic;
+using UnityEngine.Advertisements;
+using UnityEngine.UI;
 namespace Assets.Scripts
 {
     public delegate void LabelAnimationFinishedDelegate();
