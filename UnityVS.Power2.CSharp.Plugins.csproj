@@ -66,6 +66,9 @@
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="Windows_Ad_Plugin">
+      <HintPath>Assets\Plugins\Windows_Ad_Plugin.dll</HintPath>
+    </Reference>
     <Reference Include="SmartLocalization_Runtime">
       <HintPath>Assets\SmartLocalization\SmartLocalization_Runtime.dll</HintPath>
     </Reference>
@@ -135,6 +138,9 @@
     <Compile Include="Assets\Standard Assets\UnityAds\Scripts\ShowResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\Android\bee7androidgamewall\bin\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\Android\google-play-services_lib\bin\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\Android\google-play-services_lib\bin\R.txt" />
     <None Include="Assets\Plugins\Android\unityads\AndroidManifest.xml" />
     <None Include="Assets\Plugins\Android\unityads\build.xml" />
     <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />

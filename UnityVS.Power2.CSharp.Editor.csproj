@@ -105,6 +105,9 @@
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>Library\UnityAssemblies\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
     </Reference>
+    <Reference Include="Windows_Ad_Plugin">
+      <HintPath>Assets\Plugins\Windows_Ad_Plugin.dll</HintPath>
+    </Reference>
     <Reference Include="SmartLocalization_Runtime">
       <HintPath>Assets\SmartLocalization\SmartLocalization_Runtime.dll</HintPath>
     </Reference>
@@ -116,6 +119,9 @@
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Messaging">
       <HintPath>Assets\UnityVS\Editor\SyntaxTree.VisualStudio.Unity.Messaging.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityVS.VersionSpecific 1">
+      <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific 1.dll</HintPath>
     </Reference>
     <Reference Include="UnityVS.VersionSpecific">
       <HintPath>Assets\UnityVS\Editor\UnityVS.VersionSpecific.dll</HintPath>
@@ -140,8 +146,12 @@
     <Compile Include="Assets\SmartLocalization\Scripts\NGUI\Editor\SL_NGUISpriteAtlasInspector.cs" />
     <Compile Include="Assets\SmartLocalization\Scripts\NGUI\Editor\SL_NGUISpriteNameInspector.cs" />
     <Compile Include="Assets\SmartLocalization\Scripts\uGUI\Editor\LocalizedTextInspector.cs" />
+    <Compile Include="Assets\WindowsAdPlugin\Editor\PubCenterAdEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\Android\bee7androidgamewall\bin\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\Android\google-play-services_lib\bin\AndroidManifest.xml" />
+    <None Include="Assets\Plugins\Android\google-play-services_lib\bin\R.txt" />
     <None Include="Assets\Plugins\Android\unityads\AndroidManifest.xml" />
     <None Include="Assets\Plugins\Android\unityads\build.xml" />
     <None Include="Assets\Plugins\Android\unityads\proguard-project.txt" />
