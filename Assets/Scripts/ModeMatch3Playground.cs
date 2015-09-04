@@ -62,7 +62,7 @@ namespace Assets.Scripts
 
         public override float ScaleMultiplyer
         {
-            get { return 0.79f; }
+            get { return 0.89f; }
         }
 
         public override float GameItemSize { get { return 3.84f; } }
