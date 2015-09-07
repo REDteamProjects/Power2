@@ -155,4 +155,10 @@
 	<data name="StartGame" xml:space="preserve">
 		<value>НАЧАТЬ ИГРУ</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
+		<value>13a0233a8224e5a46a5948a424762e28</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserManual_1" xml:space="preserve">
+		<value>fa7d4491f358b054ea2742a6aa494a68</value>
+	</data>
 </root>

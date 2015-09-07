@@ -116,18 +116,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-	<data name="GameModesHelp" xml:space="preserve">
-		<value>Help text about game modes</value>
-	</data>
-	<data name="MainHelp" xml:space="preserve">
-		<value>Main help text </value>
-	</data>
-	<data name="StartGame" xml:space="preserve">
-		<value>Start game button text</value>
-	</data>
-	<data name="ResetAll" xml:space="preserve">
-		<value>Reset all button text</value>
-	</data>
 	<data name="6x6Mode" xml:space="preserve">
 		<value>6x6 mode button text</value>
 	</data>
@@ -137,8 +125,14 @@
 	<data name="DropsMode" xml:space="preserve">
 		<value>Drops mode button text</value>
 	</data>
-	<data name="RhombusMode" xml:space="preserve">
-		<value>Rhombus mode button text</value>
+	<data name="Fighter" xml:space="preserve">
+		<value>Fighter button text</value>
+	</data>
+	<data name="GameModesHelp" xml:space="preserve">
+		<value>Help text about game modes</value>
+	</data>
+	<data name="MainHelp" xml:space="preserve">
+		<value>Main help text </value>
 	</data>
 	<data name="Match3Mode" xml:space="preserve">
 		<value>Match 3 mode button text</value>
@@ -149,10 +143,22 @@
 	<data name="Player" xml:space="preserve">
 		<value>Player button text</value>
 	</data>
-	<data name="Fighter" xml:space="preserve">
-		<value>Fighter button text</value>
-	</data>
 	<data name="Psycho" xml:space="preserve">
 		<value>Psycho button text</value>
+	</data>
+	<data name="ResetAll" xml:space="preserve">
+		<value>Reset all button text</value>
+	</data>
+	<data name="RhombusMode" xml:space="preserve">
+		<value>Rhombus mode button text</value>
+	</data>
+	<data name="StartGame" xml:space="preserve">
+		<value>Start game button text</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
+		<value>First manual texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserManual_1" xml:space="preserve">
+		<value>Second manual texture</value>
 	</data>
 </root>

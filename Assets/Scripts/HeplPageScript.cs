@@ -13,15 +13,28 @@ public class HeplPageScript : MonoBehaviour
     private GameObject main;
     private GameObject modes;
     private float CurrentDirection;
+    private float baseX = 0;
+    private float baseY = 0;
+    private GameObject SelectedItem;
+
 
 	// Use this for initialization
 	void Start ()
 	{
-	    var text = GameObject.Find("MainHelpText").GetComponent<Text>();
-        text.text = LanguageManager.Instance.GetTextValue("MainHelp");
+        //var text = GameObject.Find("MainHelpText").GetComponent<Text>();
+        //text.text = LanguageManager.Instance.GetTextValue("MainHelp");
 
-        var modestext = GameObject.Find("GameModesHelp").GetComponent<Text>();
-        modestext.text = LanguageManager.Instance.GetTextValue("GameModesHelp");
+	    var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserManual_0"));
+        manual_0.transform.parent = GameObject.Find("MainHelpText").transform;
+	    manual_0.transform.localScale = new Vector3(60, 60, 1);
+        manual_0.transform.localPosition = new Vector3(0, -140, 0);
+        //var modestext = GameObject.Find("GameModesHelp").GetComponent<Text>();
+        //modestext.text = LanguageManager.Instance.GetTextValue("GameModesHelp");
+
+        var manual_1 = Instantiate(LanguageManager.Instance.GetPrefab("UserManual_1"));
+        manual_1.transform.parent = GameObject.Find("GameModesHelp").transform;
+        manual_1.transform.localScale = new Vector3(60, 60, 1);
+        manual_1.transform.localPosition = new Vector3(0, 210, 0);
 
         main = GameObject.Find("MainHelpText");
         modes = GameObject.Find("GameModesHelp");
@@ -49,12 +62,33 @@ public class HeplPageScript : MonoBehaviour
 
 	        case TouchPhase.Moved:
                 var deltaX = realTouchPosition.x - startPos.x;
-                CurrentDirection = Mathf.Sign(deltaX);
-                //+ right
-                //- left
+                var deltaY = realTouchPosition.y - startPos.y;
 
-                mainTransform.localPosition = new Vector3(mainStartPos.x + deltaX, mainStartPos.y, mainTransform.localPosition.z);
-                modesTransform.localPosition = new Vector3(modesStartPos.x + deltaX, modesStartPos.y, modesTransform.localPosition.z);
+                if (SelectedItem == main && Mathf.Abs(deltaY) > 0.01)
+                {
+                    if (mainStartPos.y + deltaY > 260)
+                        baseY = 260;
+                    else if (mainStartPos.y + deltaY < 0)
+                        baseY = 0;
+                    else
+                        baseY = mainStartPos.y + deltaY;
+
+                    mainTransform.localPosition = new Vector3(mainStartPos.x, baseY,
+	                    mainTransform.localPosition.z);
+	                return;
+	            }
+
+	            if (Mathf.Abs(deltaX) > 0.01)
+	            {
+	                CurrentDirection = Mathf.Sign(deltaX);
+	                //+ right
+	                //- left
+
+	                mainTransform.localPosition = new Vector3(mainStartPos.x + deltaX, mainStartPos.y,
+	                    mainTransform.localPosition.z);
+	                modesTransform.localPosition = new Vector3(modesStartPos.x + deltaX, modesStartPos.y,
+	                    modesTransform.localPosition.z);
+	            }
 	            break;
 
             //case TouchPhase.Stationary:
@@ -63,18 +97,23 @@ public class HeplPageScript : MonoBehaviour
 
 	        case TouchPhase.Ended:
 	            //var swipeTime = Time.time - startTime;
+                if (CurrentDirection == 0)
+                    return;
+                
                 var swipeDist = Mathf.Abs(realTouchPosition.x - startPos.x);
 	            if (swipeDist > minSwipeDist)
 	            {
                     if (CurrentDirection < 0)
 	                {
-                        main.GetComponent<GameItemMovingScript>().MoveTo(-480, 0, 20, null);
+                        main.GetComponent<GameItemMovingScript>().MoveTo(-480, baseY, 20, null);
 	                    modes.GetComponent<GameItemMovingScript>().MoveTo(0, 0, 20, null);
+	                    SelectedItem = modes;
 	                }
                     if (CurrentDirection > 0)
                     {
-                        main.GetComponent<GameItemMovingScript>().MoveTo(0, 0, 20, null);
+                        main.GetComponent<GameItemMovingScript>().MoveTo(baseX, baseY, 20, null);
                         modes.GetComponent<GameItemMovingScript>().MoveTo(480, 0, 20, null);
+                        SelectedItem = main;
                     }
 	                //var t = mainTransform.  
 	            }
