@@ -15,6 +15,7 @@ public class Destination2D
     private Vector2 _showFrom;
     public Vector2 Direction { get; set; }
     public Vector3 Destination { get; set; }
+    public Vector3 Movement { get; set; } 
     public Vector3 StartPoint { get; set; }
     public Vector2 Speed { get; set; }
     public LineOrientation MovementOrientation { get; set; }
@@ -90,31 +91,33 @@ public class GameItemMovingScript : MonoBehaviour
 
         
         //var finalPoint = _destinations[0];
-        if (Math.Abs(transform.localPosition.x - CurrentDestination.Destination.x) > 0.01 || Math.Abs(transform.localPosition.y - CurrentDestination.Destination.y) > 0.01)
-        {
+        //if (Math.Abs(transform.localPosition.y - CurrentDestination.Destination.y) > 0.01 || Math.Abs(transform.localPosition.x - CurrentDestination.Destination.x) > 0.01)
+        //{
             if (!CurrentDestination.Visible && CurrentDestination.ScaleTo != Vector3.zero &&
-                (Math.Abs(CurrentDestination.ShowFrom.x - transform.localPosition.x) < 0.01 ||
-                 transform.localPosition.x > CurrentDestination.ShowFrom.x)
+                /*(Math.Abs(transform.localPosition.y - CurrentDestination.ShowFrom.y) < 0.01 ||*/
+                 transform.localPosition.y <= CurrentDestination.ShowFrom.y
                 &&
-                (Math.Abs(transform.localPosition.y - CurrentDestination.ShowFrom.y) < 0.01 ||
-                 transform.localPosition.y < CurrentDestination.ShowFrom.y))
+                /*(Math.Abs(CurrentDestination.ShowFrom.x - transform.localPosition.x) < 0.01 ||*/
+                 transform.localPosition.x >= CurrentDestination.ShowFrom.x)
             {
                 transform.localScale = CurrentDestination.ScaleTo;
                 CurrentDestination.Visible = true;
             }
-            var movement = new Vector3(
+            var movement = CurrentDestination.Movement * Time.deltaTime;
+            /*new Vector3(
                 CurrentDestination.Speed.x * CurrentDestination.Direction.x,
                 CurrentDestination.Speed.y * CurrentDestination.Direction.y, 0f);
 
-            movement *= Time.deltaTime;
+            movement *= Time.deltaTime;*/
 
             if (CurrentDestination.MovementOrientation == LineOrientation.Vertical)
             {
                 //if (Math.Abs(transform.localPosition.y - finalPoint.Destination.y) < Math.Abs(movement.y))
-                if (Math.Abs(CurrentDestination.StartPoint.y - CurrentDestination.Destination.y) - Math.Abs(CurrentDestination.StartPoint.y - transform.localPosition.y) <= Math.Abs(movement.y))
+                if (CurrentDestination.Direction.y * (CurrentDestination.Destination.y - transform.localPosition.y) <= 0/*Math.Abs(CurrentDestination.StartPoint.y - CurrentDestination.Destination.y) - Math.Abs(CurrentDestination.StartPoint.y - transform.localPosition.y) <= Math.Abs(movement.y)*/)
                 {
                     //movement.y = destination.y - transform.localPosition.y;
                     transform.localPosition = new Vector3(transform.localPosition.x, CurrentDestination.Destination.y, CurrentDestination.Destination.z);
+                    CurrentMoveDone();
                     return;
                     //isMoving = false;
                 }
@@ -122,25 +125,29 @@ public class GameItemMovingScript : MonoBehaviour
             else if (CurrentDestination.MovementOrientation == LineOrientation.Horizontal)
             {
                 //if (Math.Abs(transform.localPosition.x - finalPoint.Destination.x) < Math.Abs(movement.x))
-                if (Math.Abs(CurrentDestination.StartPoint.x - CurrentDestination.Destination.x) - Math.Abs(CurrentDestination.StartPoint.x - transform.localPosition.x) <= Math.Abs(movement.x))
+                if (CurrentDestination.Direction.x * (CurrentDestination.Destination.x - transform.localPosition.x) <= 0/*Math.Abs(CurrentDestination.StartPoint.x - CurrentDestination.Destination.x) - Math.Abs(CurrentDestination.StartPoint.x - transform.localPosition.x) <= Math.Abs(movement.x)*/)
                 {
                     //movement.x = destination.x - transform.localPosition.x;
                     transform.localPosition = new Vector3(CurrentDestination.Destination.x, transform.localPosition.y, CurrentDestination.Destination.z);
+                    CurrentMoveDone();
                     return;
                     //isMoving = false;
                 }
             }
             else if (CurrentDestination.MovementOrientation == LineOrientation.Both)
             {
-                if (//Math.Abs(transform.localPosition.x - finalPoint.Destination.x) < Math.Abs(movement.x) ||
-                    //Math.Abs(transform.localPosition.y - finalPoint.Destination.y) < Math.Abs(movement.y))
-                    Math.Abs(CurrentDestination.StartPoint.y - CurrentDestination.Destination.y) - Math.Abs(CurrentDestination.StartPoint.y - transform.localPosition.y) <= Math.Abs(movement.y) ||
-                    Math.Abs(CurrentDestination.StartPoint.x - CurrentDestination.Destination.x) - Math.Abs(CurrentDestination.StartPoint.x - transform.localPosition.x) <= Math.Abs(movement.x))
+                if (
+                    /*Math.Abs(CurrentDestination.StartPoint.y - CurrentDestination.Destination.y) - Math.Abs(CurrentDestination.StartPoint.y - transform.localPosition.y) <= Math.Abs(movement.y) ||
+                    Math.Abs(CurrentDestination.StartPoint.x - CurrentDestination.Destination.x) - Math.Abs(CurrentDestination.StartPoint.x - transform.localPosition.x) <= Math.Abs(movement.x)*/
+                    CurrentDestination.Direction.y * (CurrentDestination.Destination.y - transform.localPosition.y) <= 0 ||
+                    CurrentDestination.Direction.x * (CurrentDestination.Destination.x - transform.localPosition.x) <= 0
+                    )
                 {
                     //movement.x = destination.x - transform.localPosition.x;
                     //movement.y = destination.y - transform.localPosition.y;
 
                     transform.localPosition = new Vector3(CurrentDestination.Destination.x, CurrentDestination.Destination.y, CurrentDestination.Destination.z);
+                    CurrentMoveDone();
                     return;
                     //isMoving = false;
                 }
@@ -161,9 +168,15 @@ public class GameItemMovingScript : MonoBehaviour
             transform.Translate(movement);
 
             return;
-        }
+       // }
 
         //LogFile.Message("Moved callback on go");
+        CurrentMoveDone();
+            
+    }
+
+    private void CurrentMoveDone()
+    {
         var callbackVariable = CurrentDestination.MovingCallback;
         LogFile.Message("callbackVariable = " + (callbackVariable != null ? callbackVariable.ToString() : "null"), true);
 
@@ -183,7 +196,7 @@ public class GameItemMovingScript : MonoBehaviour
             //LogFile.Message("Moved callback rised");
         }
         else
-            LogFile.Message("No Moved() callback!", true);    
+            LogFile.Message("No Moved() callback!", true);
     }
 
     public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
@@ -224,6 +237,7 @@ public class GameItemMovingScript : MonoBehaviour
         newMove.Destination = new Vector3(toX, toY, toZ);
         newMove.StartPoint = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
         newMove.Speed = new Vector2(movingSpeed, movingSpeed);
+        newMove.Movement = new Vector3(newMove.Speed.x * newMove.Direction.x, newMove.Speed.y * newMove.Direction.y, 0f);
         newMove.ShowFrom = showFrom.HasValue ? showFrom.Value : Vector2.zero;
         newMove.ScaleTo = scaleTo.HasValue ? scaleTo.Value : Vector3.zero;
         newMove.MoveSound = moveSound;
