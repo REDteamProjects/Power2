@@ -158,24 +158,12 @@ namespace Assets.Scripts
                     case GameItemType._7:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.medium;
-                        GameObject.Find("/Middleground/Background").GetComponent<Image>().sprite =
-                            Resources.LoadAll<Sprite>("SD/6x6Atlas")[1];//TODO: fix with difficulty restore and with getting rigt sprite with GetBackgroundTexturePrefix() method
-
-                        var mediumlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                        var mediumlabel = mediumlabelObject.GetComponent<LabelShowing>();
-                        mediumlabel.transform.SetParent(transform);
-                        mediumlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                        DifficultyRaisedGUI();
                         break;
                     case GameItemType._10:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.hard;
-                        GameObject.Find("/Middleground/Background").GetComponent<Image>().sprite =
-                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[2];
-
-                        var hardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                        var hardlabel = hardlabelObject.GetComponent<LabelShowing>();
-                        hardlabel.transform.SetParent(transform);
-                        hardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true, null, true);
+                        DifficultyRaisedGUI();
                         while (XItemsCount < maxAdditionalItemsCount)
                             {
                               int col;
@@ -191,13 +179,7 @@ namespace Assets.Scripts
                     case GameItemType._13:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.veryhard;
-                        GameObject.Find("/Middleground/Background").GetComponent<Image>().sprite =
-                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[3];
-
-                        var veryhardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                        var veryhardlabel = veryhardlabelObject.GetComponent<LabelShowing>();
-                        veryhardlabel.transform.SetParent(transform);
-                        veryhardlabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, Color.gray, 60, 90, null, true, null, true);
+                        DifficultyRaisedGUI();
                         MixTimeCounter = _mixTimeCounterSize;
                         break;
                 }
@@ -208,6 +190,43 @@ namespace Assets.Scripts
                 }
                 ShowMaxInitialElement();
             }
+        }
+
+        private void DifficultyRaisedGUI()
+        {
+            var go = GameObject.Find("/Middleground/Background");
+            var oits = go.GetComponent<ObjectImageTransparencyScript>();
+            switch(Game.Difficulty)
+            {
+                case DifficultyLevel.medium:
+                     oits.SetTransparency(0.1f, (obj, res) =>
+                         {
+                         go.GetComponent<Image>().sprite =
+                            Resources.LoadAll<Sprite>("SD/6x6Atlas")[1];//TODO: fix with difficulty restore and with getting rigt sprite with GetBackgroundTexturePrefix() method
+                         oits.SetTransparency(1f, null);
+                         });
+                     break;
+                case DifficultyLevel.hard:
+                    oits.SetTransparency(0.1f, (obj, res) =>
+                         {
+                         go.GetComponent<Image>().sprite =
+                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[2];
+                         oits.SetTransparency(1f, null);
+                         });
+                    break;
+                case DifficultyLevel.veryhard:
+                    oits.SetTransparency(0.1f, (obj, res) =>
+                         {
+                         go.GetComponent<Image>().sprite =
+                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[3];
+                         oits.SetTransparency(1f, null);
+                         });
+                    break;
+            }
+            var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            var label = labelObject.GetComponent<LabelShowing>();
+            label.transform.SetParent(transform);
+            label.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
         }
         
         public void ShowMaxInitialElement()
