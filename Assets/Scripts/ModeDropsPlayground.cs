@@ -31,7 +31,7 @@ namespace Assets.Scripts
             get { return GameSettingsHelper<ModeDropsPlayground>.Preferenses; }
         }
 
-        public override String ItemPrefabName { get { return ItemPrefabNameHelper.GetPrefabPath<ModeDropsPlayground>(); } }
+        public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<ModeDropsPlayground>(); } }
 
         public override bool AreStaticItemsDroppable { get { return true; } }
 

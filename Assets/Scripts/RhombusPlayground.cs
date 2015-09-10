@@ -9,7 +9,7 @@ namespace Assets.Scripts
 {
     class RhombusPlayground : SquarePlayground
     {
-		public override String ItemPrefabName { get { return ItemPrefabNameHelper.GetPrefabPath<RhombusPlayground>(); } }
+		public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<RhombusPlayground>(); } }
 
         public override float ScaleMultiplyer
         {

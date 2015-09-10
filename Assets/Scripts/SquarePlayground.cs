@@ -158,6 +158,9 @@ namespace Assets.Scripts
                     case GameItemType._7:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.medium;
+                        GameObject.Find("/Middleground/Background").GetComponent<Image>().sprite =
+                            Resources.LoadAll<Sprite>("SD/6x6Atlas")[1];//TODO: fix with difficulty restore and with getting rigt sprite with GetBackgroundTexturePrefix() method
+
                         var mediumlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var mediumlabel = mediumlabelObject.GetComponent<LabelShowing>();
                         mediumlabel.transform.SetParent(transform);
@@ -166,6 +169,9 @@ namespace Assets.Scripts
                     case GameItemType._10:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.hard;
+                        GameObject.Find("/Middleground/Background").GetComponent<Image>().sprite =
+                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[2];
+
                         var hardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var hardlabel = hardlabelObject.GetComponent<LabelShowing>();
                         hardlabel.transform.SetParent(transform);
@@ -185,6 +191,9 @@ namespace Assets.Scripts
                     case GameItemType._13:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.veryhard;
+                        GameObject.Find("/Middleground/Background").GetComponent<Image>().sprite =
+                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[3];
+
                         var veryhardlabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                         var veryhardlabel = veryhardlabelObject.GetComponent<LabelShowing>();
                         veryhardlabel.transform.SetParent(transform);

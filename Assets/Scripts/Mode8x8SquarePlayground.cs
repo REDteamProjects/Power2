@@ -16,7 +16,7 @@ namespace Assets.Scripts
             get { return GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses; }
         }
 
-        public override String ItemPrefabName { get { return ItemPrefabNameHelper.GetPrefabPath<Mode8x8SquarePlayground>(); } }
+        public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<Mode8x8SquarePlayground>(); } }
 
         public override IPlaygroundSavedata SavedataObject
         {

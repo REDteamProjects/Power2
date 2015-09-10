@@ -25,7 +25,7 @@ public class StatisticPageScript : MonoBehaviour
         if (child != null)
             Destroy(child.gameObject);
 
-        var inststr = type <= GameItemType.DisabledItem ? "Prefabs/GameItem_LostItem" : ItemPrefabNameHelper.GetPrefabPath<T>() + type;
+        var inststr = type <= GameItemType.DisabledItem ? "Prefabs/GameItem_LostItem" : ItemsNameHelper.GetPrefabPath<T>() + type;
         var newgobj =
             Instantiate(Resources.Load(inststr)) as GameObject;
         

@@ -18,7 +18,7 @@ namespace Assets.Scripts
             get { return GameSettingsHelper<ModeMatch3Playground>.Preferenses; }
         }
 
-        public override String ItemPrefabName { get { return ItemPrefabNameHelper.GetPrefabPath<ModeMatch3Playground>(); } }
+        public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<ModeMatch3Playground>(); } }
 
         public override IPlaygroundSavedata SavedataObject
         {
