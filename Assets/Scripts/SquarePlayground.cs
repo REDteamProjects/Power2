@@ -207,9 +207,7 @@ namespace Assets.Scripts
                             backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
                                 .SingleOrDefault(t => t.name.Contains(DifficultyLevel.medium.ToString()));
 
-                            var pbo = GameObject.Find("/Foreground/ProgressBar/ProgressBarLine");
-                            pbo.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
-                               .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+                            GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.medium);
 
                             oits.SetTransparency(1f, null);
                         });
@@ -221,9 +219,7 @@ namespace Assets.Scripts
                              backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
                                 .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
 
-                             var pbo = GameObject.Find("/Foreground/ProgressBar/ProgressBarLine");
-                             pbo.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
-                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+                             GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.hard);
 
                              oits.SetTransparency(1f, null);
                          });
@@ -235,9 +231,7 @@ namespace Assets.Scripts
                              backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
                                 .SingleOrDefault(t => t.name.Contains(DifficultyLevel.veryhard.ToString()));
 
-                             var pbo = GameObject.Find("/Foreground/ProgressBar/ProgressBarLine");
-                             pbo.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
-                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+                             GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.veryhard);
 
                              oits.SetTransparency(1f, null);
                          });

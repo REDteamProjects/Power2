@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.Enums;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Helpers
 {
@@ -108,6 +110,14 @@ namespace Assets.Scripts.Helpers
             _progressBarBank = count >= ProgressBarBaseSize ? ProgressBarBaseSize : count;
             _progressBarBankUpper = upper;
             _moveTimerMultiple = timeMultiple;
+            ProgressBarRun = true;
+        }
+
+        public void UpdateTexture(DifficultyLevel level)
+        {
+            ProgressBarRun = false;
+            _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
+               .SingleOrDefault(t => t.name.Contains(level.ToString()));
             ProgressBarRun = true;
         }
     }
