@@ -20,6 +20,8 @@ namespace Assets.Scripts
 
         public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<ModeMatch3Playground>(); } }
 
+        public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<ModeMatch3Playground>(); } }
+
         public override IPlaygroundSavedata SavedataObject
         {
             get
@@ -116,6 +118,8 @@ namespace Assets.Scripts
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
+
+                    Game.Difficulty = sd.Difficulty;
 
                     CurrentTime = sd.CurrentPlaygroundTime;
                     RisePoints(sd.Score);

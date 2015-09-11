@@ -38,7 +38,7 @@ namespace Assets.Scripts
 
         protected static readonly System.Random RandomObject = new System.Random();
         protected GameItemType MaxType = GameItemType._3;
-        
+
         protected const int maxAdditionalItemsCount = 2;
         protected int DropDownItemsCount;
         protected int XItemsCount;
@@ -102,14 +102,16 @@ namespace Assets.Scripts
             get { return 1; }
         }
 
-        public virtual String ItemPrefabName { get { return "Prefabs/Standard/GameItem"; } }
-        
+        public virtual String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<SquarePlayground>(); } }
+
+        public virtual string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<SquarePlayground>(); } }
+
         public virtual bool AreStaticItemsDroppable { get { return false; } }
-        
+
         public virtual bool isDisabledItemActive { get { return false; } }
-        
+
         public System.Object DisabledItem { get { return _disabledItem; } }
-        
+
         public Point SelectedPoint1
         {
             set
@@ -126,7 +128,7 @@ namespace Assets.Scripts
                 _selectedPoint1Coordinate = value;
             }
         }
-        
+
         public Point SelectedPoint2
         {
             set
@@ -143,7 +145,7 @@ namespace Assets.Scripts
                 _selectedPoint2Coordinate = value;
             }
         }
-        
+
         public GameItemType MaxInitialElementType
         {
             get { return MaxType; }
@@ -153,7 +155,7 @@ namespace Assets.Scripts
                 MaxType = value;
                 if (Preferenses.CurrentItemType < MaxType)
                     Preferenses.CurrentItemType = MaxType;
-				switch(MaxType)
+                switch (MaxType)
                 {
                     case GameItemType._7:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
@@ -165,16 +167,16 @@ namespace Assets.Scripts
                         Game.Difficulty = DifficultyLevel.hard;
                         DifficultyRaisedGUI();
                         while (XItemsCount < maxAdditionalItemsCount)
+                        {
+                            int col;
+                            int row;
+                            while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) > (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) && !(Items[col][row] as GameObject).GetComponent<GameItemMovingScript>().IsMoving) { }
+                            RemoveGameItem(col, row, (item, r) =>
                             {
-                              int col;
-                              int row;
-                              while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) > (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) && !(Items[col][row] as GameObject).GetComponent<GameItemMovingScript>().IsMoving) { }
-                              RemoveGameItem(col, row, (item, r) =>
-                              {
-                                  Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero, false, null, null, GameItemMovingType.Static);
-                              });
-                              XItemsCount++;
-                            }
+                                Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero, false, null, null, GameItemMovingType.Static);
+                            });
+                            XItemsCount++;
+                        }
                         break;
                     case GameItemType._13:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
@@ -183,7 +185,7 @@ namespace Assets.Scripts
                         MixTimeCounter = _mixTimeCounterSize;
                         break;
                 }
-                if ((int) MaxType > FieldSize)
+                if ((int)MaxType > FieldSize)
                 {
                     DestroyElements(MinType);
                     //GenerateField();
@@ -196,30 +198,48 @@ namespace Assets.Scripts
         {
             var go = GameObject.Find("/Middleground/Background");
             var oits = go.GetComponent<ObjectImageTransparencyScript>();
-            switch(Game.Difficulty)
+            switch (Game.Difficulty)
             {
                 case DifficultyLevel.medium:
-                     oits.SetTransparency(0.1f, (obj, res) =>
-                         {
-                         go.GetComponent<Image>().sprite =
-                            Resources.LoadAll<Sprite>("SD/6x6Atlas")[1];//TODO: fix with difficulty restore and with getting rigt sprite with GetBackgroundTexturePrefix() method
-                         oits.SetTransparency(1f, null);
-                         });
-                     break;
+                    oits.SetTransparency(0.1f, (obj, res) =>
+                        {
+                            var backgroundObject = GameObject.Find("/Middleground/Background");
+                            backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
+                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.medium.ToString()));
+
+                            var pbo = GameObject.Find("/Foreground/ProgressBar/ProgressBarLine");
+                            pbo.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
+                               .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+
+                            oits.SetTransparency(1f, null);
+                        });
+                    break;
                 case DifficultyLevel.hard:
                     oits.SetTransparency(0.1f, (obj, res) =>
                          {
-                         go.GetComponent<Image>().sprite =
-                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[2];
-                         oits.SetTransparency(1f, null);
+                             var backgroundObject = GameObject.Find("/Middleground/Background");
+                             backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
+                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+
+                             var pbo = GameObject.Find("/Foreground/ProgressBar/ProgressBarLine");
+                             pbo.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
+                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+
+                             oits.SetTransparency(1f, null);
                          });
                     break;
                 case DifficultyLevel.veryhard:
                     oits.SetTransparency(0.1f, (obj, res) =>
                          {
-                         go.GetComponent<Image>().sprite =
-                            Resources.LoadAll<Sprite>("SD/StatisticHeader")[3];
-                         oits.SetTransparency(1f, null);
+                             var backgroundObject = GameObject.Find("/Middleground/Background");
+                             backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
+                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.veryhard.ToString()));
+
+                             var pbo = GameObject.Find("/Foreground/ProgressBar/ProgressBarLine");
+                             pbo.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
+                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+
+                             oits.SetTransparency(1f, null);
                          });
                     break;
             }
@@ -228,7 +248,7 @@ namespace Assets.Scripts
             label.transform.SetParent(transform);
             label.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
         }
-        
+
         public void ShowMaxInitialElement()
         {
             var fg = GameObject.Find("/Foreground");
@@ -248,7 +268,7 @@ namespace Assets.Scripts
                     Destroy(cmi);
             });
         }
-        
+
         public void DestroyElements(GameItemType withType)
         {
             LogFile.Message("Destroy elements above " + withType);
@@ -263,37 +283,37 @@ namespace Assets.Scripts
                         var item = gobj.GetComponent<GameItem>();
                         if (item.Type == GameItemType.DisabledItem || item.Type == GameItemType.NullItem || item.Type > withType) continue;
                         LogFile.Message("Item destroied: " + item.Type, true);
-                        pointsBank += (int) Math.Pow(2, (double) item.Type);
-						RemoveGameItem(i, j);
+                        pointsBank += (int)Math.Pow(2, (double)item.Type);
+                        RemoveGameItem(i, j);
                         //Items[i][j] = null;
                         //Destroy(gobj);
                     }
             }
-           
+
             RisePoints(pointsBank);
             if (ProgressBar != null)
                 ProgressBar.AddTime(pointsBank * 2);
         }
-        
+
         public virtual IPlaygroundSavedata SavedataObject
         {
             get { return null; }
         }
-        
+
         public virtual int FieldSize { get { return 0; } }
-        
+
         public float DeltaToExchange { get { return GameItemSize / 2f; } }
-        
+
         public float DeltaToMove { get { return GameItemSize / 4f; } }
-        
+
         public object[][] Items { get; set; }
-        
+
         public virtual float GameItemSize { get { return 0f; } }
-        
+
         public virtual RealPoint InitialGameItemPosition { get { return null; } }
-        
+
         public Dictionary<MoveDirections, Vector2> AvailableMoveDirections { get; protected set; }
-        
+
         public int CurrentScore
         {
             get { return GetComponent<PointsUpdater>().CurrentScore; }
@@ -321,10 +341,10 @@ namespace Assets.Scripts
             set
             {
                 if (_currentTime == value) return;
-                    _currentTime = value;  
+                _currentTime = value;
             }
         }
-        
+
         public int DropsCount
         {
             get
@@ -352,7 +372,7 @@ namespace Assets.Scripts
                 //}
             }
         }
-        
+
         public int ChainCounter
         {
             get { return _chainCounter; }
@@ -366,14 +386,14 @@ namespace Assets.Scripts
                     Preferenses.MaxMultiplier = _chainCounter;
             }
         }
-        
+
         public float TimeCounter
         {
             get { return _timeCounter; }
             set { _timeCounter = value; }
         }
 
-		public float MixTimeCounter
+        public float MixTimeCounter
         {
             get { return _mixTimeCounter; }
             set { _mixTimeCounter = value; }
@@ -432,7 +452,8 @@ namespace Assets.Scripts
             AvailableMoveDirections = dictionary;
         }
 
-        public SquarePlayground() : this(new Dictionary<MoveDirections, Vector2>
+        public SquarePlayground()
+            : this(new Dictionary<MoveDirections, Vector2>
             {
                 {MoveDirections.Up, new Vector2(0, 1)},
                 {MoveDirections.Down, new Vector2(0, -1)},
@@ -442,7 +463,7 @@ namespace Assets.Scripts
                 {MoveDirections.UR, new Vector2(1, 1)},
                 {MoveDirections.DL, new Vector2(-1, -1)},
                 {MoveDirections.DR, new Vector2(1, -1)},
-            }){}
+            }) { }
 
 
         protected void RemoveAdditionalItems()
@@ -506,16 +527,16 @@ namespace Assets.Scripts
                 _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
             TimeCounter += Time.deltaTime;
-			if (Game.Difficulty >= DifficultyLevel.veryhard)
+            if (Game.Difficulty >= DifficultyLevel.veryhard)
             {
                 MixTimeCounter -= Time.deltaTime;
-                if(MixTimeCounter <= 0)
+                if (MixTimeCounter <= 0)
                 {
                     GenerateField(false, true);
                     MixTimeCounter = _mixTimeCounterSize;
                 }
             }
-		}
+        }
 
         public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
@@ -530,13 +551,13 @@ namespace Assets.Scripts
             newgobj.GetComponent<GameItem>().MovingType = movingType;
             return newgobj;
         }
-        
-        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, 
+
+        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null,
             GameItemMovingType movingType = GameItemMovingType.Standart)
         {
             if (!generateOn.HasValue)
                 generateOn = new Vector2(0, FieldSize - j);
-            if (Item00 == null) 
+            if (Item00 == null)
                 Item00 = InitialGameItemPosition;
             var cell = GetCellCoordinates(i, j);
             var gobj = InstantiateGameItem(itemType, new Vector3(
@@ -550,26 +571,26 @@ namespace Assets.Scripts
             //}
             //else
             //{
-                var c = gobj.GetComponent<GameItemMovingScript>();
-                LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize), true);
-                CallbacksCount++;
-                c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
+            var c = gobj.GetComponent<GameItemMovingScript>();
+            LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize), true);
+            CallbacksCount++;
+            c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
+            {
+                CallbacksCount--;
+                if (movingCallback != null)
+                    movingCallback(item, result);
+                else
                 {
-                    CallbacksCount--;
-                    if (movingCallback != null)
-                        movingCallback(item, result);
-                    else
-                    {
-                        if (!result) return;
-                        if (CallbacksCount == 0)
-                            ClearChains();
-                    }
-                }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), isItemDirectionChangable, 
-                null, Power2Sounds.Drop);
+                    if (!result) return;
+                    if (CallbacksCount == 0)
+                        ClearChains();
+                }
+            }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), isItemDirectionChangable,
+            null, Power2Sounds.Drop);
             //}
             return gobj;
         }
-        
+
         public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
             //var minType = MaxType - FieldSize;
@@ -580,17 +601,17 @@ namespace Assets.Scripts
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
             return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
         }
-        
+
         //private bool IsEndPoint(IEnumerable<Line> lines, int currentX, int currentY)
         //{
         //    return lines.Any(l => (l.X2 == currentX && l.Y2 == currentY));
         //}
-        
+
         public virtual bool IsInAnotherLine(IEnumerable<Line> lines, int currentX, int currentY)
         {
             return lines.Count(l => (l.X1 <= currentX && l.X2 >= currentX && l.Y1 <= currentY && l.Y2 >= currentY)) > 1;
         }
-        
+
         public bool MatchType(int x, int y, GameItemType itemType)
         {
             // убедимся, что фишка не выходит за пределы поля    
@@ -600,14 +621,14 @@ namespace Assets.Scripts
             var gi = gobj.GetComponent<GameItem>();
             return gi != null && gi.Type == itemType;
         }
-        
+
         public virtual Vector3 GetCellCoordinates(int col, int row)
         {
             var roundedX = Math.Round(Item00.X + Convert.ToSingle(col) * GameItemSize, 2);
             var roundedY = Math.Round(Item00.Y - GameItemSize * Convert.ToSingle(row), 2);
             return new Vector3((float)roundedX, (float)roundedY, Item00.Z);
         }
-        
+
         public virtual bool MatchPattern(GameItemType itemType, Point firstItem, Point secondItem, IEnumerable<Point> pointForCheck)
         {
             var mainType = MatchType(firstItem.X + secondItem.X, firstItem.Y + secondItem.Y, itemType);
@@ -671,7 +692,7 @@ namespace Assets.Scripts
             }
             return false;
         }
-        
+
         public virtual IList<Line> GetAllLines()
         {
             //LogFile.Message("Finding lines...");
@@ -700,7 +721,7 @@ namespace Assets.Scripts
                 LogFile.Message("Find " + list.Count + " lines", true);
             return list;
         }
-        
+
         public virtual int CheckForLine(int x, int y, LineOrientation orientation)
         {
             var count = 1;
@@ -712,7 +733,7 @@ namespace Assets.Scripts
                     {
                         //var goItem = (Items[x + i][y] as GameObject);
                         if (Items[x + i][y] == null || Items[x + i][y] == DisabledItem) break; //|| (
-                            //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
+                        //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
@@ -733,7 +754,7 @@ namespace Assets.Scripts
                     {
                         //var goItem = (Items[x][y + i] as GameObject);
                         if (Items[x][y + i] == null || Items[x][y + i] == DisabledItem) break; // || (
-                            //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
+                        //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
@@ -752,7 +773,7 @@ namespace Assets.Scripts
             }
             return count;
         }
-        
+
         public virtual int ClearChains()
         {
             if (IsGameOver) return -1;
@@ -817,7 +838,7 @@ namespace Assets.Scripts
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
                             if (!result) return;
-                           
+
                             Destroy(item);
                         });
 
@@ -857,7 +878,7 @@ namespace Assets.Scripts
                             CallbacksCount--;
                             if (!result) return;
 
-                            Destroy(item);                            
+                            Destroy(item);
                         });
                     }
                 }
@@ -878,7 +899,7 @@ namespace Assets.Scripts
                     if (o != null)
                     {
                         var pointsLabel = o.GetComponent<LabelShowing>();
-                        
+
                         if (newgobjtype <= MaxInitialElementType)
                         {
                             pointsBank += points;
@@ -920,28 +941,28 @@ namespace Assets.Scripts
             }
             LogFile.Message("All lines collected", true);
             RemoveAdditionalItems();
-            
+
             if (!IsGameOver) return linesCount;
             GenerateGameOverMenu();
 
-			return linesCount;
+            return linesCount;
         }
 
         public void GenerateGameOverMenu()
-        {   
+        {
             var fg = GameObject.Find("/Foreground");
 
             var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
             var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
- 
+
             if (fg != null)
             {
                 pausebackground.transform.SetParent(fg.transform);
-                gameOverLabelObject.transform.SetParent(fg.transform); 
+                gameOverLabelObject.transform.SetParent(fg.transform);
             }
 
             pausebackground.transform.localPosition = Vector3.zero;
-            (pausebackground.transform as RectTransform).sizeDelta = Vector2.zero; 
+            (pausebackground.transform as RectTransform).sizeDelta = Vector2.zero;
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 100, -3),
@@ -975,7 +996,7 @@ namespace Assets.Scripts
                 {
                     if (Items[col][row] == null || Items[col][row] == DisabledItem)
                         continue;
-                    
+
                     var o = Items[col][row] as GameObject;
                     if (o != null && (!AreStaticItemsDroppable && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                         continue;
@@ -1016,7 +1037,7 @@ namespace Assets.Scripts
                         if (row + 2 < FieldSize && Items[col][row + 2] == null) generateAfterDrop = false;
                         continue;
                     }
-                    
+
                     var gobj = Items[col][row] as GameObject;
                     if (gobj == null) continue;
                     var c = gobj.GetComponent<GameItemMovingScript>();
@@ -1030,7 +1051,7 @@ namespace Assets.Scripts
                     var row1 = row;
                     c.MoveTo(null, GetCellCoordinates(col, row + 1).y, 14, (item, result) =>
                     {
-                        if (!c.IsMoving) 
+                        if (!c.IsMoving)
                             DropsCount--;
                         if (!result) return;
                         LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount, true);
@@ -1044,9 +1065,9 @@ namespace Assets.Scripts
             if (counter == 0 && DropsCount == 0 && generateAfterDrop)
                 GenerateField(true);
         }
-        
+
         public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
-        {        
+        {
             if (!mixCurrent)
             {
                 for (var i = FieldSize - 1; i >= 0; i--)
@@ -1178,11 +1199,11 @@ namespace Assets.Scripts
                     }
                 }
             }
-            
+
             //if (!isNoLines && _callbackReady.WaitOne(1))
             // ClearChains();
         }
-        
+
         public virtual bool GameItemsExchange(int x1, int y1, ref int x2, ref int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
             var item1 = Items[x1][y1] as GameObject;
@@ -1287,12 +1308,12 @@ namespace Assets.Scripts
                     if (row == 0 || Items[col][row - 1] == DisabledItem)
                         return false;
                     var objectUp = Items[col][row - 1] as GameObject;
-                    
+
                     if (objectUp == null || objectUp.GetComponent<GameItemMovingScript>().IsMoving || objectUp.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         return false;
                     break;
                 case MoveDirections.Down:
-                    if (row == (FieldSize - 1) || Items[col][row + 1] == DisabledItem )
+                    if (row == (FieldSize - 1) || Items[col][row + 1] == DisabledItem)
                         return false;
                     var objectDown = Items[col][row + 1] as GameObject;
 
@@ -1303,7 +1324,7 @@ namespace Assets.Scripts
                     if (col == 0 || Items[col - 1][row] == DisabledItem)
                         return false;
                     var objectLeft = Items[col - 1][row] as GameObject;
-                    
+
                     if (objectLeft == null || objectLeft.GetComponent<GameItemMovingScript>().IsMoving || objectLeft.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         return false;
                     break;
@@ -1311,14 +1332,14 @@ namespace Assets.Scripts
                     if (col == (FieldSize - 1) || Items[col + 1][row] == DisabledItem)
                         return false;
                     var objectRight = Items[col + 1][row] as GameObject;
-                    
+
                     if (objectRight == null || objectRight.GetComponent<GameItemMovingScript>().IsMoving || objectRight.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         return false;
                     break;
             }
             return true;
         }
-        
+
         public virtual bool IsPointInLine(int col, int row)
         {
             var hor = 0;
@@ -1330,7 +1351,7 @@ namespace Assets.Scripts
             {
                 var gobj2 = Items[i][row] as GameObject;
                 if (gobj2 == null) continue;
-                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
+                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                 var gi2 = gobj2.GetComponent<GameItem>();
                 if (gi.Type == gi2.Type)
                     hor++;
@@ -1343,7 +1364,7 @@ namespace Assets.Scripts
                 {
                     var gobj2 = Items[i][row] as GameObject;
                     if (gobj2 == null) continue;
-                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
+                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                     var gi2 = gobj2.GetComponent<GameItem>();
                     if (gi.Type == gi2.Type)
                         hor++;
@@ -1359,7 +1380,7 @@ namespace Assets.Scripts
             {
                 var gobj2 = Items[col][j] as GameObject;
                 if (gobj2 == null) continue;
-                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
+                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                 var gi2 = gobj2.GetComponent<GameItem>();
                 if (gi.Type == gi2.Type)
                     vert++;
@@ -1371,7 +1392,7 @@ namespace Assets.Scripts
                 {
                     var gobj2 = Items[col][j] as GameObject;
                     if (gobj2 == null) continue;
-                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break; 
+                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                     var gi2 = gobj2.GetComponent<GameItem>();
                     if (gi.Type == gi2.Type)
                         vert++;
@@ -1381,7 +1402,7 @@ namespace Assets.Scripts
             else return true;
             return vert > 1;
         }
-        
+
         public virtual bool TryMakeMove(int x1, int y1, int x2, int y2)
         {
             if (Items[x1][y1] == null || Items[x1][y1] == DisabledItem ||
@@ -1396,7 +1417,7 @@ namespace Assets.Scripts
             Items[x1][y1] = tItem;
             return ret;
         }
-        
+
         public virtual bool CheckForPossibleMoves()
         {
             for (var col = 0; col < FieldSize; col++)
@@ -1444,7 +1465,7 @@ namespace Assets.Scripts
                 }
             return false;
         }
-        
+
         protected void RisePoints(int points)
         {
             if (points == 0)
@@ -1466,8 +1487,8 @@ namespace Assets.Scripts
             comboLabel.name = "ComboLabel";
             comboLabel.transform.SetParent(transform);
 
-            comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count%2 == 0 ? 30 : -30);
-            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -1),
+            comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
+            comboLabel.ShowScalingLabel(new Vector3(count % 2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -1),
                 "Combo x" + count + " lines!", new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
@@ -1505,7 +1526,7 @@ namespace Assets.Scripts
         {
             var giss = (Items[i][j] as GameObject).GetComponent<GameItemScalingScript>();
             var toSize = GameItemSize / ScaleMultiplyer / 4;
-			CallbacksCount++;
+            CallbacksCount++;
             Items[i][j] = null;
 
             giss.ScaleTo(new Vector3(toSize, toSize, 0), 8, (item, r) =>

@@ -95,10 +95,10 @@ public class GameItemMovingScript : MonoBehaviour
         //{
             if (!CurrentDestination.Visible && CurrentDestination.ScaleTo != Vector3.zero &&
                 /*(Math.Abs(transform.localPosition.y - CurrentDestination.ShowFrom.y) < 0.01 ||*/
-                 transform.localPosition.y <= CurrentDestination.ShowFrom.y
-                &&
+                 transform.localPosition.y <= CurrentDestination.ShowFrom.y)
+                //&&
                 /*(Math.Abs(CurrentDestination.ShowFrom.x - transform.localPosition.x) < 0.01 ||*/
-                 transform.localPosition.x >= CurrentDestination.ShowFrom.x)
+                // transform.localPosition.x >= CurrentDestination.ShowFrom.x)
             {
                 transform.localScale = CurrentDestination.ScaleTo;
                 CurrentDestination.Visible = true;
@@ -223,7 +223,7 @@ public class GameItemMovingScript : MonoBehaviour
             Ydir = transform.localPosition.y > y.Value ? -1 : 1;
             toY = y.Value;
             newMove.MovementOrientation = LineOrientation.Vertical;
-            if (x.HasValue)
+            if (x.HasValue && Math.Abs(x.Value - transform.localPosition.x) > 0.01)
             {
                 var X2dir = x.Value - transform.localPosition.x;
                 var Y2dir = y.Value - transform.localPosition.y;

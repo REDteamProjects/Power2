@@ -129,6 +129,8 @@ namespace Assets.Scripts
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
 
+                    Game.Difficulty = sd.Difficulty;
+
                     CurrentTime = sd.CurrentPlaygroundTime;
 
                     var mit = ((RhombusPlaygroundSavedata)sd).MaxInitialElementType;

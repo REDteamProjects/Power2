@@ -15,6 +15,11 @@ namespace Assets.Scripts.Interfaces
         String ItemPrefabName { get; }
 
         /// <summary>
+        /// Game item background texture path
+        /// </summary>
+        String ItemBackgroundTextureName { get; }
+
+        /// <summary>
         /// 
         /// </summary>
         IGameSettingsHelper Preferenses { get; }

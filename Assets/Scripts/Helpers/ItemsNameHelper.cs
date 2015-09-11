@@ -39,7 +39,7 @@ public class ItemsNameHelper  {
         if (typeT == typeof(Mode8x8SquarePlayground))
             return "SD/8x8Atlas";
 
-        if (typeT == typeof(Mode6x6SquarePlayground))
+        if (typeT == typeof(Mode6x6SquarePlayground) || typeT.BaseType == typeof(SquarePlayground))
             return "SD/6x6Atlas";
 
         return null;

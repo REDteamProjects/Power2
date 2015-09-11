@@ -19,6 +19,8 @@ namespace Assets.Scripts
 
         public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<Mode6x6SquarePlayground>(); } }
 
+        public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<Mode6x6SquarePlayground>(); } }
+
         public override IPlaygroundSavedata SavedataObject
         {
             get
@@ -75,24 +77,25 @@ namespace Assets.Scripts
             //if (progressBar != null)
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
             
-            
-            
             try
             {
                 if (Advertisement.isSupported)
                 {
 
-                    #if UNITY_ANDROID
-                        Advertisement.Initialize("59864", true);
-                    #endif
-                    #if UNITY_IOS 
-                        Advertisement.Initialize("59866", true);
-                    #endif
+                    #if UNITY_ANDROID || UNITY_IOS
 
-                    if (Advertisement.IsReady("ADSZone"))
-                    {
-                        Advertisement.Show("ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
-                    }
+                        #if UNITY_ANDROID
+                            Advertisement.Initialize("59864", true);
+                        #endif
+                        #if UNITY_IOS 
+                            Advertisement.Initialize("59866", true);
+                        #endif
+
+                        if (Advertisement.IsReady("ADSZone"))
+                        {
+                            Advertisement.Show("Foreground/ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
+                        }
+                    #endif
                 }
                 else
                 {
@@ -146,6 +149,8 @@ namespace Assets.Scripts
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
+
+                    Game.Difficulty = sd.Difficulty;
 
                     CurrentTime = sd.CurrentPlaygroundTime;
 

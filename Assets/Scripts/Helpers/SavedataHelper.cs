@@ -31,8 +31,6 @@ namespace Assets.Scripts.Helpers
 #else
                 data = (IPlaygroundSavedata)bf.Deserialize(file);
 #endif
-                if (data.Difficulty != dl)
-                    data.ResetDynamicPart();
             }
         }
 

@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Full v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>WP8Player:26</UnityBuildTarget>
     <UnityVersion>5.1.1f1</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -125,6 +123,7 @@
     <Compile Include="Assets\Scripts\Mode8x8SquarePlayground.cs" />
     <Compile Include="Assets\Scripts\ModeDropsPlayground.cs" />
     <Compile Include="Assets\Scripts\ModeMatch3Playground.cs" />
+    <Compile Include="Assets\Scripts\ObjectImageTransparencyScript.cs" />
     <Compile Include="Assets\Scripts\PauseButtonScript.cs" />
     <Compile Include="Assets\Scripts\RhombusPlayground.cs" />
     <Compile Include="Assets\Scripts\SquarePlayground.cs" />

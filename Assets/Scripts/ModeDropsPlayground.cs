@@ -33,6 +33,8 @@ namespace Assets.Scripts
 
         public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<ModeDropsPlayground>(); } }
 
+        public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<ModeDropsPlayground>(); } }
+
         public override bool AreStaticItemsDroppable { get { return true; } }
 
         public override bool isDisabledItemActive { get { return true; } }
@@ -480,6 +482,8 @@ namespace Assets.Scripts
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
+
+                    Game.Difficulty = sd.Difficulty;
 
                     CurrentTime = sd.CurrentPlaygroundTime;
 
