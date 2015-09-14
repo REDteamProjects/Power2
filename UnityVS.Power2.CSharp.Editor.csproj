@@ -136,6 +136,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Editor\UnityAds\Scripts\UnityAdsLegacyCleanup.cs" />
+    <Compile Include="Assets\Editor\UnityAdsPackageGenerator.cs" />
     <Compile Include="Assets\SmartLocalization\Scripts\NGUI\Editor\SL_NGUILabelInspector.cs" />
     <Compile Include="Assets\SmartLocalization\Scripts\NGUI\Editor\SL_NGUISpriteAtlasInspector.cs" />
     <Compile Include="Assets\SmartLocalization\Scripts\NGUI\Editor\SL_NGUISpriteNameInspector.cs" />

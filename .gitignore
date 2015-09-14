@@ -43,4 +43,5 @@ Temporary Items
 .apdisk
 
 #Unity builds
-bin/
+bin/Android
+bin/WSA

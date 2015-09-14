@@ -7,7 +7,7 @@ namespace Assets.Scripts.DataClasses
     public class Game : MonoBehaviour {
 
         public GameTypes Type;
-        public Texture2D emptyProgressBar;
+        //public Texture2D emptyProgressBar;
         public Texture2D fullProgressBar;
         private IPlayground PlaygroundObject;
         //internal Statistics Stats;

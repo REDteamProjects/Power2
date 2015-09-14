@@ -406,7 +406,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RisePoints(pointsBank * ChainCounter);
+                RisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
 
                 pointsBank = 0;
                 lines = GetAllLines();

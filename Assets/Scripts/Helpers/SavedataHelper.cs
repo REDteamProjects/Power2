@@ -23,9 +23,7 @@ namespace Assets.Scripts.Helpers
             var bf = new BinaryFormatter();
 #endif
             using (var file = File.Open(Application.persistentDataPath + data.FileName, FileMode.Open))
-            {
-                var dl = data.Difficulty;
-                
+            {               
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
                 data = (IPlaygroundSavedata)bf.Deserialize(file, data.GetType());
 #else

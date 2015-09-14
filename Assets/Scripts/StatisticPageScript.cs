@@ -15,7 +15,7 @@ public class StatisticPageScript : MonoBehaviour
 
     private void GenerateLevelTitle<T>(GameItemType type) where T:IPlayground
     {
-        var typeObjectName = typeof (T).Name;
+        //var typeObjectName = typeof (T).Name;
 
         var levelTitle = GameObject.Find(/*typeObjectName.Substring(0, typeObjectName.Length - 10) + */"Body/Level");
 
@@ -83,14 +83,14 @@ public class StatisticPageScript : MonoBehaviour
 
         var fg = GameObject.Find("/GUI");
         MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), "Reset all", 50,
-                () => { PlayerPrefs.DeleteAll(); LoadLevelData((int)SelectedType); });
+                () => { PlayerPrefs.DeleteAll(); SelectedItem = null; LoadLevelData((int)SelectedType); });
     }
 
     public void LoadLevelData(int ttype)
     {
         var type = (GameTypes) ttype;
 
-        if (type == SelectedType) return;
+        if (type == SelectedType && SelectedItem != null) return;
 
         if (SelectedItem != null)
         {

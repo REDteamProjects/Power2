@@ -10,7 +10,7 @@ namespace Assets.Scripts
 {
     class Mode6x6SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.82F, Y = 12.82F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.22F, Z = -1 };
 
         public override IGameSettingsHelper Preferenses
         {
@@ -63,7 +63,7 @@ namespace Assets.Scripts
 
         public override RealPoint InitialGameItemPosition { get { return _initialGameItemX; } }
 
-        public override float GameItemSize { get { return 5.12f; } }
+        public override float GameItemSize { get { return 5.14f; } }
 
         void OnLevelWasLoaded()
         {
@@ -77,35 +77,38 @@ namespace Assets.Scripts
             //if (progressBar != null)
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
             
-            try
-            {
-                if (Advertisement.isSupported)
-                {
+            //try
+            //{
+            //    if (Advertisement.isSupported)
+            //    {
 
-                    #if UNITY_ANDROID || UNITY_IOS
+            #if UNITY_WINRT || UNITY_WP8
+                WinRTAdHelper.FireShowAd();
+            #endif
+            //        #if UNITY_ANDROID || UNITY_IOS
 
-                        #if UNITY_ANDROID
-                            Advertisement.Initialize("59864", true);
-                        #endif
-                        #if UNITY_IOS 
-                            Advertisement.Initialize("59866", true);
-                        #endif
+            //            #if UNITY_ANDROID
+            //                Advertisement.Initialize("59864", true);
+            //            #endif
+            //            #if UNITY_IOS 
+            //                Advertisement.Initialize("59866", true);
+            //            #endif
 
-                        if (Advertisement.IsReady("ADSZone"))
-                        {
-                            Advertisement.Show("Foreground/ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
-                        }
-                    #endif
-                }
-                else
-                {
-                    Debug.Log("AD: Platform not supported");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.Log("AD exception: " + ex.Message);
-            }
+            //            if (Advertisement.IsReady("ADSZone"))
+            //            {
+            //                Advertisement.Show("Foreground/ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
+            //            }
+            //        #endif
+            //    }
+            //    else
+            //    {
+            //        Debug.Log("AD: Platform not supported");
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.Log("AD exception: " + ex.Message);
+            //}
             
 
             Items = new[]
@@ -166,7 +169,6 @@ namespace Assets.Scripts
                 }
             }
 
-
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)
             //{
@@ -179,12 +181,14 @@ namespace Assets.Scripts
             
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
-
         }
 
         public void OnDestroy()
         {
             PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+            #if UNITY_WINRT || UNITY_WP8
+                WinRTAdHelper.FireHideAd();
+            #endif
         }
 
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)

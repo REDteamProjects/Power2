@@ -1,15 +1,15 @@
 fileFormatVersion: 2
 guid: 932d87c16db6e7849901c7b87b71d801
-timeCreated: 1441895291
+timeCreated: 1442235550
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: RhombusAtlas_0
-    21300002: RhombusAtlas_1
-    21300004: RhombusAtlas_2
-    21300006: RhombusAtlas_3
-    21300008: RhombusAtlas_4
-    21300010: RhombusAtlas_5
+    21300000: RhombusAtlas_easy
+    21300002: RhombusAtlas_medium
+    21300004: RhombusAtlas_hard
+    21300006: RhombusAtlas_veryhard
+    21300008: RhombusAtlas_black
+    21300010: RhombusAtlas_white
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -49,13 +49,13 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spritePixelsToUnits: 72
+  spritePixelsToUnits: 100
   alphaIsTransparency: 1
-  textureType: 8
+  textureType: 5
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: RhombusAtlas_0
+    - name: RhombusAtlas_easy
       rect:
         serializedVersion: 2
         x: 0
@@ -63,9 +63,9 @@ TextureImporter:
         width: 480
         height: 480
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_1
+    - name: RhombusAtlas_medium
       rect:
         serializedVersion: 2
         x: 480
@@ -73,9 +73,9 @@ TextureImporter:
         width: 480
         height: 480
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_2
+    - name: RhombusAtlas_hard
       rect:
         serializedVersion: 2
         x: 0
@@ -83,9 +83,9 @@ TextureImporter:
         width: 480
         height: 480
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_3
+    - name: RhombusAtlas_veryhard
       rect:
         serializedVersion: 2
         x: 480
@@ -93,9 +93,9 @@ TextureImporter:
         width: 480
         height: 480
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_4
+    - name: RhombusAtlas_black
       rect:
         serializedVersion: 2
         x: 0
@@ -103,9 +103,9 @@ TextureImporter:
         width: 480
         height: 480
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_5
+    - name: RhombusAtlas_white
       rect:
         serializedVersion: 2
         x: 480
@@ -113,7 +113,7 @@ TextureImporter:
         width: 480
         height: 480
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

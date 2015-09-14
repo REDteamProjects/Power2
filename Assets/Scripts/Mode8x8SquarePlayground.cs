@@ -9,7 +9,7 @@ namespace Assets.Scripts
 {
     class Mode8x8SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -13.42F, Y = 12.82F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -13.35F, Y = 12.05F, Z = -1 };
 
         public override IGameSettingsHelper Preferenses
         {
@@ -62,7 +62,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        public override float GameItemSize { get { return 3.84f; } }
+        public override float GameItemSize { get { return 3.81f; } }
 
         void OnLevelWasLoaded()
         {

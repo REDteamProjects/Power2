@@ -10,7 +10,7 @@ namespace Assets.Scripts
 {
     class ModeMatch3Playground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.42F, Y = 12.82F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.36F, Y = 12.06F, Z = -1 };
         private const int GameOverPoints = 65536;
 
         public override IGameSettingsHelper Preferenses
@@ -273,7 +273,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RisePoints(pointsBank * ChainCounter);
+                RisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
 
                 pointsBank = 0;
 

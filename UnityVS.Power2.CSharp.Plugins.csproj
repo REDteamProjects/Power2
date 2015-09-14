@@ -71,6 +71,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\UnityAds\UnityAds.cs" />
+    <Compile Include="Assets\Plugins\UnityAds\UnityAdsExternal.cs" />
+    <Compile Include="Assets\Plugins\UnityAds\UnityAdsTest.cs" />
     <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\AnimationCurve_DirectConverter.cs" />
     <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\Bounds_DirectConverter.cs" />
     <Compile Include="Assets\Plugins\WSA\FullSerializer\Source\Converters\Unity\Gradient_DirectConverter.cs" />

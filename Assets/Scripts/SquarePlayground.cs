@@ -33,7 +33,7 @@ namespace Assets.Scripts
         private Point _selectedPoint1Coordinate;
         private Point _selectedPoint2Coordinate;
         private int _chainCounter;
-        private int _score;
+        //private int _score;
         private float _currentTime;
 
         protected static readonly System.Random RandomObject = new System.Random();
@@ -158,11 +158,15 @@ namespace Assets.Scripts
                 switch (MaxType)
                 {
                     case GameItemType._7:
+                    case GameItemType._8:
+                    case GameItemType._9:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.medium;
                         DifficultyRaisedGUI();
                         break;
                     case GameItemType._10:
+                    case GameItemType._11:
+                    case GameItemType._12:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.hard;
                         DifficultyRaisedGUI();
@@ -179,6 +183,9 @@ namespace Assets.Scripts
                         }
                         break;
                     case GameItemType._13:
+                    case GameItemType._14:
+                    case GameItemType._15:
+                    case GameItemType._16:
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.veryhard;
                         DifficultyRaisedGUI();
@@ -238,9 +245,9 @@ namespace Assets.Scripts
                     break;
             }
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            var label = labelObject.GetComponent<LabelShowing>();
-            label.transform.SetParent(transform);
-            label.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+            var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
+
+            difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
         }
 
         public void ShowMaxInitialElement()
@@ -284,7 +291,7 @@ namespace Assets.Scripts
                     }
             }
 
-            RisePoints(pointsBank);
+            RisePoints(pointsBank * (int)Game.Difficulty);
             if (ProgressBar != null)
                 ProgressBar.AddTime(pointsBank * 2);
         }
@@ -926,7 +933,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RisePoints(pointsBank * ChainCounter);
+                RisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
 
                 pointsBank = 0;
                 lines = GetAllLines();
@@ -1138,8 +1145,10 @@ namespace Assets.Scripts
                 if (o != null)
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
-                    noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -1), "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4),
+                        "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                    //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
+                    //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {
@@ -1467,7 +1476,7 @@ namespace Assets.Scripts
                 LogFile.Message("Rised 0 ponts", true);
                 return;
             }
-            points *= (int)Game.Difficulty;
+            
             LogFile.Message("Points " + points, true);
 
             CurrentScore += points;
@@ -1513,7 +1522,7 @@ namespace Assets.Scripts
                 }
             Items = null;
             MaxType = GameItemType.NullItem;
-            _score = 0;
+            CurrentScore = 0;
         }
 
         public void RemoveGameItem(int i, int j, MovingFinishedDelegate removingCallback = null)

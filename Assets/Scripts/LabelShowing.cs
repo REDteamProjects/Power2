@@ -81,7 +81,9 @@ public class LabelShowing : MonoBehaviour {
         {
             var fg = GameObject.Find("/Foreground");
             transform.SetParent(fg.transform);
+            var z = position.z;
             position = fg.transform.InverseTransformPoint(position);
+            position.z = z;
         }
 
         transform.localPosition = position;

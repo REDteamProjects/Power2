@@ -110,6 +110,7 @@
     <Compile Include="Assets\Scripts\Helpers\ScoreHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\TouchActionAdapter.cs" />
     <Compile Include="Assets\Scripts\Helpers\Vibration.cs" />
+    <Compile Include="Assets\Scripts\Helpers\WinADHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\WinRTSerializer.cs" />
     <Compile Include="Assets\Scripts\HeplPageScript.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPlayground.cs" />
