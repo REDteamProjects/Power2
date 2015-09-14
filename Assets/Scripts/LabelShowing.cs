@@ -69,9 +69,10 @@ public class LabelShowing : MonoBehaviour {
         transform.SetParent(fg.transform);
 
         var newPos = fg.transform.InverseTransformPoint(wp);
-        
+        var size = initGameObject.GetComponent<SpriteRenderer>().bounds.size;
+        var showOn = new Vector3(newPos.x, newPos.y + 25 * size.y, newPos.z);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
 
-        ShowScalingLabel(newPos, text, textColor, shadowColor, animateFromSize, animateToSize, font, destroyAfterAnimation, callback);
+        ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, font, destroyAfterAnimation, callback);
     }
 
     public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, 
