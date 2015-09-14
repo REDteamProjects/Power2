@@ -9,7 +9,7 @@ namespace Assets.Scripts
 {
     class Mode11RhombusPlayground : RhombusPlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.82F, Y = 12.82F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -13.1F, Y = 13.1F, Z = -1 };
 
         public override IGameSettingsHelper Preferenses
         {
@@ -57,7 +57,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 11; } }
 
-        public override float GameItemSize { get { return 4.84f; } }
+        public override float GameItemSize { get { return 4.95f; } }
 
         //public override GameItemType MaxInitialElementType
         //{

@@ -98,8 +98,8 @@ namespace Assets.Scripts
 
         public virtual float ScaleMultiplyer
         {
-            //get { return 0.512f; }
-            get { return 1; }
+            get { return 0.712f; }
+            //get { return 1.2F; }
         }
 
         public virtual String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<SquarePlayground>(); } }

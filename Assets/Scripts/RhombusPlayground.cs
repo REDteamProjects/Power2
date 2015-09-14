@@ -15,8 +15,8 @@ namespace Assets.Scripts
 
         public override float ScaleMultiplyer
         {
-            //get { return 7.12f; }
-            get { return 1; }
+            get { return 0.78f; }
+            //get { return 1; }
         }
 
         public RhombusPlayground()

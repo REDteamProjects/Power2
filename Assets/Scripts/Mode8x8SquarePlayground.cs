@@ -62,7 +62,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        public override float GameItemSize { get { return 3.81f; } }
+        public override float GameItemSize { get { return 3.84f; } }
 
         void OnLevelWasLoaded()
         {
