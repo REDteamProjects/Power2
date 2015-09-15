@@ -15,7 +15,7 @@ namespace Assets.Scripts
 
         public override float ScaleMultiplyer
         {
-            get { return 0.78f; }
+            get { return 4.95f; }
             //get { return 1; }
         }
 

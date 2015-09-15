@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: aafe19ad690ee414fb29bccc669c09f2
-timeCreated: 1441895740
+timeCreated: 1442326733
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -15,7 +15,7 @@ TextureImporter:
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-    linearTexture: 0
+    linearTexture: 1
     correctGamma: 0
     fadeOut: 1
     borderMipMap: 1
@@ -51,7 +51,7 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
@@ -60,19 +60,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 960
-        width: 480
-        height: 480
+        y: 2048
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 6x6Atlas_medium
       rect:
         serializedVersion: 2
-        x: 480
-        y: 960
-        width: 480
-        height: 480
+        x: 1024
+        y: 2048
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -80,19 +80,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 480
-        width: 480
-        height: 480
+        y: 1024
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 6x6Atlas_veryhard
       rect:
         serializedVersion: 2
-        x: 480
-        y: 480
-        width: 480
-        height: 480
+        x: 1024
+        y: 1024
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -101,18 +101,18 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 480
-        height: 480
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: 6x6Atlas_white
       rect:
         serializedVersion: 2
-        x: 480
+        x: 1024
         y: 0
-        width: 480
-        height: 480
+        width: 1024
+        height: 1024
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

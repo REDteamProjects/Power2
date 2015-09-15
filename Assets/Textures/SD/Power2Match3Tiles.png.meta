@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: f08b61515df6f1c4b85ef92c4af0fab1
-timeCreated: 1441374395
+timeCreated: 1442327210
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -24,11 +24,16 @@ TextureImporter:
     21300034: Power2Match3Tiles_17
     21300036: Power2Match3Tiles_18
     21300038: Power2Match3Tiles_19
+    21300040: Power2Match3Tiles_20
+    21300042: Power2Match3Tiles_21
+    21300044: Power2Match3Tiles_22
+    21300046: Power2Match3Tiles_23
+    21300048: Power2Match3Tiles_24
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-    linearTexture: 0
+    linearTexture: 1
     correctGamma: 0
     fadeOut: 1
     borderMipMap: 1
@@ -64,7 +69,7 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
@@ -73,49 +78,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
-        width: 60
-        height: 60
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_1
       rect:
         serializedVersion: 2
-        x: 60
-        y: 240
-        width: 60
-        height: 60
+        x: 512
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_2
       rect:
         serializedVersion: 2
-        x: 120
-        y: 240
-        width: 60
-        height: 60
+        x: 1024
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_3
       rect:
         serializedVersion: 2
-        x: 180
-        y: 240
-        width: 60
-        height: 60
+        x: 1536
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_4
       rect:
         serializedVersion: 2
-        x: 240
-        y: 240
-        width: 60
-        height: 60
+        x: 2048
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -123,49 +128,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 180
-        width: 60
-        height: 60
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_6
       rect:
         serializedVersion: 2
-        x: 60
-        y: 180
-        width: 60
-        height: 60
+        x: 512
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_7
       rect:
         serializedVersion: 2
-        x: 120
-        y: 180
-        width: 60
-        height: 60
+        x: 1024
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_8
       rect:
         serializedVersion: 2
-        x: 180
-        y: 180
-        width: 60
-        height: 60
+        x: 1536
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_9
       rect:
         serializedVersion: 2
-        x: 240
-        y: 180
-        width: 60
-        height: 60
+        x: 2048
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,101 +178,151 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 120
-        width: 60
-        height: 60
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_11
       rect:
         serializedVersion: 2
-        x: 60
-        y: 120
-        width: 60
-        height: 60
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_12
       rect:
         serializedVersion: 2
-        x: 120
-        y: 120
-        width: 60
-        height: 60
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_13
       rect:
         serializedVersion: 2
-        x: 180
-        y: 120
-        width: 60
-        height: 60
+        x: 1536
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_14
       rect:
         serializedVersion: 2
-        x: 240
-        y: 120
-        width: 60
-        height: 60
+        x: 2048
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_15
       rect:
         serializedVersion: 2
         x: 0
-        y: 60
-        width: 60
-        height: 60
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_16
       rect:
         serializedVersion: 2
-        x: 60
-        y: 60
-        width: 60
-        height: 60
+        x: 512
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_17
       rect:
         serializedVersion: 2
-        x: 120
-        y: 60
-        width: 60
-        height: 60
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_18
       rect:
         serializedVersion: 2
-        x: 180
-        y: 60
-        width: 60
-        height: 60
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Match3Tiles_19
       rect:
         serializedVersion: 2
-        x: 240
-        y: 60
-        width: 60
-        height: 60
+        x: 2048
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Match3Tiles_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Match3Tiles_21
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Match3Tiles_22
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Match3Tiles_23
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Match3Tiles_24
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

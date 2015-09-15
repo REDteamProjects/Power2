@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e638c747a4870b0439db648ce8a1d4f1
-timeCreated: 1441966665
+timeCreated: 1442326877
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -12,7 +12,7 @@ TextureImporter:
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-    linearTexture: 0
+    linearTexture: 1
     correctGamma: 0
     fadeOut: 1
     borderMipMap: 1
@@ -48,7 +48,7 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
@@ -57,19 +57,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
-        width: 480
-        height: 240
+        y: 256
+        width: 512
+        height: 256
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: GradientAtlas_medium
       rect:
         serializedVersion: 2
-        x: 480
-        y: 240
-        width: 480
-        height: 240
+        x: 512
+        y: 256
+        width: 512
+        height: 256
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -78,18 +78,18 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 480
-        height: 240
+        width: 512
+        height: 256
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: GradientAtlas_veryhard
       rect:
         serializedVersion: 2
-        x: 480
+        x: 512
         y: 0
-        width: 480
-        height: 240
+        width: 512
+        height: 256
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

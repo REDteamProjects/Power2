@@ -98,7 +98,7 @@ namespace Assets.Scripts
 
         public virtual float ScaleMultiplyer
         {
-            get { return 0.712f; }
+            get { return 5.4f; }
             //get { return 1.2F; }
         }
 
@@ -258,7 +258,7 @@ namespace Assets.Scripts
             if (gobj == null) return;
             gobj.transform.SetParent(fg.transform);
             gobj.transform.localPosition = new Vector3(0, 350f + GameItemSize * 5f, 0);
-            gobj.transform.localScale = new Vector3(80, 80);
+            gobj.transform.localScale = new Vector3(10, 10);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);

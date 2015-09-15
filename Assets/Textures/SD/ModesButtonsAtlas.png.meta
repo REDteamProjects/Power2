@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 97814f6152b53f14f8a39004523ec318
-timeCreated: 1441402906
+timeCreated: 1442327157
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,16 +8,16 @@ TextureImporter:
     21300002: ModesButtonsAtlas_8x8
     21300004: ModesButtonsAtlas_Match3
     21300006: ModesButtonsAtlas_Rhombus
-    21300008: ModesButtonsAtlas_0
-    21300010: ModesButtonsAtlas_1
-    21300012: ModesButtonsAtlas_2
-    21300014: ModesButtonsAtlas_3
-    21300016: ModesButtonsAtlas_4
+    21300008: ModesButtonsAtlas_logo
+    21300010: ModesButtonsAtlas_6x6
+    21300012: ModesButtonsAtlas_8x8
+    21300014: ModesButtonsAtlas_rhombus
+    21300016: ModesButtonsAtlas_mtch3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-    linearTexture: 0
+    linearTexture: 1
     correctGamma: 0
     fadeOut: 1
     borderMipMap: 1
@@ -53,58 +53,58 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: ModesButtonsAtlas_0
+    - name: ModesButtonsAtlas_logo
       rect:
         serializedVersion: 2
         x: 0
-        y: 720
-        width: 240
-        height: 240
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_1
+    - name: ModesButtonsAtlas_6x6
       rect:
         serializedVersion: 2
-        x: 240
-        y: 720
-        width: 240
-        height: 240
+        x: 512
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_2
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 480
-        width: 240
-        height: 240
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_3
-      rect:
-        serializedVersion: 2
-        x: 240
-        y: 480
-        width: 240
-        height: 240
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_4
+    - name: ModesButtonsAtlas_8x8
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
-        width: 240
-        height: 240
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ModesButtonsAtlas_rhombus
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: ModesButtonsAtlas_mtch3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: cfd081069dd7afd4abbabf135af8bf74
-timeCreated: 1440506445
+timeCreated: 1442327227
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -24,11 +24,15 @@ TextureImporter:
     21300034: Power2RhombTiles_17
     21300036: Power2RhombTiles_18
     21300038: Power2RhombTiles_19
+    21300040: Power2RhombTiles_20
+    21300042: Power2RhombTiles_21
+    21300044: Power2RhombTiles_22
+    21300046: Power2RhombTiles_23
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
-    linearTexture: 0
+    linearTexture: 1
     correctGamma: 0
     fadeOut: 1
     borderMipMap: 1
@@ -64,7 +68,7 @@ TextureImporter:
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
@@ -73,49 +77,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 280
-        width: 70
-        height: 70
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_1
       rect:
         serializedVersion: 2
-        x: 70
-        y: 280
-        width: 70
-        height: 70
+        x: 512
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_2
       rect:
         serializedVersion: 2
-        x: 140
-        y: 280
-        width: 70
-        height: 70
+        x: 1024
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_3
       rect:
         serializedVersion: 2
-        x: 210
-        y: 280
-        width: 70
-        height: 70
+        x: 1536
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_4
       rect:
         serializedVersion: 2
-        x: 280
-        y: 280
-        width: 70
-        height: 70
+        x: 2048
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -123,49 +127,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 210
-        width: 70
-        height: 70
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_6
       rect:
         serializedVersion: 2
-        x: 70
-        y: 210
-        width: 70
-        height: 70
+        x: 512
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_7
       rect:
         serializedVersion: 2
-        x: 140
-        y: 210
-        width: 70
-        height: 70
+        x: 1024
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_8
       rect:
         serializedVersion: 2
-        x: 210
-        y: 210
-        width: 70
-        height: 70
+        x: 1536
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_9
       rect:
         serializedVersion: 2
-        x: 280
-        y: 210
-        width: 70
-        height: 70
+        x: 2048
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -173,49 +177,49 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 140
-        width: 70
-        height: 70
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_11
       rect:
         serializedVersion: 2
-        x: 70
-        y: 140
-        width: 70
-        height: 70
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_12
       rect:
         serializedVersion: 2
-        x: 140
-        y: 140
-        width: 70
-        height: 70
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_13
       rect:
         serializedVersion: 2
-        x: 210
-        y: 140
-        width: 70
-        height: 70
+        x: 1536
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_14
       rect:
         serializedVersion: 2
-        x: 280
-        y: 140
-        width: 70
-        height: 70
+        x: 2048
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,49 +227,89 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 70
-        width: 70
-        height: 70
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_16
       rect:
         serializedVersion: 2
-        x: 70
-        y: 70
-        width: 70
-        height: 70
+        x: 512
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_17
       rect:
         serializedVersion: 2
-        x: 140
-        y: 70
-        width: 70
-        height: 70
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_18
       rect:
         serializedVersion: 2
-        x: 210
-        y: 70
-        width: 70
-        height: 70
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2RhombTiles_19
       rect:
         serializedVersion: 2
-        x: 280
-        y: 70
-        width: 70
-        height: 70
+        x: 2048
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2RhombTiles_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2RhombTiles_21
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2RhombTiles_22
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2RhombTiles_23
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}

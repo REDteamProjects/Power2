@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 03e5a3b562acf8641b6601bfccd25b69
-timeCreated: 1440422578
+timeCreated: 1442328394
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -47,6 +47,7 @@ TextureImporter:
     21300080: Power2Tiles_21
     21300082: Power2Tiles_22
     21300084: Power2Tiles_23
+    21300086: Power2Tiles_24
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -55,8 +56,8 @@ TextureImporter:
     correctGamma: 0
     fadeOut: 1
     borderMipMap: 1
-    mipMapFadeDistanceStart: 8
-    mipMapFadeDistanceEnd: 10
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
@@ -82,17 +83,17 @@ TextureImporter:
   compressionQuality: 50
   spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 1
+  spriteMeshType: 0
   alignment: 0
   spritePivot: {x: .5, y: .5}
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 100
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   textureType: 5
   buildTargetSettings:
   - buildTarget: WP8
     maxTextureSize: 1024
-    textureFormat: 7
+    textureFormat: 2
     compressionQuality: 50
   spriteSheet:
     sprites:
@@ -100,199 +101,249 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 240
-        width: 60
-        height: 60
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_1
       rect:
         serializedVersion: 2
-        x: 60
-        y: 240
-        width: 60
-        height: 60
+        x: 512
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_2
       rect:
         serializedVersion: 2
-        x: 120
-        y: 240
-        width: 60
-        height: 60
+        x: 1024
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_3
       rect:
         serializedVersion: 2
-        x: 180
-        y: 240
-        width: 60
-        height: 60
+        x: 1536
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_4
       rect:
         serializedVersion: 2
-        x: 240
-        y: 240
-        width: 60
-        height: 60
+        x: 2048
+        y: 2048
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_5
       rect:
         serializedVersion: 2
         x: 0
-        y: 180
-        width: 60
-        height: 60
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_6
       rect:
         serializedVersion: 2
-        x: 60
-        y: 180
-        width: 60
-        height: 60
+        x: 512
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_7
       rect:
         serializedVersion: 2
-        x: 120
-        y: 180
-        width: 60
-        height: 60
+        x: 1024
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_8
       rect:
         serializedVersion: 2
-        x: 180
-        y: 180
-        width: 60
-        height: 60
+        x: 1536
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_9
       rect:
         serializedVersion: 2
-        x: 240
-        y: 180
-        width: 60
-        height: 60
+        x: 2048
+        y: 1536
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_10
       rect:
         serializedVersion: 2
         x: 0
-        y: 120
-        width: 60
-        height: 60
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_11
       rect:
         serializedVersion: 2
-        x: 60
-        y: 120
-        width: 60
-        height: 60
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_12
       rect:
         serializedVersion: 2
-        x: 120
-        y: 120
-        width: 60
-        height: 60
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_13
       rect:
         serializedVersion: 2
-        x: 180
-        y: 120
-        width: 60
-        height: 60
+        x: 1536
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_14
       rect:
         serializedVersion: 2
-        x: 240
-        y: 120
-        width: 60
-        height: 60
+        x: 2048
+        y: 1024
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_15
       rect:
         serializedVersion: 2
         x: 0
-        y: 60
-        width: 60
-        height: 60
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_16
       rect:
         serializedVersion: 2
-        x: 60
-        y: 60
-        width: 60
-        height: 60
+        x: 512
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_17
       rect:
         serializedVersion: 2
-        x: 120
-        y: 60
-        width: 60
-        height: 60
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_18
       rect:
         serializedVersion: 2
-        x: 180
-        y: 60
-        width: 60
-        height: 60
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Power2Tiles_19
       rect:
         serializedVersion: 2
-        x: 240
-        y: 60
-        width: 60
-        height: 60
+        x: 2048
+        y: 512
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Tiles_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Tiles_21
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Tiles_22
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Tiles_23
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 0
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Power2Tiles_24
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
