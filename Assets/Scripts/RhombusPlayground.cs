@@ -3,6 +3,7 @@ using System.Linq;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
+using SmartLocalization;
 using UnityEngine;
 using System.Collections.Generic;
 namespace Assets.Scripts
@@ -588,7 +589,7 @@ namespace Assets.Scripts
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3), "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3), LanguageManager.Instance.GetTextValue("NoMovesTitle"), Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {

@@ -248,7 +248,7 @@ namespace Assets.Scripts
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
-            difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"), 
+			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"), 
                 Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
         }
 
@@ -565,7 +565,7 @@ namespace Assets.Scripts
             var cell = GetCellCoordinates(i, j);
             var gobj = InstantiateGameItem(itemType, new Vector3(
                 (float)Math.Round(cell.x + generateOn.Value.x * GameItemSize, 2),
-                (float)Math.Round(Item00.Y + generateOn.Value.y * GameItemSize, 2),
+                /*(float)Math.Round(*/Item00.Y + generateOn.Value.y * GameItemSize/*, 2)*/,
                 Item00.Z), Vector3.zero, movingType);
             //if (generateOn == Vector2.zero) //TODO: WHAT?
             //{
@@ -577,6 +577,7 @@ namespace Assets.Scripts
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize), true);
             CallbacksCount++;
+            var toS = GameItemSize / ScaleMultiplyer;
             c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
             {
                 CallbacksCount--;
@@ -588,7 +589,7 @@ namespace Assets.Scripts
                     if (CallbacksCount == 0)
                         ClearChains();
                 }
-            }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f), isItemDirectionChangable,
+            }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(toS, toS, 1f), isItemDirectionChangable,
             null, Power2Sounds.Drop);
             //}
             return gobj;
@@ -598,7 +599,7 @@ namespace Assets.Scripts
         {
             //var minType = MaxType - FieldSize;
             var newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 : (int)GameItemType._1, (int)MaxInitialElementType + 1);
-            if (deniedTypes == null || deniedTypes.Count <= 0)
+            if (deniedTypes == null || deniedTypes.Count == 0)
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
@@ -995,64 +996,55 @@ namespace Assets.Scripts
 
             for (var col = 0; col < FieldSize; col++)
             {
-                for (var row = 0; row < FieldSize - 1; row++)
+                for (var row = FieldSize-1; row > 0; row--)
                 {
-                    if (Items[col][row] == null || Items[col][row] == DisabledItem)
+                    if (Items[col][row] != null || Items[col][row] == DisabledItem)
                         continue;
-
-                    var o = Items[col][row] as GameObject;
+                    if (Items[col][row - 1] == null || Items[col][row - 1] == DisabledItem)
+                        continue;
+                    var o = Items[col][row - 1] as GameObject;
                     if (o != null && (!AreStaticItemsDroppable && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
-                        continue;
-
-                    //if (DropsCount == 0)
-                    //    DropsCount = FieldSize * (FieldSize - 1);
-
-                    if (Items[col][row + 1] != null)
                     {
-                        var gameObject1 = Items[col][row + 1] as GameObject;
-                        if (gameObject1 != null && gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
-                        {
-                            var rowStaticCounter = 1;
+                            var rowStaticCounter = -1;
                             GameObject o1;
-                            while ((row + rowStaticCounter) < FieldSize && (o1 = Items[col][row + rowStaticCounter] as GameObject) != null &&
+                            while ((row + rowStaticCounter) >= 0 && (o1 = Items[col][row + rowStaticCounter] as GameObject) != null &&
                                 o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
-                                rowStaticCounter++;
-                            if ((row + rowStaticCounter) >= FieldSize || Items[col][row + rowStaticCounter] != null)
+                                rowStaticCounter--;
+                            if ((row + rowStaticCounter) < 0 || Items[col][row + rowStaticCounter] == null)
                                 continue;
-                            var gobjS = Items[col][row] as GameObject;
+                            var gobjS = Items[col][row + rowStaticCounter] as GameObject;
                             if (gobjS == null) continue;
                             var cS = gobjS.GetComponent<GameItemMovingScript>();
                             if (cS.IsMoving) continue;
                             counter++;
-                            Items[col][row + rowStaticCounter] = Items[col][row];
-                            Items[col][row] = null;
+                            Items[col][row] = gobjS;
+                            Items[col][row + rowStaticCounter] = null;
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
-                            cS.MoveTo(null, GetCellCoordinates(col, row + rowStaticCounter).y, 14, (item, result) =>
+                            cS.MoveTo(null, GetCellCoordinates(col, row).y, 14, (item, result) =>
                             {
                                 if (!cS.IsMoving)
                                     DropsCount--;
                                 if (!result) return;
                                 LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] DC: " + DropsCount, true);
                             });
-                        }
-                        if (row + 2 < FieldSize && Items[col][row + 2] == null) generateAfterDrop = false;
+                        if (row - 2 >= 0 && Items[col][row - 2] != null) generateAfterDrop = false;
                         continue;
                     }
 
-                    var gobj = Items[col][row] as GameObject;
-                    if (gobj == null) continue;
-                    var c = gobj.GetComponent<GameItemMovingScript>();
+                    //var gobj = Items[col][row] as GameObject;
+                    if (o == null) continue;
+                    var c = o.GetComponent<GameItemMovingScript>();
                     if (c.IsMoving) continue;
                     counter++;
-                    Items[col][row + 1] = Items[col][row];
-                    Items[col][row] = null;
-                    if (row + 2 < FieldSize && Items[col][row + 2] == null) generateAfterDrop = false;//DropsCount++;
+                    Items[col][row] = Items[col][row-1];
+                    Items[col][row-1] = null;
+                    if (row - 2 >= 0 && Items[col][row - 2] != null) generateAfterDrop = false;//DropsCount++;
                     if (!c.IsMoving) DropsCount++;
                     var col1 = col;
-                    var row1 = row;
-                    c.MoveTo(null, GetCellCoordinates(col, row + 1).y, 14, (item, result) =>
+                    var row1 = row - 1;
+                    c.MoveTo(null, GetCellCoordinates(col, row).y, 14, (item, result) =>
                     {
                         if (!c.IsMoving)
                             DropsCount--;
@@ -1076,13 +1068,15 @@ namespace Assets.Scripts
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnY = 1;
-                    var resCol = RandomObject.Next(0, FieldSize);
+                    var resCol = 0;
+                    if (Game.Difficulty > DifficultyLevel.easy && DropDownItemsCount < maxAdditionalItemsCount)
+                    resCol = RandomObject.Next(0, FieldSize);
                     for (var j = FieldSize - 1; j >= 0; j--)
                     {
-                        var deniedList = new List<GameItemType>();
                         //var itemsJ = FieldSize - 1 - j;
                         if (Items[i][j] != null || Items[i][j] == DisabledItem)
                             continue;
+                        var deniedList = new List<GameItemType>();
                         if (completeCurrent)
                         {
                             switch (Game.Difficulty)
@@ -1496,7 +1490,6 @@ namespace Assets.Scripts
             comboLabel.ShowScalingLabel(new Vector3(count % 2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -1),
                 LanguageManager.Instance.GetTextValue("ComboTitle") + count, new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
-            Vibration.Vibrate(new long[]{30,0,50}, 1);
         }
 
         public virtual void RevertMovedItem(int col, int row)

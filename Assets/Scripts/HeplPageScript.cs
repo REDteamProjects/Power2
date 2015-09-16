@@ -25,9 +25,9 @@ public class HeplPageScript : MonoBehaviour
         //text.text = LanguageManager.Instance.GetTextValue("MainHelp");
 
 	    var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserManual_0"));
-        manual_0.transform.parent = GameObject.Find("MainHelpText").transform;
-	    manual_0.transform.localScale = new Vector3(60, 60, 1);
-        manual_0.transform.localPosition = new Vector3(0, -140, 0);
+        manual_0.transform.SetParent(GameObject.Find("MainHelpText").transform);
+	    manual_0.transform.localScale = new Vector3(80, 80, 1);
+        manual_0.transform.localPosition = new Vector3(0, -280, 0);
         //var modestext = GameObject.Find("GameModesHelp").GetComponent<Text>();
         //modestext.text = LanguageManager.Instance.GetTextValue("GameModesHelp");
 
@@ -67,8 +67,8 @@ public class HeplPageScript : MonoBehaviour
 
                 if (SelectedItem == main && Mathf.Abs(deltaY) > 0.01)
                 {
-                    if (mainStartPos.y + deltaY > 260)
-                        baseY = 260;
+                    if (mainStartPos.y + deltaY > 580)
+                        baseY = 580;
                     else if (mainStartPos.y + deltaY < 0)
                         baseY = 0;
                     else

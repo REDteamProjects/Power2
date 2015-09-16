@@ -118,7 +118,7 @@
     <Compile Include="Assets\Scripts\Interfaces\IPlayground.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\Interfaces\ISceneDecorations.cs" />
-    <Compile Include="Assets\Scripts\ItemsColors.cs" />
+    <Compile Include="Assets\Scripts\DataClasses\ItemsColors.cs" />
     <Compile Include="Assets\Scripts\LabelShowing.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\Mode11RhombusPlayground.cs" />

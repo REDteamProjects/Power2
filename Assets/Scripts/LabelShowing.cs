@@ -11,24 +11,23 @@ public class LabelShowing : MonoBehaviour {
     private bool DestroyAfterAnimation;
     private int DestroyTimeout;
     private LabelAnimationFinishedDelegate AnimationFinished;
+    private Text labelText;
 
 	// Use this for initialization
 	void Start () {
 	
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 	    if (DestroyTimeout == 0) return;
 
-	    var labelText = GetComponent<Text>();
-
         if (labelText.fontSize != ScaleFontTo && DestroyTimeout >= ScaleDifference)
 	    {
-	        if (labelText.fontSize > ScaleFontTo)
+	        /*if (labelText.fontSize > ScaleFontTo)
 	            labelText.fontSize--;
-	        else
-	            labelText.fontSize++;
+	        else*/
+                labelText.fontSize++;
 	    }
 	    else
 	    {
@@ -58,19 +57,18 @@ public class LabelShowing : MonoBehaviour {
 	            callback();
 	        }
 	    }
-	}
+	}  
 
     public void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
         int animateToSize, Font font = null,
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null)
     {
         var fg = GameObject.Find("/Foreground");
-        var wp = initGameObject.transform.position;
+        //var wp = initGameObject.transform.position;
         transform.SetParent(fg.transform);
 
-        var newPos = fg.transform.InverseTransformPoint(wp);
-        var size = initGameObject.GetComponent<SpriteRenderer>().bounds.size;
-        var showOn = new Vector3(newPos.x, newPos.y + 25 * size.y, newPos.z);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
+        var newPos = fg.transform.InverseTransformPoint(initGameObject.transform.position/*wp*/);
+        var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
 
         ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, font, destroyAfterAnimation, callback);
     }
@@ -89,7 +87,15 @@ public class LabelShowing : MonoBehaviour {
 
         transform.localPosition = position;
 
-        var labelText = GetComponent<Text>();
+        if(labelText == null)
+        labelText = GetComponent<Text>();
+        if (animateToSize < animateFromSize)
+        {
+            var to = animateFromSize;
+            animateFromSize = animateToSize;
+            animateToSize = animateFromSize;
+        }
+
         if (textColor != shadowColor)
         {
             var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;

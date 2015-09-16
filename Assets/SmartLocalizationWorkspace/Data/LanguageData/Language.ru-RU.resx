@@ -143,6 +143,9 @@
 	<data name="Newbie" xml:space="preserve">
 		<value>НОВИЧОК</value>
 	</data>
+	<data name="NoMovesTitle" xml:space="preserve">
+		<value>Нет ходов</value>
+	</data>
 	<data name="Player" xml:space="preserve">
 		<value>ИГРОК</value>
 	</data>
