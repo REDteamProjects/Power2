@@ -230,6 +230,7 @@ namespace Assets.Scripts
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;
+            label.GetComponent<Text>().text = LanguageManager.Instance.GetTextValue("LoadingTitle");
 
             Application.LoadLevel(scene);
         }

@@ -5,6 +5,7 @@ using System.Threading;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
+using SmartLocalization;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
 using System.Collections.Generic;
@@ -247,7 +248,8 @@ namespace Assets.Scripts
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
-            difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), "Difficulty raised!", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+            difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"), 
+                Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
         }
 
         public void ShowMaxInitialElement()
@@ -1492,8 +1494,9 @@ namespace Assets.Scripts
 
             comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
             comboLabel.ShowScalingLabel(new Vector3(count % 2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -1),
-                "Combo x" + count + " lines!", new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
+                LanguageManager.Instance.GetTextValue("ComboTitle") + count, new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
+            Vibration.Vibrate(new long[]{30,0,50}, 1);
         }
 
         public virtual void RevertMovedItem(int col, int row)

@@ -49,7 +49,7 @@ namespace Assets.Scripts
 
         public void OnSoundButtonPressed()
         {
-            Vibration.Vibrate(10);
+            Vibration.Vibrate();
 
             SoundEnabled = !SoundEnabled;
 
@@ -60,7 +60,7 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
-            Vibration.Vibrate(10);
+            Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");
             var collection = gui.GetComponentsInChildren<Transform>();
@@ -73,6 +73,7 @@ namespace Assets.Scripts
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;
+            label.GetComponent<Text>().text = LanguageManager.Instance.GetTextValue("LoadingTitle");
 
             Application.LoadLevel(scene);
         }

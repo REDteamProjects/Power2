@@ -122,17 +122,17 @@
 	<data name="8x8Mode" xml:space="preserve">
 		<value>8x8 mode button text</value>
 	</data>
+	<data name="DifficultyRaised" xml:space="preserve">
+		<value>Text of difficulty raised title</value>
+	</data>
 	<data name="DropsMode" xml:space="preserve">
 		<value>Drops mode button text</value>
 	</data>
 	<data name="Fighter" xml:space="preserve">
 		<value>Fighter button text</value>
 	</data>
-	<data name="GameModesHelp" xml:space="preserve">
-		<value>Help text about game modes</value>
-	</data>
-	<data name="MainHelp" xml:space="preserve">
-		<value>Main help text </value>
+	<data name="LoadingTitle" xml:space="preserve">
+		<value>Loading title between scenes</value>
 	</data>
 	<data name="Match3Mode" xml:space="preserve">
 		<value>Match 3 mode button text</value>
@@ -158,7 +158,7 @@
 	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
 		<value>First manual texture</value>
 	</data>
-	<data name="[type=GAME_OBJECT]UserManual_1" xml:space="preserve">
-		<value>Second manual texture</value>
+	<data name="ComboTitle" xml:space="preserve">
+		<value>Combo label text</value>
 	</data>
 </root>

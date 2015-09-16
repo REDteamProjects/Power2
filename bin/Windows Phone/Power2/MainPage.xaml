@@ -16,7 +16,10 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <DrawingSurfaceBackgroundGrid x:Name="DrawingSurfaceBackground" Loaded="DrawingSurfaceBackground_Loaded">
-        <UI:AdControl x:Name="MyAd" Height="80" VerticalAlignment="Bottom" />
+        <UI:AdControl x:Name="MyAd" Height="80" Width="480" Visibility="Collapsed" VerticalAlignment="Bottom" 
+                    ApplicationId="test_client" 
+                    AdUnitId="Image480_80" 
+        />
     </DrawingSurfaceBackgroundGrid>
 
 </phone:PhoneApplicationPage>

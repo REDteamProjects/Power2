@@ -73,43 +73,11 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            //var progressBar = ProgressBar;
-            //if (progressBar != null)
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-            
-            //try
-            //{
-            //    if (Advertisement.isSupported)
-            //    {
 
             #if UNITY_WINRT || UNITY_WP8
-                WinRTAdHelper.FireShowAd();
-            #endif
-            //        #if UNITY_ANDROID || UNITY_IOS
-
-            //            #if UNITY_ANDROID
-            //                Advertisement.Initialize("59864", true);
-            //            #endif
-            //            #if UNITY_IOS 
-            //                Advertisement.Initialize("59866", true);
-            //            #endif
-
-            //            if (Advertisement.IsReady("ADSZone"))
-            //            {
-            //                Advertisement.Show("Foreground/ADSZone", new ShowOptions { resultCallback = result => Debug.Log(result.ToString()) });
-            //            }
-            //        #endif
-            //    }
-            //    else
-            //    {
-            //        Debug.Log("AD: Platform not supported");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Debug.Log("AD exception: " + ex.Message);
-            //}
-            
+                WinRTDeviceHelper.FireShowAd();
+            #endif          
 
             Items = new[]
             {
@@ -187,7 +155,7 @@ namespace Assets.Scripts
         {
             PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
             #if UNITY_WINRT || UNITY_WP8
-                WinRTAdHelper.FireHideAd();
+                WinRTDeviceHelper.FireHideAd();
             #endif
         }
 

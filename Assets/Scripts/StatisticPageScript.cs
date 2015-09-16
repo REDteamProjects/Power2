@@ -5,6 +5,7 @@ using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
 using Assets.Scripts.Interfaces;
+using SmartLocalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,8 +34,8 @@ public class StatisticPageScript : MonoBehaviour
 
         newgobj.transform.SetParent(levelTitle.transform);
         newgobj.transform.localPosition = new Vector3(0, 0);
-        newgobj.transform.localScale = /*typeObjectName.Contains("Match3") ? new Vector3(5, 5) : */
-            new Vector3(80, 80);
+        newgobj.transform.localScale = type <= GameItemType.DisabledItem ? new Vector3(80, 80) :/*typeObjectName.Contains("Match3") ? new Vector3(5, 5) : */
+            new Vector3(10, 10);
     }
 
     private void LoadDataToView<TSavedataType, TType>()
@@ -82,7 +83,7 @@ public class StatisticPageScript : MonoBehaviour
         LoadLevelData(0);
 
         var fg = GameObject.Find("/GUI");
-        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), "Reset all", 50,
+        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50,
                 () => { PlayerPrefs.DeleteAll(); SelectedItem = null; LoadLevelData((int)SelectedType); });
     }
 

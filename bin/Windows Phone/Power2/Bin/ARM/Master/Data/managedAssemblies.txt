@@ -1,0 +1,6 @@
+Assembly-CSharp-firstpass.dll
+Assembly-CSharp.dll
+UnityEngine.Analytics.dll
+UnityEngine.Networking.dll
+UnityEngine.UI.dll
+SmartLocalization_Runtime.dll

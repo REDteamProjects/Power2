@@ -1,21 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using System.Net;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Windows.UI.Core;
+using Windows.Phone.Devices.Notification;
+using Assets.Scripts.Helpers;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
-using Windows.Foundation;
-
 using UnityApp = UnityPlayer.UnityApp;
 using UnityBridge = WinRTBridge.WinRTBridge;
 
@@ -32,11 +22,30 @@ namespace Power2
 			UnityApp.SetBridge(bridge);
 			InitializeComponent();
 			bridge.Control = DrawingSurfaceBackground;
-            WinRTAdHelper.HideAd += WinRtAdHelperOnHideAd;
-            WinRTAdHelper.ShowAd += WinRtAdHelperOnShowAd;
+            WinRTDeviceHelper.HideAd += WinRTDeviceHelperOnHideAd;
+            WinRTDeviceHelper.ShowAd += WinRTDeviceHelperOnShowAd;
+            WinRTDeviceHelper.VibratePhone += WinRTDeviceHelper_VibratePhone;
+            MyAd.ErrorOccurred += MyAd_ErrorOccurred;
 		}
 
-        void WinRtAdHelperOnShowAd(object sender, EventArgs eventArgs)
+        void MyAd_ErrorOccurred(object sender, Microsoft.Advertising.AdErrorEventArgs e)
+        {
+            Debug.WriteLine(e.Error);
+        }
+
+        void WinRTDeviceHelper_VibratePhone(object sender, VibrationEventHandlerArgs args)
+        {
+            Dispatcher.BeginInvoke( () =>
+            {
+                var vibrationDevice = VibrationDevice.GetDefault();
+                if (args.VibrationTime.Milliseconds == 0)
+                    vibrationDevice.Cancel();
+                else
+                    vibrationDevice.Vibrate(args.VibrationTime);
+            });
+        }
+
+        void WinRTDeviceHelperOnShowAd(object sender, EventArgs eventArgs)
 	    {
             Dispatcher.BeginInvoke( () =>
             {
@@ -44,7 +53,7 @@ namespace Power2
             });
 	    }
 
-	    void WinRtAdHelperOnHideAd(object sender, EventArgs eventArgs)
+        void WinRTDeviceHelperOnHideAd(object sender, EventArgs eventArgs)
 	    {
             Dispatcher.BeginInvoke(() =>
             {

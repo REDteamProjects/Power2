@@ -89,3 +89,4 @@ C:\Users\gorchakov_ia\Documents\Unity\Projects\Power2\bin\Windows Phone\Power2\o
 C:\Users\gorchakov_ia\Documents\Unity\Projects\Power2\bin\Windows Phone\Power2\obj\ARM\Debug\Power2.dll
 C:\Users\gorchakov_ia\Documents\Unity\Projects\Power2\bin\Windows Phone\Power2\obj\ARM\Debug\Power2.pdb
 C:\Users\gorchakov_ia\Documents\Unity\Projects\Power2\bin\Windows Phone\Power2\obj\ARM\Debug\XapCacheFile.xml
+C:\Users\gorchakov_ia\Documents\Unity\Projects\Power2\bin\Windows Phone\Power2\obj\ARM\Debug\Power2.csprojResolveAssemblyReference.cache
