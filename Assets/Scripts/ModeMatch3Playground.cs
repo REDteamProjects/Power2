@@ -67,7 +67,7 @@ namespace Assets.Scripts
             get { return 5.4f; }
         }
 
-        public override float GameItemSize { get { return 3.84f; } }
+        public override float GameItemSize { get { return 3.805f; } }
 
         ModeMatch3Playground()
         { }
