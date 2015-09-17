@@ -1011,7 +1011,7 @@ namespace Assets.Scripts
             (pausebackground.transform as RectTransform).sizeDelta = Vector2.zero;
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
-            gameOverLabel.ShowScalingLabel(new Vector3(0, 100, -3),
+            gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
                 LanguageManager.Instance.GetTextValue("GameOverTitle"), Color.white, Color.gray, 60, 90, null, false, () =>
                 {
                     var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
@@ -1022,7 +1022,7 @@ namespace Assets.Scripts
 
                     }
                     gameOverMenu.transform.localScale = Vector3.one;
-                    gameOverMenu.transform.localPosition = new Vector3(0, 0, 0);
+                    gameOverMenu.transform.localPosition = new Vector3(0, -100, 0);
                 });
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.GameOver, false, true);
         }
