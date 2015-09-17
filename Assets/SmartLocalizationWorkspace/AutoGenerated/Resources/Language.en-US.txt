@@ -134,6 +134,9 @@
 	<data name="Fighter" xml:space="preserve">
 		<value>FIGHTER</value>
 	</data>
+	<data name="GameOverTitle" xml:space="preserve">
+		<value>Game Over</value>
+	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Loading...</value>
 	</data>

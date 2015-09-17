@@ -134,6 +134,9 @@
 	<data name="Fighter" xml:space="preserve">
 		<value>БОЕЦ</value>
 	</data>
+	<data name="GameOverTitle" xml:space="preserve">
+		<value>Конец игры</value>
+	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Загрузка...</value>
 	</data>

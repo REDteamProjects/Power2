@@ -14,7 +14,29 @@ namespace Assets.Scripts.DataClasses
 #endif
     public class GameItem : MonoBehaviour
     {
-        public bool IsTouched;
+        private bool _isTouched;
+        private Vector3 notTouchedPosition;
+
+        public bool IsTouched
+        {
+            get { return _isTouched; }
+            set
+            {
+                if (_isTouched == value) return;
+                _isTouched = value;
+                if (value)
+                {
+                    transform.localScale = new Vector3(transform.localScale.x + 0.2f, transform.localScale.y + 0.2f, transform.localScale.z);
+                    notTouchedPosition = transform.localPosition;
+                    transform.localPosition = new Vector3(notTouchedPosition.x, notTouchedPosition.y, notTouchedPosition.z - 3);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f, transform.localScale.z);
+                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + 3); ;
+                } 
+            }
+        }
         public Vector3 CurrentPosition;
         public bool IsDraggableWhileMoving;
         public GameItemType Type;

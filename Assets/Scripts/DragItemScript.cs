@@ -161,8 +161,10 @@ public class DragItemScript : MonoBehaviour
                         if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
                         
                         gi.IsTouched = true;
+
                         touchedItem = new Point { X = col, Y = row };
                         touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
+                        touchedItemOriginalPosition.z = gobj.transform.localPosition.z;
 
                         touchDirection = null;
 
@@ -352,6 +354,13 @@ public class DragItemScript : MonoBehaviour
                     var result = pg.TryMakeMove(firstX, firstY, secondX, secondY);
                     LogFile.Message("Result:" + result, true);
 
+                    var gobj = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
+                    if (gobj != null)
+                    {
+                        var gi = gobj.GetComponent<GameItem>();
+                        gi.IsTouched = false;
+                    }
+
                     if (result)
                     {
                         if (!pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, false)) return;
@@ -374,9 +383,8 @@ public class DragItemScript : MonoBehaviour
                     {
                         pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, true);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Fault, false);
-                        //var gi = gobj1.GetComponent<GameItem>();
-                        
                     }
+
                     touchDirection = null;
                     touchedItem = null;
                 }
@@ -424,6 +432,7 @@ public class DragItemScript : MonoBehaviour
                             if (gims.IsMoving)
                             {
                                 gims.ChangeSpeed(gims.CurrentDestination.Speed.x + 16);
+                                
                                 touchedItem = null;
                                 return;
                             }
@@ -432,7 +441,7 @@ public class DragItemScript : MonoBehaviour
                         //var gi = gobj.GetComponent<GameItem>();
                         //if (gi != null && gi.IsDraggableWhileMoving)
                         touchDirection = null;
-
+                        
                         pg.RevertMovedItem(touchedItem.X, touchedItem.Y);
                     }
                     //LogFile.Message("TouchPhase.Ended");

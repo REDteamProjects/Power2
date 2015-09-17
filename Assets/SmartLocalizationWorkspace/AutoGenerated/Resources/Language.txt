@@ -143,6 +143,9 @@
 	<data name="Newbie" xml:space="preserve">
 		<value>Newbie button text</value>
 	</data>
+	<data name="NoMovesTitle" xml:space="preserve">
+		<value>No Moves Title</value>
+	</data>
 	<data name="Player" xml:space="preserve">
 		<value>Player button text</value>
 	</data>
@@ -161,7 +164,7 @@
 	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
 		<value>First manual texture</value>
 	</data>
-	<data name="NoMovesTitle" xml:space="preserve">
-		<value>No Moves Title</value>
+	<data name="GameOverTitle" xml:space="preserve">
+		<value>Game over title</value>
 	</data>
 </root>

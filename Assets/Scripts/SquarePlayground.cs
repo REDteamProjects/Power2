@@ -1012,7 +1012,7 @@ namespace Assets.Scripts
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 100, -3),
-                "Game over", Color.white, Color.gray, 60, 90, null, false, () =>
+                LanguageManager.Instance.GetTextValue("GameOverTitle"), Color.white, Color.gray, 60, 90, null, false, () =>
                 {
                     var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
 
