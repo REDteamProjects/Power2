@@ -12,6 +12,7 @@ public class LabelShowing : MonoBehaviour {
     private int DestroyTimeout;
     private LabelAnimationFinishedDelegate AnimationFinished;
     private Text labelText;
+    private static Font DefaultFont = (Font)Resources.Load("Fonts/BAUHS93");
 
 	// Use this for initialization
 	void Start () {
@@ -103,7 +104,7 @@ public class LabelShowing : MonoBehaviour {
             {
                 var shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 shadow.transform.SetParent(transform.parent);
-                shadow.ShowScalingLabel(new Vector3(position.x - 0.3f, position.y, position.z),
+                shadow.ShowScalingLabel(new Vector3(position.x - 3f, position.y, position.z),
                     text, textColor, textColor, animateFromSize + 1, animateToSize + 1, font, destroyAfterAnimation);
             }
             labelText.color = shadowColor;
@@ -112,9 +113,7 @@ public class LabelShowing : MonoBehaviour {
             labelText.color = textColor;
         labelText.fontSize = animateFromSize;
         ScaleFontTo = animateToSize;
-        
-        if (font != null)
-            labelText.font = font;
+        labelText.font = font ? font : DefaultFont;
         labelText.text = text;
         DestroyAfterAnimation = destroyAfterAnimation;
         ScaleDifference = animateToSize - animateFromSize;
