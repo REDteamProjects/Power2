@@ -7,6 +7,7 @@ namespace Assets.Scripts.DataClasses
     public class GameColors
     {
         public static Dictionary<GameItemType, Color> ItemsColors = new Dictionary<GameItemType, Color>();
+        public static Dictionary<DifficultyLevel, Color> DifficultyLevelsColors = new Dictionary<DifficultyLevel, Color>();
         public static readonly Color BackgroundColor = new Color(0.157f, 0.157f, 0.157f);
         public static readonly Color ForegroundColor = new Color(0.6f, 0.416f, 0.231f);
 
@@ -28,7 +29,11 @@ namespace Assets.Scripts.DataClasses
             ItemsColors.Add(GameItemType._14, new Color(0.39f, 0f, 0.43f));
             ItemsColors.Add(GameItemType._15, new Color(0.235f, 0.118f, 0.314f));
             ItemsColors.Add(GameItemType._16, new Color(0.118f, 0.039f, 0.235f));
-        }
 
+            DifficultyLevelsColors.Add(DifficultyLevel.easy, new Color(0.82f, 0.63f, 0.35f));//210 160 89
+            DifficultyLevelsColors.Add(DifficultyLevel.medium, new Color(0.59f, 0.59f, 0.59f));//150 150 150
+            DifficultyLevelsColors.Add(DifficultyLevel.hard, new Color(0.75f, 0.63f, 0.15f));//190 160 39
+            DifficultyLevelsColors.Add(DifficultyLevel.veryhard, new Color(0.16f, 0.55f, 0.78f));//4 140 200
+        }
     }
 }

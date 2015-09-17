@@ -34,7 +34,7 @@ namespace Assets.Scripts
         private Point _selectedPoint1Coordinate;
         private Point _selectedPoint2Coordinate;
         private int _chainCounter;
-        //private int _score;
+        private GameItemType _nextUpperLevelGameItemType = GameItemType.NullItem;
         private float _currentTime;
 
         protected static readonly System.Random RandomObject = new System.Random();
@@ -153,44 +153,63 @@ namespace Assets.Scripts
             set
             {
                 if (MaxType == value) return;
+
                 MaxType = value;
                 if (Preferenses.CurrentItemType < MaxType)
                     Preferenses.CurrentItemType = MaxType;
+
+                if (_nextUpperLevelGameItemType != GameItemType.NullItem && MaxType != _nextUpperLevelGameItemType) return;
+
                 switch (MaxType)
                 {
                     case GameItemType._7:
                     case GameItemType._8:
-                    case GameItemType._9:
-                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
+                    case GameItemType._9:                       
                         Game.Difficulty = DifficultyLevel.medium;
-                        DifficultyRaisedGUI();
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        if (_nextUpperLevelGameItemType != GameItemType.NullItem)
+                            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
+                        _nextUpperLevelGameItemType = GameItemType._10;
                         break;
                     case GameItemType._10:
                     case GameItemType._11:
                     case GameItemType._12:
-                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         Game.Difficulty = DifficultyLevel.hard;
-                        DifficultyRaisedGUI();
-                        while (XItemsCount < maxAdditionalItemsCount)
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        if (_nextUpperLevelGameItemType != GameItemType.NullItem)
                         {
-                            int col;
-                            int row;
-                            while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) > (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) && !(Items[col][row] as GameObject).GetComponent<GameItemMovingScript>().IsMoving) { }
-                            RemoveGameItem(col, row, (item, r) =>
+                            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
+                            while (XItemsCount < maxAdditionalItemsCount)
                             {
-                                Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero, false, null, null, GameItemMovingType.Static);
-                            });
-                            XItemsCount++;
+                                int col;
+                                int row;
+                                while ((col = RandomObject.Next(1, FieldSize - 1))*RandomObject.Next(1, FieldSize - 1) >
+                                       (row = RandomObject.Next(1, FieldSize - 1))*RandomObject.Next(1, FieldSize - 1) &&
+                                       !(Items[col][row] as GameObject).GetComponent<GameItemMovingScript>().IsMoving)
+                                {
+                                }
+                                RemoveGameItem(col, row, (item, r) =>
+                                {
+                                    Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero,
+                                        false, null, null, GameItemMovingType.Static);
+                                });
+                                XItemsCount++;
+                            }
                         }
+                        _nextUpperLevelGameItemType = GameItemType._13;
                         break;
                     case GameItemType._13:
                     case GameItemType._14:
                     case GameItemType._15:
-                    case GameItemType._16:
-                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
+                    case GameItemType._16:    
                         Game.Difficulty = DifficultyLevel.veryhard;
-                        DifficultyRaisedGUI();
-                        MixTimeCounter = _mixTimeCounterSize;
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        if (_nextUpperLevelGameItemType != GameItemType.NullItem)
+                        {
+                            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
+                            MixTimeCounter = _mixTimeCounterSize;
+                        }
+                        _nextUpperLevelGameItemType = GameItemType._Gameover;
                         break;
                 }
                 if ((int)MaxType > FieldSize)
@@ -202,49 +221,72 @@ namespace Assets.Scripts
             }
         }
 
-        private void DifficultyRaisedGUI()
+        private void DifficultyRaisedGUI(bool withLabel = true)
         {
             var go = GameObject.Find("/Middleground/Background");
             var oits = go.GetComponent<ObjectImageTransparencyScript>();
-            switch (Game.Difficulty)
+
+            var df = Game.Difficulty;
+
+            oits.SetTransparency(0.1f, (obj, res) =>
             {
-                case DifficultyLevel.medium:
-                    oits.SetTransparency(0.1f, (obj, res) =>
-                        {
-                            var backgroundObject = GameObject.Find("/Middleground/Background");
-                            backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.medium.ToString()));
+                var backgroundObject = GameObject.Find("/Middleground/Background");
+                backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
+                    .SingleOrDefault(t => t.name.Contains(df.ToString()));
 
-                            GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.medium);
+                GetComponent<PlaygroundProgressBar>().UpdateTexture(df);
 
-                            oits.SetTransparency(1f, null);
-                        });
-                    break;
-                case DifficultyLevel.hard:
-                    oits.SetTransparency(0.1f, (obj, res) =>
-                         {
-                             var backgroundObject = GameObject.Find("/Middleground/Background");
-                             backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+                var points = GameObject.Find("Points");
+                points.GetComponent<Text>().color = GameColors.DifficultyLevelsColors[df];
 
-                             GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.hard);
+                oits.SetTransparency(1f, null);
+            });
 
-                             oits.SetTransparency(1f, null);
-                         });
-                    break;
-                case DifficultyLevel.veryhard:
-                    oits.SetTransparency(0.1f, (obj, res) =>
-                         {
-                             var backgroundObject = GameObject.Find("/Middleground/Background");
-                             backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-                                .SingleOrDefault(t => t.name.Contains(DifficultyLevel.veryhard.ToString()));
 
-                             GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.veryhard);
+            #region Needn't case
+            //switch (Game.Difficulty)
+            //{
+            //    case DifficultyLevel.medium:
+            //        oits.SetTransparency(0.1f, (obj, res) =>
+            //            {
+            //                var backgroundObject = GameObject.Find("/Middleground/Background");
+            //                backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
+            //                    .SingleOrDefault(t => t.name.Contains(DifficultyLevel.medium.ToString()));
 
-                             oits.SetTransparency(1f, null);
-                         });
-                    break;
-            }
+            //                GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.medium);
+
+            //                oits.SetTransparency(1f, null);
+            //            });
+            //        break;
+            //    case DifficultyLevel.hard:
+            //        oits.SetTransparency(0.1f, (obj, res) =>
+            //             {
+            //                 var backgroundObject = GameObject.Find("/Middleground/Background");
+            //                 backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
+            //                    .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
+
+            //                 GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.hard);
+
+            //                 oits.SetTransparency(1f, null);
+            //             });
+            //        break;
+            //    case DifficultyLevel.veryhard:
+            //        oits.SetTransparency(0.1f, (obj, res) =>
+            //             {
+            //                 var backgroundObject = GameObject.Find("/Middleground/Background");
+            //                 backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
+            //                    .SingleOrDefault(t => t.name.Contains(DifficultyLevel.veryhard.ToString()));
+
+            //                 GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.veryhard);
+
+            //                 oits.SetTransparency(1f, null);
+            //             });
+            //        break;
+            //}
+            #endregion
+
+            if (!withLabel) return;
+
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
@@ -260,7 +302,7 @@ namespace Assets.Scripts
             if (gobj == null) return;
             gobj.transform.SetParent(fg.transform);
             gobj.transform.localPosition = new Vector3(0, 350f + GameItemSize * 5f, 0);
-            gobj.transform.localScale = new Vector3(10, 10);
+            gobj.transform.localScale = new Vector3(12, 12);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
@@ -1142,7 +1184,7 @@ namespace Assets.Scripts
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4),
-                        "No moves", Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                         LanguageManager.Instance.GetTextValue("NoMovesTitle"), Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
                     //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                     //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                 }
