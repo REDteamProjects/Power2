@@ -22,6 +22,11 @@ public class DragItemScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var touch = TouchActionAdapter.GetTouch();
+        if (touch.Count == 0) return;
+
+        if (PauseButtonScript.PauseMenuActive) return;
+
         var pg = gameObject.GetComponent<IPlayground>();
 
         if (pg == null || pg.IsGameOver) return;
@@ -29,11 +34,6 @@ public class DragItemScript : MonoBehaviour
         Vector3 realTouchPosition;
 
         var touchPhase = TouchPhase.Canceled;
-
-        var touch = TouchActionAdapter.GetTouch();
-        if (touch.Count == 0) return;
-
-        if (PauseButtonScript.PauseMenuActive) return;
 
         touchPhase = touch[0].Phase;
 
@@ -147,21 +147,20 @@ public class DragItemScript : MonoBehaviour
                         if (pg.Items[col][row] == null || pg.Items[col][row] == pg.DisabledItem) continue;
                         var gobj = (pg.Items[col][row] as GameObject);
                         if (gobj == null) continue;
-                        var gobjPosition = new Vector2(gobj.transform.localPosition.x, gobj.transform.localPosition.y);
+                        //var gobjPosition = new Vector2(gobj.transform.localPosition.x, gobj.transform.localPosition.y);
 
                         var gobjCollider = gobj.GetComponent<BoxCollider2D>();
                         var half = gobjCollider.size.x / 2;
-                        if ((!(realTouchPosition.x > gobjPosition.x - half)) ||
-                            (!(realTouchPosition.x < gobjPosition.x + half)) ||
-                            (!(realTouchPosition.y > gobjPosition.y - half)) ||
-                            (!(realTouchPosition.y < gobjPosition.y + half))) continue;
+                        if ((!(realTouchPosition.x > gobj.transform.localPosition.x - half)) ||
+                            (!(realTouchPosition.x < gobj.transform.localPosition.x + half)) ||
+                            (!(realTouchPosition.y > gobj.transform.localPosition.y - half)) ||
+                            (!(realTouchPosition.y < gobj.transform.localPosition.y + half))) continue;
 
                         var gims = gobj.GetComponent<GameItemMovingScript>();
                         var gi = gobj.GetComponent<GameItem>();
                         if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
                         
                         gi.IsTouched = true;
-
                         touchedItem = new Point { X = col, Y = row };
                         touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
                         touchedItemOriginalPosition.z = gobj.transform.localPosition.z;
@@ -218,12 +217,24 @@ public class DragItemScript : MonoBehaviour
                 switch (giObject.MovingType)
                 {
                     case GameItemMovingType.Standart:
-
-                        if (deltaX > deltaY)
+                    case GameItemMovingType.StandartChangable:
+                        if (touchDirection != null && giObject.MovingType == GameItemMovingType.Standart)
                         {
-                            deltaXYZ = deltaX;
-                            if (deltaXYZ > pg.DeltaToMove)
+                            switch(touchDirection)
                             {
+                                case MoveDirections.Right:
+                                case MoveDirections.Left:
+                                deltaXYZ = deltaX;
+                                break;
+                                case MoveDirections.Up:
+                                case MoveDirections.Down:
+                                deltaXYZ = deltaY;
+                                break;
+                            }
+                            break;
+                        }
+                        if (deltaX > deltaY && deltaX > pg.DeltaToMove)
+                        {
                                 if (
                                     !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
                                         (touchDirection = realTouchPosition.x > touchOriginalPosition.x
@@ -244,21 +255,19 @@ public class DragItemScript : MonoBehaviour
                                         return;
                                     }
                                     deltaXYZ = deltaY;
+                                    break;
                                 }
-                            }
+                                deltaXYZ = deltaX;
                         }
-                        else if (deltaX < deltaY)
+                        else if (deltaX < deltaY && deltaY > pg.DeltaToMove)
                         {
-                            deltaXYZ = deltaY;
-                            if (deltaXYZ > pg.DeltaToMove)
-                            {
                                 if (
                                     !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
                                         (touchDirection = realTouchPosition.y > touchOriginalPosition.y
                                             ? MoveDirections.Up
                                             : MoveDirections.Down).Value))
                                 {
-                                    var movingItemGameObject = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
+                                    /*var movingItemGameObject = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
                                     var res = touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
                                               && movingItemGameObject != null &&
                                               movingItemGameObject.GetComponent<GameItemMovingScript>()
@@ -274,12 +283,25 @@ public class DragItemScript : MonoBehaviour
                                     {
                                         //if (res) touchDirection = null;
                                         return;
+                                    }*/
+
+                                    if (
+                                        !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
+                                            (touchDirection = realTouchPosition.x > touchOriginalPosition.x
+                                                ? MoveDirections.Right
+                                                : MoveDirections.Left).Value))
+                                    {
+                                    var movingItemGameObject = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
+                                    if( touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
+                                             && movingItemGameObject != null &&
+                                              movingItemGameObject.GetComponent<GameItemMovingScript>()
+                                                  .IsMoving) touchDirection = null;
+                                        return;
                                     }
-
                                     deltaXYZ = deltaX;
+                                    break;
                                 }
-
-                            }
+                                deltaXYZ = deltaY;
                         }
                         break;
                     case GameItemMovingType.Diagonal:
@@ -332,7 +354,7 @@ public class DragItemScript : MonoBehaviour
 
                 if (!touchDirection.HasValue) return;
 
-                var secondX = touchedItem.X + (int)pg.AvailableMoveDirections[touchDirection.Value].x;
+                /*var secondX = touchedItem.X + (int)pg.AvailableMoveDirections[touchDirection.Value].x;
                 var secondY = touchedItem.Y - (int)pg.AvailableMoveDirections[touchDirection.Value].y;
                 if (!pg.isDisabledItemActive && pg.Items[secondX][secondY] != pg.DisabledItem)
                 {
@@ -341,10 +363,12 @@ public class DragItemScript : MonoBehaviour
                     var gims2 = gobjCHck.GetComponent<GameItemMovingScript>();
                     var gi = gobjCHck.GetComponent<GameItem>();
                     if (gims2 == null || gi == null || gims2.IsMoving) return;
-                }
+                }*/
                 //LogFile.Message("dELTA: " + deltaXYZ + "D2E: " + pg.DeltaToExchange);
                 if (deltaXYZ > pg.DeltaToExchange)
                 {
+                    var secondX = touchedItem.X + (int)pg.AvailableMoveDirections[touchDirection.Value].x;
+                    var secondY = touchedItem.Y - (int)pg.AvailableMoveDirections[touchDirection.Value].y;
                     //here we check touchDirection , select GameItem for exchange and call pg.GameItemsExchange(...)
 
                     exchangeSpeedMultiple += 1.7f;
@@ -354,13 +378,12 @@ public class DragItemScript : MonoBehaviour
                     var result = pg.TryMakeMove(firstX, firstY, secondX, secondY);
                     LogFile.Message("Result:" + result, true);
 
-                    var gobj = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
+					var gobj = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
                     if (gobj != null)
                     {
                         var gi = gobj.GetComponent<GameItem>();
                         gi.IsTouched = false;
                     }
-
                     if (result)
                     {
                         if (!pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, false)) return;
@@ -383,8 +406,9 @@ public class DragItemScript : MonoBehaviour
                     {
                         pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, true);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Fault, false);
+                        //var gi = gobj1.GetComponent<GameItem>();
+                        
                     }
-
                     touchDirection = null;
                     touchedItem = null;
                 }
@@ -398,6 +422,7 @@ public class DragItemScript : MonoBehaviour
                         switch (giObject.MovingType)
                         {
                             case GameItemMovingType.Standart:
+                            case GameItemMovingType.StandartChangable:
                             case GameItemMovingType.Diagonal:
                                 gims.transform.localPosition = new Vector3(touchedItemOriginalPosition.x + pg.AvailableMoveDirections[touchDirection.Value].x * deltaXYZ,
                                     touchedItemOriginalPosition.y + pg.AvailableMoveDirections[touchDirection.Value].y * deltaXYZ, touchedItemOriginalPosition.z);
@@ -432,7 +457,6 @@ public class DragItemScript : MonoBehaviour
                             if (gims.IsMoving)
                             {
                                 gims.ChangeSpeed(gims.CurrentDestination.Speed.x + 16);
-                                
                                 touchedItem = null;
                                 return;
                             }
@@ -441,7 +465,7 @@ public class DragItemScript : MonoBehaviour
                         //var gi = gobj.GetComponent<GameItem>();
                         //if (gi != null && gi.IsDraggableWhileMoving)
                         touchDirection = null;
-                        
+
                         pg.RevertMovedItem(touchedItem.X, touchedItem.Y);
                     }
                     //LogFile.Message("TouchPhase.Ended");

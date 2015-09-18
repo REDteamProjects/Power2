@@ -11,25 +11,27 @@ namespace Assets.Scripts.Helpers
         private int _currentScore;
         private GameObject _plabel;
         private bool raise = false;
+        private int stockFont;
         public int CurrentScore { get { return _currentScore; } }
 
         void Awake()
         {
             _plabel = GameObject.Find("Points");
+            stockFont = _plabel.GetComponent<Text>().fontSize;
         }
 
 
         void Update()
         {
             var plbelText = _plabel.GetComponent<Text>();
-            if (plbelText.fontSize != 40)
+            if (plbelText.fontSize != stockFont)
                 plbelText.fontSize--;
 
             if (!raise) return;
             raise = false;
 
             plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
-            plbelText.fontSize = 47;
+            plbelText.fontSize = stockFont + 10;
         }
 
         public void RisePoints(int currentScore)
