@@ -12,7 +12,7 @@ public class LabelShowing : MonoBehaviour {
     private int DestroyTimeout;
     private LabelAnimationFinishedDelegate AnimationFinished;
     private Text labelText;
-    private static Font DefaultFont = (Font)Resources.Load("Fonts/BAUHS93");
+    private static string DefaultFont = "Fonts/BAUHS93";
 
 	// Use this for initialization
 	void Start () {
@@ -113,7 +113,7 @@ public class LabelShowing : MonoBehaviour {
             labelText.color = textColor;
         labelText.fontSize = animateFromSize;
         ScaleFontTo = animateToSize;
-        labelText.font = font ? font : DefaultFont;
+        labelText.font = font ? font : Resources.Load<Font>(DefaultFont);
         labelText.text = text;
         DestroyAfterAnimation = destroyAfterAnimation;
         ScaleDifference = animateToSize - animateFromSize;

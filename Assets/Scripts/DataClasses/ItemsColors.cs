@@ -8,9 +8,36 @@ namespace Assets.Scripts.DataClasses
     {
         public static Dictionary<GameItemType, Color> ItemsColors = new Dictionary<GameItemType, Color>();
         public static Dictionary<DifficultyLevel, Color> DifficultyLevelsColors = new Dictionary<DifficultyLevel, Color>();
-        public static readonly Color BackgroundColor = new Color(0.157f, 0.157f, 0.157f);
-        public static readonly Color ForegroundColor = new Color(0.6f, 0.416f, 0.231f);
 
+        public static Color BackgroundColor
+        {
+            get
+            {
+                switch (Game.Theme)
+                {
+                    case GameTheme.dark:
+                        return new Color(0.157f, 0.157f, 0.157f);
+                    case GameTheme.light:
+                        return new Color(1f, 1f, 1f); 
+                }
+                return new Color(0.157f, 0.157f, 0.157f);
+            }
+        }
+        public static Color ForegroundColor
+        {
+            get
+            {
+                switch (Game.Theme)
+                {
+                    case GameTheme.dark:
+                        return new Color(0.6f, 0.416f, 0.231f);
+                    case GameTheme.light:
+                        return new Color(0.16f, 0.16f, 0.16f);
+                }
+                return new Color(0.6f, 0.416f, 0.231f);
+            }
+        }
+        
         static GameColors()
         {
             ItemsColors.Add(GameItemType._1, new Color(0.882f, 0.863f, 0,784f));

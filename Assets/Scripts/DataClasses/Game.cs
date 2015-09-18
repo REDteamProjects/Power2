@@ -12,6 +12,7 @@ namespace Assets.Scripts.DataClasses
         private IPlayground PlaygroundObject;
         //internal Statistics Stats;
         public static DifficultyLevel Difficulty = DifficultyLevel.easy;
+        public static GameTheme Theme = GameTheme.dark;
 
         void Awake()
         {

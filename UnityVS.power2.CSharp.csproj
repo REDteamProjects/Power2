@@ -90,6 +90,7 @@
     <Compile Include="Assets\Scripts\DataClasses\SquarePlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\DragItemScript.cs" />
     <Compile Include="Assets\Scripts\DropDownScript.cs" />
+    <Compile Include="Assets\Scripts\Enums\GameThemes.cs" />
     <Compile Include="Assets\Scripts\Enums\DifficultyLevel.cs" />
     <Compile Include="Assets\Scripts\Enums\GameItemMovingType.cs" />
     <Compile Include="Assets\Scripts\Enums\GameItemType.cs" />
