@@ -458,6 +458,7 @@ public class DragItemScript : MonoBehaviour
                             {
                                 gims.ChangeSpeed(gims.CurrentDestination.Speed.x + 16);
                                 touchedItem = null;
+                                gobj.GetComponent<GameItem>().IsTouched = false;
                                 return;
                             }
                         }

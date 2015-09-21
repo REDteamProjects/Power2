@@ -79,8 +79,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AboutPageScript.cs" />
     <Compile Include="Assets\Scripts\ComplexMainMenuScript.cs" />
     <Compile Include="Assets\Scripts\DataClasses\Game.cs" />
+    <Compile Include="Assets\Scripts\DataClasses\GameColors.cs" />
     <Compile Include="Assets\Scripts\DataClasses\GameItem.cs" />
     <Compile Include="Assets\Scripts\DataClasses\GameTouch.cs" />
     <Compile Include="Assets\Scripts\DataClasses\Line.cs" />
@@ -90,10 +92,10 @@
     <Compile Include="Assets\Scripts\DataClasses\SquarePlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\DragItemScript.cs" />
     <Compile Include="Assets\Scripts\DropDownScript.cs" />
-    <Compile Include="Assets\Scripts\Enums\GameThemes.cs" />
     <Compile Include="Assets\Scripts\Enums\DifficultyLevel.cs" />
     <Compile Include="Assets\Scripts\Enums\GameItemMovingType.cs" />
     <Compile Include="Assets\Scripts\Enums\GameItemType.cs" />
+    <Compile Include="Assets\Scripts\Enums\GameTheme.cs" />
     <Compile Include="Assets\Scripts\Enums\GameTypes.cs" />
     <Compile Include="Assets\Scripts\Enums\LineOrientation.cs" />
     <Compile Include="Assets\Scripts\Enums\MenuState.cs" />
@@ -105,6 +107,7 @@
     <Compile Include="Assets\Scripts\Helpers\CoinsHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\DeviceButtonsHelpers.cs" />
     <Compile Include="Assets\Scripts\Helpers\GameSettingsHelper.cs" />
+    <Compile Include="Assets\Scripts\Helpers\ThemeChooserScript.cs" />
     <Compile Include="Assets\Scripts\Helpers\ItemsNameHelper.cs" />
     <Compile Include="Assets\Scripts\Helpers\LogFile.cs" />
     <Compile Include="Assets\Scripts\Helpers\PlaygroundProgressBar.cs" />
@@ -119,7 +122,6 @@
     <Compile Include="Assets\Scripts\Interfaces\IPlayground.cs" />
     <Compile Include="Assets\Scripts\Interfaces\IPlaygroundSavedata.cs" />
     <Compile Include="Assets\Scripts\Interfaces\ISceneDecorations.cs" />
-    <Compile Include="Assets\Scripts\DataClasses\ItemsColors.cs" />
     <Compile Include="Assets\Scripts\LabelShowing.cs" />
     <Compile Include="Assets\Scripts\MainMenuScript.cs" />
     <Compile Include="Assets\Scripts\Mode11RhombusPlayground.cs" />

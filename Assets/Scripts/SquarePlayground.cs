@@ -510,6 +510,11 @@ namespace Assets.Scripts
                 {MoveDirections.DR, new Vector2(1, -1)},
             }) { }
 
+        public void Start()
+        {
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
+                                GameColors.BackgroundColor;
+        }
 
         protected void RemoveAdditionalItems()
         {
@@ -1260,6 +1265,7 @@ namespace Assets.Scripts
 
             if (item1 != null)
             {
+                item1.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
                 item1.GetComponent<GameItemMovingScript>()
                     .MoveTo(position2.x,
@@ -1297,6 +1303,7 @@ namespace Assets.Scripts
 
             if (item2 != null)
             {
+                item2.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
                 item2.GetComponent<GameItemMovingScript>()
                     .MoveTo(position1.x,

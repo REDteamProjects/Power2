@@ -122,6 +122,11 @@
 	<data name="8x8Mode" xml:space="preserve">
 		<value>8 НА 8</value>
 	</data>
+	<data name="AboutText" xml:space="preserve">
+		<value>Игра Power2. 
+Все права защищены. 
+R.E.D.team</value>
+	</data>
 	<data name="ComboTitle" xml:space="preserve">
 		<value>Умножение очков x</value>
 	</data>

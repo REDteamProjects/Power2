@@ -134,6 +134,9 @@
 	<data name="Fighter" xml:space="preserve">
 		<value>Fighter button text</value>
 	</data>
+	<data name="GameOverTitle" xml:space="preserve">
+		<value>Game over title</value>
+	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Loading title between scenes</value>
 	</data>
@@ -164,7 +167,7 @@
 	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
 		<value>First manual texture</value>
 	</data>
-	<data name="GameOverTitle" xml:space="preserve">
-		<value>Game over title</value>
+	<data name="AboutText" xml:space="preserve">
+		<value>About scene text</value>
 	</data>
 </root>

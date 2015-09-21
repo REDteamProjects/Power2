@@ -12,7 +12,32 @@ namespace Assets.Scripts.DataClasses
         private IPlayground PlaygroundObject;
         //internal Statistics Stats;
         public static DifficultyLevel Difficulty = DifficultyLevel.easy;
-        public static GameTheme Theme = GameTheme.dark;
+        public static GameTheme _theme = GameTheme.dark;
+
+        public static GameTheme Theme
+        {
+            get { return _theme; }
+            set
+            {
+                if (_theme == value) return;
+                //switch (value)
+                //{
+                //    case GameTheme.dark:
+                        
+                //        break;
+                //    case GameTheme.light:
+                //        var mainScene =
+                //            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
+                //                GameColors.BackgroundColor;
+                //        break;
+                //}
+                _theme = value;
+                GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
+                                GameColors.BackgroundColor;
+
+
+            }
+        }
 
         void Awake()
         {
