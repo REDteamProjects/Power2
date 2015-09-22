@@ -78,8 +78,10 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            //var progressBar = ProgressBar;
-            //if (progressBar != null)
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
+                                GameColors.BackgroundColor;
+
+
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]

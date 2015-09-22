@@ -419,6 +419,9 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
+                                GameColors.BackgroundColor;
+
             GameItemMovingScript.MovingItemFinished += GameItemMovingScriptMovingItemFinished;
 
             Items = new[]

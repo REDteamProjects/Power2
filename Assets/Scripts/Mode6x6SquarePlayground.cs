@@ -73,6 +73,11 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
+                                GameColors.BackgroundColor;
+
+
+
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             #if UNITY_WINRT || UNITY_WP8

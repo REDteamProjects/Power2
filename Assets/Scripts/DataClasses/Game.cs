@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Enums;
 using Assets.Scripts.Interfaces;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.DataClasses
 {
@@ -32,10 +33,6 @@ namespace Assets.Scripts.DataClasses
                 //        break;
                 //}
                 _theme = value;
-                GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
-                                GameColors.BackgroundColor;
-
-
             }
         }
 
