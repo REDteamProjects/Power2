@@ -36,7 +36,6 @@ namespace Assets.Scripts
         private int _chainCounter;
         private GameItemType _nextUpperLevelGameItemType = GameItemType.NullItem;
         private float _currentTime;
-        private Int32 _lowestNullItem = 0;
 
         protected static readonly System.Random RandomObject = new System.Random();
         protected GameItemType MaxType = GameItemType._3;
@@ -1038,7 +1037,6 @@ namespace Assets.Scripts
             if (Items == null) return;
 
             var generateAfterDrop = true;
-			_lowestNullItem = FieldSize;
             //if (DropsCount == 0) GenerateField(true);
 
             var counter = 0;
@@ -1059,18 +1057,15 @@ namespace Assets.Scripts
                             while ((row + rowStaticCounter) >= 0 && (o1 = Items[col][row + rowStaticCounter] as GameObject) != null &&
                                 o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                                 rowStaticCounter--;
-							var newRow = row + rowStaticCounter;
-                            if ((newRow) < 0 || Items[col][newRow] == null)
+                            if ((row + rowStaticCounter) < 0 || Items[col][row + rowStaticCounter] == null)
                                 continue;
-                            var gobjS = Items[col][newRow] as GameObject;
+                            var gobjS = Items[col][row + rowStaticCounter] as GameObject;
                             if (gobjS == null) continue;
                             var cS = gobjS.GetComponent<GameItemMovingScript>();
                             if (cS.IsMoving) continue;
                             counter++;
                             Items[col][row] = gobjS;
-                            Items[col][newRow] = null;
-							if (newRow < _lowestNullItem)
-                                _lowestNullItem = newRow;
+                            Items[col][row + rowStaticCounter] = null;
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
@@ -1090,15 +1085,12 @@ namespace Assets.Scripts
                     var c = o.GetComponent<GameItemMovingScript>();
                     if (c.IsMoving) continue;
                     counter++;
-					var newRow = row - 1;
-                    if (newRow < _lowestNullItem)
-                        _lowestNullItem = newRow;
-                    Items[col][row] = Items[col][newRow];
+                    Items[col][row] = Items[col][row-1];
                     Items[col][row-1] = null;
-                    if (newRow - 1 >= 0 && Items[col][newRow - 1] != null) generateAfterDrop = false;//DropsCount++;
+                    if (row - 2 >= 0 && Items[col][row - 2] != null) generateAfterDrop = false;//DropsCount++;
                     if (!c.IsMoving) DropsCount++;
                     var col1 = col;
-                    var row1 = newRow;
+                    var row1 = row - 1;
                     c.MoveTo(null, GetCellCoordinates(col, row).y, 14, (item, result) =>
                     {
                         if (!c.IsMoving)
@@ -1126,7 +1118,7 @@ namespace Assets.Scripts
                     var resCol = 0;
                     if (Game.Difficulty > DifficultyLevel.easy && DropDownItemsCount < maxAdditionalItemsCount)
                     resCol = RandomObject.Next(0, FieldSize);
-                    for (var j = _lowestNullItem; j >= 0; j--)
+                    for (var j = FieldSize - 1; j >= 0; j--)
                     {
                         //var itemsJ = FieldSize - 1 - j;
                         if (Items[i][j] != null || Items[i][j] == DisabledItem)
