@@ -128,7 +128,7 @@ All right reserved.
 R.E.D.team</value>
 	</data>
 	<data name="ComboTitle" xml:space="preserve">
-		<value>Combo score x</value>
+		<value>Combo x</value>
 	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
 		<value>Difficulty raised</value>

@@ -77,6 +77,7 @@ namespace Assets.Scripts
 
             _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 120,
                 statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
+            _soundButton.name = "SoundButton";
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
                 ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[17]
                 : Resources.LoadAll<Sprite>("SD/StatisticHeader")[16];

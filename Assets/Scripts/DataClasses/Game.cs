@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Enums;
+using Assets.Scripts.Helpers;
 using Assets.Scripts.Interfaces;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,22 +18,11 @@ namespace Assets.Scripts.DataClasses
 
         public static GameTheme Theme
         {
-            get { return _theme; }
+            get { return GeneralSettings.ActiveTheme; }
             set
             {
-                if (_theme == value) return;
-                //switch (value)
-                //{
-                //    case GameTheme.dark:
-                        
-                //        break;
-                //    case GameTheme.light:
-                //        var mainScene =
-                //            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
-                //                GameColors.BackgroundColor;
-                //        break;
-                //}
-                _theme = value;
+                if (GeneralSettings.ActiveTheme == value) return;
+                GeneralSettings.ActiveTheme = value;
             }
         }
 

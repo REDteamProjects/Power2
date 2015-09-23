@@ -128,7 +128,7 @@
 R.E.D.team</value>
 	</data>
 	<data name="ComboTitle" xml:space="preserve">
-		<value>Умножение очков x</value>
+		<value>Умножение x</value>
 	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
 		<value>Сложность повышена</value>

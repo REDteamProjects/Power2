@@ -290,8 +290,8 @@ namespace Assets.Scripts
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
-			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"), 
-                Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"),
+                GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, true, null, true);
         }
 
         public void ShowMaxInitialElement()
@@ -531,7 +531,7 @@ namespace Assets.Scripts
                         var pointsLabel = o.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsLabel.ShowScalingLabel(new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1),
-                            "+" + 222, Color.white, Color.gray, 60, 90, null, true);
+                            "+" + 222, GameColors.ForegroundButtonsColor, Color.gray, 60, 90, null, true);
                     }
                     RisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
@@ -1017,7 +1017,7 @@ namespace Assets.Scripts
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-                LanguageManager.Instance.GetTextValue("GameOverTitle"), Color.white, Color.gray, 60, 90, null, false, () =>
+                LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, false, () =>
                 {
                     var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
 
@@ -1189,7 +1189,7 @@ namespace Assets.Scripts
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4),
-                         LanguageManager.Instance.GetTextValue("NoMovesTitle"), Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                         LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, true, null, true);
                     //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                     //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                 }
@@ -1537,7 +1537,7 @@ namespace Assets.Scripts
 
             comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
             comboLabel.ShowScalingLabel(new Vector3(count % 2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -1),
-                LanguageManager.Instance.GetTextValue("ComboTitle") + count, new Color(240, 223, 206), new Color(240, 223, 206), 10, 50, null, true);
+                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 10, 50, null, true);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
 

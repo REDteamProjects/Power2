@@ -18,13 +18,8 @@ namespace Assets.Scripts.Helpers
                     Game.Theme = GameTheme.dark;
                     break;
             }
-            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
-                                GameColors.BackgroundColor;
-            //var buttonsCollection = GameObject.Find("GUI").GetComponentsInChildren<Button>(); //TODO: need to load right buttons
-            //foreach (var button in buttonsCollection)
-            //{
-            //    button.colors.normalColor.a = 2;
-            //}
+
+            MainMenuScript.UpdateTheme();
         }
     }
 }

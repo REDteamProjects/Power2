@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 14d33d91ed515f94b98f01ccc9e229cf
-timeCreated: 1442326805
+timeCreated: 1443019795
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,8 +8,8 @@ TextureImporter:
     21300002: 8x8Atlas_hard
     21300004: 8x8Atlas_medium
     21300006: 8x8Atlas_veryhard
-    21300008: 8x8Atlas_black
-    21300010: 8x8Atlas_white
+    21300008: 8x8Atlas_dark
+    21300010: 8x8Atlas_light
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -95,7 +95,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 8x8Atlas_black
+    - name: 8x8Atlas_dark
       rect:
         serializedVersion: 2
         x: 0
@@ -105,7 +105,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 8x8Atlas_white
+    - name: 8x8Atlas_light
       rect:
         serializedVersion: 2
         x: 1024

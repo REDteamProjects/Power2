@@ -37,7 +37,22 @@ namespace Assets.Scripts.DataClasses
                 return new Color(0.6f, 0.416f, 0.231f);
             }
         }
-        
+
+        public static Color ForegroundButtonsColor
+        {
+            get
+            {
+                switch (Game.Theme)
+                {
+                    case GameTheme.dark:
+                        return new Color(1f, 1f, 1f);
+                    case GameTheme.light:
+                        return new Color(0.16f, 0.16f, 0.16f);
+                }
+                return new Color(1f, 1f, 1f);
+            }
+        }
+
         static GameColors()
         {
             ItemsColors.Add(GameItemType._1, new Color(0.882f, 0.863f, 0,784f));

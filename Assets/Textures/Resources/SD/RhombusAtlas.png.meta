@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 932d87c16db6e7849901c7b87b71d801
-timeCreated: 1442326925
+timeCreated: 1443019823
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,8 +8,8 @@ TextureImporter:
     21300002: RhombusAtlas_medium
     21300004: RhombusAtlas_hard
     21300006: RhombusAtlas_veryhard
-    21300008: RhombusAtlas_black
-    21300010: RhombusAtlas_white
+    21300008: RhombusAtlas_dark
+    21300010: RhombusAtlas_light
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -95,7 +95,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_black
+    - name: RhombusAtlas_dark
       rect:
         serializedVersion: 2
         x: 0
@@ -105,7 +105,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_white
+    - name: RhombusAtlas_light
       rect:
         serializedVersion: 2
         x: 1024

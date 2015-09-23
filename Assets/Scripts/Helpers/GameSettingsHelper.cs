@@ -24,6 +24,21 @@ namespace Assets.Scripts.Helpers
                 PlayerPrefs.SetInt("General_SoundEnabled", value ? 1 : 0);
             }
         }
+
+        public static GameTheme ActiveTheme
+        {
+            get
+            {
+                if (PlayerPrefs.HasKey("General_Theme"))
+                    return (GameTheme)PlayerPrefs.GetInt("General_Theme");
+                PlayerPrefs.SetInt("General_Theme", (Int32)GameTheme.dark);
+                return GameTheme.dark;
+            }
+            set
+            {
+                PlayerPrefs.SetInt("General_Theme", (Int32)value);
+            }
+        }
     }
 
     public interface IGameSettingsHelper

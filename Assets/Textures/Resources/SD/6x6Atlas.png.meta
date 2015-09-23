@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: aafe19ad690ee414fb29bccc669c09f2
-timeCreated: 1442326733
+timeCreated: 1443019735
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,8 +9,8 @@ TextureImporter:
     21300002: 6x6Atlas_medium
     21300004: 6x6Atlas_hard
     21300006: 6x6Atlas_veryhard
-    21300008: 6x6Atlas_black
-    21300010: 6x6Atlas_white
+    21300008: 6x6Atlas_dark
+    21300010: 6x6Atlas_light
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -96,7 +96,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 6x6Atlas_black
+    - name: 6x6Atlas_dark
       rect:
         serializedVersion: 2
         x: 0
@@ -106,7 +106,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: 6x6Atlas_white
+    - name: 6x6Atlas_light
       rect:
         serializedVersion: 2
         x: 1024

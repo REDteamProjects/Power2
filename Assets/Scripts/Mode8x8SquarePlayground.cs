@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -74,6 +76,13 @@ namespace Assets.Scripts
         {
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
+
+            GameObject.Find("PauseButton").GetComponent<Image>().color =
+                GameColors.ForegroundButtonsColor;
+
+            GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
+                Resources.LoadAll<Sprite>("SD/8x8Atlas")
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString())); //TODO: Copy to other playground
 
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 

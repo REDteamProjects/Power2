@@ -589,7 +589,8 @@ namespace Assets.Scripts
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3), LanguageManager.Instance.GetTextValue("NoMovesTitle"), Color.white, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3),
+                        LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, true, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {

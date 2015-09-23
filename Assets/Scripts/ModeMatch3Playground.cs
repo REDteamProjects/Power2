@@ -5,6 +5,7 @@ using Assets.Scripts.Helpers;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
 using System;
+using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
@@ -83,6 +84,8 @@ namespace Assets.Scripts
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 
+            GameObject.Find("PauseButton").GetComponent<Image>().color =
+                GameColors.ForegroundButtonsColor;
 
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 

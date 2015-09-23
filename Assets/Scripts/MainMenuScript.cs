@@ -15,6 +15,36 @@ namespace Assets.Scripts
         private static GameObject _soundButton;
         private static GameObject _mainCamera;
 
+        public static void UpdateTheme()
+        {
+            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
+                                GameColors.BackgroundColor;
+
+            var changeObject = GameObject.Find("StatsButton");
+            if (changeObject != null)
+            {
+                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
+            }
+
+            changeObject = GameObject.Find("HelpButton");
+            if (changeObject != null)
+            {
+                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
+            }
+
+            changeObject = GameObject.Find("SoundButton");
+            if (changeObject != null)
+            {
+                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
+            }
+
+            changeObject = GameObject.Find("AboutButton");
+            if (changeObject != null)
+            {
+                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
+            }
+        }
+
         void Awake()
         {
             _mainCamera = GameObject.Find("Main Camera");
@@ -25,10 +55,11 @@ namespace Assets.Scripts
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
                 ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[16]
                 : Resources.LoadAll<Sprite>("SD/StatisticHeader")[17];
+            _soundButton.name = "SoundButton";
             if (SoundEnabled)      
                 _mainCamera.GetComponent<AudioSource>().Play();
 
-
+            UpdateTheme();
         }
 
         public bool SoundEnabled
@@ -73,7 +104,9 @@ namespace Assets.Scripts
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;
-            label.GetComponent<Text>().text = LanguageManager.Instance.GetTextValue("LoadingTitle");
+            var txt = label.GetComponent<Text>();
+            txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
+            txt.color = GameColors.ForegroundButtonsColor;
 
             Application.LoadLevel(scene);
         }
