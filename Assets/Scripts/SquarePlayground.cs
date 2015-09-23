@@ -1038,7 +1038,7 @@ namespace Assets.Scripts
             if (Items == null) return;
 
             var generateAfterDrop = true;
-			_lowestNullItem = FieldSize;
+			_lowestNullItem = 0;
             //if (DropsCount == 0) GenerateField(true);
 
             var counter = 0;
@@ -1069,7 +1069,7 @@ namespace Assets.Scripts
                             counter++;
                             Items[col][row] = gobjS;
                             Items[col][newRow] = null;
-							if (newRow < _lowestNullItem)
+							if (newRow > _lowestNullItem)
                                 _lowestNullItem = newRow;
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
@@ -1090,15 +1090,15 @@ namespace Assets.Scripts
                     var c = o.GetComponent<GameItemMovingScript>();
                     if (c.IsMoving) continue;
                     counter++;
-					var newRow = row - 1;
-                    if (newRow < _lowestNullItem)
-                        _lowestNullItem = newRow;
-                    Items[col][row] = Items[col][newRow];
+					var newRow1 = row - 1;
+                    if (newRow1 > _lowestNullItem)
+                        _lowestNullItem = newRow1;
+                    Items[col][row] = Items[col][newRow1];
                     Items[col][row-1] = null;
-                    if (newRow - 1 >= 0 && Items[col][newRow - 1] != null) generateAfterDrop = false;//DropsCount++;
+                    if (newRow1 - 1 >= 0 && Items[col][newRow1 - 1] != null) generateAfterDrop = false;//DropsCount++;
                     if (!c.IsMoving) DropsCount++;
                     var col1 = col;
-                    var row1 = newRow;
+                    var row1 = newRow1;
                     c.MoveTo(null, GetCellCoordinates(col, row).y, 14, (item, result) =>
                     {
                         if (!c.IsMoving)
