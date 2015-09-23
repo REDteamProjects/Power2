@@ -15,6 +15,7 @@ public class LabelShowing : MonoBehaviour {
     private static string DefaultFont = "Fonts/BAUHS93";
 
 	// Use this for initialization
+	void Start () {
 	void Start () { 
 	
 	}
