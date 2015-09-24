@@ -36,7 +36,7 @@ namespace Assets.Scripts
         private int _chainCounter;
         private GameItemType _nextUpperLevelGameItemType = GameItemType.NullItem;
         private float _currentTime;
-        private Int32 _lowestNullItem = 0;
+        private Int32 _lowestNullItem;
 
         protected static readonly System.Random RandomObject = new System.Random();
         protected GameItemType MaxType = GameItemType._3;
@@ -1120,6 +1120,8 @@ namespace Assets.Scripts
         {
             if (!mixCurrent)
             {
+                if(!completeCurrent)
+                    _lowestNullItem = FieldSize - 1;
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnY = 1;
