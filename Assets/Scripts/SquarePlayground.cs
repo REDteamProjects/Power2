@@ -532,7 +532,7 @@ namespace Assets.Scripts
                         var pointsLabel = o.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsLabel.ShowScalingLabel(new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1),
-                            "+" + 222, GameColors.ForegroundButtonsColor, Color.gray, 60, 90, null, true);
+                            "+" + 222, GameColors.ForegroundButtonsColor, Color.gray, 60, 90, Game.numbersFont, true);
                     }
                     RisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
@@ -956,13 +956,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, Game.numbersFont, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, Game.numbersFont, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._Gameover;

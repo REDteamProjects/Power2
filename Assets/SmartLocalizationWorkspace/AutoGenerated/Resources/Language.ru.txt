@@ -128,7 +128,7 @@
 R.E.D.team</value>
 	</data>
 	<data name="ComboTitle" xml:space="preserve">
-		<value>Умножение x</value>
+		<value>Комбо x</value>
 	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
 		<value>Сложность повышена</value>
@@ -141,6 +141,9 @@ R.E.D.team</value>
 	</data>
 	<data name="GameOverTitle" xml:space="preserve">
 		<value>Конец игры</value>
+	</data>
+	<data name="LabelsFont" xml:space="preserve">
+		<value>BITALIC</value>
 	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Загрузка...</value>

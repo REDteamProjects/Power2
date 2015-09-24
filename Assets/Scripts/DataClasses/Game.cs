@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
 using Assets.Scripts.Interfaces;
+using SmartLocalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,8 @@ namespace Assets.Scripts.DataClasses
         //internal Statistics Stats;
         public static DifficultyLevel Difficulty = DifficultyLevel.easy;
         public static GameTheme _theme = GameTheme.dark;
+        public static Font textFont;
+        public static Font numbersFont = Resources.Load<Font>("Fonts/BITALIC");
 
         public static GameTheme Theme
         {
@@ -28,6 +31,7 @@ namespace Assets.Scripts.DataClasses
 
         void Awake()
         {
+            textFont = Resources.Load<Font>("Fonts/" + LanguageManager.Instance.GetTextValue("LabelsFont"));
 			//Stats = new Statistics(Type);
             switch(Type)
             {

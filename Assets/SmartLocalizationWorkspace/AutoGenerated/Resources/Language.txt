@@ -122,6 +122,9 @@
 	<data name="8x8Mode" xml:space="preserve">
 		<value>8x8 mode button text</value>
 	</data>
+	<data name="AboutText" xml:space="preserve">
+		<value>About scene text</value>
+	</data>
 	<data name="ComboTitle" xml:space="preserve">
 		<value>Combo label text</value>
 	</data>
@@ -167,7 +170,7 @@
 	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
 		<value>First manual texture</value>
 	</data>
-	<data name="AboutText" xml:space="preserve">
-		<value>About scene text</value>
+	<data name="LabelsFont" xml:space="preserve">
+		<value>Font for scaling labels</value>
 	</data>
 </root>

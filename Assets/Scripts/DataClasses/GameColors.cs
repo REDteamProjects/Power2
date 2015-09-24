@@ -18,7 +18,7 @@ namespace Assets.Scripts.DataClasses
                     case GameTheme.dark:
                         return new Color(0.157f, 0.157f, 0.157f);
                     case GameTheme.light:
-                        return new Color(1f, 1f, 1f); 
+                        return new Color(0.94f, 0.9f, 0.82f); 
                 }
                 return new Color(0.157f, 0.157f, 0.157f);
             }

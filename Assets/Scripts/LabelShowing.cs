@@ -3,6 +3,8 @@ using System.Collections;
 using System;
 using UnityEngine.UI;
 using Assets.Scripts;
+using SmartLocalization;
+using Assets.Scripts.DataClasses;
 
 public class LabelShowing : MonoBehaviour {
 
@@ -12,7 +14,6 @@ public class LabelShowing : MonoBehaviour {
     private int DestroyTimeout;
     private LabelAnimationFinishedDelegate AnimationFinished;
     private Text labelText;
-    private static string DefaultFont = "Fonts/BAUHS93";
 
 	// Use this for initialization
 	void Start () { 
@@ -113,7 +114,7 @@ public class LabelShowing : MonoBehaviour {
             labelText.color = textColor;
         labelText.fontSize = animateFromSize;
         ScaleFontTo = animateToSize;
-        labelText.font = font ? font : Resources.Load<Font>(DefaultFont);
+        labelText.font = font ? font : Game.textFont;
         labelText.text = text;
         DestroyAfterAnimation = destroyAfterAnimation;
         ScaleDifference = animateToSize - animateFromSize;

@@ -9,29 +9,35 @@ namespace Assets.Scripts.Helpers
 
         private int _pscoreBankUpper;
         private int _currentScore;
-        private GameObject _plabel;
+        private Text _plabelText;
+        private Text _plabelBackText;
         private bool raise = false;
         private int stockFont;
         public int CurrentScore { get { return _currentScore; } }
 
         void Awake()
         {
-            _plabel = GameObject.Find("Points");
-            stockFont = _plabel.GetComponent<Text>().fontSize;
+            _plabelText = GameObject.Find("Points").GetComponent<Text>();
+            _plabelBackText = GameObject.Find("PointsBack").GetComponent<Text>();
+            stockFont = _plabelText.GetComponent<Text>().fontSize;
         }
 
 
         void Update()
         {
-            var plbelText = _plabel.GetComponent<Text>();
-            if (plbelText.fontSize != stockFont)
-                plbelText.fontSize--;
+            if (_plabelText.fontSize != stockFont)
+            {
+                _plabelText.fontSize--;
+                _plabelBackText.fontSize--;
+            }
 
             if (!raise) return;
             raise = false;
 
-            plbelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
-            plbelText.fontSize = stockFont + 10;
+            _plabelText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
+            _plabelText.fontSize = stockFont + 10;
+            _plabelBackText.text = CurrentScore.ToString(CultureInfo.InvariantCulture);
+            _plabelBackText.fontSize = stockFont + 10;
         }
 
         public void RisePoints(int currentScore)

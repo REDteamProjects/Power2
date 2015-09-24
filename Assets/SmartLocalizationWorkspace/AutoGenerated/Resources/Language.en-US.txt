@@ -142,6 +142,9 @@ R.E.D.team</value>
 	<data name="GameOverTitle" xml:space="preserve">
 		<value>Game Over</value>
 	</data>
+	<data name="LabelsFont" xml:space="preserve">
+		<value>BAUH93</value>
+	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Loading...</value>
 	</data>
