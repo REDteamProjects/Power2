@@ -87,6 +87,10 @@ namespace Assets.Scripts
             GameObject.Find("PauseButton").GetComponent<Image>().color =
                 GameColors.ForegroundButtonsColor;
 
+            GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
+                Resources.LoadAll<Sprite>("SD/8x8Atlas")
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
+
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]

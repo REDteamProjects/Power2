@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
@@ -84,6 +85,10 @@ namespace Assets.Scripts
 
             GameObject.Find("PauseButton").GetComponent<Image>().color =
                 GameColors.ForegroundButtonsColor;
+
+            GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
+                Resources.LoadAll<Sprite>("SD/RhombusAtlas")
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
 
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
