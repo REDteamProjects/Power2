@@ -36,7 +36,7 @@ namespace Assets.Scripts
         private int _chainCounter;
         private GameItemType _nextUpperLevelGameItemType = GameItemType.NullItem;
         private float _currentTime;
-        private Int32 _lowestNullItem;
+        //private Int32 _lowestNullItem;
 
         protected static readonly System.Random RandomObject = new System.Random();
         protected GameItemType MaxType = GameItemType._3;
@@ -1038,14 +1038,14 @@ namespace Assets.Scripts
             if (Items == null) return;
 
             var generateAfterDrop = true;
-			_lowestNullItem = 0;
+			//_lowestNullItem = 0;
             //if (DropsCount == 0) GenerateField(true);
 
             var counter = 0;
 
             for (var col = 0; col < FieldSize; col++)
             {
-                for (var row = FieldSize-1; row > 0; row--)
+                for (var row = FieldSize - 1; row > 0; row--)
                 {
                     if (Items[col][row] != null || Items[col][row] == DisabledItem)
                         continue;
@@ -1069,8 +1069,8 @@ namespace Assets.Scripts
                             counter++;
                             Items[col][row] = gobjS;
                             Items[col][newRow] = null;
-							if (newRow > _lowestNullItem)
-                                _lowestNullItem = newRow;
+                            //if (newRow > _lowestNullItem)
+                            //    _lowestNullItem = newRow;
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
@@ -1091,8 +1091,8 @@ namespace Assets.Scripts
                     if (c.IsMoving) continue;
                     counter++;
 					var newRow1 = row - 1;
-                    if (newRow1 > _lowestNullItem)
-                        _lowestNullItem = newRow1;
+                    //if (newRow1 > _lowestNullItem)
+                    //    _lowestNullItem = newRow1;
                     Items[col][row] = Items[col][newRow1];
                     Items[col][row-1] = null;
                     if (newRow1 - 1 >= 0 && Items[col][newRow1 - 1] != null) generateAfterDrop = false;//DropsCount++;
@@ -1120,15 +1120,15 @@ namespace Assets.Scripts
         {
             if (!mixCurrent)
             {
-                if(!completeCurrent)
-                    _lowestNullItem = FieldSize - 1;
+                //if(!completeCurrent)
+                //    _lowestNullItem = FieldSize - 1;
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnY = 1;
                     var resCol = 0;
                     if (Game.Difficulty > DifficultyLevel.easy && DropDownItemsCount < maxAdditionalItemsCount)
                     resCol = RandomObject.Next(0, FieldSize);
-                    for (var j = _lowestNullItem; j >= 0; j--)
+                    for (var j = FieldSize - 1; j >= 0; j--)
                     {
                         //var itemsJ = FieldSize - 1 - j;
                         if (Items[i][j] != null || Items[i][j] == DisabledItem)
@@ -1483,7 +1483,7 @@ namespace Assets.Scripts
                 {
                     if (Items[col][row] == null || Items[col][row] == DisabledItem)
                     {
-                        if (Items[col][row] == null) Debug.LogError("Items[col][row] null in checkForPossibleMoves");
+                        //if (Items[col][row] == null) Debug.LogError("Items[col][row] null in checkForPossibleMoves");
                         continue;
                     }
                     var gobj = Items[col][row] as GameObject;
