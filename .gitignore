@@ -43,5 +43,18 @@ Temporary Items
 .apdisk
 
 #Unity builds
-bin/Android
-bin/WSA
+ bin/Android
+ bin/WSA
+ bin/iOS
+ *.sln
+ *.userprefs
+ *.csproj
+ *.pidb
+ *.unityproj
+ .DS_Store
+ /Library/FailedAssetImports.txt
+ /Library/cache/
+ /Library/previews/
+ /Library/ScriptAssemblies
+ /obj
+ /Temp
