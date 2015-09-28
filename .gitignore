@@ -43,9 +43,9 @@ Temporary Items
 .apdisk
 
 #Unity builds
- bin/Android
- bin/WSA
- bin/iOS
+ /bin/Android/
+ /bin/WSA/
+ /bin/iOS/
  *.sln
  *.userprefs
  *.csproj

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
@@ -53,8 +54,8 @@ namespace Assets.Scripts
             _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 120,
                 statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
-                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[16]
-                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[17];
+                ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))
+                : Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_off"));
             _soundButton.name = "SoundButton";
             if (SoundEnabled)      
                 _mainCamera.GetComponent<AudioSource>().Play();
@@ -85,8 +86,8 @@ namespace Assets.Scripts
             SoundEnabled = !SoundEnabled;
 
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
-                ? Resources.LoadAll<Sprite>("SD/StatisticHeader")[16]
-                : Resources.LoadAll<Sprite>("SD/StatisticHeader")[17];
+                ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))
+                : Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_off"));
         }
 
         public void OnNavigationButtonClick(String scene)

@@ -17,7 +17,7 @@ namespace Assets.Scripts.DataClasses
         public static DifficultyLevel Difficulty = DifficultyLevel.easy;
         public static GameTheme _theme = GameTheme.dark;
         public static Font textFont;
-        public static Font numbersFont = Resources.Load<Font>("Fonts/BITALIC");
+        public static Font numbersFont;
 
         public static GameTheme Theme
         {
@@ -32,6 +32,7 @@ namespace Assets.Scripts.DataClasses
         void Awake()
         {
             textFont = Resources.Load<Font>("Fonts/" + LanguageManager.Instance.GetTextValue("LabelsFont"));
+            numbersFont = Resources.Load<Font>("Fonts/BITALIC");
 			//Stats = new Statistics(Type);
             switch(Type)
             {
