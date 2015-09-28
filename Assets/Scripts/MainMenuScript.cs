@@ -21,7 +21,7 @@ namespace Assets.Scripts
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 
-            var changeObject = GameObject.Find("StatsButton");
+            /*var changeObject = GameObject.Find("StatsButton");
             if (changeObject != null)
             {
                 changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
@@ -43,7 +43,7 @@ namespace Assets.Scripts
             if (changeObject != null)
             {
                 changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }
+            }*/
         }
 
         void Awake()
