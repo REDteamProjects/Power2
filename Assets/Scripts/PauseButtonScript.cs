@@ -54,7 +54,10 @@ public class PauseButtonScript : MonoBehaviour
     public void OnResumeButtonClick()
     {
         if (PauseMenuActive)
+        {
+            Vibration.Vibrate(10);
             DestroyPauseMenu();
+        }
     }
 
     public void OnPauseButtonClick()
@@ -76,7 +79,7 @@ public class PauseButtonScript : MonoBehaviour
         Game.Difficulty = Assets.Scripts.Enums.DifficultyLevel.easy;
         SavedataHelper.SaveData(pg.SavedataObject);
         Application.LoadLevel(Application.loadedLevel);
-
+        Vibration.Vibrate(10);
         DestroyPauseMenu();
         PauseMenuActive = false;
     }
@@ -84,7 +87,7 @@ public class PauseButtonScript : MonoBehaviour
     public void OnToMainMenuButtonClick()
     {
         Application.LoadLevel("MainScene");
-
+        Vibration.Vibrate(10);
         DestroyPauseMenu();
         PauseMenuActive = false;
     }
