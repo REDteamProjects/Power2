@@ -61,8 +61,8 @@ public class LabelShowing : MonoBehaviour {
 	    }
 	}  
 
-    public void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
-        int animateToSize, Font font = null,
+    public void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor,ref int animateFromSize,
+        ref int animateToSize, Font font = null,
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null)
     {
         var fg = GameObject.Find("/Foreground");
@@ -72,10 +72,10 @@ public class LabelShowing : MonoBehaviour {
         var newPos = fg.transform.InverseTransformPoint(initGameObject.transform.position/*wp*/);
         var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
 
-        ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, font, destroyAfterAnimation, callback);
+        ShowScalingLabel(showOn, text, textColor, shadowColor, ref animateFromSize,ref animateToSize, font, destroyAfterAnimation, callback);
     }
 
-    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, 
+    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor,ref int animateFromSize,ref int animateToSize, Font font = null, 
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, bool toForeground = false)
     {
         if (toForeground)
@@ -106,7 +106,7 @@ public class LabelShowing : MonoBehaviour {
                 var shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 shadow.transform.SetParent(transform.parent);
                 shadow.ShowScalingLabel(new Vector3(position.x - 3f, position.y, position.z),
-                    text, textColor, textColor, animateFromSize + 1, animateToSize + 1, font, destroyAfterAnimation);
+                    text, textColor, textColor, ref animateFromSize, ref animateToSize, font, destroyAfterAnimation);
             }
             labelText.color = shadowColor;
         }

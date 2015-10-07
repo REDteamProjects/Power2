@@ -292,7 +292,7 @@ namespace Assets.Scripts
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
 			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"),
-                GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true, null, true);
         }
 
         public void ShowMaxInitialElement()
@@ -307,7 +307,10 @@ namespace Assets.Scripts
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
-            c.MoveTo(null, gobj.transform.localPosition.y - GameItemSize * 6, 2f, (item, result) =>
+            float? from = null;
+            float? to = gobj.transform.localPosition.y - GameItemSize * 6;
+            float speed = 2f;
+            c.MoveTo(ref from, ref to,ref speed, (item, result) =>
             {
                 if (!result) return;
                 if (cmi != null)
@@ -532,7 +535,7 @@ namespace Assets.Scripts
                         var pointsLabel = o.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsLabel.ShowScalingLabel(new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1),
-                            "+" + 222, GameColors.ForegroundButtonsColor, Color.gray, 60, 90, Game.numbersFont, true);
+                            "+" + 222, GameColors.ForegroundButtonsColor, Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, Game.numbersFont, true);
                     }
                     RisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
@@ -626,7 +629,10 @@ namespace Assets.Scripts
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize), true);
             CallbacksCount++;
             var toS = GameItemSize / ScaleMultiplyer;
-            c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
+            float? mtoX = cell.x;
+            float? mtoY = cell.y;
+            float speed = dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f;
+            c.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
             {
                 CallbacksCount--;
                 if (movingCallback != null)
@@ -885,7 +891,9 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        c.MoveTo(null, toCell.y, 14, (item, result) =>
+                        float? mtoX = null;
+                        float? mtoY = toCell.y;
+                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -924,7 +932,9 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        c.MoveTo(toCell.x, null, 14, (item, result) =>
+                        float? mtoX = toCell.x;
+                        float? mtoY = null;
+                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -956,13 +966,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, Game.numbersFont, true);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, Game.numbersFont, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, Game.numbersFont, true);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, Game.numbersFont, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._Gameover;
@@ -1018,7 +1028,7 @@ namespace Assets.Scripts
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-                LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, false, () =>
+                LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, false, () =>
                 {
                     var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
 
@@ -1074,7 +1084,9 @@ namespace Assets.Scripts
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
-                            cS.MoveTo(null, GetCellCoordinates(col, row).y, 14, (item, result) =>
+                            float? mtoX = null;
+                            float? mtoY = GetCellCoordinates(col, row).y;
+                            cS.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
                             {
                                 if (!cS.IsMoving)
                                     DropsCount--;
@@ -1099,7 +1111,9 @@ namespace Assets.Scripts
                     if (!c.IsMoving) DropsCount++;
                     var col1 = col;
                     var row1 = newRow1;
-                    c.MoveTo(null, GetCellCoordinates(col, row).y, 14, (item, result) =>
+                    float? mtoX1 = null;
+                    float? mtoY1 = GetCellCoordinates(col, row).y;
+                    c.MoveTo(ref mtoX1, ref mtoY1, ref Game.standartItemSpeed, (item, result) =>
                     {
                         if (!c.IsMoving)
                             DropsCount--;
@@ -1199,7 +1213,7 @@ namespace Assets.Scripts
                 {
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4),
-                         LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                         LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true, null, true);
                     //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                     //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                 }
@@ -1243,9 +1257,12 @@ namespace Assets.Scripts
                         if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
 
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
-                        var to = GetCellCoordinates(i, j);
+                        var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        moving.MoveTo(to.x, to.y, 6, (item, result) =>
+                        float? mtoX = toCell.x;
+                        float? mtoY = toCell.y;
+                        float speed = 6;
+                        moving.MoveTo(ref mtoX, ref mtoX, ref speed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1260,7 +1277,7 @@ namespace Assets.Scripts
             // ClearChains();
         }
 
-        public virtual bool GameItemsExchange(int x1, int y1, ref int x2, ref int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
+        public virtual bool GameItemsExchange(ref int x1, ref int y1, ref int x2, ref int y2, ref float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
             var item1 = Items[x1][y1] as GameObject;
             var item2 = Items[x2][y2] as GameObject;
@@ -1277,10 +1294,12 @@ namespace Assets.Scripts
             {
                 item1.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
+                float? mtoX = position2.x;
+                float? mtoY =  position2.y;
                 item1.GetComponent<GameItemMovingScript>()
-                    .MoveTo(position2.x,
-                        position2.y,
-                        15, (item, result) =>
+                    .MoveTo(ref mtoX,
+                       ref mtoY,
+                        ref Game.standartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1288,10 +1307,12 @@ namespace Assets.Scripts
                             if (currentItem != null && isReverse)
                             {
                                 CallbacksCount++;
+                                float? mtoX1 = position1.x;
+                                float? mtoY1 = position1.y;
                                 currentItem.GetComponent<GameItemMovingScript>()
-                                    .MoveTo(position1.x,
-                                        position1.y,
-                                        14, (reverseItem, reverseResult) =>
+                                    .MoveTo(ref mtoX1,
+                                        ref mtoX1,
+                                        ref Game.standartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
 
@@ -1315,10 +1336,12 @@ namespace Assets.Scripts
             {
                 item2.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
+                float? mtoX = position1.x;
+                float? mtoY = position1.y;
                 item2.GetComponent<GameItemMovingScript>()
-                    .MoveTo(position1.x,
-                        position1.y,
-                        15, (item, result) =>
+                    .MoveTo(ref mtoX,
+                        ref mtoY,
+                        ref Game.standartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1326,10 +1349,12 @@ namespace Assets.Scripts
                             if (currentItem != null && isReverse)
                             {
                                 CallbacksCount++;
+                                float? mtoX1 = position2.x;
+                                float? mtoY1 = position2.y;
                                 currentItem.GetComponent<GameItemMovingScript>()
-                                    .MoveTo(position2.x,
-                                        position2.y,
-                                        14, (reverseItem, reverseResult) =>
+                                    .MoveTo(ref mtoX1,
+                                        ref mtoY1,
+                                        ref Game.standartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
 
@@ -1544,21 +1569,24 @@ namespace Assets.Scripts
             var comboLabel = labelObject.GetComponent<LabelShowing>();
             comboLabel.name = "ComboLabel";
             comboLabel.transform.SetParent(transform);
-
+            var minFontSize = 10;
+            var maxFontSize = 50;
             comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
             comboLabel.ShowScalingLabel(new Vector3(count % 2 == 0 ? -9 : 9, Item00.Y + GameItemSize * 2.5f, -1),
-                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 10, 50, null, true);
+                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, ref minFontSize, ref maxFontSize, null, true);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
 
         public virtual void RevertMovedItem(int col, int row)
         {
             var gobj = Items[col][row] as GameObject;
-            var pos = GetCellCoordinates(col, row);
-            LogFile.Message("Revert item to place: " + pos.x + " " + pos.y, true);
+            var toCell = GetCellCoordinates(col, row);
+            LogFile.Message("Revert item to place: " + toCell.x + " " + toCell.y, true);
             if (gobj == null) return;
             var gims = gobj.GetComponent<GameItemMovingScript>();
-            gims.MoveTo(pos.x, pos.y, 14, null);
+            float? mtoX = toCell.x;
+            float? mtoY = toCell.y;
+            gims.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, null);
         }
 
         public virtual void ResetPlayground()

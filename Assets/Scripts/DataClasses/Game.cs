@@ -2,6 +2,7 @@
 using Assets.Scripts.Helpers;
 using Assets.Scripts.Interfaces;
 using SmartLocalization;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,9 @@ namespace Assets.Scripts.DataClasses
         public static GameTheme _theme = GameTheme.dark;
         public static Font textFont;
         public static Font numbersFont;
+        public static Int32 minLabelFontSize = 60;
+        public static Int32 maxLabelFontSize = 90;
+        public static float standartItemSpeed = 14;
 
         public static GameTheme Theme
         {

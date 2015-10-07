@@ -100,7 +100,7 @@ public class DragItemScript : MonoBehaviour
 
                 if (dropGIMS == null || !dropGIMS.IsMoving) break;
 
-                dropGIMS.ChangeSpeed(dropGIMS.CurrentDestination.Speed.x + 16);
+                dropGIMS.ChangeSpeed(dropGIMS.CurrentDestination.Speed + 16);
 
                 touchDirection = null;
 
@@ -384,9 +384,10 @@ public class DragItemScript : MonoBehaviour
                         var gi = gobj.GetComponent<GameItem>();
                         gi.IsTouched = false;
                     }
+                    float speed = 10 * exchangeSpeedMultiple;
                     if (result)
                     {
-                        if (!pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, false)) return;
+                        if (!pg.GameItemsExchange(ref firstX, ref firstY, ref secondX, ref secondY, ref speed, false)) return;
                         //DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
                         //var o = pg.Items[secondX][secondY] as GameObject;
 
@@ -404,7 +405,7 @@ public class DragItemScript : MonoBehaviour
                     }
                     else
                     {
-                        pg.GameItemsExchange(firstX, firstY, ref secondX, ref secondY, 10 * exchangeSpeedMultiple, true);
+                        pg.GameItemsExchange(ref firstX, ref firstY, ref secondX, ref secondY, ref speed, true);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Fault, false);
                         //var gi = gobj1.GetComponent<GameItem>();
                         
@@ -456,7 +457,7 @@ public class DragItemScript : MonoBehaviour
                             var gims = gobj.GetComponent<GameItemMovingScript>();
                             if (gims.IsMoving)
                             {
-                                gims.ChangeSpeed(gims.CurrentDestination.Speed.x + 16);
+                                gims.ChangeSpeed(gims.CurrentDestination.Speed + 16);
                                 touchedItem = null;
                                 gobj.GetComponent<GameItem>().IsTouched = false;
                                 return;

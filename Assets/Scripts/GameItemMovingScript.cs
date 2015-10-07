@@ -17,7 +17,8 @@ public class Destination2D
     public Vector3 Destination { get; set; }
     public Vector3 Movement { get; set; } 
     public Vector3 StartPoint { get; set; }
-    public Vector2 Speed { get; set; }
+
+    public float Speed;
     public LineOrientation MovementOrientation { get; set; }
     public MovingFinishedDelegate MovingCallback { get; set; }
 
@@ -199,7 +200,7 @@ public class GameItemMovingScript : MonoBehaviour
             LogFile.Message("No Moved() callback!", true);
     }
 
-    public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
+    public void MoveTo(ref float? x, ref float? y, ref float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
     {
         if (IsMoving)
         {
@@ -238,8 +239,8 @@ public class GameItemMovingScript : MonoBehaviour
         newMove.Direction = new Vector2(Xdir, Ydir);
         newMove.Destination = new Vector3(toX, toY, toZ);
         newMove.StartPoint = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-        newMove.Speed = new Vector2(movingSpeed, movingSpeed);
-        newMove.Movement = new Vector3(newMove.Speed.x * newMove.Direction.x, newMove.Speed.y * newMove.Direction.y, 0f);
+        newMove.Speed = movingSpeed;
+        newMove.Movement = new Vector3(newMove.Speed * newMove.Direction.x, newMove.Speed * newMove.Direction.y, 0f);
         newMove.ShowFrom = showFrom.HasValue ? showFrom.Value : Vector2.zero;
         newMove.ScaleTo = scaleTo.HasValue ? scaleTo.Value : Vector3.zero;
         newMove.MoveSound = moveSound;
@@ -265,7 +266,7 @@ public class GameItemMovingScript : MonoBehaviour
         IsMoving = true;
     }
 
-    public void ChangeDirection(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null)
+    public void ChangeDirection(ref float? x, ref float? y, ref float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null)
     {
         if (!IsMoving || !_isDirectionChangable)
             return;
@@ -276,7 +277,7 @@ public class GameItemMovingScript : MonoBehaviour
         if (!scaleTo.HasValue) scaleTo = CurrentDestination.ScaleTo;
         _destinations.Clear();
 
-        MoveTo(x, y, movingSpeed, (gO, result) =>
+        MoveTo(ref x, ref y, ref movingSpeed, (gO, result) =>
             {
                 //TODO: FIX: Additional direction added to moving and speeddrop tap not working right
 
@@ -298,7 +299,7 @@ public class GameItemMovingScript : MonoBehaviour
         //{
         //    destination2D.Speed = new Vector2(speed, speed);
         //}
-        CurrentDestination.Speed = new Vector2(speed, speed);
+        CurrentDestination.Speed = speed;
     }
 
     public void CancelMoving(bool all = false)

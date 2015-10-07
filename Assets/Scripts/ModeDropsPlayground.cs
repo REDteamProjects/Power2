@@ -168,14 +168,14 @@ namespace Assets.Scripts
             }
         }
 
-        public override bool GameItemsExchange(int x1, int y1, ref int x2, ref int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
+        public override bool GameItemsExchange(ref int x1, ref int y1, ref int x2, ref int y2, ref float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
             var gobj = Items[x1][y1] as GameObject;
             if (gobj == null) return false;
             var gims = gobj.GetComponent<GameItemMovingScript>();
             if (!gims.IsMoving)
             {
-                var res = base.GameItemsExchange(x1, y1, ref x2, ref y2, speed, isReverse, exchangeCallback ?? ((go, r) =>
+                var res = base.GameItemsExchange(ref x1, ref y1, ref x2, ref y2, ref speed, isReverse, exchangeCallback ?? ((go, r) =>
                 {
                     if (CallbacksCount != 1 || isReverse) return;
                     while (ClearChains() > 0)
@@ -208,10 +208,13 @@ namespace Assets.Scripts
 
             var toPoint = GetCellCoordinates(x2, y2);
             var cdc = item.CurrentDestination;
-            item.ChangeDirection(toPoint.x, item.transform.localPosition.y - GameItemSize / 5,
-                /* cdc.Speed.y + 4*/ speed,
+            float? mtoX = toPoint.x;
+            float? mtoY = item.transform.localPosition.y - GameItemSize / 5;
+            float? mtoY2 = toPoint.y;
+            item.ChangeDirection(ref mtoX, ref mtoY,
+                /* cdc.Speed.y + 4*/ref speed,
                 (mItem, result) =>
-                   item.MoveTo(toPoint.x, toPoint.y, cdc.Speed.y, cdc.MovingCallback, null, null, true));
+                   item.MoveTo(ref mtoX, ref mtoY2,ref cdc.Speed, cdc.MovingCallback, null, null, true));
             CurrentDroppingItem = new Point{X = x2, Y = y2};
 
             //item.ChangeDirection(toPoint.x, toPoint.y >= (item.transform.localPosition.y - GameItemSize / 5) ? toPoint.y : item.transform.localPosition.y - GameItemSize / 5,
@@ -361,7 +364,10 @@ namespace Assets.Scripts
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
-                            cS.MoveTo(null, GetCellCoordinates(col, row + rowStaticCounter).y, 14, (item, result) =>
+                            float? mtoX = null;
+                            float? mtoY = GetCellCoordinates(col, row + rowStaticCounter).y;
+                            float speed = 14;
+                            cS.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
                             {
                                 if (!cS.IsMoving)
                                     DropsCount--;
@@ -388,8 +394,9 @@ namespace Assets.Scripts
                     
                     var col1 = col;
                     var row1 = row;
-                    
-                    c.MoveTo(null, GetCellCoordinates(col, row + 1).y, 14, (item, result) =>
+                    float? mtoX1 = null;
+                    float? mtoY1 = GetCellCoordinates(col, row + 1).y;
+                    c.MoveTo(ref mtoX1, ref mtoY1,ref Game.standartItemSpeed, (item, result) =>
                     {
                         //if (!c.isMoving)
                             DropsCount--;

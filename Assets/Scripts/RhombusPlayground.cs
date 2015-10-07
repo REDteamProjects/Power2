@@ -301,7 +301,9 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        c.MoveTo(toCell.x, toCell.y, 14, (item, result) =>
+                        float? mtoX = toCell.x;
+                        float? mtoY = toCell.y;
+                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -343,7 +345,9 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        c.MoveTo(toCell.x, toCell.y, 14, (item, result) =>
+                        float? mtoX = toCell.x;
+                        float? mtoY = toCell.y;
+                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -379,13 +383,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             pointsLabel.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, 60, 90, null, true);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._Gameover;
@@ -470,7 +474,10 @@ namespace Assets.Scripts
                         if (!cS.IsMoving) DropsCount++;
                         var colS = col;
                         var rowS = row;
-                        cS.MoveTo(null, GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y, 10, (item, result) =>
+                        float? mtoX = null;
+                        float? mtoY = GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y;
+                        float speed = 10;
+                        cS.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
                         {
                             if (!cS.IsMoving)
                                 DropsCount--;
@@ -489,7 +496,10 @@ namespace Assets.Scripts
                     var col1 = col;
                     var row1 = row;
                     if (!c.IsMoving) DropsCount++;
-                    c.MoveTo(toCell.x, toCell.y, 10, (item, result) =>
+                    float? mtoX1 = toCell.x;
+                    float? mtoY1 = toCell.y;
+                    float speed1 = 10;
+                    c.MoveTo(ref mtoX1, ref mtoY1,ref speed1, (item, result) =>
                     {
                         if (!c.IsMoving)
                             DropsCount--;
@@ -590,7 +600,7 @@ namespace Assets.Scripts
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
                     noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3),
-                        LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 60, 90, null, true, null, true);
+                        LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {
@@ -629,9 +639,12 @@ namespace Assets.Scripts
                         var gameObject1 = Items[i][j] as GameObject;
                         if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
-                        var to = GetCellCoordinates(i, j);
+                        var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        moving.MoveTo(to.x, to.y, 10, (item, result) =>
+                        float? mtoX = toCell.x;
+                        float? mtoY = toCell.y;
+                        float speed = 10;
+                        moving.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
