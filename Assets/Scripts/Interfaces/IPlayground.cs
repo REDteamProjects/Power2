@@ -173,7 +173,7 @@ namespace Assets.Scripts.Interfaces
         /// <param name="speed">Exchange speed</param>
         /// <param name="isReverse">Is exchange must be revert</param>
         /// <param name="exchangeCallback">Exchange callback method</param>
-        bool GameItemsExchange(ref int x1, ref int y1, ref int x2, ref int y2, ref float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null);
+        bool GameItemsExchange(int x1,  int y1,  int x2,  int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null);
 
         /// <summary>
         /// Shift down items on field to empty places

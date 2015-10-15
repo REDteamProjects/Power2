@@ -168,14 +168,14 @@ namespace Assets.Scripts
             }
         }
 
-        public override bool GameItemsExchange(ref int x1, ref int y1, ref int x2, ref int y2, ref float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
+        public override bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
             var gobj = Items[x1][y1] as GameObject;
             if (gobj == null) return false;
             var gims = gobj.GetComponent<GameItemMovingScript>();
             if (!gims.IsMoving)
             {
-                var res = base.GameItemsExchange(ref x1, ref y1, ref x2, ref y2, ref speed, isReverse, exchangeCallback ?? ((go, r) =>
+                var res = base.GameItemsExchange(x1, y1, x2, y2, speed, isReverse, exchangeCallback ?? ((go, r) =>
                 {
                     if (CallbacksCount != 1 || isReverse) return;
                     while (ClearChains() > 0)

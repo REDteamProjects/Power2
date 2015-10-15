@@ -1252,13 +1252,7 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-<<<<<<< HEAD
-                        float? mtoX = toCell.x;
-                        float speed = 6;
-                        moving.MoveTo(ref mtoX, ref mtoX, ref speed, (item, result) =>
-=======
                         moving.MoveTo(toCell.x, toCell.y, 6, (item, result) =>
->>>>>>> origin/master
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1273,7 +1267,7 @@ namespace Assets.Scripts
             // ClearChains();
         }
 
-        public virtual bool GameItemsExchange(ref int x1, ref int y1, ref int x2, ref int y2, ref float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
+        public virtual bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
             var item1 = Items[x1][y1] as GameObject;
             var item2 = Items[x2][y2] as GameObject;
@@ -1301,10 +1295,7 @@ namespace Assets.Scripts
                             if (currentItem != null && isReverse)
                             {
                                 CallbacksCount++;
-<<<<<<< HEAD
                                 float? mtoX1 = position1.x;
-=======
->>>>>>> origin/master
                                 currentItem.GetComponent<GameItemMovingScript>()
                                     .MoveTo(position1.x,
                                         position1.y,

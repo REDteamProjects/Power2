@@ -387,7 +387,7 @@ public class DragItemScript : MonoBehaviour
                     float speed = 10 * exchangeSpeedMultiple;
                     if (result)
                     {
-                        if (!pg.GameItemsExchange(ref firstX, ref firstY, ref secondX, ref secondY, ref speed, false)) return;
+                        if (!pg.GameItemsExchange( firstX,  firstY,  secondX,  secondY,  speed, false)) return;
                         //DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
                         //var o = pg.Items[secondX][secondY] as GameObject;
 
@@ -405,7 +405,7 @@ public class DragItemScript : MonoBehaviour
                     }
                     else
                     {
-                        pg.GameItemsExchange(ref firstX, ref firstY, ref secondX, ref secondY, ref speed, true);
+                        pg.GameItemsExchange( firstX,  firstY,  secondX,  secondY,  speed, true);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Fault, false);
                         //var gi = gobj1.GetComponent<GameItem>();
                         
