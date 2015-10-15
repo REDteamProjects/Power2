@@ -200,7 +200,7 @@ public class GameItemMovingScript : MonoBehaviour
             LogFile.Message("No Moved() callback!", true);
     }
 
-    public void MoveTo(ref float? x, ref float? y, ref float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
+    public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
     {
         if (IsMoving)
         {
@@ -266,7 +266,7 @@ public class GameItemMovingScript : MonoBehaviour
         IsMoving = true;
     }
 
-    public void ChangeDirection(ref float? x, ref float? y, ref float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null)
+    public void ChangeDirection(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null)
     {
         if (!IsMoving || !_isDirectionChangable)
             return;
@@ -277,7 +277,7 @@ public class GameItemMovingScript : MonoBehaviour
         if (!scaleTo.HasValue) scaleTo = CurrentDestination.ScaleTo;
         _destinations.Clear();
 
-        MoveTo(ref x, ref y, ref movingSpeed, (gO, result) =>
+        MoveTo(x, y, movingSpeed, (gO, result) =>
             {
                 //TODO: FIX: Additional direction added to moving and speeddrop tap not working right
 

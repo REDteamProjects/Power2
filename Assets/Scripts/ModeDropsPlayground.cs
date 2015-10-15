@@ -205,16 +205,12 @@ namespace Assets.Scripts
             if (!item.IsMoving) return false;
             Items[x1][y1] = Items[x2][y2];
             Items[x2][y2] = item1;
-
             var toPoint = GetCellCoordinates(x2, y2);
             var cdc = item.CurrentDestination;
-            float? mtoX = toPoint.x;
-            float? mtoY = item.transform.localPosition.y - GameItemSize / 5;
-            float? mtoY2 = toPoint.y;
-            item.ChangeDirection(ref mtoX, ref mtoY,
-                /* cdc.Speed.y + 4*/ref speed,
+            item.ChangeDirection(toPoint.x, item.transform.localPosition.y - GameItemSize / 5,
+                /* cdc.Speed.y + 4*/ speed,
                 (mItem, result) =>
-                   item.MoveTo(ref mtoX, ref mtoY2,ref cdc.Speed, cdc.MovingCallback, null, null, true));
+                   item.MoveTo(toPoint.x, toPoint.y, cdc.Speed, cdc.MovingCallback, null, null, true));
             CurrentDroppingItem = new Point{X = x2, Y = y2};
 
             //item.ChangeDirection(toPoint.x, toPoint.y >= (item.transform.localPosition.y - GameItemSize / 5) ? toPoint.y : item.transform.localPosition.y - GameItemSize / 5,
@@ -364,10 +360,7 @@ namespace Assets.Scripts
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
-                            float? mtoX = null;
-                            float? mtoY = GetCellCoordinates(col, row + rowStaticCounter).y;
-                            float speed = 14;
-                            cS.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
+                            cS.MoveTo(null, GetCellCoordinates(col, row + rowStaticCounter).y, Game.standartItemSpeed, (item, result) =>
                             {
                                 if (!cS.IsMoving)
                                     DropsCount--;
@@ -394,9 +387,7 @@ namespace Assets.Scripts
                     
                     var col1 = col;
                     var row1 = row;
-                    float? mtoX1 = null;
-                    float? mtoY1 = GetCellCoordinates(col, row + 1).y;
-                    c.MoveTo(ref mtoX1, ref mtoY1,ref Game.standartItemSpeed, (item, result) =>
+                    c.MoveTo(null, GetCellCoordinates(col, row + 1).y, Game.standartItemSpeed, (item, result) =>
                     {
                         //if (!c.isMoving)
                             DropsCount--;
