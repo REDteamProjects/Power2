@@ -25,7 +25,7 @@ public static class Vibration
     public static void Vibrate()
     {
 #if UNITY_WINRT || UNITY_WP8
-        WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(500));
+        WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(10));
 #endif
 #if UNITY_ANDROID 
         if (isAndroid())

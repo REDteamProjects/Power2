@@ -306,10 +306,7 @@ namespace Assets.Scripts
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
-            float? from = null;
-            float? to = gobj.transform.localPosition.y - GameItemSize * 6;
-            float speed = 2f;
-            c.MoveTo(ref from, ref to,ref speed, (item, result) =>
+            c.MoveTo(null, gobj.transform.localPosition.y - GameItemSize * 6, 2f, (item, result) =>
             {
                 if (!result) return;
                 if (cmi != null)
@@ -628,10 +625,7 @@ namespace Assets.Scripts
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize), true);
             CallbacksCount++;
             var toS = GameItemSize / ScaleMultiplyer;
-            float? mtoX = cell.x;
-            float? mtoY = cell.y;
-            float speed = dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f;
-            c.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
+            c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
             {
                 CallbacksCount--;
                 if (movingCallback != null)
@@ -896,9 +890,7 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        float? mtoX = null;
-                        float? mtoY = toCell.y;
-                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
+                        c.MoveTo(null, toCell.y, Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -937,9 +929,7 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        float? mtoX = toCell.x;
-                        float? mtoY = null;
-                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
+                        c.MoveTo(toCell.x, null, Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -1091,9 +1081,7 @@ namespace Assets.Scripts
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
-                            float? mtoX = null;
-                            float? mtoY = GetCellCoordinates(col, row).y;
-                            cS.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
+                            cS.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
                             {
                                 if (!cS.IsMoving)
                                     DropsCount--;
@@ -1118,9 +1106,7 @@ namespace Assets.Scripts
                     if (!c.IsMoving) DropsCount++;
                     var col1 = col;
                     var row1 = newRow1;
-                    float? mtoX1 = null;
-                    float? mtoY1 = GetCellCoordinates(col, row).y;
-                    c.MoveTo(ref mtoX1, ref mtoY1, ref Game.standartItemSpeed, (item, result) =>
+                    c.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
                     {
                         if (!c.IsMoving)
                             DropsCount--;
@@ -1266,9 +1252,13 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
+<<<<<<< HEAD
                         float? mtoX = toCell.x;
                         float speed = 6;
                         moving.MoveTo(ref mtoX, ref mtoX, ref speed, (item, result) =>
+=======
+                        moving.MoveTo(toCell.x, toCell.y, 6, (item, result) =>
+>>>>>>> origin/master
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1300,12 +1290,10 @@ namespace Assets.Scripts
             {
                 item1.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
-                float? mtoX = position2.x;
-                float? mtoY =  position2.y;
                 item1.GetComponent<GameItemMovingScript>()
-                    .MoveTo(ref mtoX,
-                       ref mtoY,
-                        ref Game.standartItemSpeed, (item, result) =>
+                    .MoveTo(position2.x,
+                       position2.y,
+                        Game.standartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1313,11 +1301,14 @@ namespace Assets.Scripts
                             if (currentItem != null && isReverse)
                             {
                                 CallbacksCount++;
+<<<<<<< HEAD
                                 float? mtoX1 = position1.x;
+=======
+>>>>>>> origin/master
                                 currentItem.GetComponent<GameItemMovingScript>()
-                                    .MoveTo(ref mtoX1,
-                                        ref mtoX1,
-                                        ref Game.standartItemSpeed, (reverseItem, reverseResult) =>
+                                    .MoveTo(position1.x,
+                                        position1.y,
+                                        Game.standartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
 
@@ -1344,9 +1335,9 @@ namespace Assets.Scripts
                 float? mtoX = position1.x;
                 float? mtoY = position1.y;
                 item2.GetComponent<GameItemMovingScript>()
-                    .MoveTo(ref mtoX,
-                        ref mtoY,
-                        ref Game.standartItemSpeed, (item, result) =>
+                    .MoveTo(position1.x,
+                        position1.y,
+                        Game.standartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1354,12 +1345,10 @@ namespace Assets.Scripts
                             if (currentItem != null && isReverse)
                             {
                                 CallbacksCount++;
-                                float? mtoX1 = position2.x;
-                                float? mtoY1 = position2.y;
                                 currentItem.GetComponent<GameItemMovingScript>()
-                                    .MoveTo(ref mtoX1,
-                                        ref mtoY1,
-                                        ref Game.standartItemSpeed, (reverseItem, reverseResult) =>
+                                    .MoveTo(position2.x,
+                                        position2.y,
+                                        Game.standartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
 
@@ -1589,9 +1578,7 @@ namespace Assets.Scripts
             LogFile.Message("Revert item to place: " + toCell.x + " " + toCell.y, true);
             if (gobj == null) return;
             var gims = gobj.GetComponent<GameItemMovingScript>();
-            float? mtoX = toCell.x;
-            float? mtoY = toCell.y;
-            gims.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, null);
+            gims.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, null);
         }
 
         public virtual void ResetPlayground()

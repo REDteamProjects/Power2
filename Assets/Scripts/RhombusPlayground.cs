@@ -301,9 +301,7 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        float? mtoX = toCell.x;
-                        float? mtoY = toCell.y;
-                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
+                        c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -345,9 +343,7 @@ namespace Assets.Scripts
 
                         CallbacksCount++;
                         Items[cX][cY] = null;
-                        float? mtoX = toCell.x;
-                        float? mtoY = toCell.y;
-                        c.MoveTo(ref mtoX, ref mtoY, ref Game.standartItemSpeed, (item, result) =>
+                        c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
                         {
                             LogFile.Message(cX + " " + cY, true);
                             CallbacksCount--;
@@ -474,10 +470,7 @@ namespace Assets.Scripts
                         if (!cS.IsMoving) DropsCount++;
                         var colS = col;
                         var rowS = row;
-                        float? mtoX = null;
-                        float? mtoY = GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y;
-                        float speed = 10;
-                        cS.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
+                        cS.MoveTo(null, GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y, 10, (item, result) =>
                         {
                             if (!cS.IsMoving)
                                 DropsCount--;
@@ -496,10 +489,7 @@ namespace Assets.Scripts
                     var col1 = col;
                     var row1 = row;
                     if (!c.IsMoving) DropsCount++;
-                    float? mtoX1 = toCell.x;
-                    float? mtoY1 = toCell.y;
-                    float speed1 = 10;
-                    c.MoveTo(ref mtoX1, ref mtoY1,ref speed1, (item, result) =>
+                    c.MoveTo(toCell.x, toCell.y, 10, (item, result) =>
                     {
                         if (!c.IsMoving)
                             DropsCount--;
@@ -641,10 +631,7 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        float? mtoX = toCell.x;
-                        float? mtoY = toCell.y;
-                        float speed = 10;
-                        moving.MoveTo(ref mtoX, ref mtoY, ref speed, (item, result) =>
+                        moving.MoveTo(toCell.x, toCell.y, 10, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
