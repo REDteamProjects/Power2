@@ -257,7 +257,7 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(toCell, "+" + points, GameColors.ItemsColors[cellType], Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true,
+                        pointsLabel.ShowScalingLabel(toCell, "+" + points, GameColors.ItemsColors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, null, true,
                             null, true);
 
                     }

@@ -125,7 +125,7 @@ namespace Assets.Scripts
                         case DifficultyLevel.medium:
                         case DifficultyLevel.hard:
                         case DifficultyLevel.veryhard:
-                            if (XItemsCount < maxAdditionalItemsCount)
+                            if (XItemsCount < MaxAdditionalItemsCount)
                             {
                                 if (RandomObject.Next(0, FieldSize) % 3 == 0)
                                 {
@@ -134,7 +134,7 @@ namespace Assets.Scripts
                                     return;
                                 }
                             }
-                            if (DropDownItemsCount < maxAdditionalItemsCount)
+                            if (DropDownItemsCount < MaxAdditionalItemsCount)
                             {
                                 if (RandomObject.Next(0, FieldSize) % 3 == 0)
                                 {

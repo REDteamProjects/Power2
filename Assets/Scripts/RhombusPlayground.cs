@@ -383,13 +383,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, null, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             pointsLabel.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, null, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._Gameover;
@@ -538,7 +538,7 @@ namespace Assets.Scripts
                             case DifficultyLevel.medium:
 							case DifficultyLevel.hard:
                             case DifficultyLevel.veryhard:
-                                if (DropDownItemsCount < maxAdditionalItemsCount && j <= FieldSize / 2)
+                                if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                 {
                                     var resRow = RandomObject.Next(0, FieldSize);
                                     if (resCol == resRow)
@@ -600,7 +600,7 @@ namespace Assets.Scripts
                     var noMovesLabel = o.GetComponent<LabelShowing>();
                     noMovesLabel.transform.SetParent(transform);
                     noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3),
-                        LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, ref Game.minLabelFontSize, ref Game.maxLabelFontSize, null, true, null, true);
+                        LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, null, true, null, true);
                 }
                 while (!CheckForPossibleMoves())
                 {
