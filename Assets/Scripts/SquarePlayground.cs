@@ -301,8 +301,8 @@ namespace Assets.Scripts
             var gobj = Instantiate(Resources.Load(ItemPrefabName + MaxType)) as GameObject;
             if (gobj == null) return;
             gobj.transform.SetParent(fg.transform);
-            gobj.transform.localPosition = new Vector3(0, 350f + GameItemSize * 5f, 0);
-            gobj.transform.localScale = new Vector3(12, 12);
+            gobj.transform.localPosition = new Vector3(0, 345f + GameItemSize * 5f, 0);
+            gobj.transform.localScale = new Vector3(16, 16);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
