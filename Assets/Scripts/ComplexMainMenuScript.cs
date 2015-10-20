@@ -93,7 +93,7 @@ namespace Assets.Scripts
 
         public void OnSoundButtonPressed()
         {
-            Vibration.Vibrate(10);
+            Vibration.Vibrate();
 
             SoundEnabled = !SoundEnabled;
 
@@ -107,7 +107,7 @@ namespace Assets.Scripts
             switch (CurrentState)
             {
                 case MenuState.ChooseMode:
-                    Vibration.Vibrate(10);
+                    Vibration.Vibrate();
 
                     CurrentState = MenuState.MainMenu;
 
@@ -129,7 +129,7 @@ namespace Assets.Scripts
 
                     break;
                 case MenuState.ChooseLevel:
-                    Vibration.Vibrate(10);
+                    Vibration.Vibrate();
 
                     Destroy(_backButton);
                     OnNewGameButtonClick();
@@ -152,7 +152,7 @@ namespace Assets.Scripts
                     Destroy(_match3button);
                     break;
             }
-            Vibration.Vibrate(10);
+            Vibration.Vibrate();
 
             CurrentState = MenuState.ChooseLevel;
 
@@ -193,7 +193,7 @@ namespace Assets.Scripts
                     Destroy(_veryhardButton);
                     break;
             }
-            Vibration.Vibrate(10);
+            Vibration.Vibrate();
 
             CurrentState = MenuState.ChooseMode;
 
@@ -218,7 +218,7 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
-            Vibration.Vibrate(10);
+            Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");
             var collection = gui.GetComponentsInChildren<Transform>();

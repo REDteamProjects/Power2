@@ -167,7 +167,7 @@ public class DragItemScript : MonoBehaviour
 
                         touchDirection = null;
 
-                        //Vibration.Vibrate(10);
+                        //Vibration.Vibrate();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.KeyPress, true);
 
                         break;

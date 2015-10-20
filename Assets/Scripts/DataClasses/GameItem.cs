@@ -56,7 +56,7 @@ namespace Assets.Scripts.DataClasses
             //if (Input.touchCount == 0) return;
             //var touch = Input.GetTouch(0);
             //if (Type != GameItemType.DisabledItem && Type != GameItemType.NullItem && Type != GameItemType._StaticItem && touch.phase == TouchPhase.Began)
-            //    Vibration.Vibrate(10);
+            //    Vibration.Vibrate();
         }
     }
 }

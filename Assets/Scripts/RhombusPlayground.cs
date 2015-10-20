@@ -577,7 +577,6 @@ namespace Assets.Scripts
                                 deniedList.Add(gameObject2.GetComponent<GameItem>().Type);
                         }
                         Items[i][j] = GenerateGameItem(i, j, deniedList, new Vector2(generateOnX, i));
-                        (Items[i][j] as GameObject).transform.localScale = new Vector3(4, 4);
                     }
                 }
             }

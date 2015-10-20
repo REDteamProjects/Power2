@@ -42,7 +42,7 @@ public class DeviceButtonsHelpers : MonoBehaviour
     public static void OnSoundAction(string audioClip, bool isVibrate, bool stopCurrent = false)
     {
         if (isVibrate)
-            Vibration.Vibrate(10);
+            Vibration.Vibrate();
 
         if (!GeneralSettings.SoundEnabled) return;
 

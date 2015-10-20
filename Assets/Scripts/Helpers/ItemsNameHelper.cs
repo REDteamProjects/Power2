@@ -14,47 +14,47 @@ public class ItemsNameHelper  {
         var typeT = typeof (T);
         if (typeT == typeof(ModeDropsPlayground))
         {
-            switch (Game.Theme)
+            /*switch (Game.Theme)
             {
-                case GameTheme.dark:
+                case GameTheme.dark:*/
                     return "Prefabs/SD/Drops/DropsGameItem";
-                case GameTheme.light:
+                /*case GameTheme.light:
                     return "Prefabs/SD/Drops/DropsGameItem";
-            }
+            }*/
         }
 
         if (typeT == typeof (ModeMatch3Playground))
         {
-            switch (Game.Theme)
+            /*switch (Game.Theme)
             {
-                case GameTheme.dark:
+                case GameTheme.dark:*/
                     return "Prefabs/SD/Match3Dark/Match3GameItem";
-                case GameTheme.light:
+                /*case GameTheme.light:
                     return "Prefabs/SD/Match3Light/Match3GameItem";
-            }
+            }*/
         }
 
         if (typeT == typeof (RhombusPlayground) || typeT.BaseType == typeof (RhombusPlayground))
         {
-            switch (Game.Theme)
+            /*switch (Game.Theme)
             {
-                case GameTheme.dark:
+                case GameTheme.dark:*/
                     return "Prefabs/SD/Rhombus/RhombusGameItem";
-                case GameTheme.light:
+                /*case GameTheme.light:
                     return "Prefabs/SD/Rhombus/RhombusGameItem";
-            }
+            }*/
         }
             
 
         if (typeT == typeof(SquarePlayground) || typeT.BaseType == typeof(SquarePlayground))
         {
-            switch (Game.Theme)
+            /*switch (Game.Theme)
             {
-                case GameTheme.dark:
+                case GameTheme.dark:*/
                     return "Prefabs/SD/StandardDark/GameItem";
-                case GameTheme.light:
+                /*case GameTheme.light:
                     return "Prefabs/SD/StandardLight/GameItem";
-            }
+            }*/
         }
 
         return null;
