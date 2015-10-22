@@ -318,7 +318,7 @@ namespace Assets.Scripts
         {
             LogFile.Message("Destroy elements above " + withType);
             var pointsBank = 0;
-            for (var i = 0; i < FieldSize; i++)
+            for (var i = FieldSize - 1; i >= 0; i++)
             {
                 for (var j = 0; j < FieldSize; j++)
                     if (Items[i][j] != null && Items[i][j] != DisabledItem)
