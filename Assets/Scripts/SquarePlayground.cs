@@ -158,8 +158,7 @@ namespace Assets.Scripts
                 if (Preferenses.CurrentItemType < MaxType)
                     Preferenses.CurrentItemType = MaxType;
 
-                if (_nextUpperLevelGameItemType != GameItemType.NullItem && MaxType != _nextUpperLevelGameItemType) return;
-
+                if (!(_nextUpperLevelGameItemType != GameItemType.NullItem && MaxType != _nextUpperLevelGameItemType))
                 switch (MaxType)
                 {
                     case GameItemType._7:
@@ -1252,7 +1251,7 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        moving.MoveTo(toCell.x, toCell.y, 6, (item, result) =>
+                        moving.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;

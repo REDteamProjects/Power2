@@ -630,7 +630,7 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        moving.MoveTo(toCell.x, toCell.y, 10, (item, result) =>
+                        moving.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
