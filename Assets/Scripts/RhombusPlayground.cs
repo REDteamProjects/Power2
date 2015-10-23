@@ -619,6 +619,7 @@ namespace Assets.Scripts
                         }
                     }
                 }
+                var mixSpeed = Game.standartItemSpeed / 2;
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     for (var j = FieldSize - 1; j >= 0; j--)
@@ -630,7 +631,7 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        moving.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                        moving.MoveTo(toCell.x, toCell.y, mixSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;

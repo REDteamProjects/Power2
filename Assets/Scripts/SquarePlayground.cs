@@ -299,13 +299,15 @@ namespace Assets.Scripts
             var cmi = GameObject.Find("/Foreground/MaximumItem");
             var gobj = Instantiate(Resources.Load(ItemPrefabName + MaxType)) as GameObject;
             if (gobj == null) return;
+            if (cmi != null)
+            cmi.transform.localPosition = new Vector3(cmi.transform.localPosition.x, cmi.transform.localPosition.y, 0);
             gobj.transform.SetParent(fg.transform);
-            gobj.transform.localPosition = new Vector3(0, 345f + GameItemSize * 5f, 0);
+            gobj.transform.localPosition = new Vector3(0, 400f, -1);
             gobj.transform.localScale = new Vector3(16, 16);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
-            c.MoveTo(null, gobj.transform.localPosition.y - GameItemSize * 6, 2f, (item, result) =>
+            c.MoveTo(null, 340f, 2f, (item, result) =>
             {
                 if (!result) return;
                 if (cmi != null)
@@ -317,7 +319,7 @@ namespace Assets.Scripts
         {
             LogFile.Message("Destroy elements above " + withType);
             var pointsBank = 0;
-            for (var i = FieldSize - 1; i >= 0; i++)
+            for (var i = FieldSize - 1; i >= 0; i--)
             {
                 for (var j = 0; j < FieldSize; j++)
                     if (Items[i][j] != null && Items[i][j] != DisabledItem)
@@ -529,7 +531,7 @@ namespace Assets.Scripts
                     {
                         var pointsLabel = o.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
-                        pointsLabel.ShowScalingLabel(new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1),
+                        pointsLabel.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
                             "+" + 222, GameColors.ForegroundButtonsColor, Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, Game.numbersFont, true);
                     }
                     RisePoints(AdditionalItemCost);
@@ -1239,6 +1241,7 @@ namespace Assets.Scripts
                     }
                 }
                 DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
+                var mixSpeed = Game.standartItemSpeed/2;
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     for (var j = FieldSize - 1; j >= 0; j--)
@@ -1251,7 +1254,7 @@ namespace Assets.Scripts
                         var moving = gameObject1.GetComponent<GameItemMovingScript>();
                         var toCell = GetCellCoordinates(i, j);
                         CallbacksCount++;
-                        moving.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                        moving.MoveTo(toCell.x, toCell.y, mixSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
