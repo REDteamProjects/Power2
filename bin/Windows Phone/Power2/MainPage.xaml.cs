@@ -8,6 +8,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Info;
 using UnityApp = UnityPlayer.UnityApp;
 using UnityBridge = WinRTBridge.WinRTBridge;
+using Microsoft.Devices;
 
 namespace Power2
 {
@@ -37,11 +38,11 @@ namespace Power2
         {
             Dispatcher.BeginInvoke( () =>
             {
-                var vibrationDevice = VibrationDevice.GetDefault();
+                var vibrationDevice = VibrateController.Default;//VibrationDevice.GetDefault();
                 if (args.VibrationTime.Milliseconds == 0)
-                    vibrationDevice.Cancel();
+                    vibrationDevice.Stop();//Cancel();
                 else
-                    vibrationDevice.Vibrate(args.VibrationTime);
+                    vibrationDevice.Start(args.VibrationTime);//.Vibrate(args.VibrationTime);
             });
         }
 
