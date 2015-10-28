@@ -131,7 +131,7 @@ R.E.D.team</value>
 		<value>Combo x</value>
 	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
-		<value>Difficulty raised</value>
+		<value>Level up</value>
 	</data>
 	<data name="DropsMode" xml:space="preserve">
 		<value>DROPS</value>

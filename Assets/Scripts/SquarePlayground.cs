@@ -225,18 +225,16 @@ namespace Assets.Scripts
             var go = GameObject.Find("/Middleground/Background");
             var oits = go.GetComponent<ObjectImageTransparencyScript>();
 
-            var df = Game.Difficulty;
-
             oits.SetTransparency(0.1f, (obj, res) =>
             {
                 var backgroundObject = GameObject.Find("/Middleground/Background");
                 backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-                    .SingleOrDefault(t => t.name.Contains(df.ToString()));
+                    .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
 
-                GetComponent<PlaygroundProgressBar>().UpdateTexture(df);
+                GetComponent<PlaygroundProgressBar>().UpdateTexture();
 
                 var points = GameObject.Find("Points");
-                points.GetComponent<Text>().color = GameColors.DifficultyLevelsColors[df];
+                points.GetComponent<Text>().color = GameColors.DifficultyLevelsColors[Game.Difficulty];
 
                 oits.SetTransparency(1f, null);
             });
@@ -302,7 +300,7 @@ namespace Assets.Scripts
             if (cmi != null)
             cmi.transform.localPosition = new Vector3(cmi.transform.localPosition.x, cmi.transform.localPosition.y, 0);
             gobj.transform.SetParent(fg.transform);
-            gobj.transform.localPosition = new Vector3(0, 400f, -1);
+            gobj.transform.localPosition = new Vector3(0, 400f, 0);
             gobj.transform.localScale = new Vector3(16, 16);
             gobj.name = "MaximumItem";
             var c = gobj.GetComponent<GameItemMovingScript>();

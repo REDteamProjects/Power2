@@ -39,7 +39,7 @@ public class PauseButtonScript : MonoBehaviour
         }
 
         _pauseMenu.transform.localScale = Vector3.one;
-        _pauseMenu.transform.localPosition = new Vector3(0, 0, 0);
+        _pauseMenu.transform.localPosition = new Vector3(0, 0, -1);
     }
 
     void DestroyPauseMenu()

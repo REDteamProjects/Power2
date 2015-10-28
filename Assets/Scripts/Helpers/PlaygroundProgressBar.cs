@@ -3,15 +3,16 @@ using System.Linq;
 using Assets.Scripts.Enums;
 using UnityEngine;
 using UnityEngine.UI;
+using Assets.Scripts.DataClasses;
 
 namespace Assets.Scripts.Helpers
 {
     public class PlaygroundProgressBar : MonoBehaviour
     {
-        private static float ProgressBarBaseSize = 460;
+        private static readonly float ProgressBarBaseSize = 460;
         private GameObject _progressBar;
         private GameObject _progressBarLine;
-        private float _moveTimerMultiple = 10;
+        private float _moveTimerMultiple = 16;
         private float _moveTimerMultipleUpper = 30;
         private float _progressBarBank = -1;
         private float _progressBarBankUpper;
@@ -71,22 +72,26 @@ namespace Assets.Scripts.Helpers
             }
 
             rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
-
             var audio = _progressBar.GetComponent<AudioSource>();
-            if (_progressBarBank < CriticalCount)
-            {
-                if (!audio.isPlaying)
-                    audio.Play();
-            }
-            else
-            {
-                if (audio.isPlaying)
+            if (!PauseButtonScript.PauseMenuActive && GeneralSettings.SoundEnabled)
+            {   
+                if (_progressBarBank < CriticalCount)
+                {
+                    if (!audio.isPlaying)
+                        audio.Play();
+                }
+                else
+                {
+                    if (audio.isPlaying)
+                        audio.Stop();
+                }
+              }
+               else
+                 if(audio.isPlaying)
                     audio.Stop();
-            }
-
-            if (!(_progressBarBank <= 0)) return;
-            audio.Stop();
-
+                if (!(_progressBarBank <= 0)) return;
+                audio.Stop();
+            
             var eventHandler = ProgressBarOver;
             if (eventHandler != null)
                 eventHandler(gameObject, EventArgs.Empty);
@@ -100,8 +105,9 @@ namespace Assets.Scripts.Helpers
         public void AddTime(float count)
         {
             _progressBarBankUpper += count * _moveTimerMultiple;
-            if (_progressBarBank + _progressBarBankUpper > ProgressBarBaseSize)
-                _moveTimerMultiple *= ProgressBarBaseSize/(_progressBarBank + _progressBarBankUpper);
+            /*if (_progressBarBank + _progressBarBankUpper > ProgressBarBaseSize)
+                _moveTimerMultiple *= ProgressBarBaseSize/(_progressBarBank + _progressBarBankUpper);*/ // возможно, здесь причина затормаживания счётчика времени
+
         }
 
         public void InnitializeBar(float count, float upper, float timeMultiple)
@@ -113,11 +119,11 @@ namespace Assets.Scripts.Helpers
             ProgressBarRun = true;
         }
 
-        public void UpdateTexture(DifficultyLevel level)
+        public void UpdateTexture()
         {
             ProgressBarRun = false;
             _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
-               .SingleOrDefault(t => t.name.Contains(level.ToString()));
+               .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
             ProgressBarRun = true;
         }
     }
