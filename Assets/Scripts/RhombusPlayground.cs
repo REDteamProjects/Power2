@@ -379,13 +379,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, null, true);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             pointsLabel.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, null, true);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._Gameover;
@@ -507,8 +507,8 @@ namespace Assets.Scripts
                 && counter < (FieldSize - 1) * (FieldSize - 1))
                 GenerateField(true);
         }
-        
-        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
+
+        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool showNoMovesLabel = true)
         {
             LogFile.Message("Generating field...", true);
             if (!mixCurrent)
@@ -583,13 +583,16 @@ namespace Assets.Scripts
             else
             {
                 LogFile.Message("Mix field...", true);
-                var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                if (o != null)
+                if (showNoMovesLabel)
                 {
-                    var noMovesLabel = o.GetComponent<LabelShowing>();
-                    noMovesLabel.transform.SetParent(transform);
-                    noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3),
-                        LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, null, true, null, true);
+                    var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                    if (o != null)
+                    {
+                        var noMovesLabel = o.GetComponent<LabelShowing>();
+                        noMovesLabel.transform.SetParent(transform);
+                        noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3),
+                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
+                    }
                 }
                 while (!CheckForPossibleMoves())
                 {

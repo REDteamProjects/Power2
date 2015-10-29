@@ -12,6 +12,7 @@ public class LabelShowing : MonoBehaviour {
     private int _destroyTimeout;
     private LabelAnimationFinishedDelegate _animationFinished;
     private Text _labelText;
+    private int _step = 1;
 
 	// Update is called once per frame
 	void Update () {
@@ -22,7 +23,7 @@ public class LabelShowing : MonoBehaviour {
 	        /*if (labelText.fontSize > ScaleFontTo)
 	            labelText.fontSize--;
 	        else*/
-                _labelText.fontSize++;
+                _labelText.fontSize+=_step;
 	    }
 	    else
 	    {
@@ -41,7 +42,7 @@ public class LabelShowing : MonoBehaviour {
 	            }
 	            else
 	                if (_destroyTimeout < _scaleDifference)
-	                    _labelText.fontSize--;
+	                    _labelText.fontSize-=_step;
 	        }
 	        else
 	        {
@@ -55,7 +56,7 @@ public class LabelShowing : MonoBehaviour {
 	}  
 
     public void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
-         int animateToSize, Font font = null,
+         int animateToSize, int step = 1, Font font = null,
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, int rotateAngle = 0)
     {
         var fg = GameObject.Find("/Foreground");
@@ -65,10 +66,10 @@ public class LabelShowing : MonoBehaviour {
         var newPos = fg.transform.InverseTransformPoint(initGameObject.transform.position/*wp*/);
         var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
 
-        ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, font, destroyAfterAnimation, callback, false, rotateAngle);
+        ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, step, font, destroyAfterAnimation, callback, false, rotateAngle);
     }
 
-    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor,int animateFromSize, int animateToSize, Font font = null, 
+    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null, 
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, bool toForeground = false, int rotateAngle = 0)
     {
         if (toForeground)
@@ -79,6 +80,9 @@ public class LabelShowing : MonoBehaviour {
             position = fg.transform.InverseTransformPoint(position);
             position.z = z;
         }
+
+        _step = step;
+        animateToSize += (animateToSize - animateFromSize) % _step;
 
         transform.localPosition = position;
 
@@ -104,7 +108,7 @@ public class LabelShowing : MonoBehaviour {
                 var shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 shadow.transform.SetParent(transform.parent);
                 shadow.ShowScalingLabel(new Vector3(position.x - 3f, position.y, position.z),
-                    text, textColor, textColor, animateFromSize, animateToSize, font, destroyAfterAnimation, null, false, rotateAngle);
+                    text, textColor, textColor, animateFromSize, animateToSize, _step, font, destroyAfterAnimation, null, false, rotateAngle);
             }
             _labelText.color = shadowColor;
         }

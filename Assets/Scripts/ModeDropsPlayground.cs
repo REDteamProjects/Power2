@@ -81,9 +81,9 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        public override float GameItemSize { get { return 3.84f; } }  
+        public override float GameItemSize { get { return 3.84f; } }
 
-        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
+        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool showNoMovesLabel = true)
         {
             //if (CallbacksCount > 1) return;
 

@@ -16,6 +16,9 @@ namespace Assets.Scripts.Helpers
         private float _moveTimerMultipleUpper = 30;
         private float _progressBarBank = -1;
         private float _progressBarBankUpper;
+        private float _maxBarYSize = 0;
+        private float _barYSize = 0;
+        private float _deltaBarYSize = 0;
 
         public Vector3 Coordinate = new Vector3(0, 190, 0);
         public bool ProgressBarRun;
@@ -35,12 +38,16 @@ namespace Assets.Scripts.Helpers
             _progressBar.transform.localPosition = Coordinate;
             _progressBar.transform.localScale = Vector3.one;
             _progressBarLine = GameObject.Find("ProgressBarLine");
+            var rtrans = _progressBarLine.transform as RectTransform;
+            _barYSize = rtrans.sizeDelta.y;
+            var deltabYS = _barYSize / 4;
+            _maxBarYSize = _barYSize + deltabYS;
+            _deltaBarYSize = - deltabYS / 16;
 
             if (_progressBarBank < 0)
                 _progressBarBank = ProgressBarBaseSize;
             else
             {
-                var rtrans = _progressBarLine.transform as RectTransform;
                 rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
             }
 
@@ -71,24 +78,29 @@ namespace Assets.Scripts.Helpers
                 }
             }
 
-            rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
-            var audio = _progressBar.GetComponent<AudioSource>();
-            if (!PauseButtonScript.PauseMenuActive && GeneralSettings.SoundEnabled)
-            {   
+            
+            var audio = _progressBar.GetComponent<AudioSource>(); 
                 if (_progressBarBank < CriticalCount)
                 {
-                    if (!audio.isPlaying)
+                    if (!audio.isPlaying && !PauseButtonScript.PauseMenuActive && GeneralSettings.SoundEnabled)
                         audio.Play();
+                    rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y - _deltaBarYSize);
+                    if (rtrans.sizeDelta.y == _maxBarYSize || rtrans.sizeDelta.y == _barYSize)
+                    _deltaBarYSize *= -1;
                 }
                 else
                 {
                     if (audio.isPlaying)
                         audio.Stop();
+                    if (rtrans.sizeDelta.y < _barYSize)
+                    {
+                        if (_deltaBarYSize < 0)
+                            _deltaBarYSize *= -1;
+                        rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y + _deltaBarYSize);
+                    }
+                    else
+                        rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
                 }
-              }
-               else
-                 if(audio.isPlaying)
-                    audio.Stop();
                 if (!(_progressBarBank <= 0)) return;
                 audio.Stop();
             
