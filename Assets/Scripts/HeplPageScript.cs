@@ -27,7 +27,7 @@ public class HeplPageScript : MonoBehaviour
 	    var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserManual_0"));
         manual_0.transform.SetParent(GameObject.Find("MainHelpText").transform);
 	    manual_0.transform.localScale = new Vector3(80, 80, 1);
-        manual_0.transform.localPosition = new Vector3(0, -280, 0);
+        manual_0.transform.localPosition = new Vector3(0, -300, 0);
         //var modestext = GameObject.Find("GameModesHelp").GetComponent<Text>();
         //modestext.text = LanguageManager.Instance.GetTextValue("GameModesHelp");
 

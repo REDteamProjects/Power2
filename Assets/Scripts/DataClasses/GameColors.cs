@@ -61,16 +61,16 @@ namespace Assets.Scripts.DataClasses
             ItemsColors.Add(GameItemType._4, new Color(0.902f, 0.863f, 0.275f));
             ItemsColors.Add(GameItemType._5, new Color(0.96f, 0.804f, 0.04f));
             ItemsColors.Add(GameItemType._6, new Color(1f, 0.686f, 0.02f));
-            ItemsColors.Add(GameItemType._7, new Color(1f, 0.51f, 0f));
-            ItemsColors.Add(GameItemType._8, new Color(1f, 0.39f, 0f));
-            ItemsColors.Add(GameItemType._9, new Color(0.98f, 0.275f, 0f));
+            ItemsColors.Add(GameItemType._7, new Color(0.902f, 0.51f, 0.12f));
+            ItemsColors.Add(GameItemType._8, new Color(0.84f, 0.35f, 0.18f));
+            ItemsColors.Add(GameItemType._9, new Color(0.75f, 0.18f, 0.04f));
             ItemsColors.Add(GameItemType._10, new Color(0.94f, 0.16f, 0f));
-            ItemsColors.Add(GameItemType._11, new Color(0.863f, 0f, 0f));
-            ItemsColors.Add(GameItemType._12, new Color(0.745f, 0f, 0.275f));
-            ItemsColors.Add(GameItemType._13, new Color(0.588f, 0f, 0.39f));
-            ItemsColors.Add(GameItemType._14, new Color(0.39f, 0f, 0.43f));
-            ItemsColors.Add(GameItemType._15, new Color(0.235f, 0.118f, 0.314f));
-            ItemsColors.Add(GameItemType._16, new Color(0.118f, 0.039f, 0.235f));
+            ItemsColors.Add(GameItemType._11, new Color(0.608f, 0f, 0f));
+            ItemsColors.Add(GameItemType._12, new Color(0.88f, 0.65f, 0.2f));
+            ItemsColors.Add(GameItemType._13, new Color(0.765f, 0.7f, 0.51f));
+            ItemsColors.Add(GameItemType._14, new Color(0.65f, 0.63f, 0.2f));
+            ItemsColors.Add(GameItemType._15, new Color(0.84f, 0.75f, 0.18f));
+            ItemsColors.Add(GameItemType._16, new Color(0.78f, 0.59f, 0.14f));
 
             DifficultyLevelsColors.Add(DifficultyLevel.easy, new Color(0.82f, 0.63f, 0.35f));//210 160 89
             DifficultyLevelsColors.Add(DifficultyLevel.medium, new Color(0.59f, 0.59f, 0.59f));//150 150 150
