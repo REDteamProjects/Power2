@@ -15,6 +15,7 @@ namespace Assets.Scripts
     public delegate void LabelAnimationFinishedDelegate();
     class SquarePlayground : MonoBehaviour, IPlayground
     {
+        
         private static readonly System.Object _disabledItem = new object();
         private readonly AutoResetEvent _callbackReady = new AutoResetEvent(false);
         //private readonly ManualResetEvent _dropsReady = new ManualResetEvent(false);
@@ -220,6 +221,11 @@ namespace Assets.Scripts
             }
         }
 
+
+        
+
+
+
         private void DifficultyRaisedGUI(bool withLabel = true)
         {
             var go = GameObject.Find("/Middleground/Background");
@@ -288,7 +294,7 @@ namespace Assets.Scripts
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
 			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, 0, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"),
-                GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
+                GameColors.Default, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
         }
 
         public void ShowMaxInitialElement()
@@ -303,6 +309,10 @@ namespace Assets.Scripts
             gobj.transform.localPosition = new Vector3(0, 400f, -1);
             gobj.transform.localScale = new Vector3(16, 16);
             gobj.name = "MaximumItem";
+            gobj.AddComponent<Button>();
+            var buttonComponent = gobj.GetComponent<Button>();
+            if (buttonComponent != null)
+                buttonComponent.onClick.AddListener(() => ThemeChooserScript.OnScriptGameThemeChange());
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
             c.MoveTo(null, 340f, 2f, (item, result) =>
@@ -1023,7 +1033,7 @@ namespace Assets.Scripts
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 0, -3),
-                LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, false, () =>
+                LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, false, () =>
                 {
                     var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
                     if (gameOverMenu == null) return;
@@ -1206,7 +1216,7 @@ namespace Assets.Scripts
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         noMovesLabel.ShowScalingLabel(new Vector3(0, 0, -4),
-                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
+                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
@@ -1559,7 +1569,7 @@ namespace Assets.Scripts
             comboLabel.transform.SetParent(transform);
 
             //comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
-            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -9 : 9, Item00.Y + GameItemSize*2.5f, -1),
+            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -7 : 11, Item00.Y + GameItemSize*2.5f, -1),
                 LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, 10, 50, 1, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);

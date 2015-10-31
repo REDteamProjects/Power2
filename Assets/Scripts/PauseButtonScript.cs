@@ -1,13 +1,21 @@
-﻿using UnityEngine;
-using System.Collections;
-using Assets.Scripts.Interfaces;
-using Assets.Scripts.Helpers;
+﻿using System;
+using System.Linq;
+using System.Threading;
 using Assets.Scripts.DataClasses;
+using Assets.Scripts.Enums;
+using Assets.Scripts.Helpers;
+using SmartLocalization;
+using UnityEngine;
+using Assets.Scripts.Interfaces;
+using System.Collections.Generic;
+using UnityEngine.UI;
+using Assets.Scripts;
 
 public class PauseButtonScript : MonoBehaviour
 {
     private static bool _pauseMenuActive;
     private static GameObject _pauseMenu;
+    private static GameObject _soundButton;
 
     public static bool PauseMenuActive
     {
@@ -22,6 +30,17 @@ public class PauseButtonScript : MonoBehaviour
     void Awake() { }
 
     void Update() { }
+
+    public void OnSoundButtonPressed()
+    {
+        Vibration.Vibrate();
+
+        GeneralSettings.SoundEnabled = !GeneralSettings.SoundEnabled;
+
+        _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundEnabled
+            ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))
+            : Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_off"));
+    }
 
     void CreatePauseMenu()
     {
@@ -40,6 +59,14 @@ public class PauseButtonScript : MonoBehaviour
 
         _pauseMenu.transform.localScale = Vector3.one;
         _pauseMenu.transform.localPosition = new Vector3(0, 0, -2);
+
+        _soundButton = MainMenuScript.GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-195,
+            353, -3), null, 0, OnSoundButtonPressed);
+        var rectTransform = _soundButton.transform as RectTransform;
+        _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundEnabled
+            ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))
+            : Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_off"));
+        _soundButton.name = "SoundButton";
     }
 
     void DestroyPauseMenu()
@@ -47,6 +74,7 @@ public class PauseButtonScript : MonoBehaviour
         Time.timeScale = 1F;
 
         Destroy(_pauseMenu);
+        Destroy(_soundButton);
 
         PauseMenuActive = false;
     }

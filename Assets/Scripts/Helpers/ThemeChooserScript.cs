@@ -9,6 +9,16 @@ namespace Assets.Scripts.Helpers
     {
         public void OnGameThemeChange()
         {
+            GameThemeChange();
+        }
+
+        public static void OnScriptGameThemeChange()
+        {
+            GameThemeChange();
+        }
+
+        private static void GameThemeChange()
+        {
             switch (Game.Theme)
             {
                 case GameTheme.dark:

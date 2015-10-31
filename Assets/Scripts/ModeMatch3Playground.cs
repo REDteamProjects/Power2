@@ -201,7 +201,6 @@ namespace Assets.Scripts
                 var currentObj = Items[l.X2][l.Y2] as GameObject;
                 var gi = currentObj.GetComponent<GameItem>();
                 var cellType = gi.Type;
-                var toCell = currentObj.transform.position;//(GetCellCoordinates(l.X2, l.Y2) + GetCellCoordinates(l.X1, l.Y1)) / 2;
 
                 if (l.Orientation == LineOrientation.Vertical)
                 {
@@ -257,8 +256,8 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(toCell, "+" + points, GameColors.ItemsColors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true,
-                            null, true);
+                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.ItemsColors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true,
+                            null);
 
                     }
                 //}

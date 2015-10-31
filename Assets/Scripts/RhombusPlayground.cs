@@ -591,7 +591,7 @@ namespace Assets.Scripts
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         noMovesLabel.transform.SetParent(transform);
                         noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3),
-                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.ForegroundButtonsColor, GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
+                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
                     }
                 }
                 while (!CheckForPossibleMoves())
