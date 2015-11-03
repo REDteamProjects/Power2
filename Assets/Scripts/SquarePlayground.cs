@@ -310,6 +310,8 @@ namespace Assets.Scripts
             gobj.transform.localScale = new Vector3(16, 16);
             gobj.name = "MaximumItem";
             gobj.AddComponent<Button>();
+            Image image = gobj.AddComponent<Image>();
+            image.color = new Color(0, 0, 0, 0);
             var buttonComponent = gobj.GetComponent<Button>();
             if (buttonComponent != null)
                 buttonComponent.onClick.AddListener(() => ThemeChooserScript.OnScriptGameThemeChange());

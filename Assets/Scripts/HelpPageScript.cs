@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class HeplPageScript : MonoBehaviour
+public class HelpPageScript : MonoBehaviour
 {
     private Vector2 startPos;
     private Vector2 mainStartPos;
@@ -26,7 +26,7 @@ public class HeplPageScript : MonoBehaviour
 
 	    var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserManual_0"));
         manual_0.transform.SetParent(GameObject.Find("MainHelpText").transform);
-	    manual_0.transform.localScale = new Vector3(80, 80, 1);
+        manual_0.transform.localScale = Vector3.one;//new Vector3(80, 80, 1);
         manual_0.transform.localPosition = new Vector3(0, -300, 0);
         //var modestext = GameObject.Find("GameModesHelp").GetComponent<Text>();
         //modestext.text = LanguageManager.Instance.GetTextValue("GameModesHelp");
@@ -67,10 +67,10 @@ public class HeplPageScript : MonoBehaviour
 
                 if (SelectedItem == main && Mathf.Abs(deltaY) > 0.01)
                 {
-                    if (mainStartPos.y + deltaY > 580)
-                        baseY = 580;
-                    else if (mainStartPos.y + deltaY < 0)
-                        baseY = 0;
+                    if (mainStartPos.y + deltaY > 1024)
+                        baseY = 1024;
+                    else if (mainStartPos.y + deltaY < 240)
+                        baseY = 240;
                     else
                         baseY = mainStartPos.y + deltaY;
 
