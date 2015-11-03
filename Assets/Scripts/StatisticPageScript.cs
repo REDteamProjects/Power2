@@ -13,6 +13,7 @@ public class StatisticPageScript : MonoBehaviour
 {
     private static GameTypes? SelectedType;
     private static GameObject SelectedItem;
+    private static GameObject _resetConfirmationMenu;
 
     private void GenerateLevelTitle<T>(GameItemType type) where T:IPlayground
     {
@@ -84,7 +85,45 @@ public class StatisticPageScript : MonoBehaviour
 
         var fg = GameObject.Find("/GUI");
         MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50,
-                () => { PlayerPrefs.DeleteAll(); SelectedItem = null; LoadLevelData((int)SelectedType); });
+                () => CreateResetStatConfirmationMenu());
+    }
+
+    void CreateResetStatConfirmationMenu()
+    {
+        Time.timeScale = 0F;
+
+        var fg = GameObject.Find("/Foreground");
+
+        _resetConfirmationMenu = Instantiate(Resources.Load("Prefabs/ResetStatsConfirmation")) as GameObject;
+
+        if (fg != null)
+        {
+            _resetConfirmationMenu.transform.SetParent(fg.transform);
+        }
+
+        _resetConfirmationMenu.transform.localScale = Vector3.one;
+        _resetConfirmationMenu.transform.localPosition = new Vector3(0, 0, -2);
+        var l = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+        l.transform.SetParent(_resetConfirmationMenu.transform);
+        l.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        if (l != null)
+        {
+            var pointsLabel = l.GetComponent<LabelShowing>();
+            pointsLabel.ShowScalingLabel(new Vector3(0,50,0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.Default, Color.gray, Game.maxLabelFontSize, Game.maxLabelFontSize, 1, Game.textFont);
+        }
+    }
+
+    public void ResetStats()
+    {
+        PlayerPrefs.DeleteAll();
+        SelectedItem = null;
+        LoadLevelData((int)SelectedType);
+        DestroyResetStatConfirmationMenu();
+    }
+
+    public void DestroyResetStatConfirmationMenu()
+    {
+        Destroy(_resetConfirmationMenu);
     }
 
     public void LoadLevelData(int ttype)

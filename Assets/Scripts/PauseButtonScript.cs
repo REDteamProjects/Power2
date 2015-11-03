@@ -61,7 +61,7 @@ public class PauseButtonScript : MonoBehaviour
         _pauseMenu.transform.localPosition = new Vector3(0, 0, -2);
 
         _soundButton = MainMenuScript.GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-195,
-            353, -3), null, 0, OnSoundButtonPressed);
+            355, -3), null, 0, OnSoundButtonPressed);
         var rectTransform = _soundButton.transform as RectTransform;
         _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundEnabled
             ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))

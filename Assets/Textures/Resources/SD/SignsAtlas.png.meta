@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e465e2fe5c8742948a2ed8b126be603f
-timeCreated: 1443429667
+timeCreated: 1446490609
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -20,6 +20,8 @@ TextureImporter:
     21300026: Signs_13
     21300028: Signs_14
     21300030: Signs_15
+    21300032: Signs_16
+    21300034: Signs_17
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -69,47 +71,47 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1536
+        y: 2048
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Signs_1
       rect:
         serializedVersion: 2
         x: 512
-        y: 1536
+        y: 2048
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Signs_2
       rect:
         serializedVersion: 2
         x: 1024
-        y: 1536
+        y: 2048
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Signs_3
       rect:
         serializedVersion: 2
         x: 1536
-        y: 1536
+        y: 2048
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Signs_sound_on
       rect:
         serializedVersion: 2
         x: 0
-        y: 1024
+        y: 1536
         width: 512
         height: 512
       alignment: 0
@@ -119,7 +121,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 512
-        y: 1024
+        y: 1536
         width: 512
         height: 512
       alignment: 0
@@ -129,33 +131,73 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 1024
-        y: 1024
+        y: 1536
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Signs_7
       rect:
         serializedVersion: 2
         x: 1536
-        y: 1024
+        y: 1536
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Signs_8
       rect:
         serializedVersion: 2
         x: 0
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Signs_9
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Signs_10
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Signs_11
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1024
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Signs_12
+      rect:
+        serializedVersion: 2
+        x: 0
         y: 512
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_9
+    - name: Signs_13
       rect:
         serializedVersion: 2
         x: 512
@@ -163,9 +205,9 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_10
+    - name: Signs_14
       rect:
         serializedVersion: 2
         x: 1024
@@ -173,9 +215,9 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_11
+    - name: Signs_15
       rect:
         serializedVersion: 2
         x: 1536
@@ -183,9 +225,9 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_12
+    - name: Signs_16
       rect:
         serializedVersion: 2
         x: 0
@@ -193,9 +235,9 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_13
+    - name: Signs_17
       rect:
         serializedVersion: 2
         x: 512
@@ -203,27 +245,7 @@ TextureImporter:
         width: 512
         height: 512
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_14
-      rect:
-        serializedVersion: 2
-        x: 1024
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_15
-      rect:
-        serializedVersion: 2
-        x: 1536
-        y: 0
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

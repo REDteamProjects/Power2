@@ -48,6 +48,8 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            Game.textFont = Resources.Load<Font>("Fonts/" + LanguageManager.Instance.GetTextValue("LabelsFont"));
+            Game.numbersFont = Resources.Load<Font>("Fonts/BITALIC");
             _mainCamera = GameObject.Find("Main Camera");
             var fg = GameObject.Find("/GUI");
             var statsButton = GameObject.Find("/GUI/StatsButton");

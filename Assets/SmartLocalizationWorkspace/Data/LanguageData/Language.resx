@@ -140,6 +140,9 @@
 	<data name="GameOverTitle" xml:space="preserve">
 		<value>Game over title</value>
 	</data>
+	<data name="LabelsFont" xml:space="preserve">
+		<value>Font for scaling labels</value>
+	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Loading title between scenes</value>
 	</data>
@@ -170,7 +173,7 @@
 	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
 		<value>First manual texture</value>
 	</data>
-	<data name="LabelsFont" xml:space="preserve">
-		<value>Font for scaling labels</value>
+	<data name="ConfirmationQuestion" xml:space="preserve">
+		<value>Are you sure?</value>
 	</data>
 </root>

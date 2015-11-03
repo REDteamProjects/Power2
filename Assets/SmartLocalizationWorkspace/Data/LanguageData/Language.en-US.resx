@@ -130,6 +130,9 @@ R.E.D.team</value>
 	<data name="ComboTitle" xml:space="preserve">
 		<value>Combo x</value>
 	</data>
+	<data name="ConfirmationQuestion" xml:space="preserve">
+		<value>ConfirmationQuestion</value>
+	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
 		<value>Level up</value>
 	</data>

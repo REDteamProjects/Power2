@@ -107,6 +107,7 @@ public class LabelShowing : MonoBehaviour {
                 scalingLabelObject.name = name + "(Shadow)";
                 var shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 shadow.transform.SetParent(transform.parent);
+                shadow.transform.localScale = transform.localScale;
                 shadow.ShowScalingLabel(new Vector3(position.x - 3f, position.y, position.z),
                     text, textColor, textColor, animateFromSize, animateToSize, _step, font, destroyAfterAnimation, null, false, rotateAngle);
             }
@@ -120,7 +121,10 @@ public class LabelShowing : MonoBehaviour {
         _labelText.text = text;
         _destroyAfterAnimation = destroyAfterAnimation;
         _scaleDifference = animateToSize - animateFromSize;
+        if(_scaleDifference != 0)
         _destroyTimeout = _scaleDifference + 10;
+        else
+            _destroyTimeout = 0;
         _animationFinished = callback;
     }
 }

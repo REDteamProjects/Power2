@@ -35,8 +35,6 @@ namespace Assets.Scripts.DataClasses
 
         void Awake()
         {
-            textFont = Resources.Load<Font>("Fonts/" + LanguageManager.Instance.GetTextValue("LabelsFont"));
-            numbersFont = Resources.Load<Font>("Fonts/BITALIC");
 			//Stats = new Statistics(Type);
             switch(Type)
             {
