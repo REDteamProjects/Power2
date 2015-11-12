@@ -8,7 +8,8 @@ namespace Assets.Scripts.DataClasses
     {
         public static Dictionary<GameItemType, Color> ItemsColors = new Dictionary<GameItemType, Color>();
         public static Dictionary<DifficultyLevel, Color> DifficultyLevelsColors = new Dictionary<DifficultyLevel, Color>();
-        public static readonly Color Default = new Color(0.94f, 0.9f, 0.82f);
+        public static readonly Color DefaultLight = new Color(0.94f, 0.9f, 0.82f);
+        public static readonly Color DefaultDark = new Color(0.157f, 0.157f, 0.157f);
 
         public static Color BackgroundColor
         {
@@ -17,11 +18,11 @@ namespace Assets.Scripts.DataClasses
                 switch (Game.Theme)
                 {
                     case GameTheme.dark:
-                        return new Color(0.157f, 0.157f, 0.157f);
+                        return DefaultDark;
                     case GameTheme.light:
-                        return Default; 
+                        return DefaultLight; 
                 }
-                return Default;
+                return DefaultLight;
             }
         }
         public static Color ForegroundColor
@@ -31,11 +32,11 @@ namespace Assets.Scripts.DataClasses
                 switch (Game.Theme)
                 {
                     case GameTheme.dark:
-                        return new Color(0.6f, 0.416f, 0.231f);
+                        return DefaultLight;//new Color(0.6f, 0.416f, 0.231f);
                     case GameTheme.light:
-                        return new Color(0.16f, 0.16f, 0.16f);
+                        return DefaultDark;//new Color(0.16f, 0.16f, 0.16f);
                 }
-                return new Color(0.6f, 0.416f, 0.231f);
+                return DefaultLight;//new Color(0.6f, 0.416f, 0.231f);
             }
         }
 
@@ -46,11 +47,11 @@ namespace Assets.Scripts.DataClasses
                 switch (Game.Theme)
                 {
                     case GameTheme.dark:
-                        return new Color(1f, 1f, 1f);
+                        return DefaultLight;//new Color(1f, 1f, 1f);
                     case GameTheme.light:
-                        return new Color(0.16f, 0.16f, 0.16f);
+                        return DefaultDark;//new Color(0.16f, 0.16f, 0.16f);
                 }
-                return new Color(1f, 1f, 1f);
+                return DefaultLight;// new Color(1f, 1f, 1f);
             }
         }
 

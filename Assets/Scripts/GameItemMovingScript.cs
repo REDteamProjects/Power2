@@ -202,6 +202,8 @@ public class GameItemMovingScript : MonoBehaviour
 
     public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)
     {
+        if (GetComponent<GameItemScalingScript>().isScaling)
+            return;
         if (IsMoving)
         {
             LogFile.Message("isMoving is true", true);

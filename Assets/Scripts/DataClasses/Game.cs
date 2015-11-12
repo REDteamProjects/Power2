@@ -21,7 +21,7 @@ namespace Assets.Scripts.DataClasses
         public static Font numbersFont;
         public static Int32 minLabelFontSize = 60;
         public static Int32 maxLabelFontSize = 100;
-        public static float standartItemSpeed = 14;
+        public static float standartItemSpeed = 24;
 
         public static GameTheme Theme
         {

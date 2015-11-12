@@ -101,6 +101,12 @@ public class GameItemScalingScript : MonoBehaviour
             //movingCallback(gameObject, false);
             //return;
         }
+        var gims = GetComponent<GameItemMovingScript>();
+        if(gims.IsMoving)
+        {
+            gims.ChangeDirection(gims.CurrentDestination.Destination.x, gims.CurrentDestination.Destination.y, gims.CurrentDestination.Speed, scalingCallback, gims.CurrentDestination.ShowFrom, toSize);
+            return;
+        }
 
         var newScaling = new Scaling2D
         {

@@ -251,6 +251,11 @@ namespace Assets.Scripts
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
+                if (_raiseMaxInitialElement)
+                {
+                    _raiseMaxInitialElement = false;
+                    MaxInitialElementTypeRaisedActions();
+                }
                 ChainCounter = 0;
                 if (TimeCounter < 0) TimeCounter = 0;
                 if (!CheckForPossibleMoves() && DropsCount == 0)
@@ -431,6 +436,8 @@ namespace Assets.Scripts
             var counter = 0;
             //DropsCount += FieldSize * (FieldSize - 1);
 
+            var rhombusDropSpeed = Game.standartItemSpeed - 4;
+
             for (var row = 0; row < FieldSize - 1; row++)
             {
                 for (var col = 1; col < FieldSize; col++)
@@ -470,7 +477,7 @@ namespace Assets.Scripts
                         if (!cS.IsMoving) DropsCount++;
                         var colS = col;
                         var rowS = row;
-                        cS.MoveTo(null, GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y, 10, (item, result) =>
+                        cS.MoveTo(null, GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y, rhombusDropSpeed, (item, result) =>
                         {
                             if (!cS.IsMoving)
                                 DropsCount--;
@@ -489,7 +496,7 @@ namespace Assets.Scripts
                     var col1 = col;
                     var row1 = row;
                     if (!c.IsMoving) DropsCount++;
-                    c.MoveTo(toCell.x, toCell.y, 10, (item, result) =>
+                    c.MoveTo(toCell.x, toCell.y, rhombusDropSpeed, (item, result) =>
                     {
                         if (!c.IsMoving)
                             DropsCount--;
@@ -533,7 +540,7 @@ namespace Assets.Scripts
                                     var resRow = RandomObject.Next(0, FieldSize);
                                     if (resCol == resRow)
                                     {
-                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(generateOnX, i), false, 8 + i * 3);//may be calculate speed or generateOn vector in another way
+                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
                                         (Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
                                         DropDownItemsCount++;
                                         generateOnX++;
@@ -545,7 +552,7 @@ namespace Assets.Scripts
                         if (completeCurrent)
                         {
                             LogFile.Message("New gameItem need to i:" + i + "j: " + j, true);
-                            Items[i][j] = GenerateGameItem(i, j, null, new Vector2(generateOnX, i), false, 8 + i*3);//may be calculate speed or generateOn vector in another way
+                            Items[i][j] = GenerateGameItem(i, j, null, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
                             continue;
                         }
                         //Horizontal before
@@ -590,8 +597,8 @@ namespace Assets.Scripts
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         noMovesLabel.transform.SetParent(transform);
-                        noMovesLabel.ShowScalingLabel(new Vector3(0, /*Item00.Y + GameItemSize * 2.2f*/0, -3),
-                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.BackgroundColor, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
+                        noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -3),
+                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
                     }
                 }
                 while (!CheckForPossibleMoves())

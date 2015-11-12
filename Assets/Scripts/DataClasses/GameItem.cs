@@ -22,7 +22,7 @@ namespace Assets.Scripts.DataClasses
             get { return _isTouched; }
             set
             {
-                if (_isTouched == value) return;
+                if (_isTouched == value || Type == GameItemType._XItem) return;
                 _isTouched = value;
                 if (value)
                 {

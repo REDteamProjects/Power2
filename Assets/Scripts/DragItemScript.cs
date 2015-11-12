@@ -139,39 +139,42 @@ public class DragItemScript : MonoBehaviour
                 break;
             case TouchPhase.Began:
                 touchOriginalPosition = realTouchPosition;
-
+                var found = false;
                 for (var col = 0; col < pg.Items.Length; col++)
                 {
-                    for (var row = 0; row < pg.Items[col].Length; row++)
-                    {
-                        if (pg.Items[col][row] == null || pg.Items[col][row] == pg.DisabledItem) continue;
-                        var gobj = (pg.Items[col][row] as GameObject);
-                        if (gobj == null) continue;
-                        //var gobjPosition = new Vector2(gobj.transform.localPosition.x, gobj.transform.localPosition.y);
+                    if (!found)
+                        for (var row = 0; row < pg.Items[col].Length; row++)
+                        {
+                            if (pg.Items[col][row] == null || pg.Items[col][row] == pg.DisabledItem) continue;
+                            var gobj = (pg.Items[col][row] as GameObject);
+                            if (gobj == null) continue;
+                            //var gobjPosition = new Vector2(gobj.transform.localPosition.x, gobj.transform.localPosition.y);
 
-                        var gobjCollider = gobj.GetComponent<BoxCollider2D>();
-                        var half = gobjCollider.size.x / 2;
-                        if ((!(realTouchPosition.x > gobj.transform.localPosition.x - half)) ||
-                            (!(realTouchPosition.x < gobj.transform.localPosition.x + half)) ||
-                            (!(realTouchPosition.y > gobj.transform.localPosition.y - half)) ||
-                            (!(realTouchPosition.y < gobj.transform.localPosition.y + half))) continue;
+                            var gobjCollider = gobj.GetComponent<BoxCollider2D>();
+                            var half = gobjCollider.size.x / 2;
+                            if ((!(realTouchPosition.x > gobj.transform.localPosition.x - half)) ||
+                                (!(realTouchPosition.x < gobj.transform.localPosition.x + half)) ||
+                                (!(realTouchPosition.y > gobj.transform.localPosition.y - half)) ||
+                                (!(realTouchPosition.y < gobj.transform.localPosition.y + half))) continue;
 
-                        var gims = gobj.GetComponent<GameItemMovingScript>();
-                        var gi = gobj.GetComponent<GameItem>();
-                        if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
-                        
-                        gi.IsTouched = true;
-                        touchedItem = new Point { X = col, Y = row };
-                        touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
-                        touchedItemOriginalPosition.z = gobj.transform.localPosition.z;
+                            var gims = gobj.GetComponent<GameItemMovingScript>();
+                            var gi = gobj.GetComponent<GameItem>();
+                            if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) return;//here was continue;
 
-                        touchDirection = null;
+                            gi.IsTouched = true;
+                            touchedItem = new Point { X = col, Y = row };
+                            touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
+                            touchedItemOriginalPosition.z = gobj.transform.localPosition.z;
 
-                        //Vibration.Vibrate();
-                        DeviceButtonsHelpers.OnSoundAction(Power2Sounds.KeyPress, true);
+                            touchDirection = null;
 
+                            //Vibration.Vibrate();
+                            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.KeyPress, true);
+                            found = true;
+                            break;
+                        }
+                    else
                         break;
-                    }
                 }
                 if (touchedItem != null) return;
                 if (touchedItem == null && pg is ModeDropsPlayground)
