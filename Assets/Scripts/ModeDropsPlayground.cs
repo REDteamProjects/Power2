@@ -122,9 +122,9 @@ namespace Assets.Scripts
                     //var res1 = RandomObject.Next(0, FieldSize);
                     switch (Game.Difficulty)
                     {
-                        case DifficultyLevel.medium:
-                        case DifficultyLevel.hard:
-                        case DifficultyLevel.veryhard:
+                        case DifficultyLevel._medium:
+                        case DifficultyLevel._hard:
+                        case DifficultyLevel._veryhard:
                             if (XItemsCount < MaxAdditionalItemsCount)
                             {
                                 if (RandomObject.Next(0, FieldSize) % 3 == 0)

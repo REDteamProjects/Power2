@@ -74,10 +74,10 @@ namespace Assets.Scripts.DataClasses
             ItemsColors.Add(GameItemType._15, new Color(0.84f, 0.75f, 0.18f));
             ItemsColors.Add(GameItemType._16, new Color(0.78f, 0.59f, 0.14f));
 
-            DifficultyLevelsColors.Add(DifficultyLevel.easy, new Color(0.82f, 0.63f, 0.35f));//210 160 89
-            DifficultyLevelsColors.Add(DifficultyLevel.medium, new Color(0.59f, 0.59f, 0.59f));//150 150 150
-            DifficultyLevelsColors.Add(DifficultyLevel.hard, new Color(0.75f, 0.63f, 0.15f));//190 160 39
-            DifficultyLevelsColors.Add(DifficultyLevel.veryhard, new Color(0.16f, 0.55f, 0.78f));//4 140 200
+            DifficultyLevelsColors.Add(DifficultyLevel._easy, new Color(0.82f, 0.63f, 0.35f));//210 160 89
+            DifficultyLevelsColors.Add(DifficultyLevel._medium, new Color(0.59f, 0.59f, 0.59f));//150 150 150
+            DifficultyLevelsColors.Add(DifficultyLevel._hard, new Color(0.75f, 0.63f, 0.15f));//190 160 39
+            DifficultyLevelsColors.Add(DifficultyLevel._veryhard, new Color(0.16f, 0.55f, 0.78f));//4 140 200
         }
     }
 }

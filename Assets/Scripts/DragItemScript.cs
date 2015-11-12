@@ -29,7 +29,7 @@ public class DragItemScript : MonoBehaviour
 
         var pg = gameObject.GetComponent<IPlayground>();
 
-        if (pg == null || pg.IsGameOver) return;
+        if (pg == null || pg.IsGameOver || pg.IsMixing) return;
 
         Vector3 realTouchPosition;
 

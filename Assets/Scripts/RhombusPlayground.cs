@@ -532,9 +532,9 @@ namespace Assets.Scripts
                             continue;
                         switch (Game.Difficulty)
                         {
-                            case DifficultyLevel.medium:
-							case DifficultyLevel.hard:
-                            case DifficultyLevel.veryhard:
+                            case DifficultyLevel._medium:
+							case DifficultyLevel._hard:
+                            case DifficultyLevel._veryhard:
                                 if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                 {
                                     var resRow = RandomObject.Next(0, FieldSize);
@@ -601,6 +601,8 @@ namespace Assets.Scripts
                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
                     }
                 }
+
+                _isMixing = true;
                 while (!CheckForPossibleMoves())
                 {
                     var toMixList = new List<object>();
@@ -646,7 +648,10 @@ namespace Assets.Scripts
                             CallbacksCount--;
                             if (!result) return;
                             if (CallbacksCount == 0)
+                            {
+                                _isMixing = false;
                                 ClearChains();
+                            }
                         });
                     }
                 }

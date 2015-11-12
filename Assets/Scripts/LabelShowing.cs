@@ -110,8 +110,8 @@ public class LabelShowing : MonoBehaviour {
                 shadow.transform.localScale = transform.localScale;
                 shadow.ShowScalingLabel(new Vector3(position.x - (rotateAngle == 0 ? 3f : 0), position.y, position.z),
                     text, textColor, textColor, animateFromSize, animateToSize, _step, font, destroyAfterAnimation, null, false, rotateAngle);
-                animateFromSize += 2;
-                animateToSize += 2;
+                animateFromSize += 1;
+                animateToSize += 1;
             }
             _labelText.color = shadowColor;
         }

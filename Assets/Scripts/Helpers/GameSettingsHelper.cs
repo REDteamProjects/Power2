@@ -110,8 +110,8 @@ namespace Assets.Scripts.Helpers
             {
                 if (PlayerPrefs.HasKey(GetType().FullName + "_MaximumOpenedLevel"))
                     return (DifficultyLevel)PlayerPrefs.GetInt(GetType().FullName + "_MaximumOpenedLevel");
-                PlayerPrefs.SetInt(GetType().FullName + "_MaximumOpenedLevel", (int)DifficultyLevel.easy);
-                return DifficultyLevel.easy;
+                PlayerPrefs.SetInt(GetType().FullName + "_MaximumOpenedLevel", (int)DifficultyLevel._easy);
+                return DifficultyLevel._easy;
             }
             set
             {

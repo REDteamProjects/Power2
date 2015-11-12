@@ -45,6 +45,7 @@ namespace Assets.Scripts
         protected int DropDownItemsCount;
         protected int XItemsCount;
         private bool _isGameOver;
+        protected bool _isMixing = false;
 
         public virtual IGameSettingsHelper Preferenses
         {
@@ -63,6 +64,12 @@ namespace Assets.Scripts
             }
         }
 
+
+        public bool IsMixing
+        {
+            get { return _isMixing; }
+        }
+        
         public int AdditionalItemCost { get { return 222; } }
 
         protected GameItemType MinType
@@ -174,7 +181,7 @@ namespace Assets.Scripts
                 switch (MaxType)
                 {
                     case GameItemType._7:
-                        Game.Difficulty = DifficultyLevel.medium;
+                        Game.Difficulty = DifficultyLevel._medium;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._10;
@@ -184,7 +191,7 @@ namespace Assets.Scripts
                         _nextUpperLevelGameItemType = GameItemType._10;
                         break;
                     case GameItemType._10:
-                        Game.Difficulty = DifficultyLevel.hard;
+                        Game.Difficulty = DifficultyLevel._hard;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         while (XItemsCount < MaxAdditionalItemsCount)
@@ -210,7 +217,7 @@ namespace Assets.Scripts
                         _nextUpperLevelGameItemType = GameItemType._13;
                         break;
                     case GameItemType._13:
-                        Game.Difficulty = DifficultyLevel.veryhard;
+                        Game.Difficulty = DifficultyLevel._veryhard;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         MixTimeCounter = MixTimeCounterSize;
@@ -601,7 +608,7 @@ namespace Assets.Scripts
                 _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
             TimeCounter += Time.deltaTime;
-            if (Game.Difficulty >= DifficultyLevel.veryhard)
+            if (Game.Difficulty >= DifficultyLevel._veryhard)
             {
                 MixTimeCounter -= Time.deltaTime;
                 if (MixTimeCounter <= 0)
@@ -1156,7 +1163,7 @@ namespace Assets.Scripts
                 {
                     var generateOnY = 1;
                     var resCol = 0;
-                    if (Game.Difficulty > DifficultyLevel.easy && DropDownItemsCount < MaxAdditionalItemsCount)
+                    if (Game.Difficulty > DifficultyLevel._easy && DropDownItemsCount < MaxAdditionalItemsCount)
                     resCol = RandomObject.Next(0, FieldSize);
                     for (var j = FieldSize - 1; j >= 0; j--)
                     {
@@ -1168,9 +1175,9 @@ namespace Assets.Scripts
                         {
                             switch (Game.Difficulty)
                             {
-                                case DifficultyLevel.medium:
-                                case DifficultyLevel.hard:
-                                case DifficultyLevel.veryhard:
+                                case DifficultyLevel._medium:
+                                case DifficultyLevel._hard:
+                                case DifficultyLevel._veryhard:
                                     if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                     {
                                         var resRow = RandomObject.Next(resCol, FieldSize);
@@ -1247,6 +1254,7 @@ namespace Assets.Scripts
 
         private void MixField()
         {
+            _isMixing = true;
             while (!CheckForPossibleMoves())
             {
                 var toMixList = new List<object>();
@@ -1295,7 +1303,10 @@ namespace Assets.Scripts
                         CallbacksCount--;
                         if (!result) return;
                         if (CallbacksCount == 0)
+                        {
+                            _isMixing = false;
                             ClearChains();
+                        }
                     });
                 }
             }

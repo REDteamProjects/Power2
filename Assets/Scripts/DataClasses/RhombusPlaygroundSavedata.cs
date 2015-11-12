@@ -25,6 +25,12 @@ namespace Assets.Scripts.DataClasses
             set;
         }
 
+        public GameItemMovingType[][] MovingTypes
+        {
+            get;
+            set;
+        }
+
         public int Score
         {
             get;

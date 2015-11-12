@@ -15,7 +15,7 @@ namespace Assets.Scripts.DataClasses
         public Texture2D fullProgressBar;
         private IPlayground PlaygroundObject;
         //internal Statistics Stats;
-        public static DifficultyLevel Difficulty = DifficultyLevel.easy;
+        public static DifficultyLevel Difficulty = DifficultyLevel._easy;
         public static GameTheme _theme = GameTheme.dark;
         public static Font textFont;
         public static Font numbersFont;

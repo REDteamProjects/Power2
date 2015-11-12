@@ -62,6 +62,12 @@ public class SquarePlaygroundSavedataConverter : fsDirectConverter
                     new fsData(i.Select(ii => new fsData((Int32)ii)).ToList())
                 ).ToList() : null
             ),
+            new fsData(
+                myType.MovingTypes != null ?
+                myType.MovingTypes.Select(i => 
+                    new fsData(i.Select(ii => new fsData((Int32)ii)).ToList())
+                ).ToList() : null
+            ),
             new fsData(new List<fsData>
             {
                 new fsData(myType.ProgressBarStateData.Multiplier),
@@ -98,9 +104,22 @@ public class SquarePlaygroundSavedataConverter : fsDirectConverter
                 }
             }
         }
+        if (dataItems[5].IsList)
+        {
+            var list2 = dataItems[5].AsList;
+            if (list2 != null && list2.Count != 0)
+            {
+                myType.MovingTypes = new GameItemMovingType[list2.Count][];
+                for (var i = 0; i < list2.Count; i++)
+                {
+                    var localList2 = list2[i].AsList;
+                    myType.MovingTypes[i] = localList2.Select(lli => (GameItemMovingType)lli.AsInt64).ToArray();
+                }
+            }
+        }
 
-        if (!dataItems[5].IsList) return fsResult.Success;
-        var progressBarData = dataItems[5].AsList;
+        if (!dataItems[6].IsList) return fsResult.Success;
+        var progressBarData = dataItems[6].AsList;
         if (myType.ProgressBarStateData == null)
             myType.ProgressBarStateData = new ProgressBarState();
         myType.ProgressBarStateData.Multiplier = (float)progressBarData[0].AsDouble;
@@ -113,11 +132,11 @@ public class SquarePlaygroundSavedataConverter : fsDirectConverter
 
 public class ModeMatch3PlaygroundSavedataConverter : fsDirectConverter
 {
-    public override Type ModelType { get { return typeof(SquarePlaygroundSavedata); } }
+    public override Type ModelType { get { return typeof(ModeMatch3PlaygroundSavedata); } }
 
     public override object CreateInstance(fsData data, Type storageType)
     {
-        var obj = (SquarePlaygroundSavedata) storageType.GetConstructor(Type.EmptyTypes).Invoke(null);
+        var obj = (ModeMatch3PlaygroundSavedata)storageType.GetConstructor(Type.EmptyTypes).Invoke(null);
         obj.ProgressBarStateData = new ProgressBarState();
         return obj;
     }
@@ -134,6 +153,12 @@ public class ModeMatch3PlaygroundSavedataConverter : fsDirectConverter
             new fsData(
                 myType.Items != null ?
                 myType.Items.Select(i => 
+                    new fsData(i.Select(ii => new fsData((Int32)ii)).ToList())
+                ).ToList() : null
+            ),
+            new fsData(
+                myType.MovingTypes != null ?
+                myType.MovingTypes.Select(i => 
                     new fsData(i.Select(ii => new fsData((Int32)ii)).ToList())
                 ).ToList() : null
             ),
@@ -173,9 +198,22 @@ public class ModeMatch3PlaygroundSavedataConverter : fsDirectConverter
                 }
             }
         }
+        if (dataItems[4].IsList)
+        {
+            var list2 = dataItems[4].AsList;
+            if (list2 != null && list2.Count != 0)
+            {
+                myType.MovingTypes = new GameItemMovingType[list2.Count][];
+                for (var i = 0; i < list2.Count; i++)
+                {
+                    var localList2 = list2[i].AsList;
+                    myType.MovingTypes[i] = localList2.Select(lli => (GameItemMovingType)lli.AsInt64).ToArray();
+                }
+            }
+        }
 
-        if (!dataItems[4].IsList) return fsResult.Success;
-        var progressBarData = dataItems[4].AsList;
+        if (!dataItems[5].IsList) return fsResult.Success;
+        var progressBarData = dataItems[5].AsList;
         if (myType.ProgressBarStateData == null)
             myType.ProgressBarStateData = new ProgressBarState();
         myType.ProgressBarStateData.Multiplier = (float)progressBarData[0].AsDouble;
@@ -209,6 +247,12 @@ public class RhombusPlaygroundSavedataConverter : fsDirectConverter
             new fsData(
                 myType.Items != null ?
                 myType.Items.Select(i => 
+                    new fsData(i.Select(ii => new fsData((Int32)ii)).ToList())
+                ).ToList() : null
+            ),
+            new fsData(
+                myType.MovingTypes != null ?
+                myType.MovingTypes.Select(i => 
                     new fsData(i.Select(ii => new fsData((Int32)ii)).ToList())
                 ).ToList() : null
             ),
@@ -248,9 +292,22 @@ public class RhombusPlaygroundSavedataConverter : fsDirectConverter
                 }
             }
         }
+        if (dataItems[5].IsList)
+        {
+            var list2 = dataItems[5].AsList;
+            if (list2 != null && list2.Count != 0)
+            {
+                myType.MovingTypes = new GameItemMovingType[list2.Count][];
+                for (var i = 0; i < list2.Count; i++)
+                {
+                    var localList2 = list2[i].AsList;
+                    myType.MovingTypes[i] = localList2.Select(lli => (GameItemMovingType)lli.AsInt64).ToArray();
+                }
+            }
+        }
 
-        if (!dataItems[5].IsList) return fsResult.Success;
-        var progressBarData = dataItems[5].AsList;
+        if (!dataItems[6].IsList) return fsResult.Success;
+        var progressBarData = dataItems[6].AsList;
         if (myType.ProgressBarStateData == null)
             myType.ProgressBarStateData = new ProgressBarState();
         myType.ProgressBarStateData.Multiplier = (float)progressBarData[0].AsDouble;

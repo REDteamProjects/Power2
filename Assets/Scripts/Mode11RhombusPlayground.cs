@@ -26,27 +26,44 @@ namespace Assets.Scripts
                 {
                     MaxInitialElementType = MaxType,
                     Items = new GameItemType[FieldSize][],
+                    MovingTypes = new GameItemMovingType[FieldSize][],
                     //PlaygroundStat = GetComponent<Game>().Stats,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
                     Difficulty = Game.Difficulty,
                     ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper}
                 };
                 if (Items == null)
+                {
                     sd.Items = null;
+                    sd.MovingTypes = null;
+                }
                 else
                 {
                     for (var i = 0; i < FieldSize; i++)
                     {
                         if (sd.Items[i] == null)
+                        {
                             sd.Items[i] = new GameItemType[Items[i].Length];
+                            sd.MovingTypes[i] = new GameItemMovingType[FieldSize];
+                        }
                         for (var j = 0; j < Items[i].Length; j++)
                         {
                             var gobj = Items[i][j] as GameObject;
 
                             if (gobj != null)
-                                sd.Items[i][j] = Items[i][j] != null && Items[i][j] != DisabledItem
-                                    ? gobj.GetComponent<GameItem>().Type
-                                    : (Items[i][j] == DisabledItem ? GameItemType.DisabledItem : GameItemType.NullItem);
+                            {
+                                if (Items[i][j] != null && Items[i][j] != DisabledItem)
+                                {
+                                    var gi = gobj.GetComponent<GameItem>();
+                                    sd.Items[i][j] = gi.Type;
+                                    sd.MovingTypes[i][j] = gi.MovingType;
+                                }
+                                else
+                                {
+                                    sd.Items[i][j] = (Items[i][j] == DisabledItem ? GameItemType.DisabledItem : GameItemType.NullItem);
+                                }
+
+                            }
                         }
                     }
                 }
@@ -122,7 +139,7 @@ namespace Assets.Scripts
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
                                 ? (sd.Items[i][j] == GameItemType.DisabledItem
                                 ? DisabledItem
-                                : GenerateGameItem(sd.Items[i][j], i, j, new Vector2(i % 2 == 1 ? -i : i, i)))
+                                : GenerateGameItem(sd.Items[i][j], i, j, new Vector2(i % 2 == 1 ? -i : i, i), false, null, null, sd.MovingTypes[i][j]))
                             : null;
                             switch (sd.Items[i][j])
                             {

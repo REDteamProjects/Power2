@@ -159,16 +159,16 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/GUI");
 
             _easyButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 0, 0), LanguageManager.Instance.GetTextValue("Newbie"), 50,
-                ((maximumLevel >= DifficultyLevel.easy) ? () => { Game.Difficulty = DifficultyLevel.easy; OnNavigationButtonClick(scene); } 
+                ((maximumLevel >= DifficultyLevel._easy) ? () => { Game.Difficulty = DifficultyLevel._easy; OnNavigationButtonClick(scene); } 
                 : (UnityAction)null));
             _mediumButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -80, 0), LanguageManager.Instance.GetTextValue("Player"), 50,
-                ((maximumLevel >= DifficultyLevel.medium) ? () => { Game.Difficulty = DifficultyLevel.medium; OnNavigationButtonClick(scene); }
+                ((maximumLevel >= DifficultyLevel._medium) ? () => { Game.Difficulty = DifficultyLevel._medium; OnNavigationButtonClick(scene); }
                 : (UnityAction)null));
             _hardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -160, 0), LanguageManager.Instance.GetTextValue("Fighter"), 50,
-                ((maximumLevel >= DifficultyLevel.hard) ? () => { Game.Difficulty = DifficultyLevel.hard; OnNavigationButtonClick(scene); }
+                ((maximumLevel >= DifficultyLevel._hard) ? () => { Game.Difficulty = DifficultyLevel._hard; OnNavigationButtonClick(scene); }
                 : (UnityAction)null));
             _veryhardButton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -240, 0), LanguageManager.Instance.GetTextValue("Psycho"), 50,
-                ((maximumLevel >= DifficultyLevel.veryhard) ? () => { Game.Difficulty = DifficultyLevel.veryhard; OnNavigationButtonClick(scene); }
+                ((maximumLevel >= DifficultyLevel._veryhard) ? () => { Game.Difficulty = DifficultyLevel._veryhard; OnNavigationButtonClick(scene); }
                 : (UnityAction)null));
         }
 

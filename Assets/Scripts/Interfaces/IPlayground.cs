@@ -60,6 +60,11 @@ namespace Assets.Scripts.Interfaces
         bool IsGameOver { get; set; }
 
         /// <summary>
+        /// Checks if field is mixing
+        /// </summary>
+        bool IsMixing { get;}
+
+        /// <summary>
         /// Distance from static GameItem position to position for moving
         /// </summary>
         float DeltaToMove { get; }

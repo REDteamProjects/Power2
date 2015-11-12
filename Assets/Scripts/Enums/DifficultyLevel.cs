@@ -7,9 +7,9 @@ namespace Assets.Scripts.Enums
 {
     public enum DifficultyLevel
     {
-        easy = 1,
-        medium = 3,
-        hard = 5,
-        veryhard = 7
+        _easy = 1,
+        _medium = 3,
+        _hard = 5,
+        _veryhard = 7
     }
 }

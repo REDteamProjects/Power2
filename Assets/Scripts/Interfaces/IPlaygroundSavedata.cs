@@ -17,6 +17,8 @@ namespace Assets.Scripts.Interfaces
 
         GameItemType[][] Items { get; set; }
 
+        GameItemMovingType[][] MovingTypes { get; set; }
+
         Int32 Score { get; set; }
 
         float CurrentPlaygroundTime { get; set; }

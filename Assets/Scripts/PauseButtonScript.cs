@@ -106,7 +106,7 @@ public class PauseButtonScript : MonoBehaviour
         if (pg == null) return;
         pg.ResetPlayground();
         pg.UpdateTime();
-        Game.Difficulty = Assets.Scripts.Enums.DifficultyLevel.easy;
+        Game.Difficulty = Assets.Scripts.Enums.DifficultyLevel._easy;
         SavedataHelper.SaveData(pg.SavedataObject);
         Application.LoadLevel(Application.loadedLevel);
         Vibration.Vibrate();
