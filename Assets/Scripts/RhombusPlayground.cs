@@ -590,6 +590,7 @@ namespace Assets.Scripts
             else
             {
                 LogFile.Message("Mix field...", true);
+                _isMixing = true;
                 if (showNoMovesLabel)
                 {
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
@@ -601,8 +602,6 @@ namespace Assets.Scripts
                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
                     }
                 }
-
-                _isMixing = true;
                 while (!CheckForPossibleMoves())
                 {
                     var toMixList = new List<object>();
