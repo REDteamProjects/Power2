@@ -156,7 +156,7 @@ namespace Assets.Scripts.Interfaces
         /// </summary>
         /// <param name="completeCurrent">Possible lines check is off</param>
         /// <param name="mixCurrent">Mix current field instead of generating new</param>
-        void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool showNoMovesLabel = true);
+        void GenerateField(bool completeCurrent = false, bool mixCurrent = false);
 
         /// <summary>
         /// Generate new visual item of random type

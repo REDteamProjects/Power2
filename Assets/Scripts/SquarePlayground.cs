@@ -613,7 +613,7 @@ namespace Assets.Scripts
                 MixTimeCounter -= Time.deltaTime;
                 if (MixTimeCounter <= 0)
                 {
-                    GenerateField(false, true, false);
+                    MixField();
                 }
             }
         }
@@ -1153,7 +1153,7 @@ namespace Assets.Scripts
                 GenerateField(true);              
         }
 
-        public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool showNoMovesLabel = true)
+        public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
         {
             if (!mixCurrent)
             {
@@ -1231,8 +1231,6 @@ namespace Assets.Scripts
             else
             {
                 LogFile.Message("Mix field...", true);
-                if (showNoMovesLabel)
-                {
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
                     {
@@ -1243,9 +1241,6 @@ namespace Assets.Scripts
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
-                }
-                else
-                    MixField();
                 
             }
             //if (!isNoLines && _callbackReady.WaitOne(1))
@@ -1253,7 +1248,7 @@ namespace Assets.Scripts
         }
 
 
-        private void MixField()
+        protected virtual void MixField()
         {
             _isMixing = true;
             while (!CheckForPossibleMoves())

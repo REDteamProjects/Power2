@@ -515,7 +515,7 @@ namespace Assets.Scripts
                 GenerateField(true);
         }
 
-        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool showNoMovesLabel = true)
+        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
         {
             LogFile.Message("Generating field...", true);
             if (!mixCurrent)
@@ -591,8 +591,6 @@ namespace Assets.Scripts
             {
                 LogFile.Message("Mix field...", true);
                 _isMixing = true;
-                if (showNoMovesLabel)
-                {
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
                     {
@@ -601,62 +599,67 @@ namespace Assets.Scripts
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -3),
                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
                     }
-                }
-                while (!CheckForPossibleMoves())
-                {
-                    var toMixList = new List<object>();
-                    for (var i = FieldSize - 1; i >= 0; i--)
-                    {
-                        for (var j = FieldSize - 1; j >= 0; j--)
-                        {
-                            if (Items[i][j] == null || Items[i][j] == DisabledItem)
-                                continue;
-                            var go = Items[i][j] as GameObject;
-                            if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
-                            toMixList.Add(Items[i][j]);
-                        }
-                    }
-                    for (var i = FieldSize - 1; i >= 0; i--)
-                    {
-                        for (var j = FieldSize - 1; j >= 0; j--)
-                        {
-                            if (Items[i][j] == null || Items[i][j] == DisabledItem)
-                                continue;
-                            var go = Items[i][j] as GameObject;
-                            if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
-                            var index = RandomObject.Next(0, toMixList.Count);
-                            Items[i][j] = toMixList[index];
-                            toMixList.RemoveAt(index);
-                        }
-                    }
-                }
-                var mixSpeed = Game.standartItemSpeed / 2;
+                
+            }
+        }
+        
+        protected override void MixField()
+        {
+            while (!CheckForPossibleMoves())
+            {
+                var toMixList = new List<object>();
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     for (var j = FieldSize - 1; j >= 0; j--)
                     {
                         if (Items[i][j] == null || Items[i][j] == DisabledItem)
                             continue;
-                        var gameObject1 = Items[i][j] as GameObject;
-                        if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
-                        var moving = gameObject1.GetComponent<GameItemMovingScript>();
-                        var toCell = GetCellCoordinates(i, j);
-                        CallbacksCount++;
-                        moving.MoveTo(toCell.x, toCell.y, mixSpeed, (item, result) =>
-                        {
-                            CallbacksCount--;
-                            if (!result) return;
-                            if (CallbacksCount == 0)
-                            {
-                                _isMixing = false;
-                                ClearChains();
-                            }
-                        });
+                        var go = Items[i][j] as GameObject;
+                        if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
+                        toMixList.Add(Items[i][j]);
+                    }
+                }
+                for (var i = FieldSize - 1; i >= 0; i--)
+                {
+                    for (var j = FieldSize - 1; j >= 0; j--)
+                    {
+                        if (Items[i][j] == null || Items[i][j] == DisabledItem)
+                            continue;
+                        var go = Items[i][j] as GameObject;
+                        if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
+                        var index = RandomObject.Next(0, toMixList.Count);
+                        Items[i][j] = toMixList[index];
+                        toMixList.RemoveAt(index);
                     }
                 }
             }
+            var mixSpeed = Game.standartItemSpeed / 2;
+            for (var i = FieldSize - 1; i >= 0; i--)
+            {
+                for (var j = FieldSize - 1; j >= 0; j--)
+                {
+                    if (Items[i][j] == null || Items[i][j] == DisabledItem)
+                        continue;
+                    var gameObject1 = Items[i][j] as GameObject;
+                    if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
+                    var moving = gameObject1.GetComponent<GameItemMovingScript>();
+                    var toCell = GetCellCoordinates(i, j);
+                    CallbacksCount++;
+                    moving.MoveTo(toCell.x, toCell.y, mixSpeed, (item, result) =>
+                    {
+                        CallbacksCount--;
+                        if (!result) return;
+                        if (CallbacksCount == 0)
+                        {
+                            _isMixing = false;
+                            ClearChains();
+                        }
+                    });
+                }
+            }
         }
-        
+
+
         public override bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
         {
             if (!AvailableMoveDirections.ContainsKey(mdir)) return false;
