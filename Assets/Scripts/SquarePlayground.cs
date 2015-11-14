@@ -1234,7 +1234,6 @@ namespace Assets.Scripts
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
                     {
-                        _isMixing = true;
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
                              LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, MixField, true);
@@ -1250,6 +1249,7 @@ namespace Assets.Scripts
 
         protected virtual void MixField()
         {
+            if (_isMixing) return;
             _isMixing = true;
             while (!CheckForPossibleMoves())
             {

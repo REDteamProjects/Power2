@@ -590,7 +590,6 @@ namespace Assets.Scripts
             else
             {
                 LogFile.Message("Mix field...", true);
-                _isMixing = true;
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
                     {
@@ -605,6 +604,8 @@ namespace Assets.Scripts
         
         protected override void MixField()
         {
+            if (_isMixing) return;
+            _isMixing = true;
             while (!CheckForPossibleMoves())
             {
                 var toMixList = new List<object>();
