@@ -92,9 +92,8 @@ namespace Assets.Scripts.Helpers
                 {
                     if (audio.isPlaying)
                         audio.Stop();
-                    if (rtrans.sizeDelta.y < _barYSize)
+                    if (rtrans.sizeDelta.y != _barYSize)
                     {
-                        if (_deltaBarYSize < 0)
                             _deltaBarYSize *= -1;
                         rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y + _deltaBarYSize);
                     }

@@ -195,7 +195,7 @@ namespace Assets.Scripts
             {
                 ChainCounter = 0;
                 if (TimeCounter < 0) TimeCounter = 0;
-                if (!CheckForPossibleMoves() && DropsCount == 0)
+                if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);

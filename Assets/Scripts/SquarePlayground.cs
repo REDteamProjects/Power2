@@ -46,6 +46,8 @@ namespace Assets.Scripts
         protected int XItemsCount;
         private bool _isGameOver;
         protected bool _isMixing = false;
+        protected bool _callClearChainsAfterExchange = false;
+        protected int _currentExchangeItemsCount = 0;
 
         public virtual IGameSettingsHelper Preferenses
         {
@@ -77,13 +79,13 @@ namespace Assets.Scripts
             get { return MaxType - FieldSize > GameItemType._1 ? MaxType - FieldSize : GameItemType._1; }
         }
 
-        protected int CallbacksCount
+        public int CallbacksCount
         {
             get
             {
                 return _callbacksCount;
             }
-            set
+            protected set
             {
                 if (value == _callbacksCount)
                 {
@@ -665,6 +667,9 @@ namespace Assets.Scripts
                     if (!result) return;
                     if (CallbacksCount == 0)
                         ClearChains();
+                    else
+                        if (CallbacksCount == _currentExchangeItemsCount)
+                            _callClearChainsAfterExchange = true;
                 }
             }, new Vector2(Item00.X, Item00.Y + GameItemSize / 2), new Vector3(toS, toS, 1f), isItemDirectionChangable,
             null, Power2Sounds.Drop);
@@ -809,7 +814,7 @@ namespace Assets.Scripts
             return list;
         }
 
-        public virtual int CheckForLine(int x, int y, LineOrientation orientation)
+        public virtual int CheckForLine(int x, int y, LineOrientation orientation, bool includeMovingItemsInLine = true)
         {
             var count = 1;
             if (Items[x][y] == null || Items[x][y] == DisabledItem) return count;
@@ -818,9 +823,12 @@ namespace Assets.Scripts
                 case LineOrientation.Horizontal:
                     for (var i = 1; x + i < FieldSize; i++)
                     {
-                        //var goItem = (Items[x + i][y] as GameObject);
-                        if (Items[x + i][y] == null || Items[x + i][y] == DisabledItem) break; //|| (
-                        //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
+                        if (Items[x + i][y] == null || Items[x + i][y] == DisabledItem) break;
+                        if(includeMovingItemsInLine)
+                        {
+                        var goItem = (Items[x + i][y] as GameObject);
+                        if( goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                        }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
@@ -839,9 +847,13 @@ namespace Assets.Scripts
                 case LineOrientation.Vertical:
                     for (var i = 1; y + i < FieldSize; i++)
                     {
-                        //var goItem = (Items[x][y + i] as GameObject);
-                        if (Items[x][y + i] == null || Items[x][y + i] == DisabledItem) break; // || (
-                        //goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)) break;
+                        
+                        if (Items[x][y + i] == null || Items[x][y + i] == DisabledItem) break;
+                        if(includeMovingItemsInLine)
+                        {
+                        var goItem = (Items[x][y + i] as GameObject);
+                        if(goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                        }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
@@ -878,7 +890,7 @@ namespace Assets.Scripts
                 }
                 ChainCounter = 0;
                 if (TimeCounter < 0) TimeCounter = 0;
-                if (!CheckForPossibleMoves() && DropsCount == 0)
+                if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);
@@ -919,7 +931,7 @@ namespace Assets.Scripts
 
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
                         var c = gobj.GetComponent<GameItemMovingScript>();
-                        if (c.IsMoving) continue;
+                        //if (c.IsMoving) continue;
                         var cX = l.X1;
                         var cY = j;
 
@@ -1163,8 +1175,7 @@ namespace Assets.Scripts
                 {
                     var generateOnY = 1;
                     var resCol = 0;
-                    if (Game.Difficulty > DifficultyLevel._easy && DropDownItemsCount < MaxAdditionalItemsCount)
-                    resCol = RandomObject.Next(0, FieldSize);
+                    //if (Game.Difficulty > DifficultyLevel._easy && DropDownItemsCount < MaxAdditionalItemsCount)
                     for (var j = FieldSize - 1; j >= 0; j--)
                     {
                         //var itemsJ = FieldSize - 1 - j;
@@ -1180,6 +1191,7 @@ namespace Assets.Scripts
                                 case DifficultyLevel._veryhard:
                                     if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                     {
+                                        resCol = RandomObject.Next(0, FieldSize);//it was in first cycle
                                         var resRow = RandomObject.Next(resCol, FieldSize);
                                         if (resCol == resRow)
                                         {
@@ -1197,28 +1209,28 @@ namespace Assets.Scripts
                             continue;
                         }
                         //Horizontal before
-                        if (i > 1 && CheckForLine(i - 2, j, LineOrientation.Horizontal) > 1)
+                        if (i > 1 && CheckForLine(i - 2, j, LineOrientation.Horizontal, false) > 1)
                         {
                             var o = Items[i - 1][j] as GameObject;
                             if (o != null)
                                 deniedList.Add(o.GetComponent<GameItem>().Type);
                         }
                         //Horizontal after
-                        if (i < FieldSize - 2 && CheckForLine(i + 1, j, LineOrientation.Horizontal) > 1)
+                        if (i < FieldSize - 2 && CheckForLine(i + 1, j, LineOrientation.Horizontal, false) > 1)
                         {
                             var gameObject1 = Items[i + 1][j] as GameObject;
                             if (gameObject1 != null)
                                 deniedList.Add(gameObject1.GetComponent<GameItem>().Type);
                         }
                         //Vertical before
-                        if (j > 1 && CheckForLine(i, j - 2, LineOrientation.Vertical) > 1)
+                        if (j > 1 && CheckForLine(i, j - 2, LineOrientation.Vertical, false) > 1)
                         {
                             var o1 = Items[i][j - 1] as GameObject;
                             if (o1 != null)
                                 deniedList.Add(o1.GetComponent<GameItem>().Type);
                         }
                         //Vertical after
-                        if (j < FieldSize - 2 && CheckForLine(i, j + 1, LineOrientation.Vertical) > 1)
+                        if (j < FieldSize - 2 && CheckForLine(i, j + 1, LineOrientation.Vertical, false) > 1)
                         {
                             var gameObject2 = Items[i][j + 1] as GameObject;
                             if (gameObject2 != null)
@@ -1250,7 +1262,14 @@ namespace Assets.Scripts
         protected virtual void MixField()
         {
             if (_isMixing) return;
+            var dis = GetComponent<DragItemScript>();
+            if (dis.IsDragging)
+            {
+                GetComponent<DragItemScript>().CancelDragging((s, e) => MixField());
+                return;
+            }
             _isMixing = true;
+            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
             while (!CheckForPossibleMoves())
             {
                 var toMixList = new List<object>();
@@ -1280,8 +1299,7 @@ namespace Assets.Scripts
                     }
                 }
             }
-            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
-            var mixSpeed = Game.standartItemSpeed / 2;
+            var mixSpeed = Game.standartItemSpeed / 3;
             for (var i = FieldSize - 1; i >= 0; i--)
             {
                 for (var j = FieldSize - 1; j >= 0; j--)
@@ -1326,6 +1344,7 @@ namespace Assets.Scripts
             {
                 item1.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
+                _currentExchangeItemsCount++;
                 item1.GetComponent<GameItemMovingScript>()
                     .MoveTo(position2.x,
                        position2.y,
@@ -1344,19 +1363,25 @@ namespace Assets.Scripts
                                         Game.standartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
-
+                                            _currentExchangeItemsCount--;
                                             if (exchangeCallback != null)
                                                 exchangeCallback(gameObject, true);
-                                            else if (CallbacksCount == 0)
+                                            if (CallbacksCount == 0 && _callClearChainsAfterExchange)
+                                            {
+                                                _callClearChainsAfterExchange = false;
                                                 ClearChains();
+                                            }
                                         });
                                 return;
                             }
-
+                            _currentExchangeItemsCount--;
                             if (exchangeCallback != null)
                                 exchangeCallback(gameObject, true);
-                            else if (CallbacksCount == 0)
+                            if (CallbacksCount == 0)
+                            {
+                                _callClearChainsAfterExchange = false;
                                 ClearChains();
+                            }
 
                         });
             }
@@ -1365,6 +1390,7 @@ namespace Assets.Scripts
             {
                 item2.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
+                _currentExchangeItemsCount++;
                 float? mtoX = position1.x;
                 float? mtoY = position1.y;
                 item2.GetComponent<GameItemMovingScript>()
@@ -1384,19 +1410,25 @@ namespace Assets.Scripts
                                         Game.standartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
-
+                                            _currentExchangeItemsCount--;
                                             if (exchangeCallback != null)
                                                 exchangeCallback(gameObject, true);
-                                            else if (CallbacksCount == 0)
+                                            if (CallbacksCount == 0 && _callClearChainsAfterExchange)
+                                            {
+                                                _callClearChainsAfterExchange = false;
                                                 ClearChains();
+                                            }
                                         });
                                 return;
                             }
-
+                            _currentExchangeItemsCount--;
                             if (exchangeCallback != null)
                                 exchangeCallback(gameObject, true);
-                            else if (CallbacksCount == 0)
+                            if (CallbacksCount == 0)
+                            {
+                                _callClearChainsAfterExchange = false;
                                 ClearChains();
+                            }
 
                         });
             }
@@ -1406,7 +1438,7 @@ namespace Assets.Scripts
         public virtual bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
         {
             if (!AvailableMoveDirections.ContainsKey(mdir)) return false;
-            if (col < 0 || row < 0 || col > FieldSize - 1 || row > Items[col].Length)
+            if (col < 0 || row < 0 || col >=  FieldSize || row >= Items[col].Length)
                 return false;
 
             var gameObject1 = Items[col][row] as GameObject;
@@ -1604,14 +1636,14 @@ namespace Assets.Scripts
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
 
-        public virtual void RevertMovedItem(int col, int row)
+        public virtual void RevertMovedItem(int col, int row, MovingFinishedDelegate callback = null)
         {
             var gobj = Items[col][row] as GameObject;
             var toCell = GetCellCoordinates(col, row);
             LogFile.Message("Revert item to place: " + toCell.x + " " + toCell.y, true);
             if (gobj == null) return;
             var gims = gobj.GetComponent<GameItemMovingScript>();
-            gims.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, null);
+            gims.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, callback);
         }
 
         public virtual void ResetPlayground()

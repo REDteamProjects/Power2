@@ -94,17 +94,17 @@ public class GameItemMovingScript : MonoBehaviour
         //var finalPoint = _destinations[0];
         //if (Math.Abs(transform.localPosition.y - CurrentDestination.Destination.y) > 0.01 || Math.Abs(transform.localPosition.x - CurrentDestination.Destination.x) > 0.01)
         //{
+            var movement = CurrentDestination.Movement * Time.deltaTime;
             if (!CurrentDestination.Visible && CurrentDestination.ScaleTo != Vector3.zero &&
                 /*(Math.Abs(transform.localPosition.y - CurrentDestination.ShowFrom.y) < 0.01 ||*/
-                 transform.localPosition.y <= CurrentDestination.ShowFrom.y)
-                //&&
-                /*(Math.Abs(CurrentDestination.ShowFrom.x - transform.localPosition.x) < 0.01 ||*/
-                // transform.localPosition.x >= CurrentDestination.ShowFrom.x)
+                     transform.localPosition.y + movement.y <= CurrentDestination.ShowFrom.y)
+            //&&
+            /*(Math.Abs(CurrentDestination.ShowFrom.x - transform.localPosition.x) < 0.01 ||*/
+            // transform.localPosition.x >= CurrentDestination.ShowFrom.x)
             {
                 transform.localScale = CurrentDestination.ScaleTo;
                 CurrentDestination.Visible = true;
             }
-            var movement = CurrentDestination.Movement * Time.deltaTime;
             /*new Vector3(
                 CurrentDestination.Speed.x * CurrentDestination.Direction.x,
                 CurrentDestination.Speed.y * CurrentDestination.Direction.y, 0f);

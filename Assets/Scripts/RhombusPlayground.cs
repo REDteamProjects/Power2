@@ -187,8 +187,8 @@ namespace Assets.Scripts
             LogFile.Message("Return lines: " + list.Count, true);
             return list;
         }
-        
-        public override int CheckForLine(int x, int y, LineOrientation orientation)
+
+        public override int CheckForLine(int x, int y, LineOrientation orientation, bool includeMovingItemsInLine = true)
         {
             var count = 1;
             if (Items[x][y] == null || Items[x][y] == DisabledItem) return count;
@@ -201,6 +201,11 @@ namespace Assets.Scripts
                     for (var i = 1; x + i < FieldSize && y + i < FieldSize; i++)
                     {
                         if (Items[x + i][y + i] == null || Items[x + i][y + i] == DisabledItem) break;
+                        if (includeMovingItemsInLine)
+                        {
+                            var goItem = (Items[x + i][y + i] as GameObject);
+                            if (goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                        }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
@@ -223,6 +228,11 @@ namespace Assets.Scripts
                     for (var i = 1; x + i < FieldSize && y - i >= 0; i++)
                     {
                         if (Items[x + i][y - i] == null || Items[x + i][y - i] == DisabledItem) break;
+                        if (includeMovingItemsInLine)
+                        {
+                            var goItem = (Items[x + i][y - i] as GameObject);
+                            if (goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                        }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
                         {
@@ -258,7 +268,7 @@ namespace Assets.Scripts
                 }
                 ChainCounter = 0;
                 if (TimeCounter < 0) TimeCounter = 0;
-                if (!CheckForPossibleMoves() && DropsCount == 0)
+                if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);
@@ -556,28 +566,28 @@ namespace Assets.Scripts
                             continue;
                         }
                         //Horizontal before
-                        if (i >= 2 && j < FieldSize - 2 && CheckForLine(i - 2, j + 2, LineOrientation.Horizontal) > 1)
+                        if (i >= 2 && j < FieldSize - 2 && CheckForLine(i - 2, j + 2, LineOrientation.Horizontal, false) > 1)
                         {
                             var o = Items[i - 1][j + 1] as GameObject;
                             if (o != null)
                                 deniedList.Add(o.GetComponent<GameItem>().Type);
                         }
                         //Horizontal after
-                        if (i < FieldSize - 2 && j > 1 && CheckForLine(i + 1, j - 1, LineOrientation.Horizontal) > 1)
+                        if (i < FieldSize - 2 && j > 1 && CheckForLine(i + 1, j - 1, LineOrientation.Horizontal, false) > 1)
                         {
                             var gameObject1 = Items[i + 1][j - 1] as GameObject;
                             if (gameObject1 != null)
                                 deniedList.Add(gameObject1.GetComponent<GameItem>().Type);
                         }
                         //Vertical before
-                        if (i > 1 && j > 1 && CheckForLine(i - 2, j - 2, LineOrientation.Vertical) > 1)
+                        if (i > 1 && j > 1 && CheckForLine(i - 2, j - 2, LineOrientation.Vertical, false) > 1)
                         {
                             var o1 = Items[i - 1][j - 1] as GameObject;
                             if (o1 != null)
                                 deniedList.Add(o1.GetComponent<GameItem>().Type);
                         }
                         //Vertical after
-                        if (i < FieldSize - 2 && j < FieldSize - 2 && CheckForLine(i + 1, j + 1, LineOrientation.Vertical) > 1)
+                        if (i < FieldSize - 2 && j < FieldSize - 2 && CheckForLine(i + 1, j + 1, LineOrientation.Vertical, false) > 1)
                         {
                             var gameObject2 = Items[i + 1][j + 1] as GameObject;
                             if (gameObject2 != null)
@@ -605,7 +615,14 @@ namespace Assets.Scripts
         protected override void MixField()
         {
             if (_isMixing) return;
+            var dis = GetComponent<DragItemScript>();
+            if (dis.IsDragging)
+            {
+                GetComponent<DragItemScript>().CancelDragging((s, e) => MixField());
+                return;
+            }
             _isMixing = true;
+            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
             while (!CheckForPossibleMoves())
             {
                 var toMixList = new List<object>();
@@ -634,7 +651,7 @@ namespace Assets.Scripts
                     }
                 }
             }
-            var mixSpeed = Game.standartItemSpeed / 2;
+            var mixSpeed = Game.standartItemSpeed / 3;
             for (var i = FieldSize - 1; i >= 0; i--)
             {
                 for (var j = FieldSize - 1; j >= 0; j--)
@@ -664,7 +681,7 @@ namespace Assets.Scripts
         public override bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
         {
             if (!AvailableMoveDirections.ContainsKey(mdir)) return false;
-            if (col < 0 || row < 0 || col > FieldSize - 1 || row > FieldSize - 1)
+            if (col < 0 || row < 0 || col >= FieldSize || row >= FieldSize)
                 return false;
             var direction = AvailableMoveDirections[mdir];
             var newX = col + (int)direction.x;
@@ -745,6 +762,7 @@ namespace Assets.Scripts
       
         public override bool CheckForPossibleMoves()
         {
+            Int32 count = 0;
             for (var col = 0; col < FieldSize; col++)
                 for (var row = 0; row < FieldSize; row++)
                 {

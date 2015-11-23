@@ -231,14 +231,14 @@ namespace Assets.Scripts
             return true;
         }
 
-        public override void RevertMovedItem(int col, int row)
+        public override void RevertMovedItem(int col, int row, MovingFinishedDelegate callback = null)
         {
             if (Items[col][row] == null || Items[col][row] == DisabledItem) return;
             var item1 = Items[col][row] as GameObject;
             if (item1 == null) return;
             var item = item1.GetComponent<GameItemMovingScript>();
             if (item.IsMoving) return;
-            base.RevertMovedItem(col, row);
+            base.RevertMovedItem(col, row, callback);
             //return;
             //var toPoint = GetCellCoordinates(col, row);
             //var cdc = item.CurrentDestination;
@@ -259,7 +259,7 @@ namespace Assets.Scripts
                 for (var row = 0; row < FieldSize; row++)
                 {
                     if (Items[col][row] == DisabledItem)
-                        return true;
+                         return true;
                 }
             return false;
         }

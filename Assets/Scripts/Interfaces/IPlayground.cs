@@ -10,6 +10,11 @@ namespace Assets.Scripts.Interfaces
     public interface IPlayground 
     {
         /// <summary>
+        /// Callbacks count
+        /// </summary>
+        int CallbacksCount { get; }
+
+        /// <summary>
         /// Game item prefab path
         /// </summary>
         String ItemPrefabName { get; }
@@ -122,7 +127,7 @@ namespace Assets.Scripts.Interfaces
         /// <param name="y">Y coordinate</param>
         /// <param name="orientation">Direction of check</param>
         /// <returns>Returns count of elements line</returns>
-        int CheckForLine(int x, int y, LineOrientation orientation);
+        int CheckForLine(int x, int y, LineOrientation orientation, bool includeMovingItemsInLine = true);
 
         /// <summary>
         /// Clearing chains and shifting game items
@@ -196,7 +201,7 @@ namespace Assets.Scripts.Interfaces
         /// </summary>
         /// <param name="col">Item coll coordinate</param>
         /// <param name="row">Item row coordinate</param>
-        void RevertMovedItem(int col, int row);
+        void RevertMovedItem(int col, int row, MovingFinishedDelegate callback = null);
     }
 }
 
