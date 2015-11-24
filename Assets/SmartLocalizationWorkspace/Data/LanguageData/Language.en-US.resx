@@ -178,4 +178,7 @@ R.E.D.team</value>
 	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
 		<value>f27725cbc4f929e43ada43dc93734941</value>
 	</data>
+	<data name="YouWinTitle" xml:space="preserve">
+		<value>You win!</value>
+	</data>
 </root>

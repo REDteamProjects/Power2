@@ -137,7 +137,7 @@ namespace Assets.Scripts.Interfaces
         /// <summary>
         /// Generating menu when game is over
         /// </summary>
-        void GenerateGameOverMenu();
+        void GenerateGameOverMenu(bool isWinning = false);
 
         /// <summary>
         /// Checking if it is available to move item to selected direction

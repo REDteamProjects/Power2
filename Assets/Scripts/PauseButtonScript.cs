@@ -16,6 +16,7 @@ public class PauseButtonScript : MonoBehaviour
     private static bool _pauseMenuActive;
     private static GameObject _pauseMenu;
     private static GameObject _soundButton;
+    private static GameObject _resetConfirmationMenu;
 
     public static bool PauseMenuActive
     {
@@ -98,7 +99,7 @@ public class PauseButtonScript : MonoBehaviour
             CreatePauseMenu();
     }
 
-    public void OnResetButtonClick()
+    public void OnResetConfirmButtonClick()
     {
         var middleground = GameObject.Find("Middleground");
         if (middleground == null) return;
@@ -112,6 +113,36 @@ public class PauseButtonScript : MonoBehaviour
         Vibration.Vibrate();
         DestroyPauseMenu();
         PauseMenuActive = false;
+    }
+
+    public void CreateResetConfirmationMenu()
+    {
+        Time.timeScale = 0F;
+
+        //var fg = GameObject.Find("/Foreground");
+
+        _resetConfirmationMenu = Instantiate(Resources.Load("Prefabs/ResetGameConfirmation")) as GameObject;
+
+        if (_pauseMenu != null)
+        {
+            _resetConfirmationMenu.transform.SetParent(_pauseMenu.transform);
+        }
+
+        _resetConfirmationMenu.transform.localScale = Vector3.one;
+        _resetConfirmationMenu.transform.localPosition = new Vector3(0, 0, -2);
+        var l = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+        l.transform.SetParent(_resetConfirmationMenu.transform);
+        l.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        if (l != null)
+        {
+            var pointsLabel = l.GetComponent<LabelShowing>();
+            pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, Game.maxLabelFontSize, Game.maxLabelFontSize, 1, Game.textFont);
+        }
+    }
+
+    public void DestroyResetConfirmationMenu()
+    {
+        Destroy(_resetConfirmationMenu);
     }
 
     public void OnToMainMenuButtonClick()

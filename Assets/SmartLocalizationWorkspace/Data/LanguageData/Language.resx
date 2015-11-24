@@ -128,6 +128,9 @@
 	<data name="ComboTitle" xml:space="preserve">
 		<value>Combo label text</value>
 	</data>
+	<data name="ConfirmationQuestion" xml:space="preserve">
+		<value>Are you sure?</value>
+	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
 		<value>Text of difficulty raised title</value>
 	</data>
@@ -173,7 +176,7 @@
 	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
 		<value>First manual texture</value>
 	</data>
-	<data name="ConfirmationQuestion" xml:space="preserve">
-		<value>Are you sure?</value>
+	<data name="YouWinTitle" xml:space="preserve">
+		<value>User win label text</value>
 	</data>
 </root>

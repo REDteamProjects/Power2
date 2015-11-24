@@ -243,7 +243,7 @@ namespace Assets.Scripts
                         break;
                     case GameItemType._2x:
                         IsGameOver = true;
-                        GenerateGameOverMenu();
+                        GenerateGameOverMenu(true);
                         break;
                 }
                 if ((int)MaxType > FieldSize)
@@ -326,7 +326,7 @@ namespace Assets.Scripts
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
 			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"),
-                GameColors.DefaultLight, GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize - 10, 2, null, true, null, true);
+                GameColors.DefaultLight, GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize - 20, 2, null, true, null, true);
         }
 
         private void Generate2xItem()
@@ -1022,7 +1022,7 @@ namespace Assets.Scripts
                     var toGi = toObj.GetComponent<GameItem>();
                     if(toGi.Type == MaxInitialElementType + 1)
                     MaxInitialElementType++;
-                    var newgobjtype = toGi.Type + 1;
+                    var newgobjtype = toGi.Type != GameItemType._2x ? toGi.Type + 1 : GameItemType._2x;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
                         new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
 
@@ -1079,7 +1079,7 @@ namespace Assets.Scripts
             return linesCount;
         }
 
-        public void GenerateGameOverMenu()
+        public void GenerateGameOverMenu(bool isWinning = false)
         {
             var fg = GameObject.Find("/Foreground");
 
@@ -1099,7 +1099,7 @@ namespace Assets.Scripts
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 10, -3),
-                LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, false, () =>
+                isWinning ? LanguageManager.Instance.GetTextValue("YouWinTitle") : LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, false, () =>
                 {
                     var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
                     if (gameOverMenu == null) return;
