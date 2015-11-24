@@ -403,7 +403,7 @@ namespace Assets.Scripts
                                 "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true);
                         }
                     }
-                    IsGameOver = newgobjtype == GameItemType._Gameover;
+                    IsGameOver = newgobjtype == GameItemType._2x;
                 }
                 lines.Remove(l);
                 if (linesCount == 1)

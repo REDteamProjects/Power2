@@ -36,6 +36,7 @@ namespace Assets.Scripts
         private int _chainCounter;
         private GameItemType _nextUpperLevelGameItemType = GameItemType.NullItem;
         private float _currentTime;
+        private int _minTypePlus = 0;
         //private Int32 _lowestNullItem;
 
         protected static readonly System.Random RandomObject = new System.Random();
@@ -180,21 +181,26 @@ namespace Assets.Scripts
             if (MaxType < GameItemType._7)
                 _nextUpperLevelGameItemType = GameItemType._7;
             else
+            {
                 switch (MaxType)
                 {
                     case GameItemType._7:
                         Game.Difficulty = DifficultyLevel._medium;
+                        _minTypePlus=1;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._10;
                         break;
                     case GameItemType._8:
                     case GameItemType._9:
+                        _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._10;
                         break;
                     case GameItemType._10:
                         Game.Difficulty = DifficultyLevel._hard;
+                        _minTypePlus=1;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         while (XItemsCount < MaxAdditionalItemsCount)
                         {
@@ -202,6 +208,7 @@ namespace Assets.Scripts
                             int row;
                             while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
                                    (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) &&
+                                   (Items[col][row] as GameObject).GetComponent<GameItem>().Type < GameItemType._2x &&
                                    !(Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
                             {
                             }
@@ -216,30 +223,36 @@ namespace Assets.Scripts
                         break;
                     case GameItemType._11:
                     case GameItemType._12:
+                        _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._13;
                         break;
                     case GameItemType._13:
                         Game.Difficulty = DifficultyLevel._veryhard;
+                        _minTypePlus=1;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         MixTimeCounter = MixTimeCounterSize;
-                        _nextUpperLevelGameItemType = GameItemType._Gameover;
+                        _nextUpperLevelGameItemType = GameItemType._2x;
                         break;
                     case GameItemType._14:
                     case GameItemType._15:
                     case GameItemType._16:
-                        _nextUpperLevelGameItemType = GameItemType._Gameover;
+                        _minTypePlus = 0;
+                        _nextUpperLevelGameItemType = GameItemType._2x;
                         break;
-                    case GameItemType._Gameover:
+                    case GameItemType._2x:
                         IsGameOver = true;
                         GenerateGameOverMenu();
                         break;
                 }
-            if ((int)MaxType > FieldSize)
-            {
-                DestroyElements(MinType);
-                //GenerateField();
+                if ((int)MaxType > FieldSize)
+                {
+                    DestroyElements(new List<GameItemType>() {MinType, MinType+_minTypePlus});
+                    //GenerateField();
+                }
             }
+            
         }
         
 
@@ -313,7 +326,25 @@ namespace Assets.Scripts
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
 			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"),
-                GameColors.DefaultLight, GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize - 4, 2, null, true, null, true);
+                GameColors.DefaultLight, GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize - 10, 2, null, true, null, true);
+        }
+
+        private void Generate2xItem()
+        {
+            int col;
+            int row;
+            while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
+                       (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1))
+            {
+                var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
+                if (gi.Type < GameItemType._2x && gi.Type != MaxType + 1 &&
+                !gi.GetComponent<GameItemScalingScript>().isScaling)
+                    break;
+            }
+            RemoveGameItem(col, row, (item, r) =>
+            {
+                Items[col][row] = GenerateGameItem(GameItemType._2x, col, row, Vector2.zero);
+            });
         }
 
         public void ShowMaxInitialElement()
@@ -344,9 +375,10 @@ namespace Assets.Scripts
             });
         }
 
-        public void DestroyElements(GameItemType withType)
+        public void DestroyElements(List<GameItemType> withTypes)
         {
-            LogFile.Message("Destroy elements above " + withType);
+            foreach(var t in withTypes)
+            LogFile.Message("Destroy elements above " + t);
             var pointsBank = 0;
             for (var i = FieldSize - 1; i >= 0; i--)
             {
@@ -356,7 +388,7 @@ namespace Assets.Scripts
                         var gobj = Items[i][j] as GameObject;
                         if (gobj == null) continue;
                         var item = gobj.GetComponent<GameItem>();
-                        if (item.Type == GameItemType.DisabledItem || item.Type == GameItemType.NullItem || item.Type > withType) continue;
+                        if (item.Type == GameItemType.DisabledItem || item.Type == GameItemType.NullItem || !withTypes.Contains(item.Type)) continue;
                         LogFile.Message("Item destroied: " + item.Type, true);
                         pointsBank += (int)Math.Pow(2, (double)item.Type);
                         RemoveGameItem(i, j);
@@ -578,7 +610,7 @@ namespace Assets.Scripts
 
         protected virtual void Update()
         {
-            if (IsGameOver) return;
+            if (IsGameOver || PauseButtonScript.PauseMenuActive) return;
 
             if (CallbacksCount == 0)
                 Drop();
@@ -680,7 +712,7 @@ namespace Assets.Scripts
         public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart)
         {
             //var minType = MaxType - FieldSize;
-            var newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 : (int)GameItemType._1, (int)MaxInitialElementType + 1);
+            var newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1, (int)MaxInitialElementType + 1);
             if (deniedTypes == null || deniedTypes.Count == 0)
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
@@ -1137,7 +1169,9 @@ namespace Assets.Scripts
                     //var gobj = Items[col][row] as GameObject;
                     if (o == null) continue;
                     var c = o.GetComponent<GameItemMovingScript>();
-                    if (c.IsMoving) continue;
+                    var dis = GetComponent<DragItemScript>();
+                    if (c.IsMoving || (dis.IsDragging && dis.TouchedItem.X == col && dis.TouchedItem.Y == row - 1)) 
+                        continue;
                     counterOfNotMovingItems++;
 					var newRow1 = row - 1;
                     //if (newRow1 > _lowestNullItem)
@@ -1150,7 +1184,7 @@ namespace Assets.Scripts
                     var row1 = newRow1;
                     c.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
                     {
-                        if (!c.IsMoving)
+                        //if (!c.IsMoving)
                             DropsCount--;
                         if (!result) return;
                         LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount, true);
@@ -1342,7 +1376,7 @@ namespace Assets.Scripts
 
             if (item1 != null)
             {
-                item1.GetComponent<GameItem>().IsTouched = false;
+                //item1.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
                 _currentExchangeItemsCount++;
                 item1.GetComponent<GameItemMovingScript>()
@@ -1388,7 +1422,7 @@ namespace Assets.Scripts
 
             if (item2 != null)
             {
-                item2.GetComponent<GameItem>().IsTouched = false;
+                //item2.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
                 _currentExchangeItemsCount++;
                 float? mtoX = position1.x;
@@ -1639,11 +1673,17 @@ namespace Assets.Scripts
         public virtual void RevertMovedItem(int col, int row, MovingFinishedDelegate callback = null)
         {
             var gobj = Items[col][row] as GameObject;
+            if (gobj == null) return;
             var toCell = GetCellCoordinates(col, row);
             LogFile.Message("Revert item to place: " + toCell.x + " " + toCell.y, true);
-            if (gobj == null) return;
             var gims = gobj.GetComponent<GameItemMovingScript>();
-            gims.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, callback);
+            CallbacksCount++;
+            gims.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (s,e)=>
+                {
+                    CallbacksCount--;
+                    if (callback != null)
+                        callback(s,e);
+                });
         }
 
         public virtual void ResetPlayground()

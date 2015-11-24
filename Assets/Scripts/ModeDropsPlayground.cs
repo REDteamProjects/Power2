@@ -470,7 +470,7 @@ namespace Assets.Scripts
                                     break;
                                 case GameItemType.DisabledItem:
                                 case GameItemType.NullItem:
-                                case GameItemType._Gameover:
+                                case GameItemType._2x:
                                     break;
                                 default:
                                     if (newGameItem != null)

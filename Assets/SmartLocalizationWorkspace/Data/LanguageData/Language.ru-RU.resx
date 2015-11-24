@@ -134,7 +134,7 @@ R.E.D.team</value>
 		<value>Вы уверены?</value>
 	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
-		<value>Уровень повышен</value>
+		<value>Сложность повышена</value>
 	</data>
 	<data name="DropsMode" xml:space="preserve">
 		<value>ПАДЕНИЯ</value>

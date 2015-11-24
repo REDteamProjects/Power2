@@ -134,7 +134,7 @@ R.E.D.team</value>
 		<value>ConfirmationQuestion</value>
 	</data>
 	<data name="DifficultyRaised" xml:space="preserve">
-		<value>Level up</value>
+		<value>Difficulty raised</value>
 	</data>
 	<data name="DropsMode" xml:space="preserve">
 		<value>DROPS</value>

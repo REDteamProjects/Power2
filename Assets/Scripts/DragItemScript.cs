@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 public class DragItemScript : MonoBehaviour
 {
-    private Point _touchedItem;
+    private Point _touchedItem = null;
     private Vector3 touchedItemOriginalPosition;
     private Vector3 touchOriginalPosition;
     private MoveDirections? touchDirection;
@@ -30,10 +30,8 @@ public class DragItemScript : MonoBehaviour
             if(_touchedItem != null)
             {
                 var pg = gameObject.GetComponent<IPlayground>();
-                if (pg != null)
-                {
-                    (pg.Items[_touchedItem.X][_touchedItem.Y] as GameObject).GetComponent<GameItem>().IsTouched = false;
-                }
+                var gobj = pg.Items[_touchedItem.X][_touchedItem.Y] as GameObject;
+                gobj.GetComponent<GameItem>().IsTouched = false;
             }
             _touchedItem = value;
         }
@@ -402,7 +400,6 @@ public class DragItemScript : MonoBehaviour
                     var secondX = TouchedItem.X + (int)pg.AvailableMoveDirections[touchDirection.Value].x;
                     var secondY = TouchedItem.Y - (int)pg.AvailableMoveDirections[touchDirection.Value].y;
                     //here we check touchDirection , select GameItem for exchange and call pg.GameItemsExchange(...)
-
                     exchangeSpeedMultiple += 1.7f;
                     LogFile.Message("From:" + firstX + " " + firstY, true);
                     LogFile.Message("To:" + secondX + " " + secondY, true);
@@ -411,6 +408,8 @@ public class DragItemScript : MonoBehaviour
                     LogFile.Message("Result:" + result, true);
 
 					var gobj = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
+                    touchDirection = null;
+                    TouchedItem = null;
                     /*if (gobj != null)
                     {
                         var gi = gobj.GetComponent<GameItem>();
@@ -461,8 +460,6 @@ public class DragItemScript : MonoBehaviour
                         //var gi = gobj1.GetComponent<GameItem>();
                         
                     }
-                    touchDirection = null;
-                    TouchedItem = null;
                 }
                 else
                 {
@@ -498,7 +495,7 @@ public class DragItemScript : MonoBehaviour
                         pg.Items[TouchedItem.X][TouchedItem.Y] == pg.DisabledItem)
                     {
                         TouchedItem = null;
-                        break;
+                        return;
                     };
                     var gobj = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
                     if (gobj != null)
@@ -508,8 +505,8 @@ public class DragItemScript : MonoBehaviour
                             var gims = gobj.GetComponent<GameItemMovingScript>();
                             if (gims.IsMoving)
                             {
-                                gims.ChangeSpeed(gims.CurrentDestination.Speed + 16);
                                 TouchedItem = null;
+                                gims.ChangeSpeed(gims.CurrentDestination.Speed + 16);
                                 //gobj.GetComponent<GameItem>().IsTouched = false;
                                 return;
                             }
@@ -525,8 +522,8 @@ public class DragItemScript : MonoBehaviour
                     //LogFile.Message("TouchPhase.Ended");
                     //if (Math.Abs(realTouchPosition.x - touchedItemOriginalPosition.x) > 0.000000000000000001 &&
                     // Math.Abs(realTouchPosition.y - touchedItemOriginalPosition.y) > 0.000000000000000001)  
+                    TouchedItem = null;
                 }
-                TouchedItem = null;
                 break;
         }
     }

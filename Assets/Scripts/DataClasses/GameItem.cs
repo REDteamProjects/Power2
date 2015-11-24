@@ -33,7 +33,6 @@ namespace Assets.Scripts.DataClasses
                 else
                 {
                     transform.localScale = new Vector3(transform.localScale.x - 0.2f, transform.localScale.y - 0.2f, transform.localScale.z);
-                    if(!GetComponent<GameItemMovingScript>().IsMoving)
                     transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z + 3); ;
                 } 
             }
