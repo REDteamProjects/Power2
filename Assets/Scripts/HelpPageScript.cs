@@ -26,8 +26,8 @@ public class HelpPageScript : MonoBehaviour
 
 	    var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserManual_0"));
         manual_0.transform.SetParent(GameObject.Find("MainHelpText").transform);
-        manual_0.transform.localScale = Vector3.one;//new Vector3(80, 80, 1);
-        manual_0.transform.localPosition = new Vector3(0, -300, 0);
+        manual_0.transform.localScale = new Vector3(1f, 0.4f, 1);
+        manual_0.transform.localPosition = new Vector3(0, -350, 0);
         //var modestext = GameObject.Find("GameModesHelp").GetComponent<Text>();
         //modestext.text = LanguageManager.Instance.GetTextValue("GameModesHelp");
 
@@ -67,10 +67,10 @@ public class HelpPageScript : MonoBehaviour
 
                 if (SelectedItem == main && Mathf.Abs(deltaY) > 0.01)
                 {
-                    if (mainStartPos.y + deltaY > 1024)
-                        baseY = 1024;
-                    else if (mainStartPos.y + deltaY < 240)
-                        baseY = 240;
+                    if (mainStartPos.y + deltaY > 1256)
+                        baseY = 1256;
+                    else if (mainStartPos.y + deltaY < 100)
+                        baseY = 200;
                     else
                         baseY = mainStartPos.y + deltaY;
 
