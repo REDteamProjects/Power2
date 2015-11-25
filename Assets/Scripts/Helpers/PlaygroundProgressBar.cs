@@ -84,6 +84,9 @@ namespace Assets.Scripts.Helpers
                 {
                     if (!audio.isPlaying && !PauseButtonScript.PauseMenuActive && GeneralSettings.SoundEnabled)
                         audio.Play();
+                    else
+                        if (PauseButtonScript.PauseMenuActive)
+                            audio.Stop();
                     rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y - _deltaBarYSize);
                     if (rtrans.sizeDelta.y == _maxBarYSize || rtrans.sizeDelta.y == _barYSize)
                     _deltaBarYSize *= -1;
@@ -94,8 +97,8 @@ namespace Assets.Scripts.Helpers
                         audio.Stop();
                     if (rtrans.sizeDelta.y != _barYSize)
                     {
-                            _deltaBarYSize *= -1;
-                        rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y + _deltaBarYSize);
+                            _deltaBarYSize = -Math.Abs(_deltaBarYSize);
+                            rtrans.sizeDelta = new Vector2(_progressBarBank, _barYSize);
                     }
                     else
                         rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);

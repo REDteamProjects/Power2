@@ -46,7 +46,7 @@ namespace Assets.Scripts
         protected int DropDownItemsCount;
         protected int XItemsCount;
         private bool _isGameOver;
-        protected bool _isMixing = false;
+        private bool _isMixing = false;
         protected bool _callClearChainsAfterExchange = false;
         protected int _currentExchangeItemsCount = 0;
 
@@ -71,6 +71,15 @@ namespace Assets.Scripts
         public bool IsMixing
         {
             get { return _isMixing; }
+
+            protected set
+            {
+                _isMixing = value;
+                if (_isMixing)
+                    GetComponent<PlaygroundProgressBar>().ProgressBarRun = false;
+                else
+                    GetComponent<PlaygroundProgressBar>().ProgressBarRun = true;
+            }
         }
         
         public int AdditionalItemCost { get { return 222; } }
@@ -380,6 +389,7 @@ namespace Assets.Scripts
             foreach(var t in withTypes)
             LogFile.Message("Destroy elements above " + t);
             var pointsBank = 0;
+            var dis = GetComponent<DragItemScript>();
             for (var i = FieldSize - 1; i >= 0; i--)
             {
                 for (var j = 0; j < FieldSize; j++)
@@ -391,7 +401,10 @@ namespace Assets.Scripts
                         if (item.Type == GameItemType.DisabledItem || item.Type == GameItemType.NullItem || !withTypes.Contains(item.Type)) continue;
                         LogFile.Message("Item destroied: " + item.Type, true);
                         pointsBank += (int)Math.Pow(2, (double)item.Type);
-                        RemoveGameItem(i, j);
+                        if (dis.IsDragging && dis.TouchedItem.X == i && dis.TouchedItem.Y == j)
+                            dis.CancelDragging((s,e)=>RemoveGameItem(i, j));
+                        else
+                            RemoveGameItem(i, j);
                         //Items[i][j] = null;
                         //Destroy(gobj);
                     }
@@ -1081,6 +1094,8 @@ namespace Assets.Scripts
 
         public void GenerateGameOverMenu(bool isWinning = false)
         {
+
+            SavedataHelper.RemoveData(SavedataObject);
             var fg = GameObject.Find("/Foreground");
 
             var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
@@ -1111,7 +1126,10 @@ namespace Assets.Scripts
                     gameOverMenu.transform.localScale = Vector3.one;
                     gameOverMenu.transform.localPosition = new Vector3(0, -70, 0);
                 });
+            if(!isWinning)
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.GameOver, false, true);
+            else
+                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false, true);
         }
 
         public virtual void Drop()
@@ -1222,7 +1240,7 @@ namespace Assets.Scripts
                             {
                                 case DifficultyLevel._medium:
                                 case DifficultyLevel._hard:
-                                case DifficultyLevel._veryhard:
+                                //case DifficultyLevel._veryhard:
                                     if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                     {
                                         resCol = RandomObject.Next(0, FieldSize);//it was in first cycle

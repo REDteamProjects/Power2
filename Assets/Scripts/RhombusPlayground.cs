@@ -544,7 +544,7 @@ namespace Assets.Scripts
                         {
                             case DifficultyLevel._medium:
 							case DifficultyLevel._hard:
-                            case DifficultyLevel._veryhard:
+                            //case DifficultyLevel._veryhard:
                                 if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                 {
                                     var resRow = RandomObject.Next(0, FieldSize);
@@ -614,14 +614,14 @@ namespace Assets.Scripts
         
         protected override void MixField()
         {
-            if (_isMixing) return;
+            if (IsMixing) return;
             var dis = GetComponent<DragItemScript>();
             if (dis.IsDragging)
             {
                 GetComponent<DragItemScript>().CancelDragging((s, e) => MixField());
                 return;
             }
-            _isMixing = true;
+            IsMixing = true;
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
             while (!CheckForPossibleMoves())
             {
@@ -669,7 +669,7 @@ namespace Assets.Scripts
                         if (!result) return;
                         if (CallbacksCount == 0)
                         {
-                            _isMixing = false;
+                            IsMixing = false;
                             ClearChains();
                         }
                     });
