@@ -1,11 +1,7 @@
 fileFormatVersion: 2
 guid: 59aeddd9e5022f54a89b3de7b3b256e9
-timeCreated: 1446670822
-licenseType: Free
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: manual_0
-    21300002: manual_1
+  fileIDToRecycleName: {}
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -50,27 +46,7 @@ TextureImporter:
   textureType: 5
   buildTargetSettings: []
   spriteSheet:
-    sprites:
-    - name: manual_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 383
-        width: 480
-        height: 1217
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: manual_1
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 480
-        height: 383
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+    sprites: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
