@@ -108,8 +108,8 @@ public class LabelShowing : MonoBehaviour {
                 var shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 shadow.transform.SetParent(transform.parent);
                 shadow.transform.localScale = transform.localScale;
-                shadow.ShowScalingLabel(new Vector3(position.x - (rotateAngle == 0 ? 3f : 0), position.y, position.z),
-                    text, textColor, textColor, animateFromSize, animateToSize, _step, font, destroyAfterAnimation, null, false, rotateAngle);
+                shadow.ShowShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? 3f : 0), position.y, position.z),
+                    text, textColor, textColor, animateFromSize, animateToSize, _step, font, destroyAfterAnimation, /*null,*/ false, rotateAngle);
                 animateFromSize += 1;
                 animateToSize += 1;
             }
@@ -129,4 +129,30 @@ public class LabelShowing : MonoBehaviour {
             _destroyTimeout = 0;
         _animationFinished = callback;
     }
+
+     private void ShowShadowLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null, 
+        bool destroyAfterAnimation = false, /*LabelAnimationFinishedDelegate callback = null,*/ bool toForeground = false, int rotateAngle = 0)
+     {
+         _step = step;
+         transform.localPosition = position;
+
+        if (rotateAngle != 0)
+            transform.RotateAround(transform.position, Vector3.forward, rotateAngle);
+
+        if(_labelText == null)
+        _labelText = GetComponent<Text>();
+
+        _labelText.color = textColor;
+        _labelText.fontSize = animateFromSize;
+        _scaleFontTo = animateToSize;
+        _labelText.font = font ? font : Game.textFont;
+        _labelText.text = text;
+        _destroyAfterAnimation = destroyAfterAnimation;
+        _scaleDifference = animateToSize - animateFromSize;
+        if(_scaleDifference != 0)
+        _destroyTimeout = _scaleDifference + 16;
+        else
+            _destroyTimeout = 0;
+
+     }
 }

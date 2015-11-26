@@ -131,8 +131,8 @@
 	<data name="ConfirmationQuestion" xml:space="preserve">
 		<value>Are you sure?</value>
 	</data>
-	<data name="DifficultyRaised" xml:space="preserve">
-		<value>Text of difficulty raised title</value>
+	<data name="_easy" xml:space="preserve">
+		<value>Text of easy difficulty title</value>
 	</data>
 	<data name="DropsMode" xml:space="preserve">
 		<value>Drops mode button text</value>
@@ -178,5 +178,14 @@
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>
+	</data>
+	<data name="_madium" xml:space="preserve">
+		<value>Text of medium difficulty title</value>
+	</data>
+	<data name="_hard" xml:space="preserve">
+		<value>Text of hard difficulty title</value>
+	</data>
+	<data name="_varyhard" xml:space="preserve">
+		<value>Text of veryhard difficulty title</value>
 	</data>
 </root>

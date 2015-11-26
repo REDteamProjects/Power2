@@ -215,18 +215,20 @@ public class GameItemMovingScript : MonoBehaviour
 
         float Xdir = 0, Ydir = 0, toX = transform.localPosition.x, toY = transform.localPosition.y, toZ = transform.localPosition.z;
         newMove.MovementOrientation = LineOrientation.Both;
+        var hasX = false;
         if (x.HasValue && Math.Abs(x.Value - transform.localPosition.x) > 0.01)
         {
             Xdir = transform.localPosition.x > x.Value ? -1 : 1;
             toX = x.Value;
             newMove.MovementOrientation = LineOrientation.Horizontal;
+            hasX = true;
         }
         if (y.HasValue && Math.Abs(y.Value - transform.localPosition.y) > 0.01)
         {
             Ydir = transform.localPosition.y > y.Value ? -1 : 1;
             toY = y.Value;
             newMove.MovementOrientation = LineOrientation.Vertical;
-            if (x.HasValue && Math.Abs(x.Value - transform.localPosition.x) > 0.01)
+            if (hasX)
             {
                 var X2dir = x.Value - transform.localPosition.x;
                 var Y2dir = y.Value - transform.localPosition.y;

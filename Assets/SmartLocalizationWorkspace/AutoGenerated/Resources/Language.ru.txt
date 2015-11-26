@@ -116,6 +116,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+	<data name="_easy" xml:space="preserve">
+		<value>Легкий</value>
+	</data>
+	<data name="_hard" xml:space="preserve">
+		<value>Средний</value>
+	</data>
+	<data name="_madium" xml:space="preserve">
+		<value>Сложный</value>
+	</data>
+	<data name="_varyhard" xml:space="preserve">
+		<value>Очень сложный</value>
+	</data>
 	<data name="6x6Mode" xml:space="preserve">
 		<value>6 НА 6</value>
 	</data>
@@ -132,9 +144,6 @@ R.E.D.team</value>
 	</data>
 	<data name="ConfirmationQuestion" xml:space="preserve">
 		<value>Вы уверены?</value>
-	</data>
-	<data name="DifficultyRaised" xml:space="preserve">
-		<value>Сложность повышена</value>
 	</data>
 	<data name="DropsMode" xml:space="preserve">
 		<value>ПАДЕНИЯ</value>

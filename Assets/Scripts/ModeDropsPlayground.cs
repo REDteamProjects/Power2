@@ -45,7 +45,7 @@ namespace Assets.Scripts
             {
                 var sd = new ModeDropsPlaygroundSavedata
                 {
-                    MaxInitialElementType = MaxType,
+                    MaxInitialElementType = this.MaxInitialElementType,//MaxType,
                     Items = new GameItemType[FieldSize][],
                     //PlaygroundStat = GetComponent<Game>().Stats,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
@@ -495,6 +495,7 @@ namespace Assets.Scripts
                         ShowMaxInitialElement();
                     GenerateField(true);
                     RisePoints(sd.Score);
+                    DifficultyRaisedGUI();
                     return;
                 }
             }
@@ -503,14 +504,14 @@ namespace Assets.Scripts
             //if (stat != null)
             //{
             Preferenses.GamesPlayed++;
-            if (Preferenses.CurrentItemType < MaxType)
-                Preferenses.CurrentItemType = MaxType;
+            if (Preferenses.CurrentItemType < MaxInitialElementType)
+                Preferenses.CurrentItemType = MaxInitialElementType;
 
 
             //}
             GenerateField();
             ShowMaxInitialElement();
-
+            DifficultyRaisedGUI();
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;  
             //var progressBar = ProgressBar;

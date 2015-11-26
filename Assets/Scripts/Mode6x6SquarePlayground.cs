@@ -29,7 +29,7 @@ namespace Assets.Scripts
             {
                 var sd = new Mode6x6SquarePlaygroundSavedata
                 {
-                    MaxInitialElementType = MaxType,
+                    MaxInitialElementType = this.MaxInitialElementType,//MaxType,
                     Items = new GameItemType[FieldSize][],
                     MovingTypes = new GameItemMovingType[FieldSize][],
                     //PlaygroundStat = GetComponent<Game>().Stats,
@@ -162,6 +162,7 @@ namespace Assets.Scripts
                     RisePoints(sd.Score);
 
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                    DifficultyRaisedGUI();
                     return;
                 }
             }
@@ -170,11 +171,12 @@ namespace Assets.Scripts
             //if (stat != null)
             //{
             Preferenses.GamesPlayed++;
-            if (Preferenses.CurrentItemType < MaxType)
-                Preferenses.CurrentItemType = MaxType;
+            if (Preferenses.CurrentItemType < MaxInitialElementType)
+                Preferenses.CurrentItemType = MaxInitialElementType;
             //}
             GenerateField();
             ShowMaxInitialElement();
+            DifficultyRaisedGUI();
             
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      

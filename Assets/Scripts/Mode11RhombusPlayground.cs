@@ -24,7 +24,7 @@ namespace Assets.Scripts
             {
                 var sd = new Mode11RhombusPlaygroundSavedata
                 {
-                    MaxInitialElementType = MaxType,
+                    MaxInitialElementType = this.MaxInitialElementType,//MaxType,
                     Items = new GameItemType[FieldSize][],
                     MovingTypes = new GameItemMovingType[FieldSize][],
                     //PlaygroundStat = GetComponent<Game>().Stats,
@@ -168,18 +168,20 @@ namespace Assets.Scripts
 
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
                     RisePoints(sd.Score);
+                    DifficultyRaisedGUI();
                     return;
                 }
             }
 
 
             Preferenses.GamesPlayed++;
-            if (Preferenses.CurrentItemType < MaxType)
-                Preferenses.CurrentItemType = MaxType;
+            if (Preferenses.CurrentItemType < MaxInitialElementType)
+                Preferenses.CurrentItemType = MaxInitialElementType;
 
 
             GenerateField();
             ShowMaxInitialElement();
+            DifficultyRaisedGUI();
         }
 
         public void OnDestroy()

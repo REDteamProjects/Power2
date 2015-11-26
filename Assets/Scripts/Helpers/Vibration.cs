@@ -95,9 +95,9 @@ public static class Vibration
     {
 #if UNITY_WINRT || UNITY_WP8
         WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(0));
-//#endif
-//#if UNITY_ANDROID && !UNITY_EDITOR
-//        return true;
+#endif
+#if UNITY_ANDROID && !UNITY_EDITOR
+        return true;
 #else
         return false;
 #endif

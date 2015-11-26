@@ -40,7 +40,7 @@ namespace Assets.Scripts
         //private Int32 _lowestNullItem;
 
         protected static readonly System.Random RandomObject = new System.Random();
-        protected GameItemType MaxType = GameItemType._3;
+        private GameItemType MaxType = GameItemType._3;
 
         protected const int MaxAdditionalItemsCount = 2;
         protected int DropDownItemsCount;
@@ -267,7 +267,7 @@ namespace Assets.Scripts
 
 
 
-        private void DifficultyRaisedGUI(bool withLabel = true)
+        protected void DifficultyRaisedGUI(bool withLabel = true)
         {
             var go = GameObject.Find("/Middleground/Background");
             var oits = go.GetComponent<ObjectImageTransparencyScript>();
@@ -334,8 +334,8 @@ namespace Assets.Scripts
             var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
-			difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue("DifficultyRaised"),
-                GameColors.DefaultLight, GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize - 20, 2, null, true, null, true);
+            difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
+                GameColors.DefaultLight, GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, null, true);
         }
 
         private void Generate2xItem()
@@ -1320,7 +1320,7 @@ namespace Assets.Scripts
                 GetComponent<DragItemScript>().CancelDragging((s, e) => MixField());
                 return;
             }
-            _isMixing = true;
+            IsMixing = true;
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
             while (!CheckForPossibleMoves())
             {
@@ -1370,7 +1370,7 @@ namespace Assets.Scripts
                         if (!result) return;
                         if (CallbacksCount == 0)
                         {
-                            _isMixing = false;
+                            IsMixing = false;
                             ClearChains();
                         }
                     });
