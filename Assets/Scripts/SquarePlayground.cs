@@ -507,7 +507,7 @@ namespace Assets.Scripts
             }
         }
 
-        public float TimeCounter
+        public float HintTimeCounter
         {
             get { return _timeCounter; }
             set { _timeCounter = value; }
@@ -606,7 +606,7 @@ namespace Assets.Scripts
                         var pointsLabel = o.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsLabel.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
-                            "+" + 222, Color.white, Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, Game.numbersFont, true);
+                            "+" + 222, Color.white, Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
                     }
                     RisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
@@ -628,8 +628,8 @@ namespace Assets.Scripts
             if (CallbacksCount == 0)
                 Drop();
 
-            if (!(TimeCounter >= 0)) return;
-            if (TimeCounter > HintDelayTime && _selectedPoint1 == null && _selectedPoint2 == null)
+            if (!(HintTimeCounter >= 0)) return;
+            if (HintTimeCounter > HintDelayTime && _selectedPoint1 == null && _selectedPoint2 == null)
             {
                 var parentGobj = Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] as GameObject;
                 if (parentGobj == null) return;
@@ -654,7 +654,7 @@ namespace Assets.Scripts
                 _selectedPoint2.transform.localScale = new Vector3(1.2f, 1.2f);
                 _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
-            TimeCounter += Time.deltaTime;
+            HintTimeCounter += Time.deltaTime;
             if (Game.Difficulty >= DifficultyLevel._veryhard)
             {
                 MixTimeCounter -= Time.deltaTime;
@@ -934,7 +934,7 @@ namespace Assets.Scripts
                     MaxInitialElementTypeRaisedActions();
                 }
                 ChainCounter = 0;
-                if (TimeCounter < 0) TimeCounter = 0;
+                if (HintTimeCounter < 0) HintTimeCounter = 0;
                 if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
@@ -944,7 +944,7 @@ namespace Assets.Scripts
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
-            TimeCounter = -1;
+            HintTimeCounter = -1;
 
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
@@ -1052,13 +1052,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, Game.numbersFont, true);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, Game.numbersFont, true);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
                         }
                     }
                 }

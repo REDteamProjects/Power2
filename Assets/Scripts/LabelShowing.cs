@@ -3,56 +3,70 @@ using System;
 using UnityEngine.UI;
 using Assets.Scripts;
 using Assets.Scripts.DataClasses;
+using Assets.Scripts.Enums;
 
 public class LabelShowing : MonoBehaviour {
 
+    private int _animateFromSize;
     private int _scaleFontTo;
-    private int _scaleDifference;
     private bool _destroyAfterAnimation;
-    private int _destroyTimeout;
+    private int _pauseTimeout;
     private LabelAnimationFinishedDelegate _animationFinished;
     private Text _labelText;
+    private ScaleState _scaleState = ScaleState._increase;
     private int _step = 1;
+    private LabelShowing Shadow = null;
 
 	// Update is called once per frame
 	void Update () {
-	    if (_destroyTimeout == 0) return;
 
-        if (_labelText.fontSize != _scaleFontTo && _destroyTimeout >= _scaleDifference)
-	    {
-	        /*if (labelText.fontSize > ScaleFontTo)
-	            labelText.fontSize--;
-	        else*/
+        switch(_scaleState)
+        {
+            case ScaleState._increase:
+                if (_labelText.fontSize >= _scaleFontTo)
+                {
+                    _scaleState = ScaleState._static;
+                    break;
+                }
                 _labelText.fontSize+=_step;
-	    }
-	    else
-	    {
-            
-	        if (_destroyAfterAnimation)
-	        {
-	            _destroyTimeout--;
-	            if (_destroyTimeout == 0)
-	            {
-	                Destroy(gameObject);
-	                _destroyAfterAnimation = false;
-	                if (_animationFinished == null) return;
-	                var callback = _animationFinished;
-	                _animationFinished = null;
-	                callback();
-	            }
-	            else
-	                if (_destroyTimeout < _scaleDifference)
-	                    _labelText.fontSize-=_step;
-	        }
-	        else
-	        {
-	            _destroyTimeout = 0;
-	            if (_animationFinished == null) return;
-	            var callback = _animationFinished;
-	            _animationFinished = null;
-	            callback();
-	        }
-	    }
+                if(Shadow != null)
+                Shadow._labelText.fontSize += _step;
+                return;
+            case ScaleState._static:
+                _pauseTimeout--;
+                if (_pauseTimeout <= 0)
+                    _scaleState = ScaleState._decrease;
+                return;
+            case ScaleState._decrease:
+                if (_destroyAfterAnimation)
+                {
+                    if(_labelText.fontSize > _animateFromSize)
+                    {
+                        _labelText.fontSize -= _step;
+                        if (Shadow != null)
+                            Shadow._labelText.fontSize -= _step;
+                    }
+                    else
+                    {
+                        Destroy(Shadow.gameObject);
+                        Destroy(gameObject);
+                        _destroyAfterAnimation = false;
+                        if (_animationFinished == null) return;
+                        var callback = _animationFinished;
+                        _animationFinished = null;
+                        callback();
+                    }
+                }
+                else
+                {
+                    if (_animationFinished == null) return;
+                    var callback = _animationFinished;
+                    _animationFinished = null;
+                    callback();
+                    _scaleState = ScaleState._none;
+                }
+                return;
+        }
 	}  
 
     public void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
@@ -82,7 +96,7 @@ public class LabelShowing : MonoBehaviour {
         }
 
         _step = step;
-        animateToSize += (animateToSize - animateFromSize) % _step;
+        //animateToSize += (animateToSize - animateFromSize) % _step;
 
         transform.localPosition = position;
 
@@ -91,12 +105,12 @@ public class LabelShowing : MonoBehaviour {
 
         if(_labelText == null)
         _labelText = GetComponent<Text>();
-        if (animateToSize < animateFromSize)
+        /*if (animateToSize < animateFromSize)
         {
             var to = animateFromSize;
             animateFromSize = animateToSize;
             animateToSize = to;
-        }
+        }*/
 
         if (textColor != shadowColor)
         {
@@ -104,12 +118,12 @@ public class LabelShowing : MonoBehaviour {
             
             if (scalingLabelObject != null)
             {
-                scalingLabelObject.name = name + "(Shadow)";
-                var shadow = scalingLabelObject.GetComponent<LabelShowing>();
-                shadow.transform.SetParent(transform.parent);
-                shadow.transform.localScale = transform.localScale;
-                shadow.ShowShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? 3f : 0), position.y, position.z),
-                    text, textColor, textColor, animateFromSize, animateToSize, _step, font, destroyAfterAnimation, /*null,*/ false, rotateAngle);
+                //scalingLabelObject.name = name + "(Shadow)";
+                Shadow = scalingLabelObject.GetComponent<LabelShowing>();
+                Shadow.transform.SetParent(transform.parent);
+                Shadow.transform.localScale = transform.localScale;
+                Shadow.ShowWIthShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? 3f : 0), position.y, position.z),
+                    text, textColor, textColor, animateFromSize, animateToSize, font, rotateAngle);
                 animateFromSize += 1;
                 animateToSize += 1;
             }
@@ -117,23 +131,17 @@ public class LabelShowing : MonoBehaviour {
         }
         else
             _labelText.color = textColor;
-        _labelText.fontSize = animateFromSize;
+        _animateFromSize = _labelText.fontSize = animateFromSize;
         _scaleFontTo = animateToSize;
         _labelText.font = font ? font : Game.textFont;
         _labelText.text = text;
         _destroyAfterAnimation = destroyAfterAnimation;
-        _scaleDifference = animateToSize - animateFromSize;
-        if(_scaleDifference != 0)
-        _destroyTimeout = _scaleDifference + 16;
-        else
-            _destroyTimeout = 0;
+        _pauseTimeout = 30 / _step;
         _animationFinished = callback;
     }
 
-     private void ShowShadowLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null, 
-        bool destroyAfterAnimation = false, /*LabelAnimationFinishedDelegate callback = null,*/ bool toForeground = false, int rotateAngle = 0)
+     private void ShowWIthShadowLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, int rotateAngle = 0)
      {
-         _step = step;
          transform.localPosition = position;
 
         if (rotateAngle != 0)
@@ -144,15 +152,7 @@ public class LabelShowing : MonoBehaviour {
 
         _labelText.color = textColor;
         _labelText.fontSize = animateFromSize;
-        _scaleFontTo = animateToSize;
         _labelText.font = font ? font : Game.textFont;
         _labelText.text = text;
-        _destroyAfterAnimation = destroyAfterAnimation;
-        _scaleDifference = animateToSize - animateFromSize;
-        if(_scaleDifference != 0)
-        _destroyTimeout = _scaleDifference + 16;
-        else
-            _destroyTimeout = 0;
-
      }
 }

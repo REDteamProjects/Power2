@@ -267,7 +267,7 @@ namespace Assets.Scripts
                     MaxInitialElementTypeRaisedActions();
                 }
                 ChainCounter = 0;
-                if (TimeCounter < 0) TimeCounter = 0;
+                if (HintTimeCounter < 0) HintTimeCounter = 0;
                 if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
@@ -278,7 +278,7 @@ namespace Assets.Scripts
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
-            TimeCounter = -1;
+            HintTimeCounter = -1;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
             var pointsBank = 0;
@@ -394,13 +394,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             pointsLabel.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true);
                         }
                     }
                     IsGameOver = newgobjtype == GameItemType._2x;

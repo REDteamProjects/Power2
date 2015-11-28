@@ -145,6 +145,7 @@ namespace Assets.Scripts
             {
                 textComponent.text = buttonText;
                 textComponent.fontSize = textSize;
+                textComponent.font = Game.textFont;
                 if (buttonColor.HasValue) textComponent.color = buttonColor.Value;
             }
 

@@ -196,7 +196,7 @@ namespace Assets.Scripts
             if (lines.Count == 0)
             {
                 ChainCounter = 0;
-                if (TimeCounter < 0) TimeCounter = 0;
+                if (HintTimeCounter < 0) HintTimeCounter = 0;
                 if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
@@ -206,7 +206,7 @@ namespace Assets.Scripts
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
-            TimeCounter = -1;
+            HintTimeCounter = -1;
 
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             CallbacksCount = lines.Count;
@@ -275,7 +275,7 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.ItemsColors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true,
+                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.ItemsColors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true,
                             null);
 
                     }

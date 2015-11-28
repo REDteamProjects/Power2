@@ -62,9 +62,11 @@ public class StatisticPageScript : MonoBehaviour
 
         var scoreText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Score").GetComponent<Text>();
         scoreText.text = pref.ScoreRecord.ToString(CultureInfo.InvariantCulture);
+        GameObject.Find("BodyShadow/Score").GetComponent<Text>().text = scoreText.text;
 
         var gamesText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) + */"Body/Game").GetComponent<Text>();
         gamesText.text = pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
+        GameObject.Find("BodyShadow/Game").GetComponent<Text>().text = gamesText.text;
 
         GenerateLevelTitle<TType>(pref.CurrentItemType);
 
@@ -72,11 +74,13 @@ public class StatisticPageScript : MonoBehaviour
         if (pref.LongestSession < 1)
         {
             timeText.text = "00:00";
+            GameObject.Find("BodyShadow/Time").GetComponent<Text>().text = timeText.text;
             return;
         }
 
         var time = new TimeSpan(0, 0, (int)(pref.LongestSession));
         timeText.text = (time.Hours > 0 ? time.Hours.ToString("D2") + ":" : "") + time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2");
+        GameObject.Find("BodyShadow/Time").GetComponent<Text>().text = timeText.text;
     }
 
     void Awake()
@@ -86,6 +90,7 @@ public class StatisticPageScript : MonoBehaviour
         var fg = GameObject.Find("/GUI");
         MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50,
                 () => CreateResetStatConfirmationMenu());
+        GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
     }
 
     void CreateResetStatConfirmationMenu()
