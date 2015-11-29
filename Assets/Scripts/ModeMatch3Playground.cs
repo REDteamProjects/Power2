@@ -151,7 +151,6 @@ namespace Assets.Scripts
                     RisePoints(sd.Score);
 
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    DifficultyRaisedGUI();
                     return;
                 }
             }
@@ -161,7 +160,6 @@ namespace Assets.Scripts
             Preferenses.GamesPlayed++;
             
             GenerateField();
-            DifficultyRaisedGUI();
                 //ShowMaxInitialElement();
                 //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
                 //DownPoint = a.transform.position.y;      
@@ -311,7 +309,7 @@ namespace Assets.Scripts
             LogFile.Message("All lines collected", true);
 
             if (!IsGameOver) return linesCount;
-            GenerateGameOverMenu();
+            GenerateGameOverMenu(true);
 
 			return linesCount;
         }

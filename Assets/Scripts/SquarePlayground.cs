@@ -253,7 +253,7 @@ namespace Assets.Scripts
                     case GameItemType._2x:
                         IsGameOver = true;
                         GenerateGameOverMenu(true);
-                        break;
+                        return;
                 }
                 if ((int)MaxType > FieldSize)
                 {

@@ -21,11 +21,11 @@ namespace Assets.Scripts
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
             var bg = GameObject.Find("BackgroundGrid");
-            if(bg != null)
-            bg.GetComponent<Image>().sprite =
-               Resources.LoadAll<Sprite>("SD/6x6Atlas")
-              .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
-
+            if (bg != null)
+            {
+                bg.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0]/*"SD/6x6Atlas"*/)
+                  .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
+            }
             /*var changeObject = GameObject.Find("StatsButton");
             if (changeObject != null)
             {
