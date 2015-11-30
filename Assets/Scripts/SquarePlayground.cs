@@ -49,10 +49,20 @@ namespace Assets.Scripts
         private bool _isMixing = false;
         protected bool _callClearChainsAfterExchange = false;
         protected int _currentExchangeItemsCount = 0;
+        protected float _moveTimerMultiple = 16;
 
         public virtual IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<SquarePlayground>.Preferenses; }
+        }
+
+        
+        public float MoveTimerMultiple
+        {
+            get
+            {
+                return _moveTimerMultiple;
+            }
         }
 
         public bool IsGameOver
@@ -434,10 +444,10 @@ namespace Assets.Scripts
 
         public Dictionary<MoveDirections, Vector2> AvailableMoveDirections { get; protected set; }
 
-        public int CurrentScore
+        public virtual int CurrentScore
         {
             get { return GetComponent<PointsUpdater>().CurrentScore; }
-            set
+            protected set
             {
                 var c = GetComponent<PointsUpdater>();
                 c.RisePoints(value);

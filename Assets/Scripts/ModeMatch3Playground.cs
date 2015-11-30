@@ -14,6 +14,38 @@ namespace Assets.Scripts
         private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.36F, Y = 12.06F, Z = -1 };
         private const int GameOverPoints = 65536;
 
+        public override int CurrentScore
+        {
+            get { return base.CurrentScore; }
+            protected set
+            {
+                base.CurrentScore = value;
+                switch(Game.Difficulty)
+                {
+                    case DifficultyLevel._easy:
+                        if (CurrentScore < 16384) return;
+                        Game.Difficulty = DifficultyLevel._medium;
+                        DifficultyRaisedGUI();
+                        return;
+                    case DifficultyLevel._medium:
+                        if (CurrentScore < 32768) return;
+                        Game.Difficulty = DifficultyLevel._hard;
+                        DifficultyRaisedGUI();
+                        return;
+                    case DifficultyLevel._hard:
+                        if (CurrentScore < 49152) return;
+                        Game.Difficulty = DifficultyLevel._veryhard;
+                        DifficultyRaisedGUI();
+                        return;
+                    case DifficultyLevel._veryhard:
+                        if (CurrentScore < GameOverPoints) return;
+                        IsGameOver = true;
+                        GenerateGameOverMenu(true);
+                        return;
+                }
+            }
+        }
+
         public override IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<ModeMatch3Playground>.Preferenses; }
@@ -88,7 +120,8 @@ namespace Assets.Scripts
         public override float GameItemSize { get { return 3.805f; } }
 
         ModeMatch3Playground()
-        { }
+        {          
+        }
 
         void OnLevelWasLoaded()
         {
@@ -98,6 +131,8 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            _moveTimerMultiple = 32;
+
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 
@@ -151,6 +186,7 @@ namespace Assets.Scripts
                     RisePoints(sd.Score);
 
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                    DifficultyRaisedGUI();
                     return;
                 }
             }
@@ -160,6 +196,7 @@ namespace Assets.Scripts
             Preferenses.GamesPlayed++;
             
             GenerateField();
+            DifficultyRaisedGUI();
                 //ShowMaxInitialElement();
                 //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
                 //DownPoint = a.transform.position.y;      
@@ -278,7 +315,6 @@ namespace Assets.Scripts
 
                     }
                 //}
-                IsGameOver = CurrentScore >= GameOverPoints;
                 CallbacksCount--;
                 lines.Remove(l);
 
@@ -308,10 +344,7 @@ namespace Assets.Scripts
             }
             LogFile.Message("All lines collected", true);
 
-            if (!IsGameOver) return linesCount;
-            GenerateGameOverMenu(true);
-
-			return linesCount;
+            return linesCount;
         }
 
     }

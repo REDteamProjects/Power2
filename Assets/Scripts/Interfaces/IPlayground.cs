@@ -40,6 +40,11 @@ namespace Assets.Scripts.Interfaces
         int FieldSize { get; }
 
         /// <summary>
+        /// Timer multiple
+        /// </summary>
+        float MoveTimerMultiple { get; }
+
+        /// <summary>
         /// Update time counter
         /// </summary>
         void UpdateTime();
@@ -77,7 +82,7 @@ namespace Assets.Scripts.Interfaces
         /// <summary>
         /// Current game score
         /// </summary>
-        int CurrentScore { get; set; }
+        int CurrentScore { get; }
 
         /// <summary>
         /// Absolute size of game item

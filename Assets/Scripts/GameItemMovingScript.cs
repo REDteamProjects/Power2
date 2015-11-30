@@ -116,10 +116,11 @@ public class GameItemMovingScript : MonoBehaviour
             case LineOrientation.Vertical:
             
                 //if (Math.Abs(transform.localPosition.y - finalPoint.Destination.y) < Math.Abs(movement.y))
-                if (CurrentDestination.Direction.y * (CurrentDestination.Destination.y - (transform.localPosition.y + movement.y)) <= 0/*Math.Abs(CurrentDestination.StartPoint.y - CurrentDestination.Destination.y) - Math.Abs(CurrentDestination.StartPoint.y - transform.localPosition.y) <= Math.Abs(movement.y)*/)
+                float y = CurrentDestination.Direction.y;
+                if (y * (y - (transform.localPosition.y + movement.y)) <= 0/*Math.Abs(CurrentDestination.StartPoint.y - CurrentDestination.Destination.y) - Math.Abs(CurrentDestination.StartPoint.y - transform.localPosition.y) <= Math.Abs(movement.y)*/)
                 {
                     //movement.y = destination.y - transform.localPosition.y;
-                    transform.localPosition = new Vector3(transform.localPosition.x, CurrentDestination.Destination.y, CurrentDestination.Destination.z);
+                    transform.localPosition = new Vector3(transform.localPosition.x, y, CurrentDestination.Destination.z);
                     CurrentMoveDone();
                     return;
                     //isMoving = false;
@@ -127,28 +128,30 @@ public class GameItemMovingScript : MonoBehaviour
             break;
             case LineOrientation.Horizontal:
                 //if (Math.Abs(transform.localPosition.x - finalPoint.Destination.x) < Math.Abs(movement.x))
-                if (CurrentDestination.Direction.x * (CurrentDestination.Destination.x - (transform.localPosition.x + movement.x)) <= 0/*Math.Abs(CurrentDestination.StartPoint.x - CurrentDestination.Destination.x) - Math.Abs(CurrentDestination.StartPoint.x - transform.localPosition.x) <= Math.Abs(movement.x)*/)
+                float x = CurrentDestination.Direction.x;
+                if (x * (x - (transform.localPosition.x + movement.x)) <= 0/*Math.Abs(CurrentDestination.StartPoint.x - CurrentDestination.Destination.x) - Math.Abs(CurrentDestination.StartPoint.x - transform.localPosition.x) <= Math.Abs(movement.x)*/)
                 {
                     //movement.x = destination.x - transform.localPosition.x;
-                    transform.localPosition = new Vector3(CurrentDestination.Destination.x, transform.localPosition.y, CurrentDestination.Destination.z);
+                    transform.localPosition = new Vector3(x, transform.localPosition.y, CurrentDestination.Destination.z);
                     CurrentMoveDone();
                     return;
                     //isMoving = false;
                 }
             break;
             case LineOrientation.Both:
-            
+                float xb = CurrentDestination.Direction.x;
+                float yb = CurrentDestination.Direction.y;
                 if (
                     /*Math.Abs(CurrentDestination.StartPoint.y - CurrentDestination.Destination.y) - Math.Abs(CurrentDestination.StartPoint.y - transform.localPosition.y) <= Math.Abs(movement.y) ||
                     Math.Abs(CurrentDestination.StartPoint.x - CurrentDestination.Destination.x) - Math.Abs(CurrentDestination.StartPoint.x - transform.localPosition.x) <= Math.Abs(movement.x)*/
-                    CurrentDestination.Direction.y * (CurrentDestination.Destination.y - (transform.localPosition.y + movement.y)) <= 0 ||
-                    CurrentDestination.Direction.x * (CurrentDestination.Destination.x - (transform.localPosition.x + movement.x)) <= 0
+                    yb * (yb - (transform.localPosition.y + movement.y)) <= 0 ||
+                    xb * (xb - (transform.localPosition.x + movement.x)) <= 0
                     )
                 {
                     //movement.x = destination.x - transform.localPosition.x;
                     //movement.y = destination.y - transform.localPosition.y;
 
-                    transform.localPosition = new Vector3(CurrentDestination.Destination.x, CurrentDestination.Destination.y, CurrentDestination.Destination.z);
+                    transform.localPosition = new Vector3(xb, yb, CurrentDestination.Destination.z);
                     CurrentMoveDone();
                     return;
                     //isMoving = false;
@@ -213,25 +216,25 @@ public class GameItemMovingScript : MonoBehaviour
 
         var newMove = new Destination2D();
 
-        float Xdir = 0, Ydir = 0, toX = transform.localPosition.x, toY = transform.localPosition.y, toZ = transform.localPosition.z;
+        float Xdir = 0, Ydir = 0, curX = transform.localPosition.x, toX = curX, curY = transform.localPosition.y, toY =curY, curZ = transform.localPosition.z,toZ = curZ;
         newMove.MovementOrientation = LineOrientation.Both;
         var hasX = false;
         if (x.HasValue && Math.Abs(x.Value - transform.localPosition.x) > 0.01)
         {
-            Xdir = transform.localPosition.x > x.Value ? -1 : 1;
+            Xdir = curX > x.Value ? -1 : 1;
             toX = x.Value;
             newMove.MovementOrientation = LineOrientation.Horizontal;
             hasX = true;
         }
         if (y.HasValue && Math.Abs(y.Value - transform.localPosition.y) > 0.01)
         {
-            Ydir = transform.localPosition.y > y.Value ? -1 : 1;
+            Ydir = curY > y.Value ? -1 : 1;
             toY = y.Value;
             newMove.MovementOrientation = LineOrientation.Vertical;
             if (hasX)
             {
-                var X2dir = x.Value - transform.localPosition.x;
-                var Y2dir = y.Value - transform.localPosition.y;
+                var X2dir = x.Value - curX;
+                var Y2dir = y.Value - curY;
                 if (Math.Abs(X2dir) > Math.Abs(Y2dir))
                     Ydir = Y2dir / Math.Abs(X2dir);
                 else
@@ -240,11 +243,14 @@ public class GameItemMovingScript : MonoBehaviour
             }
             //newMove.MovementOrientation = newMove.MovementOrientation == LineOrientation.Both ? LineOrientation.Vertical : LineOrientation.Both;
         }
+        else
+            if (!hasX)
+                return;
         newMove.Direction = new Vector2(Xdir, Ydir);
         newMove.Destination = new Vector3(toX, toY, toZ);
-        newMove.StartPoint = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+        newMove.StartPoint = new Vector3(curX, curY, curZ);
         newMove.Speed = movingSpeed;
-        newMove.Movement = new Vector3(newMove.Speed * newMove.Direction.x, newMove.Speed * newMove.Direction.y, 0f);
+        newMove.Movement = new Vector3(newMove.Speed * Xdir, newMove.Speed * Ydir, 0f);
         newMove.ShowFrom = showFrom.HasValue ? showFrom.Value : Vector2.zero;
         newMove.ScaleTo = scaleTo.HasValue ? scaleTo.Value : Vector3.zero;
         newMove.MoveSound = moveSound;

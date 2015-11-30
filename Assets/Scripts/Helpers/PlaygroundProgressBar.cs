@@ -4,6 +4,7 @@ using Assets.Scripts.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 using Assets.Scripts.DataClasses;
+using Assets.Scripts.Interfaces;
 
 namespace Assets.Scripts.Helpers
 {
@@ -13,7 +14,7 @@ namespace Assets.Scripts.Helpers
         private GameObject _progressBar;
         private GameObject _progressBarLine;
         private float _moveTimerMultiple = 16;
-        private float _moveTimerMultipleUpper = 30;
+        private float _moveTimerMultipleUpper = 32;
         private float _progressBarBank = -1;
         private float _progressBarBankUpper;
         private float _maxBarYSize = 0;
@@ -50,7 +51,9 @@ namespace Assets.Scripts.Helpers
             {
                 rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
             }
-
+            var pg = gameObject.GetComponent<IPlayground>();
+            _moveTimerMultiple = pg.MoveTimerMultiple;
+            _moveTimerMultipleUpper = _moveTimerMultiple * 2;
             ProgressBarRun = true;
         }
 
