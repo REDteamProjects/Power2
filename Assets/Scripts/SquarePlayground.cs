@@ -40,7 +40,7 @@ namespace Assets.Scripts
         //private Int32 _lowestNullItem;
 
         protected static readonly System.Random RandomObject = new System.Random();
-        private GameItemType MaxType = GameItemType._3;
+        protected GameItemType MaxType = GameItemType._3;
 
         protected const int MaxAdditionalItemsCount = 2;
         protected int DropDownItemsCount;

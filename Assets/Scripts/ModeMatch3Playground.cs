@@ -121,7 +121,7 @@ namespace Assets.Scripts
                 new System.Object[FieldSize],
                 new System.Object[FieldSize]
             };
-            MaxInitialElementType = GameItemType._8;
+            MaxType = GameItemType._7;
 
             IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata {Difficulty = Game.Difficulty};
             if (SavedataHelper.IsSaveDataExist(sd))
@@ -273,7 +273,7 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.ItemsColors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true,
+                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true,
                             null);
 
                     }
