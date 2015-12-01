@@ -26,7 +26,7 @@ namespace Assets.Scripts
         private RealPoint _item00;
         private float _timeCounter = -1;
         private float _mixTimeCounter = -1;
-        private const float MixTimeCounterSize = 16; //every 16 seconds field mixes in veryhard difficulty mode
+        protected const float MixTimeCounterSize = 16; //every 16 seconds field mixes in veryhard difficulty mode
         //private float _moveTimer = 8;
         //private float _moveTimerMultiple = 10;
         private GameObject _selectedPoint1;
@@ -226,9 +226,9 @@ namespace Assets.Scripts
                             int col;
                             int row;
                             while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
-                                   (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) &&
-                                   (Items[col][row] as GameObject).GetComponent<GameItem>().Type < GameItemType._2x &&
-                                   !(Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
+                                   (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) ||
+                                   (Items[col][row] as GameObject).GetComponent<GameItem>().Type >= GameItemType._2x ||
+                                   (Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
                             {
                             }
                             RemoveGameItem(col, row, (item, r) =>

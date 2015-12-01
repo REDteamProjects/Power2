@@ -120,12 +120,12 @@
 		<value>Easy</value>
 	</data>
 	<data name="_hard" xml:space="preserve">
-		<value>Medium</value>
-	</data>
-	<data name="_madium" xml:space="preserve">
 		<value>Hard</value>
 	</data>
-	<data name="_varyhard" xml:space="preserve">
+	<data name="_medium" xml:space="preserve">
+		<value>Medium</value>
+	</data>
+	<data name="_veryhard" xml:space="preserve">
 		<value>Very hard</value>
 	</data>
 	<data name="6x6Mode" xml:space="preserve">

@@ -53,7 +53,7 @@ namespace Assets.Scripts.Helpers
             }
             var pg = gameObject.GetComponent<IPlayground>();
             _moveTimerMultiple = pg.MoveTimerMultiple;
-            _moveTimerMultipleUpper = _moveTimerMultiple * 2;
+            _moveTimerMultipleUpper = _moveTimerMultiple * 1.5f;
             ProgressBarRun = true;
         }
 

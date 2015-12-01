@@ -15,6 +15,7 @@ public class LabelShowing : MonoBehaviour {
     private Text _labelText;
     private ScaleState _scaleState = ScaleState._increase;
     private int _step = 1;
+    private int _currentFontSize;
     private LabelShowing Shadow = null;
 
 	// Update is called once per frame
@@ -23,14 +24,18 @@ public class LabelShowing : MonoBehaviour {
         switch(_scaleState)
         {
             case ScaleState._increase:
-                if (_labelText.fontSize >= _scaleFontTo)
+                if (_currentFontSize >= _scaleFontTo)
                 {
                     _scaleState = ScaleState._static;
                     break;
                 }
-                _labelText.fontSize+=_step;
-                if(Shadow != null)
-                Shadow._labelText.fontSize += _step;
+                _currentFontSize += _step;
+                _labelText.fontSize = _currentFontSize;
+                if (Shadow != null)
+                {
+                    Shadow._currentFontSize += _step;
+                    Shadow._labelText.fontSize = Shadow._currentFontSize;
+                }
                 return;
             case ScaleState._static:
                 _pauseTimeout--;
@@ -40,11 +45,15 @@ public class LabelShowing : MonoBehaviour {
             case ScaleState._decrease:
                 if (_destroyAfterAnimation)
                 {
-                    if(_labelText.fontSize > _animateFromSize)
+                    if (_currentFontSize > _animateFromSize)
                     {
-                        _labelText.fontSize -= _step;
+                        _currentFontSize -= _step;
+                        _labelText.fontSize = _currentFontSize;
                         if (Shadow != null)
-                            Shadow._labelText.fontSize -= _step;
+                        {
+                            Shadow._currentFontSize -= _step;
+                            Shadow._labelText.fontSize = Shadow._currentFontSize;
+                        }
                     }
                     else
                     {
@@ -131,7 +140,7 @@ public class LabelShowing : MonoBehaviour {
         }
         else
             _labelText.color = textColor;
-        _animateFromSize = _labelText.fontSize = animateFromSize;
+        _labelText.fontSize = _currentFontSize =_animateFromSize = animateFromSize;
         _scaleFontTo = animateToSize;
         _labelText.font = font ? font : Game.textFont;
         _labelText.text = text;
@@ -151,7 +160,7 @@ public class LabelShowing : MonoBehaviour {
         _labelText = GetComponent<Text>();
 
         _labelText.color = textColor;
-        _labelText.fontSize = animateFromSize;
+        _labelText.fontSize = _currentFontSize = animateFromSize;
         _labelText.font = font ? font : Game.textFont;
         _labelText.text = text;
      }

@@ -48,15 +48,15 @@ public class StatisticPageScript : MonoBehaviour
         var constructorInfo = typeSaveDataObject.GetConstructor(Type.EmptyTypes);
         if (constructorInfo == null) return;
         var sd = (IPlaygroundSavedata)constructorInfo.Invoke(null);
+        //SavedataHelper.LoadData(ref sd);
+
+        SelectedItem = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10));
 
         if (!SavedataHelper.IsSaveDataExist(sd))
         {
             GenerateLevelTitle<TType>(GameItemType.DisabledItem);
             return;
         }
-        //SavedataHelper.LoadData(ref sd);
-
-        SelectedItem = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10));
 
         var pref = GameSettingsHelper<TType>.Preferenses;
 

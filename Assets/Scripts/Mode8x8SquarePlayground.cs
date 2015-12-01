@@ -91,6 +91,8 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            _moveTimerMultiple = 24;
+
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 

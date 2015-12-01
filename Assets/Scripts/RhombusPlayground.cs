@@ -599,20 +599,21 @@ namespace Assets.Scripts
             }
             else
             {
-                LogFile.Message("Mix field...", true);
+                    LogFile.Message("Mix field...", true);
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
-                        noMovesLabel.transform.SetParent(transform);
-                        noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -3),
-                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, true, null, true);
+                        noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
+                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, MixField, true);
+                        //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
+                        //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
                 
             }
         }
         
-        protected override void MixField()
+        /*protected override void MixField()
         {
             if (IsMixing) return;
             var dis = GetComponent<DragItemScript>();
@@ -660,6 +661,7 @@ namespace Assets.Scripts
                         continue;
                     var gameObject1 = Items[i][j] as GameObject;
                     if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
+
                     var moving = gameObject1.GetComponent<GameItemMovingScript>();
                     var toCell = GetCellCoordinates(i, j);
                     CallbacksCount++;
@@ -675,7 +677,8 @@ namespace Assets.Scripts
                     });
                 }
             }
-        }
+            MixTimeCounter = MixTimeCounterSize;
+        }*/
 
 
         public override bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
