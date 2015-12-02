@@ -76,7 +76,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 11; } }
 
-        public override float GameItemSize { get { return 4.95f; } }
+        public override float GameItemSize { get { return 4.01f; } }
 
         //public override GameItemType MaxInitialElementType
         //{

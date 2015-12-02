@@ -345,7 +345,7 @@ namespace Assets.Scripts
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
             difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
-                GameColors.DefaultLight, GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, null, true);
+                GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, null, true);
         }
 
         private void Generate2xItem()

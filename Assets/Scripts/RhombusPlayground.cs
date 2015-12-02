@@ -16,7 +16,7 @@ namespace Assets.Scripts
 
         public override float ScaleMultiplyer
         {
-            get { return 4.95f; }
+            get { return 4.01f; }// 4.95f; }
             //get { return 1; }
         }
 
@@ -53,7 +53,8 @@ namespace Assets.Scripts
         
         public override Vector3 GetCellCoordinates(int col, int row)
         {
-            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.0625;
+            //var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.0625;
+            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.19;
             var roundedX = Math.Round(Item00.X + col * halfItem, 2);
             var roundedY = Math.Round(Item00.Y - row * halfItem, 2);
             return new Vector3((float)roundedX, (float)roundedY, Item00.Z);
@@ -551,7 +552,7 @@ namespace Assets.Scripts
                                     if (resCol == resRow)
                                     {
                                         Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
-                                        (Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
+                                        //(Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
                                         DropDownItemsCount++;
                                         generateOnX++;
                                         continue;
@@ -612,73 +613,7 @@ namespace Assets.Scripts
                 
             }
         }
-        
-        /*protected override void MixField()
-        {
-            if (IsMixing) return;
-            var dis = GetComponent<DragItemScript>();
-            if (dis.IsDragging)
-            {
-                GetComponent<DragItemScript>().CancelDragging((s, e) => MixField());
-                return;
-            }
-            IsMixing = true;
-            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.MixField, false);
-            while (!CheckForPossibleMoves())
-            {
-                var toMixList = new List<object>();
-                for (var i = FieldSize - 1; i >= 0; i--)
-                {
-                    for (var j = FieldSize - 1; j >= 0; j--)
-                    {
-                        if (Items[i][j] == null || Items[i][j] == DisabledItem)
-                            continue;
-                        var go = Items[i][j] as GameObject;
-                        if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
-                        toMixList.Add(Items[i][j]);
-                    }
-                }
-                for (var i = FieldSize - 1; i >= 0; i--)
-                {
-                    for (var j = FieldSize - 1; j >= 0; j--)
-                    {
-                        if (Items[i][j] == null || Items[i][j] == DisabledItem)
-                            continue;
-                        var go = Items[i][j] as GameObject;
-                        if (go == null || go.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
-                        var index = RandomObject.Next(0, toMixList.Count);
-                        Items[i][j] = toMixList[index];
-                        toMixList.RemoveAt(index);
-                    }
-                }
-            }
-            var mixSpeed = Game.standartItemSpeed / 3;
-            for (var i = FieldSize - 1; i >= 0; i--)
-            {
-                for (var j = FieldSize - 1; j >= 0; j--)
-                {
-                    if (Items[i][j] == null || Items[i][j] == DisabledItem)
-                        continue;
-                    var gameObject1 = Items[i][j] as GameObject;
-                    if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) continue;
-
-                    var moving = gameObject1.GetComponent<GameItemMovingScript>();
-                    var toCell = GetCellCoordinates(i, j);
-                    CallbacksCount++;
-                    moving.MoveTo(toCell.x, toCell.y, mixSpeed, (item, result) =>
-                    {
-                        CallbacksCount--;
-                        if (!result) return;
-                        if (CallbacksCount == 0)
-                        {
-                            IsMixing = false;
-                            ClearChains();
-                        }
-                    });
-                }
-            }
-            MixTimeCounter = MixTimeCounterSize;
-        }*/
+       
 
 
         public override bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
