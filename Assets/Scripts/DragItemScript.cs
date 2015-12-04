@@ -177,8 +177,7 @@ public class DragItemScript : MonoBehaviour
                             if (gobj == null) continue;
                             //var gobjPosition = new Vector2(gobj.transform.localPosition.x, gobj.transform.localPosition.y);
 
-                            var gobjCollider = gobj.GetComponent<BoxCollider2D>();
-                            var half = gobjCollider.size.x / 2;
+                            var half = gobj.GetComponent<BoxCollider2D>().size.x / 2;
                             if ((!(realTouchPosition.x > gobj.transform.localPosition.x - half)) ||
                                 (!(realTouchPosition.x < gobj.transform.localPosition.x + half)) ||
                                 (!(realTouchPosition.y > gobj.transform.localPosition.y - half)) ||
@@ -186,7 +185,7 @@ public class DragItemScript : MonoBehaviour
 
                             var gims = gobj.GetComponent<GameItemMovingScript>();
                             var gi = gobj.GetComponent<GameItem>();
-                            if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) return;//here was continue;
+                            if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
 
                             gi.IsTouched = true;
                             TouchedItem = new Point { X = col, Y = row };

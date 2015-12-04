@@ -50,14 +50,9 @@ public class PauseButtonScript : MonoBehaviour
         Time.timeScale = 0F;
 
         var fg = GameObject.Find("/Foreground");
-
+        if (fg == null) return;
         _pauseMenu = Instantiate(Resources.Load("Prefabs/PauseFullMenu")) as GameObject;
-
-        if (fg != null)
-        {
-            _pauseMenu.transform.SetParent(fg.transform);
-        }
-
+        _pauseMenu.transform.SetParent(fg.transform);
         _pauseMenu.transform.localScale = Vector3.one;
         _pauseMenu.transform.localPosition = new Vector3(0, 0, -2);
 

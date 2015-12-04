@@ -137,6 +137,9 @@ namespace Assets.Scripts
                                 : null;
                             switch (sd.Items[i][j])
                             {
+                                case GameItemType._2x:
+                                   _2xItemsCount++;
+                                    break;
                                 case GameItemType._DropDownItem:
                                     DropDownItemsCount++;
                                     break;
@@ -166,6 +169,8 @@ namespace Assets.Scripts
                     return;
                 }
             }
+
+            _showUserHelp = true;
 
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)

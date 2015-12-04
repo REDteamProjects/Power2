@@ -25,16 +25,19 @@ namespace Assets.Scripts
                     case DifficultyLevel._easy:
                         if (CurrentScore < 16384) return;
                         Game.Difficulty = DifficultyLevel._medium;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
                         DifficultyRaisedGUI();
                         return;
                     case DifficultyLevel._medium:
                         if (CurrentScore < 32768) return;
                         Game.Difficulty = DifficultyLevel._hard;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 8;
                         DifficultyRaisedGUI();
                         return;
                     case DifficultyLevel._hard:
                         if (CurrentScore < 49152) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 12;
                         DifficultyRaisedGUI();
                         return;
                     case DifficultyLevel._veryhard:
@@ -131,7 +134,6 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            _moveTimerMultiple = 32;
 
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
@@ -190,6 +192,8 @@ namespace Assets.Scripts
                     return;
                 }
             }
+
+            _showUserHelp = true;
 
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)

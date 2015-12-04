@@ -11,7 +11,7 @@ namespace Assets.Scripts
 {
     class Mode11RhombusPlayground : RhombusPlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -13.1F, Y = 13.1F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.1F, Z = -1 };
 
         public override IGameSettingsHelper Preferenses
         {
@@ -76,7 +76,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 11; } }
 
-        public override float GameItemSize { get { return 4.01f; } }
+        public override float GameItemSize { get { return 3.7f; } }
 
         //public override GameItemType MaxInitialElementType
         //{
@@ -143,6 +143,9 @@ namespace Assets.Scripts
                             : null;
                             switch (sd.Items[i][j])
                             {
+                                case GameItemType._2x:
+                                    _2xItemsCount++;
+                                    break;
                                 case GameItemType._DropDownItem:
                                     DropDownItemsCount++;
                                     break;
@@ -151,6 +154,8 @@ namespace Assets.Scripts
                                     break;
                             }
                         }
+
+                    _showUserHelp = true;
 
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)

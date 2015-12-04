@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using Assets.Scripts.DataClasses;
 
 public class AboutPageScript : MonoBehaviour {
 
@@ -16,4 +17,9 @@ public class AboutPageScript : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    void Awake()
+    {
+        GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
+    }
 }

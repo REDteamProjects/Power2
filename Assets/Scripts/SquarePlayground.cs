@@ -20,7 +20,6 @@ namespace Assets.Scripts
         private readonly AutoResetEvent _callbackReady = new AutoResetEvent(false);
         //private readonly ManualResetEvent _dropsReady = new ManualResetEvent(false);
         private const float HintDelayTime = 4;
-
         private volatile int _callbacksCount;
         private int _dropsCount;
         private RealPoint _item00;
@@ -45,11 +44,14 @@ namespace Assets.Scripts
         protected const int MaxAdditionalItemsCount = 2;
         protected int DropDownItemsCount;
         protected int XItemsCount;
+        protected int _2xItemsCount = 0;
         private bool _isGameOver;
         private bool _isMixing = false;
         protected bool _callClearChainsAfterExchange = false;
         protected int _currentExchangeItemsCount = 0;
-        protected float _moveTimerMultiple = 16;
+        protected float _initialMoveTimerMultiple = 32;
+        protected bool _showUserHelp = false;
+        
 
         public virtual IGameSettingsHelper Preferenses
         {
@@ -61,7 +63,11 @@ namespace Assets.Scripts
         {
             get
             {
-                return _moveTimerMultiple;
+                return _initialMoveTimerMultiple;
+            }
+            protected set
+            {
+                gameObject.GetComponent<PlaygroundProgressBar>().MoveTimerMultiple = _initialMoveTimerMultiple;
             }
         }
 
@@ -206,6 +212,7 @@ namespace Assets.Scripts
                     case GameItemType._7:
                         Game.Difficulty = DifficultyLevel._medium;
                         _minTypePlus=1;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._10;
@@ -218,7 +225,9 @@ namespace Assets.Scripts
                     case GameItemType._10:
                         Game.Difficulty = DifficultyLevel._hard;
                         _minTypePlus=1;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 8;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        if (_2xItemsCount < 1)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         while (XItemsCount < MaxAdditionalItemsCount)
@@ -248,7 +257,9 @@ namespace Assets.Scripts
                     case GameItemType._13:
                         Game.Difficulty = DifficultyLevel._veryhard;
                         _minTypePlus=1;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 12;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        if (_2xItemsCount < 2)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         MixTimeCounter = MixTimeCounterSize;
@@ -345,7 +356,11 @@ namespace Assets.Scripts
             var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
 
             difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
-                GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, null, true);
+                GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, () =>
+                {
+                    if (_showUserHelp)
+                        CreateInGameHelpModule(Game.Difficulty.ToString());
+                }, true);
         }
 
         private void Generate2xItem()
@@ -668,8 +683,9 @@ namespace Assets.Scripts
             if (Game.Difficulty >= DifficultyLevel._veryhard)
             {
                 MixTimeCounter -= Time.deltaTime;
-                if (MixTimeCounter <= 0)
+                if (MixTimeCounter <= 0 && DropsCount == 0)
                 {
+                    MixTimeCounter = MixTimeCounterSize;
                     MixField();
                 }
             }
@@ -1139,7 +1155,7 @@ namespace Assets.Scripts
             if(!isWinning)
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.GameOver, false, true);
             else
-                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false, true);
+                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Winning, false, true);
         }
 
         public virtual void Drop()
@@ -1323,7 +1339,7 @@ namespace Assets.Scripts
 
         protected virtual void MixField()
         {
-            if (_isMixing) return;
+            if (IsMixing) return;
             var dis = GetComponent<DragItemScript>();
             if (dis.IsDragging)
             {
@@ -1386,7 +1402,6 @@ namespace Assets.Scripts
                     });
                 }
             }
-            MixTimeCounter = MixTimeCounterSize;
         }
 
         public virtual bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
@@ -1750,5 +1765,23 @@ namespace Assets.Scripts
                 CallbacksCount--;
             });
         }
+
+        protected virtual void CreateInGameHelpModule(string modulePostfix, LabelAnimationFinishedDelegate callback = null)
+        {
+            PauseButtonScript.PauseMenuActive = true;
+            Time.timeScale = 0F;
+            var fg = GameObject.Find("/Foreground");
+            if (fg == null) return;
+            UserHelpScript.InGameHelpModule = Instantiate(Resources.Load("Prefabs/InGameHelper")) as GameObject;
+            UserHelpScript.InGameHelpModule.transform.SetParent(fg.transform);
+            UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
+            UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -2);
+            var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserHelp" + modulePostfix));
+            manual_0.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
+            manual_0.transform.localScale = new Vector3(50, 50, 0);
+            manual_0.transform.localPosition = new Vector3(0, 30, 0);
+            UserHelpScript.ShowUserHelpCallback = callback;
+        }
+        
     }
 }

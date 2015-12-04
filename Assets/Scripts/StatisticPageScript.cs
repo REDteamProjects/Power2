@@ -51,27 +51,27 @@ public class StatisticPageScript : MonoBehaviour
         //SavedataHelper.LoadData(ref sd);
 
         SelectedItem = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10));
-
+        bool noData = false;
         if (!SavedataHelper.IsSaveDataExist(sd))
         {
             GenerateLevelTitle<TType>(GameItemType.DisabledItem);
-            return;
+            noData = true;
         }
 
         var pref = GameSettingsHelper<TType>.Preferenses;
 
         var scoreText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Score").GetComponent<Text>();
-        scoreText.text = pref.ScoreRecord.ToString(CultureInfo.InvariantCulture);
+        scoreText.text = noData ? "0" : pref.ScoreRecord.ToString(CultureInfo.InvariantCulture);
         GameObject.Find("BodyShadow/Score").GetComponent<Text>().text = scoreText.text;
 
         var gamesText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) + */"Body/Game").GetComponent<Text>();
-        gamesText.text = pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
+        gamesText.text = noData ? "" : pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
         GameObject.Find("BodyShadow/Game").GetComponent<Text>().text = gamesText.text;
 
         GenerateLevelTitle<TType>(pref.CurrentItemType);
 
         var timeText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Time").GetComponent<Text>();
-        if (pref.LongestSession < 1)
+        if (pref.LongestSession < 1 || noData)
         {
             timeText.text = "00:00";
             GameObject.Find("BodyShadow/Time").GetComponent<Text>().text = timeText.text;
@@ -86,11 +86,11 @@ public class StatisticPageScript : MonoBehaviour
     void Awake()
     {
         LoadLevelData(0);
-
-        var fg = GameObject.Find("/GUI");
-        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50,
-                () => CreateResetStatConfirmationMenu());
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
+        var fg = GameObject.Find("/GUI");
+        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -320, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
+        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -320, 0), btnTextShadow.text, btnTextShadow.fontSize,
+                () => CreateResetStatConfirmationMenu());
     }
 
     void CreateResetStatConfirmationMenu()

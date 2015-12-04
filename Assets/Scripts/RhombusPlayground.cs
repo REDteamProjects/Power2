@@ -16,7 +16,7 @@ namespace Assets.Scripts
 
         public override float ScaleMultiplyer
         {
-            get { return 4.01f; }// 4.95f; }
+            get { return 3.7f; }// 4.95f; }
             //get { return 1; }
         }
 
@@ -32,7 +32,9 @@ namespace Assets.Scripts
                 { MoveDirections.DL, new Vector2(-2, -2) },
                 { MoveDirections.DR, new Vector2(2, -2) },
             })
-        {}
+        {
+            _initialMoveTimerMultiple = 28;
+        }
 
         public override bool IsInAnotherLine(IEnumerable<Line> lines, int currentX, int currentY)
         {
@@ -54,7 +56,7 @@ namespace Assets.Scripts
         public override Vector3 GetCellCoordinates(int col, int row)
         {
             //var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.0625;
-            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.19;
+            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.225;
             var roundedX = Math.Round(Item00.X + col * halfItem, 2);
             var roundedY = Math.Round(Item00.Y - row * halfItem, 2);
             return new Vector3((float)roundedX, (float)roundedY, Item00.Z);

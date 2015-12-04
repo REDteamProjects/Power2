@@ -182,8 +182,14 @@
 	<data name="StartGame" xml:space="preserve">
 		<value>Start game button text</value>
 	</data>
-	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
-		<value>First manual texture</value>
+	<data name="[type=GAME_OBJECT]UserHelp_easy" xml:space="preserve">
+		<value>Easy level help texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_hard" xml:space="preserve">
+		<value>Hard level help texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_medium" xml:space="preserve">
+		<value>Medium level help texture</value>
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>

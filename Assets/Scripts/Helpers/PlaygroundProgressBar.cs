@@ -31,6 +31,8 @@ namespace Assets.Scripts.Helpers
         public float Upper { get { return _progressBarBankUpper; } }
         public double CriticalCount { get { return 100; } }
 
+        public float MoveTimerMultiple { set { _moveTimerMultiple = value; } }
+
         void Awake()
         {
             var fg = GameObject.Find("/Foreground");

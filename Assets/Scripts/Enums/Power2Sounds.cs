@@ -16,5 +16,6 @@ namespace Assets.Scripts.Enums
         public static String Combo { get { return "Combo"; } }
         public static String MixField { get { return "FieldMix"; } }
         public static String Start { get { return "Beginning"; } }
+        public static String Winning { get { return "Winning"; } }
     }
 }

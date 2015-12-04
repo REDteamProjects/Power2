@@ -184,8 +184,14 @@ R.E.D.team</value>
 	<data name="StartGame" xml:space="preserve">
 		<value>START GAME</value>
 	</data>
-	<data name="[type=GAME_OBJECT]UserManual_0" xml:space="preserve">
-		<value>f27725cbc4f929e43ada43dc93734941</value>
+	<data name="[type=GAME_OBJECT]UserHelp_easy" xml:space="preserve">
+		<value>ecc8c54a368e03f48889b9f5d1fb7bc5</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_hard" xml:space="preserve">
+		<value>e48f6e57efa4fdd46a015178dd090d4a</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_medium" xml:space="preserve">
+		<value>3941964814692d046a3a7e9cf7ec1225</value>
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>You win!</value>
