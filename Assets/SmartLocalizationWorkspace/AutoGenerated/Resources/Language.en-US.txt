@@ -135,8 +135,8 @@
 		<value>8X8</value>
 	</data>
 	<data name="AboutText" xml:space="preserve">
-		<value>Power2 game. 
-All right reserved. 
+		<value>Power2 game 
+All right reserved 
 R.E.D.team</value>
 	</data>
 	<data name="ComboTitle" xml:space="preserve">

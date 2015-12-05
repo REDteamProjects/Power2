@@ -146,7 +146,6 @@ namespace Assets.Scripts.Helpers
             ProgressBarRun = false;
             _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
                .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
-            //ProgressBarRun = true;
         }
     }
 }

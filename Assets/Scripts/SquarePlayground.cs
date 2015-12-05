@@ -365,6 +365,8 @@ namespace Assets.Scripts
                                 _showTimeLabel = false;
                                 ShowTimeLabel();
                             }
+                            else
+                                PlaygroundProgressBar.ProgressBarRun = true;
                             
                         });
                     else
@@ -374,6 +376,8 @@ namespace Assets.Scripts
                             _showTimeLabel = false;
                             ShowTimeLabel();
                         }
+                        else
+                            PlaygroundProgressBar.ProgressBarRun = true;
                     }
                 }, true);
         }
@@ -1800,7 +1804,14 @@ namespace Assets.Scripts
             Time.timeScale = 0F;
             var fg = GameObject.Find("/Foreground");
             if (fg == null) return;
-            UserHelpScript.InGameHelpModule = Instantiate(Resources.Load("Prefabs/InGameHelper")) as GameObject;
+            var resource = Resources.Load("Prefabs/InGameHelper");
+            if (resource == null)
+            {
+                if (callback != null)
+                    callback();
+                return;
+            }
+            UserHelpScript.InGameHelpModule = Instantiate(resource) as GameObject;
             UserHelpScript.InGameHelpModule.transform.SetParent(fg.transform);
             UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
             UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -2);
