@@ -51,6 +51,7 @@ namespace Assets.Scripts
         protected int _currentExchangeItemsCount = 0;
         protected float _initialMoveTimerMultiple = 32;
         protected bool _showUserHelp = false;
+        protected bool _showTimeLabel = true;
         
 
         public virtual IGameSettingsHelper Preferenses
@@ -352,15 +353,40 @@ namespace Assets.Scripts
 
             if (!withLabel) return;
 
-            var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            var difficultyRaisedLabel = labelObject.GetComponent<LabelShowing>();
+            var difficultyRaisedLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
 
             difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
                 GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, () =>
                 {
                     if (_showUserHelp)
-                        CreateInGameHelpModule(Game.Difficulty.ToString());
+                        CreateInGameHelpModule(Game.Difficulty.ToString(), () => {
+                            if (_showTimeLabel)
+                            {
+                                _showTimeLabel = false;
+                                ShowTimeLabel();
+                            }
+                            
+                        });
+                    else
+                    {
+                        if (_showTimeLabel)
+                        {
+                            _showTimeLabel = false;
+                            ShowTimeLabel();
+                        }
+                    }
                 }, true);
+        }
+
+        private void ShowTimeLabel()
+        {
+            var bar = GetComponent<PlaygroundProgressBar>();
+            bar.ProgressBarRun = true;
+            var showTimeLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
+            var fg = GameObject.Find("/Foreground");
+            showTimeLabel.transform.SetParent(fg.transform);
+            showTimeLabel.ShowScalingLabel(new Vector3(bar.Coordinate.x, bar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
+               GameColors.DefaultDark, GameColors.DifficultyLevelsColors[Game.Difficulty], Game.minLabelFontSize - 40, Game.maxLabelFontSize - 50, 1, null, true);
         }
 
         private void Generate2xItem()

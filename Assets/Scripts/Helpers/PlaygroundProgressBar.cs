@@ -21,7 +21,7 @@ namespace Assets.Scripts.Helpers
         private float _barYSize = 0;
         private float _deltaBarYSize = 0;
 
-        public Vector3 Coordinate = new Vector3(0, 190, 0);
+        public readonly Vector3 Coordinate = new Vector3(0, 190, 0);
         public bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;
@@ -56,7 +56,7 @@ namespace Assets.Scripts.Helpers
             var pg = gameObject.GetComponent<IPlayground>();
             _moveTimerMultiple = pg.MoveTimerMultiple;
             _moveTimerMultipleUpper = _moveTimerMultiple * 3f;
-            ProgressBarRun = true;
+            //ProgressBarRun = true;
         }
 
         void Update()
@@ -139,7 +139,6 @@ namespace Assets.Scripts.Helpers
             _progressBarBank = count >= ProgressBarBaseSize ? ProgressBarBaseSize : count;
             _progressBarBankUpper = upper;
             _moveTimerMultiple = timeMultiple;
-            ProgressBarRun = true;
         }
 
         public void UpdateTexture()
@@ -147,7 +146,7 @@ namespace Assets.Scripts.Helpers
             ProgressBarRun = false;
             _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
                .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
-            ProgressBarRun = true;
+            //ProgressBarRun = true;
         }
     }
 }

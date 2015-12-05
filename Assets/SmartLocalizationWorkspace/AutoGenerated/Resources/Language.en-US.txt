@@ -184,6 +184,9 @@ R.E.D.team</value>
 	<data name="StartGame" xml:space="preserve">
 		<value>START GAME</value>
 	</data>
+	<data name="TimeStart" xml:space="preserve">
+		<value>Hurry up!</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp_easy" xml:space="preserve">
 		<value>ecc8c54a368e03f48889b9f5d1fb7bc5</value>
 	</data>

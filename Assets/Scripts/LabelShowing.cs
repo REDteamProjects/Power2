@@ -57,6 +57,7 @@ public class LabelShowing : MonoBehaviour {
                     }
                     else
                     {
+                        if (Shadow != null)
                         Destroy(Shadow.gameObject);
                         Destroy(gameObject);
                         _destroyAfterAnimation = false;
@@ -131,7 +132,7 @@ public class LabelShowing : MonoBehaviour {
                 Shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 Shadow.transform.SetParent(transform.parent);
                 Shadow.transform.localScale = transform.localScale;
-                Shadow.ShowWIthShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? 3f : 0), position.y, position.z),
+                Shadow.ShowWIthShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? animateToSize > 60 ? 3f : 2f : 0), position.y, position.z),
                     text, textColor, textColor, animateFromSize, animateToSize, font, rotateAngle);
                 animateFromSize += 1;
                 animateToSize += 1;

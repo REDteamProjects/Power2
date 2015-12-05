@@ -194,4 +194,7 @@
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>
 	</data>
+	<data name="TimeStart" xml:space="preserve">
+		<value>Progress bar starting label</value>
+	</data>
 </root>
