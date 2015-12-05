@@ -45,6 +45,7 @@ public class PauseButtonScript : MonoBehaviour
 
     void CreatePauseMenu()
     {
+        if (!PlaygroundProgressBar.ProgressBarRun) return;
         PauseMenuActive = true;
 
         Time.timeScale = 0F;

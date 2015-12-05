@@ -22,7 +22,7 @@ namespace Assets.Scripts.Helpers
         private float _deltaBarYSize = 0;
 
         public readonly Vector3 Coordinate = new Vector3(0, 190, 0);
-        public bool ProgressBarRun;
+        public static bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;
         

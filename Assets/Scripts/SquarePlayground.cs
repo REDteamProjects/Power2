@@ -93,9 +93,9 @@ namespace Assets.Scripts
             {
                 _isMixing = value;
                 if (_isMixing)
-                    GetComponent<PlaygroundProgressBar>().ProgressBarRun = false;
+                    PlaygroundProgressBar.ProgressBarRun = false;
                 else
-                    GetComponent<PlaygroundProgressBar>().ProgressBarRun = true;
+                    PlaygroundProgressBar.ProgressBarRun = true;
             }
         }
         
@@ -381,12 +381,14 @@ namespace Assets.Scripts
         private void ShowTimeLabel()
         {
             var bar = GetComponent<PlaygroundProgressBar>();
-            bar.ProgressBarRun = true;
             var showTimeLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
             showTimeLabel.ShowScalingLabel(new Vector3(bar.Coordinate.x, bar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-               GameColors.DefaultDark, GameColors.DifficultyLevelsColors[Game.Difficulty], Game.minLabelFontSize - 40, Game.maxLabelFontSize - 50, 1, null, true);
+               GameColors.DefaultDark, GameColors.DifficultyLevelsColors[Game.Difficulty], Game.minLabelFontSize - 40, Game.maxLabelFontSize - 50, 1, null, true, () =>
+               {
+                   PlaygroundProgressBar.ProgressBarRun = true;
+               });
         }
 
         private void Generate2xItem()

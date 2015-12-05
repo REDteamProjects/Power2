@@ -8,6 +8,8 @@ using Assets.Scripts.Interfaces;
 using SmartLocalization;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Reflection;
+using System.Collections.Generic;
 
 public class StatisticPageScript : MonoBehaviour
 {
@@ -120,10 +122,27 @@ public class StatisticPageScript : MonoBehaviour
 
     public void ResetStats()
     {
-        PlayerPrefs.DeleteAll();
+        var tpgs = GetPlaygroundTypes();
+        foreach(var tpg in tpgs)
+        {
+            Type type = typeof(GameSettingsHelper<>).MakeGenericType(tpg);
+            var prefsField = type.GetProperty("Preferenses", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+            var prefsValue = prefsField.GetValue(null,null);
+            (prefsValue as IGameSettingsHelper).RemovePrefs();
+        }
         SelectedItem = null;
         LoadLevelData((int)SelectedType);
         DestroyResetStatConfirmationMenu();
+    }
+
+    private List<Type> GetPlaygroundTypes()
+    {
+        var ret = new List<Type>();
+        var aTypes = Assembly.GetAssembly(typeof(SquarePlayground)).GetTypes();
+        foreach (var type in aTypes)
+            if (type.IsSubclassOf(typeof(SquarePlayground)))
+                ret.Add(type);
+        return ret;
     }
 
     public void DestroyResetStatConfirmationMenu()

@@ -58,6 +58,8 @@ namespace Assets.Scripts.Helpers
         float LongestSession { get; set; }
 
         int MaxMultiplier { get; set; }
+
+        void RemovePrefs();
     }
 
     public class GameSettingsHelper<T> : IGameSettingsHelper where T:IPlayground
@@ -192,6 +194,23 @@ namespace Assets.Scripts.Helpers
             {
                 PlayerPrefs.SetInt(GetType().FullName + "_MaxMultiplier", value);
             }
+        }
+
+        public void RemovePrefs()
+        {
+            var typeName = GetType().FullName;
+            if (PlayerPrefs.HasKey(typeName + "_MaximumOpenedLevel"))
+                PlayerPrefs.DeleteKey(typeName + "_MaximumOpenedLevel");
+            if (PlayerPrefs.HasKey(typeName + "_ScoreRecord"))
+                PlayerPrefs.DeleteKey(typeName + "_ScoreRecord");
+            if (PlayerPrefs.HasKey(typeName + "_GamesPlayed"))
+                PlayerPrefs.DeleteKey(typeName + "_GamesPlayed");
+            if (PlayerPrefs.HasKey(typeName + "_CurrentItemType"))
+                PlayerPrefs.DeleteKey(typeName + "_CurrentItemType");
+            if (PlayerPrefs.HasKey(typeName + "_LongestSession"))
+                PlayerPrefs.DeleteKey(typeName + "_LongestSession");
+            if (PlayerPrefs.HasKey(typeName + "_MaxMultiplier"))
+                PlayerPrefs.DeleteKey(typeName + "_MaxMultiplier"); 
         }
 
     }
