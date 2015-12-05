@@ -11,6 +11,7 @@ public class AboutPageScript : MonoBehaviour {
 
         var modestext = GameObject.Find("AboutText").GetComponent<Text>();
         modestext.text = LanguageManager.Instance.GetTextValue("AboutText");
+        GameObject.Find("AboutTextShadow").GetComponent<Text>().text = modestext.text;
 	}
 	
 	// Update is called once per frame
