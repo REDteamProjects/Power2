@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Interfaces;
@@ -39,6 +40,17 @@ namespace Assets.Scripts.Helpers
                 PlayerPrefs.SetInt("General_Theme", (Int32)value);
             }
         }
+
+        public static void RemoveAllPrefsExceptGeneral()
+        {
+            var theme = ActiveTheme;
+            var sound = SoundEnabled;
+
+            PlayerPrefs.DeleteAll();
+
+            ActiveTheme = theme;
+            SoundEnabled = sound;
+        }
     }
 
     public interface IGameSettingsHelper
@@ -64,7 +76,7 @@ namespace Assets.Scripts.Helpers
 
     public class GameSettingsHelper<T> : IGameSettingsHelper where T:IPlayground
     {
-        private static readonly GameSettingsHelper<T> instance = new GameSettingsHelper<T>();
+        private static readonly GameSettingsHelper<T> Instance = new GameSettingsHelper<T>();
 
         private GameSettingsHelper(){}
 
@@ -72,7 +84,7 @@ namespace Assets.Scripts.Helpers
         {
             get 
             {
-                return instance; 
+                return Instance; 
             }
         }
 
@@ -125,6 +137,7 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
+                var type = GetType();
                 if (PlayerPrefs.HasKey(GetType().FullName + "_ScoreRecord"))
                     return PlayerPrefs.GetInt(GetType().FullName + "_ScoreRecord");
                 PlayerPrefs.SetInt(GetType().FullName + "_ScoreRecord", 0);
@@ -201,17 +214,41 @@ namespace Assets.Scripts.Helpers
             var typeName = GetType().FullName;
             if (PlayerPrefs.HasKey(typeName + "_MaximumOpenedLevel"))
                 PlayerPrefs.DeleteKey(typeName + "_MaximumOpenedLevel");
+
             if (PlayerPrefs.HasKey(typeName + "_ScoreRecord"))
                 PlayerPrefs.DeleteKey(typeName + "_ScoreRecord");
+
             if (PlayerPrefs.HasKey(typeName + "_GamesPlayed"))
                 PlayerPrefs.DeleteKey(typeName + "_GamesPlayed");
+
             if (PlayerPrefs.HasKey(typeName + "_CurrentItemType"))
                 PlayerPrefs.DeleteKey(typeName + "_CurrentItemType");
+
             if (PlayerPrefs.HasKey(typeName + "_LongestSession"))
                 PlayerPrefs.DeleteKey(typeName + "_LongestSession");
+
             if (PlayerPrefs.HasKey(typeName + "_MaxMultiplier"))
                 PlayerPrefs.DeleteKey(typeName + "_MaxMultiplier"); 
         }
 
+        //public static void RemoveAllPrefs()
+        //{
+        //    var tpgs = GetPlaygroundTypes();
+        //    foreach (var tpg in tpgs)
+        //    {
+        //        var type = typeof(GameSettingsHelper<>).MakeGenericType(tpg);
+        //        var prefsField = type.GetProperty("Preferenses", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
+        //        var prefsValue = prefsField.GetValue(null, null);
+
+        //        var gameSettingsHelper = prefsValue as IGameSettingsHelper;
+        //        if (gameSettingsHelper != null) 
+        //            gameSettingsHelper.RemovePrefs();
+        //    }
+        //}
+
+        //private static IEnumerable<Type> GetPlaygroundTypes()
+        //{
+        //    return Assembly.GetAssembly(typeof(SquarePlayground)).GetTypes().Where(type => type.IsSubclassOf(typeof(SquarePlayground))).ToList();
+        //}
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
@@ -53,7 +54,7 @@ public class StatisticPageScript : MonoBehaviour
         //SavedataHelper.LoadData(ref sd);
 
         SelectedItem = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10));
-        bool noData = false;
+        var noData = false;
         if (!SavedataHelper.IsSaveDataExist(sd))
         {
             GenerateLevelTitle<TType>(GameItemType.DisabledItem);
@@ -92,7 +93,7 @@ public class StatisticPageScript : MonoBehaviour
         var fg = GameObject.Find("/GUI");
         var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -320, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
         MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -320, 0), btnTextShadow.text, btnTextShadow.fontSize,
-                () => CreateResetStatConfirmationMenu());
+                CreateResetStatConfirmationMenu);
     }
 
     void CreateResetStatConfirmationMenu()
@@ -103,46 +104,29 @@ public class StatisticPageScript : MonoBehaviour
 
         _resetConfirmationMenu = Instantiate(Resources.Load("Prefabs/ResetStatsConfirmation")) as GameObject;
 
+        if (_resetConfirmationMenu == null) return;
+
         if (fg != null)
-        {
-            _resetConfirmationMenu.transform.SetParent(fg.transform);
-        }
+             _resetConfirmationMenu.transform.SetParent(fg.transform);
 
         _resetConfirmationMenu.transform.localScale = Vector3.one;
         _resetConfirmationMenu.transform.localPosition = new Vector3(0, 0, -2);
         var l = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+        if (l == null) return;
         l.transform.SetParent(_resetConfirmationMenu.transform);
         l.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        if (l != null)
-        {
-            var pointsLabel = l.GetComponent<LabelShowing>();
-            pointsLabel.ShowScalingLabel(new Vector3(0,50,0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, Game.maxLabelFontSize, Game.maxLabelFontSize, 1, Game.textFont);
-        }
+
+        var pointsLabel = l.GetComponent<LabelShowing>();
+        pointsLabel.ShowScalingLabel(new Vector3(0,50,0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, Game.maxLabelFontSize, Game.maxLabelFontSize, 1, Game.textFont);
     }
 
     public void ResetStats()
     {
-        var tpgs = GetPlaygroundTypes();
-        foreach(var tpg in tpgs)
-        {
-            Type type = typeof(GameSettingsHelper<>).MakeGenericType(tpg);
-            var prefsField = type.GetProperty("Preferenses", BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            var prefsValue = prefsField.GetValue(null,null);
-            (prefsValue as IGameSettingsHelper).RemovePrefs();
-        }
-        SelectedItem = null;
-        LoadLevelData((int)SelectedType);
-        DestroyResetStatConfirmationMenu();
-    }
+        GeneralSettings.RemoveAllPrefsExceptGeneral();
 
-    private List<Type> GetPlaygroundTypes()
-    {
-        var ret = new List<Type>();
-        var aTypes = Assembly.GetAssembly(typeof(SquarePlayground)).GetTypes();
-        foreach (var type in aTypes)
-            if (type.IsSubclassOf(typeof(SquarePlayground)))
-                ret.Add(type);
-        return ret;
+        SelectedItem = null;
+        LoadLevelData((int)SelectedType.GetValueOrDefault());
+        DestroyResetStatConfirmationMenu();
     }
 
     public void DestroyResetStatConfirmationMenu()
@@ -156,15 +140,16 @@ public class StatisticPageScript : MonoBehaviour
 
         if (type == SelectedType && SelectedItem != null) return;
 
+        SpriteRenderer lastbOject;
         if (SelectedItem != null)
         {
-            var lastbOject = SelectedItem.GetComponent<SpriteRenderer>();
+            lastbOject = SelectedItem.GetComponent<SpriteRenderer>();
             if (lastbOject != null)
             {
                 lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 0.5f);
             }
         }
-        
+
         switch (type)
         {
             case GameTypes._6x6:
@@ -185,13 +170,11 @@ public class StatisticPageScript : MonoBehaviour
         }
         SelectedType = type;
 
-        if (SelectedItem != null)
+        if (SelectedItem == null) return;
+        lastbOject = SelectedItem.GetComponent<SpriteRenderer>();
+        if (lastbOject != null)
         {
-            var lastbOject = SelectedItem.GetComponent<SpriteRenderer>();
-            if (lastbOject != null)
-            {
-                lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 1f);
-            }
+            lastbOject.color = new Color(lastbOject.color.r, lastbOject.color.g, lastbOject.color.b, 1f);
         }
     }
 }
