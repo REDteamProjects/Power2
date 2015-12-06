@@ -155,8 +155,6 @@ namespace Assets.Scripts
                             }
                         }
 
-                    _showUserHelp = true;
-
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);

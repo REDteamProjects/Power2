@@ -170,8 +170,6 @@ namespace Assets.Scripts
                 }
             }
 
-            _showUserHelp = true;
-
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)
             //{

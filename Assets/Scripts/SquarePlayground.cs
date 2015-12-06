@@ -49,7 +49,6 @@ namespace Assets.Scripts
         protected bool _callClearChainsAfterExchange = false;
         protected int _currentExchangeItemsCount = 0;
         protected float _initialMoveTimerMultiple = 32;
-        protected bool _showUserHelp = false;
         protected bool _showTimeLabel = true;
         
 
@@ -357,7 +356,6 @@ namespace Assets.Scripts
             difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
                 GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, () =>
                 {
-                    if (_showUserHelp)
                         CreateInGameHelpModule(Game.Difficulty.ToString(), () => {
                             if (_showTimeLabel)
                             {
@@ -368,16 +366,6 @@ namespace Assets.Scripts
                                 PlaygroundProgressBar.ProgressBarRun = true;
                             
                         });
-                    else
-                    {
-                        if (_showTimeLabel)
-                        {
-                            _showTimeLabel = false;
-                            ShowTimeLabel();
-                        }
-                        else
-                            PlaygroundProgressBar.ProgressBarRun = true;
-                    }
                 }, true);
         }
 
@@ -1804,6 +1792,13 @@ namespace Assets.Scripts
 
         protected virtual void CreateInGameHelpModule(string modulePostfix, LabelAnimationFinishedDelegate callback = null)
         {
+            //check if needed
+            if (PlayerPrefs.HasKey(modulePostfix))
+            {
+                if (callback != null)
+                    callback();
+                return;
+            }
             PauseButtonScript.PauseMenuActive = true;
             Time.timeScale = 0F;
             var fg = GameObject.Find("/Foreground");
@@ -1824,6 +1819,7 @@ namespace Assets.Scripts
             manual_0.transform.localScale = new Vector3(50, 50, 0);
             manual_0.transform.localPosition = new Vector3(0, 30, 0);
             UserHelpScript.ShowUserHelpCallback = callback;
+            PlayerPrefs.SetInt(modulePostfix, 1);
         }
         
     }
