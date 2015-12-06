@@ -10,7 +10,7 @@ namespace Assets.Scripts.Helpers
 {
     public class PlaygroundProgressBar : MonoBehaviour
     {
-        private static readonly float ProgressBarBaseSize = 460;
+        public static readonly float ProgressBarBaseSize = 460;
         private GameObject _progressBar;
         private GameObject _progressBarLine;
         private float _moveTimerMultiple = 16;
@@ -20,11 +20,14 @@ namespace Assets.Scripts.Helpers
         private float _maxBarYSize = 0;
         private float _barYSize = 0;
         private float _deltaBarYSize = 0;
+        private float _timeActionBorder = ProgressBarBaseSize/2;
+        private const float _timeActionBorderMinimumSize = 160;
 
         public readonly Vector3 Coordinate = new Vector3(0, 190, 0);
         public static bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;
+        public static event EventHandler TimeBorderActivated;
         
         public float Multiplier { get { return _moveTimerMultiple; } }
         public float State { get { return _progressBarBank; } }
@@ -32,6 +35,18 @@ namespace Assets.Scripts.Helpers
         public double CriticalCount { get { return 100; } }
 
         public float MoveTimerMultiple { set { _moveTimerMultiple = value; } }
+
+        public float TimeActionBorder
+        {
+            get { return _timeActionBorder; }
+            private set
+            {
+                if (value > _timeActionBorderMinimumSize)
+                    _timeActionBorder = value;
+                else
+                    _timeActionBorder = _timeActionBorderMinimumSize;
+            }
+        }
 
         void Awake()
         {
@@ -111,6 +126,11 @@ namespace Assets.Scripts.Helpers
                     }
                     else
                         rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
+                }
+                if (_progressBarBank < TimeActionBorder && TimeBorderActivated!=null)
+                {
+                    TimeBorderActivated(gameObject, EventArgs.Empty);
+                    TimeActionBorder = TimeActionBorder - 4;
                 }
                 if (_progressBarBank != 0) return;
                 //audio.Stop();

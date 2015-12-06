@@ -292,6 +292,8 @@ public class GameItemMovingScript : MonoBehaviour
                 //TODO: FIX: Additional direction added to moving and speeddrop tap not working right
 
                 ChangingDirection = false;
+                if(CurrentDestination.MovingCallback != null)
+                    CurrentDestination.MovingCallback(gO, result);
                 if (movingCallback != null)
                     movingCallback(gO, result);
 

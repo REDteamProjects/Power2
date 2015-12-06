@@ -24,7 +24,6 @@ namespace Assets.Scripts
         private int _dropsCount;
         private RealPoint _item00;
         private float _timeCounter = -1;
-        private float _mixTimeCounter = -1;
         protected const float MixTimeCounterSize = 16; //every 16 seconds field mixes in veryhard difficulty mode
         //private float _moveTimer = 8;
         //private float _moveTimerMultiple = 10;
@@ -263,8 +262,8 @@ namespace Assets.Scripts
                         if (_2xItemsCount < 2)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
-                        MixTimeCounter = MixTimeCounterSize;
                         _nextUpperLevelGameItemType = GameItemType._2x;
+                        PlaygroundProgressBar.TimeBorderActivated += VeryHardLevelAction;
                         break;
                     case GameItemType._14:
                     case GameItemType._15:
@@ -382,6 +381,27 @@ namespace Assets.Scripts
                 }, true);
         }
 
+        protected virtual void VeryHardLevelAction(object sender, EventArgs e)
+        {
+            var actionIndex = RandomObject.Next(0, 2);
+            switch(actionIndex)
+            {
+                case 0:
+                    int col = RandomObject.Next(0, FieldSize-1);
+                    for (int row = 0; row < FieldSize; row++)
+                    {
+                        var gobj = Items[col][row] as GameObject;
+                        if (gobj == null) continue;
+                        var gi = gobj.GetComponent<GameItem>();
+                        if (gi.MovingType != GameItemMovingType.Static)
+                            RemoveGameItem(col, row);
+                    }
+                        return;
+                case 1:
+                    return;
+            }
+        }
+
         private void ShowTimeLabel()
         {
             var bar = GetComponent<PlaygroundProgressBar>();
@@ -446,7 +466,7 @@ namespace Assets.Scripts
             foreach(var t in withTypes)
             LogFile.Message("Destroy elements above " + t);
             var pointsBank = 0;
-            var dis = GetComponent<DragItemScript>();
+           // var dis = GetComponent<DragItemScript>();
             for (var i = FieldSize - 1; i >= 0; i--)
             {
                 for (var j = 0; j < FieldSize; j++)
@@ -458,12 +478,10 @@ namespace Assets.Scripts
                         if (item.Type == GameItemType.DisabledItem || item.Type == GameItemType.NullItem || !withTypes.Contains(item.Type)) continue;
                         LogFile.Message("Item destroied: " + item.Type, true);
                         pointsBank += (int)Math.Pow(2, (double)item.Type);
-                        if (dis.IsDragging && dis.TouchedItem.X == i && dis.TouchedItem.Y == j)
+                        /*if (dis.IsDragging && dis.TouchedItem.X == i && dis.TouchedItem.Y == j)
                             dis.CancelDragging((s,e)=>RemoveGameItem(i, j));
-                        else
+                        else*/
                             RemoveGameItem(i, j);
-                        //Items[i][j] = null;
-                        //Destroy(gobj);
                     }
             }
 
@@ -569,17 +587,6 @@ namespace Assets.Scripts
             get { return _timeCounter; }
             set { _timeCounter = value; }
         }
-
-        public float MixTimeCounter
-        {
-            get { return _mixTimeCounter; }
-            set { _mixTimeCounter = value; }
-        }
-        //public float MoveTimer
-        //{
-        //    get { return _moveTimer; }
-        //    set { _moveTimer = value; }
-        //}
 
         public RealPoint Item00
         {
@@ -712,15 +719,6 @@ namespace Assets.Scripts
                 _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
             HintTimeCounter += Time.deltaTime;
-            if (Game.Difficulty >= DifficultyLevel._veryhard)
-            {
-                MixTimeCounter -= Time.deltaTime;
-                if (MixTimeCounter <= 0 && DropsCount == 0)
-                {
-                    MixTimeCounter = MixTimeCounterSize;
-                    MixField();
-                }
-            }
         }
 
         public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale, GameItemMovingType movingType = GameItemMovingType.Standart)
@@ -1782,6 +1780,12 @@ namespace Assets.Scripts
 
         public void RemoveGameItem(int i, int j, MovingFinishedDelegate removingCallback = null)
         {
+            var dis = GetComponent<DragItemScript>();
+            if (dis.IsDragging && dis.TouchedItem.X == i && dis.TouchedItem.Y == j)
+            {
+                dis.CancelDragging((s, e) => RemoveGameItem(i, j));
+                return;
+            }
             var o = Items[i][j] as GameObject;
             if (o == null) return;
             var giss = o.GetComponent<GameItemScalingScript>();
