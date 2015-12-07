@@ -85,9 +85,9 @@ namespace Assets.Scripts.Helpers
                 {
                     _timeActionBorder = value;
                     if (LeftSmallX != null)
-                        LeftSmallX.transform.localPosition = new Vector3(-_timeActionBorder/2, 0, -4);
+                        LeftSmallX.transform.localPosition = new Vector3(-_timeActionBorder / 2, 0, -4);
                     if (RightSmallX != null)
-                        RightSmallX.transform.localPosition = new Vector3(-_timeActionBorder / 2, 0, -4);
+                        RightSmallX.transform.localPosition = new Vector3(_timeActionBorder / 2, 0, -4);
                 }
                 else
                     _timeActionBorder = _timeActionBorderMinimumSize;
