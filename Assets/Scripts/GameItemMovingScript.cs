@@ -184,20 +184,29 @@ public class GameItemMovingScript : MonoBehaviour
         _destinations.Remove(CurrentDestination);
 
         if (CurrentDestination == null)
+        {
             IsMoving = false;
+            if (callbackVariable != null)
+            {
+                callbackVariable(gameObject, true);
+                //LogFile.Message("Moved callback rised");
+            }
+            else
+                LogFile.Message("No Moved() callback!", true);
+        }
         else
         {
+            if (callbackVariable != null)
+            {
+                CurrentDestination.MovingCallback += callbackVariable;
+                //LogFile.Message("Moved callback rised");
+            }
+            else
+                LogFile.Message("No Moved() callback!", true);
             LogFile.Message("_destinations.Count = " + _destinations.Count, true);
             return;
         }
 
-        if (callbackVariable != null)
-        {
-            callbackVariable(gameObject, true);
-            //LogFile.Message("Moved callback rised");
-        }
-        else
-            LogFile.Message("No Moved() callback!", true);
     }
 
     public void MoveTo(float? x, float? y, float movingSpeed, MovingFinishedDelegate movingCallback, Vector2? showFrom = null, Vector3? scaleTo = null, bool changingDirection = false, Int32? isHighPriority = null, String moveSound = null)

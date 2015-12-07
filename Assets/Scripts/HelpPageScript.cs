@@ -24,7 +24,7 @@ public class HelpPageScript : MonoBehaviour
         //var text = GameObject.Find("MainHelpText").GetComponent<Text>();
         //text.text = LanguageManager.Instance.GetTextValue("MainHelp");
 
-	    var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserManual_0"));
+	    var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserHelp_easy"));
         manual_0.transform.SetParent(GameObject.Find("MainHelpText").transform);
         manual_0.transform.localScale = new Vector3(1f, 0.4f, 1);
         manual_0.transform.localPosition = new Vector3(0, -350, 0);
@@ -44,89 +44,6 @@ public class HelpPageScript : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-        var mainTransform = (main.transform as RectTransform);
-        //var modesTransform = (modes.transform as RectTransform);
-
-	    var touches = TouchActionAdapter.GetTouch();
-        if (touches.Count <= 0) return;
-	    var touch = touches[0];
-
-        var realTouchPosition = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(touch.OriginalPosition));
-
-	    switch (touch.Phase)
-	    {
-	        case TouchPhase.Began:
-                startPos = gameObject.transform.InverseTransformPoint(Camera.main.ScreenToWorldPoint(touch.OriginalPosition));
-                mainStartPos = mainTransform.localPosition;
-                //modesStartPos = modesTransform.localPosition;
-	            break;
-
-	        case TouchPhase.Moved:
-                var deltaX = realTouchPosition.x - startPos.x;
-                var deltaY = realTouchPosition.y - startPos.y;
-
-                if (SelectedItem == main && Mathf.Abs(deltaY) > 0.01)
-                {
-                    if (mainStartPos.y + deltaY > 1256)
-                        baseY = 1256;
-                    else if (mainStartPos.y + deltaY < 100)
-                        baseY = 200;
-                    else
-                        baseY = mainStartPos.y + deltaY;
-
-                    mainTransform.localPosition = new Vector3(mainStartPos.x, baseY,
-	                    mainTransform.localPosition.z);
-	                //return;
-	            }
-
-                //if (Mathf.Abs(deltaX) > 0.01)
-                //{
-                //    CurrentDirection = Mathf.Sign(deltaX);
-                //    //+ right
-                //    //- left
-
-                //    mainTransform.localPosition = new Vector3(mainStartPos.x + deltaX, mainStartPos.y,
-                //        mainTransform.localPosition.z);
-                //    modesTransform.localPosition = new Vector3(modesStartPos.x + deltaX, modesStartPos.y,
-                //        modesTransform.localPosition.z);
-                //}
-	            break;
-
-            //case TouchPhase.Stationary:
-            //    couldBeSwipe = false;
-            //    break;
-
-	        case TouchPhase.Ended:
-	            //var swipeTime = Time.time - startTime;
-                //if (CurrentDirection == 0)
-                //    return;
-                
-                //var swipeDist = Mathf.Abs(realTouchPosition.x - startPos.x);
-                //if (swipeDist > minSwipeDist)
-                //{
-                //    if (CurrentDirection < 0)
-                //    {
-                //        main.GetComponent<GameItemMovingScript>().MoveTo(-480, baseY, 20, null);
-                //        modes.GetComponent<GameItemMovingScript>().MoveTo(0, 0, 20, null);
-                //        SelectedItem = modes;
-                //    }
-                //    if (CurrentDirection > 0)
-                //    {
-                //        main.GetComponent<GameItemMovingScript>().MoveTo(baseX, baseY, 20, null);
-                //        modes.GetComponent<GameItemMovingScript>().MoveTo(480, 0, 20, null);
-                //        SelectedItem = main;
-                //    }
-                //    //var t = mainTransform.  
-                //}
-                //else
-                //{
-                //    main.GetComponent<GameItemMovingScript>().MoveTo(mainStartPos.x, mainStartPos.y, 20, null);
-                //    modes.GetComponent<GameItemMovingScript>().MoveTo(modesStartPos.x, modesStartPos.y, 20, null);
-                //}
-
-	            //CurrentDirection = 0;
-
-	            break;
-	    }
+        
 	}
 }

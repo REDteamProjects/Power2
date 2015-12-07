@@ -11,7 +11,7 @@ namespace Assets.Scripts.Helpers
     public class PlaygroundProgressBar : MonoBehaviour
     {
         public static readonly float ProgressBarBaseSize = 460;
-        private GameObject _progressBar;
+        private static GameObject _progressBar;
         private GameObject _progressBarLine;
         private float _moveTimerMultiple = 16;
         private float _moveTimerMultipleUpper = 32;
@@ -20,14 +20,54 @@ namespace Assets.Scripts.Helpers
         private float _maxBarYSize = 0;
         private float _barYSize = 0;
         private float _deltaBarYSize = 0;
-        private float _timeActionBorder = ProgressBarBaseSize/2;
+        private static float _timeActionBorder = ProgressBarBaseSize/2;
         private const float _timeActionBorderMinimumSize = 160;
+        private static event EventHandler _timeBorderActivated;
+        private static GameObject LeftSmallX = null;
+        private static GameObject RightSmallX = null;
 
         public readonly Vector3 Coordinate = new Vector3(0, 190, 0);
         public static bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;
-        public static event EventHandler TimeBorderActivated;
+        public static event EventHandler TimeBorderActivated
+        {
+            add 
+            {
+                _timeBorderActivated += value;
+                if (LeftSmallX == null)
+                {
+                    LeftSmallX = Instantiate(Resources.Load("Prefabs/ProgressBarSmallX")) as GameObject;
+                    LeftSmallX.transform.SetParent(_progressBar.transform);
+                    LeftSmallX.transform.localPosition = new Vector3(-_timeActionBorder/2, 0, -4);
+                    LeftSmallX.transform.localScale = Vector3.one;
+                }
+                if (RightSmallX == null)
+                {
+                    RightSmallX = Instantiate(Resources.Load("Prefabs/ProgressBarSmallX")) as GameObject;
+                    RightSmallX.transform.SetParent(_progressBar.transform);
+                    RightSmallX.transform.localPosition = new Vector3(_timeActionBorder/2, 0, -4);
+                    RightSmallX.transform.localScale = Vector3.one;
+                }
+            }
+            remove 
+            {
+                _timeBorderActivated -= value;
+                if(_timeBorderActivated == null)
+                {
+                    if (LeftSmallX != null)
+                    {
+                        Destroy(LeftSmallX);
+                        LeftSmallX = null;
+                    }
+                    if (RightSmallX != null)
+                    {
+                        Destroy(RightSmallX);
+                        RightSmallX = null;
+                    }
+                }
+            }
+        }
         
         public float Multiplier { get { return _moveTimerMultiple; } }
         public float State { get { return _progressBarBank; } }
@@ -41,8 +81,14 @@ namespace Assets.Scripts.Helpers
             get { return _timeActionBorder; }
             private set
             {
-                if (value > _timeActionBorderMinimumSize)
+                if (value >= _timeActionBorderMinimumSize)
+                {
                     _timeActionBorder = value;
+                    if (LeftSmallX != null)
+                        LeftSmallX.transform.localPosition = new Vector3(-_timeActionBorder/2, 0, -4);
+                    if (RightSmallX != null)
+                        RightSmallX.transform.localPosition = new Vector3(-_timeActionBorder / 2, 0, -4);
+                }
                 else
                     _timeActionBorder = _timeActionBorderMinimumSize;
             }
@@ -92,14 +138,24 @@ namespace Assets.Scripts.Helpers
                 else
                 {
                     var upperDelta = deltaXUpper > _progressBarBankUpper ? _progressBarBankUpper : deltaXUpper;
+                    var progressBarBankValue = _progressBarBank;
                     _progressBarBank += upperDelta;
                     _progressBarBankUpper -= upperDelta;
+                    if (_timeBorderActivated != null && _progressBarBank > TimeActionBorder && TimeActionBorder > progressBarBankValue)
+                    {
+                        TimeActionBorder = TimeActionBorder - 4;
+                    }
                 }
             }
             else
             {
                 var deltaX = _moveTimerMultiple * Time.deltaTime;
+                var progressBarBankValue = _progressBarBank;
                 _progressBarBank = _progressBarBank - deltaX < 0 ? 0 : _progressBarBank - deltaX;
+                if (_progressBarBank < TimeActionBorder && TimeActionBorder < progressBarBankValue && _timeBorderActivated != null)
+                {
+                    _timeBorderActivated(gameObject, EventArgs.Empty);
+                }
             }
 
             
@@ -126,11 +182,6 @@ namespace Assets.Scripts.Helpers
                     }
                     else
                         rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
-                }
-                if (_progressBarBank < TimeActionBorder && TimeBorderActivated!=null)
-                {
-                    TimeBorderActivated(gameObject, EventArgs.Empty);
-                    TimeActionBorder = TimeActionBorder - 4;
                 }
                 if (_progressBarBank != 0) return;
                 //audio.Stop();

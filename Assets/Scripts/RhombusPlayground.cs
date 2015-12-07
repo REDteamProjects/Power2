@@ -207,7 +207,8 @@ namespace Assets.Scripts
                         if (includeMovingItemsInLine)
                         {
                             var goItem = (Items[x + i][y + i] as GameObject);
-                            if (goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                            if (goItem != null && ((goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)
+                            || goItem.GetComponent<GameItemScalingScript>().isScaling)) return 1;
                         }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
@@ -234,7 +235,8 @@ namespace Assets.Scripts
                         if (includeMovingItemsInLine)
                         {
                             var goItem = (Items[x + i][y - i] as GameObject);
-                            if (goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                            if (goItem != null && ((goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving)
+                            || goItem.GetComponent<GameItemScalingScript>().isScaling)) return 1;
                         }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
@@ -258,9 +260,10 @@ namespace Assets.Scripts
         public override int ClearChains()
         {
             if (IsGameOver) return -1;
-            //var gameOver = false;
+
             SelectedPoint1 = null;
             SelectedPoint2 = null;
+
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
@@ -277,6 +280,7 @@ namespace Assets.Scripts
                     GenerateField(false, true);
                     //ClearField();
                 }
+                RemoveAdditionalItems();
                 UpdateTime();
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;
@@ -317,16 +321,33 @@ namespace Assets.Scripts
                         var cX = i;
                         var cY = j;
 
-                        CallbacksCount++;
-                        Items[cX][cY] = null;
-                        c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
-                        {
-                            LogFile.Message(cX + " " + cY, true);
-                            CallbacksCount--;
-                            if (!result) return;
+                        if (c.GetComponent<GameItem>().IsTouched)
+                            GetComponent<DragItemScript>().CancelDragging((s, e) =>
+                                {
+                                CallbacksCount++;
+                                Items[cX][cY] = null;
+                                c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                                {
+                                    LogFile.Message(cX + " " + cY, true);
+                                    CallbacksCount--;
+                                    if (!result) return;
 
-                            Destroy(item);
-                        });
+                                    Destroy(item);
+                                });
+                                });
+                        else
+                        {
+                            CallbacksCount++;
+                            Items[cX][cY] = null;
+                            c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                            {
+                                LogFile.Message(cX + " " + cY, true);
+                                CallbacksCount--;
+                                if (!result) return;
+
+                                Destroy(item);
+                            });
+                        }
                     }
                 }
                 //Horizontal
@@ -358,17 +379,33 @@ namespace Assets.Scripts
 
                         var cX = i;
                         var cY = j;
+                        if (c.GetComponent<GameItem>().IsTouched)
+                            GetComponent<DragItemScript>().CancelDragging((s, e) =>
+                                {
+                                CallbacksCount++;
+                                Items[cX][cY] = null;
+                                c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                                {
+                                    LogFile.Message(cX + " " + cY, true);
+                                    CallbacksCount--;
+                                    if (!result) return;
 
-                        CallbacksCount++;
-                        Items[cX][cY] = null;
-                        c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                                    Destroy(item); 
+                                });
+                                });
+                        else
                         {
-                            LogFile.Message(cX + " " + cY, true);
-                            CallbacksCount--;
-                            if (!result) return;
+                            CallbacksCount++;
+                            Items[cX][cY] = null;
+                            c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                            {
+                                LogFile.Message(cX + " " + cY, true);
+                                CallbacksCount--;
+                                if (!result) return;
 
-                            Destroy(item); 
-                        });
+                                Destroy(item);
+                            });
+                        }
                     }
                 }
                 if (toObj != null)
@@ -379,9 +416,9 @@ namespace Assets.Scripts
                     var newgobjtype = toGi.Type + 1;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
                         new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f));
-                    
+                    if (toObj.GetComponent<GameItemMovingScript>().IsMoving)
+                        CallbacksCount--;
                     Destroy(toObj);
-                    
                     if (l.Orientation == LineOrientation.Vertical) 
                         Items[l.X2][l.Y2] = newgobj;
                     if (l.Orientation == LineOrientation.Horizontal)
@@ -406,7 +443,6 @@ namespace Assets.Scripts
                                 "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true);
                         }
                     }
-                    IsGameOver = newgobjtype == GameItemType._2x;
                 }
                 lines.Remove(l);
                 if (linesCount == 1)
@@ -434,9 +470,6 @@ namespace Assets.Scripts
             }
             LogFile.Message("All lines collected", true);
             RemoveAdditionalItems();
-
-            if (!IsGameOver) return linesCount;
-            GenerateGameOverMenu();
             
             return linesCount;
         }

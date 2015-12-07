@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e465e2fe5c8742948a2ed8b126be603f
-timeCreated: 1446490609
+timeCreated: 1449437140
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -22,6 +22,7 @@ TextureImporter:
     21300030: Signs_15
     21300032: Signs_16
     21300034: Signs_17
+    21300036: Signs_smallX
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -247,6 +248,16 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Signs_smallX
+      rect:
+        serializedVersion: 2
+        x: 810
+        y: 1680
+        width: 220
+        height: 220
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 2, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

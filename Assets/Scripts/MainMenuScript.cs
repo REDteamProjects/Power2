@@ -58,7 +58,7 @@ namespace Assets.Scripts
             _mainCamera = GameObject.Find("Main Camera");
             var fg = GameObject.Find("/GUI");
             var statsButton = GameObject.Find("/GUI/StatsButton");
-            _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(0/*statsButton.transform.localPosition.x + 120*/,
+            _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 120,
                 statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
                 ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))

@@ -27,11 +27,19 @@ public class DragItemScript : MonoBehaviour
         get { return _touchedItem; }
         private set
         {
-            if(_touchedItem != null)
+            if (_touchedItem != null)
             {
                 var pg = gameObject.GetComponent<IPlayground>();
                 var gobj = pg.Items[_touchedItem.X][_touchedItem.Y] as GameObject;
+                if (gobj != null)
                 gobj.GetComponent<GameItem>().IsTouched = false;
+            }
+            if(value != null)
+            {
+                var pg = gameObject.GetComponent<IPlayground>();
+                var gobj = pg.Items[value.X][value.Y] as GameObject;
+                if (gobj != null)
+                    gobj.GetComponent<GameItem>().IsTouched = true;
             }
             _touchedItem = value;
         }
@@ -187,7 +195,6 @@ public class DragItemScript : MonoBehaviour
                             var gi = gobj.GetComponent<GameItem>();
                             if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
 
-                            gi.IsTouched = true;
                             TouchedItem = new Point { X = col, Y = row };
                             touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
                             touchedItemOriginalPosition.z = gobj.transform.localPosition.z;

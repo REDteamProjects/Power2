@@ -386,6 +386,15 @@ namespace Assets.Scripts
                     }
                         return;
                 case 1:
+                    int row1 = RandomObject.Next(0, FieldSize-1);
+                    for (int col1 = 0; col1 < FieldSize; col1++)
+                    {
+                        var gobj = Items[col1][row1] as GameObject;
+                        if (gobj == null) continue;
+                        var gi = gobj.GetComponent<GameItem>();
+                        if (gi.MovingType != GameItemMovingType.Static)
+                            RemoveGameItem(col1, row1);
+                    }
                     return;
             }
         }
@@ -679,7 +688,6 @@ namespace Assets.Scripts
 
             if (CallbacksCount == 0)
                 Drop();
-
             if (!(HintTimeCounter >= 0)) return;
             if (HintTimeCounter > HintDelayTime && _selectedPoint1 == null && _selectedPoint2 == null)
             {
@@ -916,7 +924,8 @@ namespace Assets.Scripts
                         if(includeMovingItemsInLine)
                         {
                         var goItem = (Items[x + i][y] as GameObject);
-                        if( goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                        if (goItem != null && ((goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) 
+                            || goItem.GetComponent<GameItemScalingScript>().isScaling)) return 1;
                         }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
@@ -941,7 +950,8 @@ namespace Assets.Scripts
                         if(includeMovingItemsInLine)
                         {
                         var goItem = (Items[x][y + i] as GameObject);
-                        if(goItem != null && goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) break;
+                        if (goItem != null && ((goItem.GetComponent<GameItemMovingScript>().IsMoving && !goItem.GetComponent<GameItem>().IsDraggableWhileMoving) 
+                            || goItem.GetComponent<GameItemScalingScript>().isScaling)) return 1;
                         }
                         var gobj1 = Items[x][y] as GameObject;
                         if (gobj1 != null)
@@ -979,11 +989,12 @@ namespace Assets.Scripts
                 }
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
-                if (DropsCount == 0 && !CheckForPossibleMoves())
+                if (/*DropsCount*/CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);
                 }
+                RemoveAdditionalItems();
                 UpdateTime();
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;
@@ -1023,17 +1034,33 @@ namespace Assets.Scripts
                         //if (c.IsMoving) continue;
                         var cX = l.X1;
                         var cY = j;
+                        if (c.GetComponent<GameItem>().IsTouched)
+                            GetComponent<DragItemScript>().CancelDragging((s,e) =>
+                                {
+                                    CallbacksCount++;
+                                    Items[cX][cY] = null;
+                                    c.MoveTo(null, toCell.y, Game.standartItemSpeed, (item, result) =>
+                                    {
+                                        LogFile.Message(cX + " " + cY, true);
+                                        CallbacksCount--;
+                                        if (!result) return;
 
-                        CallbacksCount++;
-                        Items[cX][cY] = null;
-                        c.MoveTo(null, toCell.y, Game.standartItemSpeed, (item, result) =>
+                                        Destroy(item);
+                                    });
+                                });
+                        else
                         {
-                            LogFile.Message(cX + " " + cY, true);
-                            CallbacksCount--;
-                            if (!result) return;
+                            CallbacksCount++;
+                            Items[cX][cY] = null;
+                            c.MoveTo(null, toCell.y, Game.standartItemSpeed, (item, result) =>
+                            {
+                                LogFile.Message(cX + " " + cY, true);
+                                CallbacksCount--;
+                                if (!result) return;
+                                Destroy(item);
+                            });
+                        }
 
-                            Destroy(item);
-                        });
 
                     }
                 }
@@ -1063,15 +1090,31 @@ namespace Assets.Scripts
                         var cX = i;
                         var cY = l.Y1;
 
-                        CallbacksCount++;
-                        Items[cX][cY] = null;
-                        c.MoveTo(toCell.x, null, Game.standartItemSpeed, (item, result) =>
+                        if (c.GetComponent<GameItem>().IsTouched)
+                            GetComponent<DragItemScript>().CancelDragging((s, e) =>
+                                {
+                                    CallbacksCount++;
+                                    Items[cX][cY] = null;
+                                    c.MoveTo(toCell.x, null, Game.standartItemSpeed, (item, result) =>
+                                    {
+                                        LogFile.Message(cX + " " + cY, true);
+                                        CallbacksCount--;
+                                        if (!result) return;
+                                        Destroy(item);
+                                    });
+                                });
+                        else
                         {
-                            LogFile.Message(cX + " " + cY, true);
-                            CallbacksCount--;
-                            if (!result) return;
-                            Destroy(item);
-                        });
+                            CallbacksCount++;
+                            Items[cX][cY] = null;
+                            c.MoveTo(toCell.x, null, Game.standartItemSpeed, (item, result) =>
+                            {
+                                LogFile.Message(cX + " " + cY, true);
+                                CallbacksCount--;
+                                if (!result) return;
+                                Destroy(item);
+                            });
+                        }
                     }
                 }
                 if (toObj != null)
@@ -1081,30 +1124,29 @@ namespace Assets.Scripts
                     MaxInitialElementType++;
                     var newgobjtype = toGi.Type != GameItemType._2x ? toGi.Type + 1 : GameItemType._2x;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
-                        new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
-
-                    Items[l.X2][l.Y2] = null;
+                                new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
+                    if (toObj.GetComponent<GameItemMovingScript>().IsMoving)
+                        CallbacksCount--;
                     Destroy(toObj);
                     Items[l.X2][l.Y2] = newgobj;
                     var points = pointsMultiple * (int)Math.Pow(2, (double)newgobjtype);
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
-                    {
+                       {
                         var pointsLabel = o.GetComponent<LabelShowing>();
-
                         if (newgobjtype <= MaxInitialElementType)
-                        {
-                            pointsBank += points;
-                            pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
-                        }
-                        else
-                        {
-                            pointsBank += 2 * points;
-                            pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
-                        }
-                    }
+                                {
+                                    pointsBank += points;
+                                    pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
+                                        "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
+                                }
+                                else
+                                {
+                                    pointsBank += 2 * points;
+                                    pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
+                                        "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
+                                }
+                        }                  
                 }
                 lines.Remove(l);
                 if (linesCount == 1)
@@ -1132,7 +1174,7 @@ namespace Assets.Scripts
             }
             LogFile.Message("All lines collected", true);
             RemoveAdditionalItems();
-
+            
             return linesCount;
         }
 
@@ -1180,85 +1222,127 @@ namespace Assets.Scripts
         {
             if (Items == null) return;
 
-            var generateAfterDrop = true;
+            var generateAfterDrop = false;
 			//_lowestNullItem = 0;
             //if (DropsCount == 0) GenerateField(true);
 
-            var counterOfNotMovingItems = 0;
-
+            //var counterOfNotMovingItems = 0;
             for (var col = 0; col < FieldSize; col++)
             {
-                for (var row = FieldSize - 1; row > 0; row--)
+                bool nextrow = false;
+                for (var row = FieldSize - 1; row >= 0; row--)
                 {
                     if (Items[col][row] != null || Items[col][row] == DisabledItem)
                         continue;
-                    if (Items[col][row - 1] == null || Items[col][row - 1] == DisabledItem)
-                        continue;
-                    var o = Items[col][row - 1] as GameObject;
-                    if (o != null && (!AreStaticItemsDroppable && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
+                    if (row == 0)
                     {
-                            var rowStaticCounter = -1;
-                            GameObject o1;
-                            while ((row + rowStaticCounter) >= 0 && (o1 = Items[col][row + rowStaticCounter] as GameObject) != null &&
-                                o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
-                                rowStaticCounter--;
-							var newRow = row + rowStaticCounter;
-                            if ((newRow) < 0 || Items[col][newRow] == null)
-                                continue;
-                            var gobjS = Items[col][newRow] as GameObject;
-                            if (gobjS == null) continue;
-                            var cS = gobjS.GetComponent<GameItemMovingScript>();
-                            if (cS.IsMoving) continue;
-                            counterOfNotMovingItems++;
-                            Items[col][row] = gobjS;
-                            Items[col][newRow] = null;
-                            //if (newRow > _lowestNullItem)
-                            //    _lowestNullItem = newRow;
-                            /*if (!cS.IsMoving)*/ DropsCount++;
-                            var colS = col;
-                            var rowS = row;
-                            cS.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
-                            {
-                                if (!cS.IsMoving)
-                                    DropsCount--;
-                                if (!result) return;
-                                LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] DC: " + DropsCount, true);
-                            });
-                        if (row - 2 >= 0 && Items[col][row - 2] != null) generateAfterDrop = false;
-                        continue;
+                        generateAfterDrop = true;
+                        break;
                     }
-
-                    //var gobj = Items[col][row] as GameObject;
-                    if (o == null) continue;
-                    var c = o.GetComponent<GameItemMovingScript>();
-                    var dis = GetComponent<DragItemScript>();
-                    if (c.IsMoving || (dis.IsDragging && dis.TouchedItem.X == col && dis.TouchedItem.Y == row - 1)) 
-                        continue;
-                    counterOfNotMovingItems++;
-					var newRow1 = row - 1;
-                    //if (newRow1 > _lowestNullItem)
-                    //    _lowestNullItem = newRow1;
-                    Items[col][row] = Items[col][newRow1];
-                    Items[col][row-1] = null;
-                    if (newRow1 - 1 >= 0 && Items[col][newRow1 - 1] != null) generateAfterDrop = false;//DropsCount++;
-                    if (!c.IsMoving) DropsCount++;
-                    var col1 = col;
-                    var row1 = newRow1;
-                    c.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
+                    var fromrow = row-1;
+                    while (fromrow >= 0)
                     {
-                        //if (!c.IsMoving)
-                            DropsCount--;
-                        if (!result) return;
-                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount, true);
-
-                        //GenerateField(true);
-                    });
+                        var gobj = Items[col][fromrow] as GameObject;
+                        if (Items[col][fromrow] == null || Items[col][row] == DisabledItem || (!AreStaticItemsDroppable && gobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
+                            fromrow--;
+                        else
+                        {
+                            generateAfterDrop = true;
+                            var gims = gobj.GetComponent<GameItemMovingScript>();
+                            //var dis = GetComponent<DragItemScript>();
+                            nextrow = gims.IsMoving || gobj.GetComponent<GameItem>().IsTouched;
+                            if (nextrow)
+                                break;
+                            //DropsCount++;
+                            Items[col][row] = Items[col][fromrow];
+                            Items[col][fromrow] = null;
+                            CallbacksCount++;
+                            gims.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
+                            {
+                                //DropsCount--;
+                                CallbacksCount--;
+                                if (!result) return;
+                                LogFile.Message("New item droped Items[" + col + "][" + fromrow + "] DC: " + DropsCount, true);
+                            });
+                            break;
+                        }
+                    }
+                    if (nextrow)
+                        break;
                 }
             }
-            //LogFile.Message("counter " + counter + " DropsCount " + DropsCount);
+            if (generateAfterDrop)
+                GenerateField(true);
+            /*
+            if (Items[col][row - 1] == null || Items[col][row - 1] == DisabledItem)
+                continue;
+            var o = Items[col][row - 1] as GameObject;
+            if (o != null && (!AreStaticItemsDroppable && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
+            {
+                    var rowStaticCounter = -1;
+                    GameObject o1;
+                    while ((row + rowStaticCounter) >= 0 && (o1 = Items[col][row + rowStaticCounter] as GameObject) != null &&
+                        o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
+                        rowStaticCounter--;
+                    var newRow = row + rowStaticCounter;
+                    if ((newRow) < 0 || Items[col][newRow] == null)
+                        continue;
+                    var gobjS = Items[col][newRow] as GameObject;
+                    if (gobjS == null) continue;
+                    var cS = gobjS.GetComponent<GameItemMovingScript>();
+                    if (cS.IsMoving) continue;
+                    counterOfNotMovingItems++;
+                    Items[col][row] = gobjS;
+                    Items[col][newRow] = null;
+                    //if (newRow > _lowestNullItem)
+                    //    _lowestNullItem = newRow;
+                    //if (!cS.IsMoving)
+                    DropsCount++;
+                    var colS = col;
+                    var rowS = row;
+                    cS.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
+                    {
+                        if (!cS.IsMoving)
+                            DropsCount--;
+                        if (!result) return;
+                        LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] DC: " + DropsCount, true);
+                    });
+                if (row - 2 >= 0 && Items[col][row - 2] != null) generateAfterDrop = false;
+                continue;
+            }
 
-            if (counterOfNotMovingItems == 0 && DropsCount == 0 && generateAfterDrop)
-                GenerateField(true);              
+            //var gobj = Items[col][row] as GameObject;
+            if (o == null) continue;
+            var c = o.GetComponent<GameItemMovingScript>();
+            //var dis = GetComponent<DragItemScript>();
+            if (c.IsMoving || o.GetComponent<GameItem>().IsTouched)//(dis.IsDragging && dis.TouchedItem.X == col && dis.TouchedItem.Y == row - 1)) 
+                continue;
+            counterOfNotMovingItems++;
+            var newRow1 = row - 1;
+            //if (newRow1 > _lowestNullItem)
+            //    _lowestNullItem = newRow1;
+            Items[col][row] = Items[col][newRow1];
+            Items[col][row-1] = null;
+            if (newRow1 - 1 >= 0 && Items[col][newRow1 - 1] != null) generateAfterDrop = false;//DropsCount++;
+            if (!c.IsMoving) DropsCount++;
+            var col1 = col;
+            var row1 = newRow1;
+            c.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
+            {
+                //if (!c.IsMoving)
+                    DropsCount--;
+                if (!result) return;
+                LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] DC: " + DropsCount, true);
+
+                //GenerateField(true);
+            });
+        }
+    }
+    //LogFile.Message("counter " + counter + " DropsCount " + DropsCount);
+
+    if (counterOfNotMovingItems == 0 && DropsCount == 0 && generateAfterDrop)
+        GenerateField(true);      
+             */
         }
 
         public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
@@ -1426,6 +1510,13 @@ namespace Assets.Scripts
         {
             var item1 = Items[x1][y1] as GameObject;
             var item2 = Items[x2][y2] as GameObject;
+            if (item2 == null)
+            {
+                RevertMovedItem(x1, y1);
+                if (exchangeCallback != null)
+                    exchangeCallback(gameObject, false);
+                return false;
+            }
             if (!isReverse)
             {
                 Items[x1][y1] = item2;
@@ -1481,8 +1572,8 @@ namespace Assets.Scripts
                         });
             }
 
-            if (item2 != null)
-            {
+            //if (item2 != null)
+            //{
                 //item2.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
                 _currentExchangeItemsCount++;
@@ -1526,7 +1617,7 @@ namespace Assets.Scripts
                             }
 
                         });
-            }
+            //}
             return true;
         }
 
@@ -1768,13 +1859,13 @@ namespace Assets.Scripts
 
         public void RemoveGameItem(int i, int j, MovingFinishedDelegate removingCallback = null)
         {
-            var dis = GetComponent<DragItemScript>();
-            if (dis.IsDragging && dis.TouchedItem.X == i && dis.TouchedItem.Y == j)
+            var o = Items[i][j] as GameObject;
+            if(o.GetComponent<GameItem>().IsTouched)
             {
-                dis.CancelDragging((s, e) => RemoveGameItem(i, j));
+                GetComponent<DragItemScript>().CancelDragging((s, e) => RemoveGameItem(i, j));
                 return;
             }
-            var o = Items[i][j] as GameObject;
+            
             if (o == null) return;
             var giss = o.GetComponent<GameItemScalingScript>();
             var toSize = GameItemSize / ScaleMultiplyer / 4;
@@ -1799,25 +1890,26 @@ namespace Assets.Scripts
                     callback();
                 return;
             }
-            PauseButtonScript.PauseMenuActive = true;
-            Time.timeScale = 0F;
             var fg = GameObject.Find("/Foreground");
             if (fg == null) return;
-            var resource = Resources.Load("Prefabs/InGameHelper");
-            if (resource == null)
+            var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp" + modulePostfix);
+            if (manualPrefab == null)
             {
                 if (callback != null)
                     callback();
                 return;
             }
+            var manual = Instantiate(manualPrefab);
+            var resource = Resources.Load("Prefabs/InGameHelper");
+            Time.timeScale = 0F;
+            PauseButtonScript.PauseMenuActive = true;
             UserHelpScript.InGameHelpModule = Instantiate(resource) as GameObject;
             UserHelpScript.InGameHelpModule.transform.SetParent(fg.transform);
             UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
             UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -2);
-            var manual_0 = Instantiate(LanguageManager.Instance.GetPrefab("UserHelp" + modulePostfix));
-            manual_0.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
-            manual_0.transform.localScale = new Vector3(50, 50, 0);
-            manual_0.transform.localPosition = new Vector3(0, 30, 0);
+            manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
+            manual.transform.localScale = new Vector3(50, 50, 0);
+            manual.transform.localPosition = new Vector3(0, 30, 0);
             UserHelpScript.ShowUserHelpCallback = callback;
             PlayerPrefs.SetInt(modulePostfix, 1);
         }
