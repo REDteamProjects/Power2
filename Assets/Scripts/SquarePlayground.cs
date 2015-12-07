@@ -269,6 +269,7 @@ namespace Assets.Scripts
                     case GameItemType._16:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._2x;
+                        PlaygroundProgressBar.TimeBorderActivated += VeryHardLevelAction;
                         break;
                     case GameItemType._2x:
                         IsGameOver = true;

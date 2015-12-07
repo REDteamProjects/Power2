@@ -20,8 +20,8 @@ namespace Assets.Scripts.Helpers
         private float _maxBarYSize = 0;
         private float _barYSize = 0;
         private float _deltaBarYSize = 0;
-        private static float _timeActionBorder = ProgressBarBaseSize/2;
-        private const float _timeActionBorderMinimumSize = 160;
+        private static  float _timeActionBorder = 160;
+        private readonly float _timeActionBorderMaximumSize = ProgressBarBaseSize / 2;
         private static event EventHandler _timeBorderActivated;
         private static GameObject LeftSmallX = null;
         private static GameObject RightSmallX = null;
@@ -81,7 +81,7 @@ namespace Assets.Scripts.Helpers
             get { return _timeActionBorder; }
             private set
             {
-                if (value >= _timeActionBorderMinimumSize)
+                if (value <= _timeActionBorderMaximumSize)
                 {
                     _timeActionBorder = value;
                     if (LeftSmallX != null)
@@ -90,7 +90,7 @@ namespace Assets.Scripts.Helpers
                         RightSmallX.transform.localPosition = new Vector3(_timeActionBorder / 2, 0, -4);
                 }
                 else
-                    _timeActionBorder = _timeActionBorderMinimumSize;
+                    _timeActionBorder = _timeActionBorderMaximumSize;
             }
         }
 
@@ -138,13 +138,8 @@ namespace Assets.Scripts.Helpers
                 else
                 {
                     var upperDelta = deltaXUpper > _progressBarBankUpper ? _progressBarBankUpper : deltaXUpper;
-                    var progressBarBankValue = _progressBarBank;
                     _progressBarBank += upperDelta;
                     _progressBarBankUpper -= upperDelta;
-                    if (_timeBorderActivated != null && _progressBarBank > TimeActionBorder && TimeActionBorder > progressBarBankValue)
-                    {
-                        TimeActionBorder = TimeActionBorder - 4;
-                    }
                 }
             }
             else
@@ -155,6 +150,7 @@ namespace Assets.Scripts.Helpers
                 if (_progressBarBank < TimeActionBorder && TimeActionBorder < progressBarBankValue && _timeBorderActivated != null)
                 {
                     _timeBorderActivated(gameObject, EventArgs.Empty);
+                    TimeActionBorder += 4;
                 }
             }
 
