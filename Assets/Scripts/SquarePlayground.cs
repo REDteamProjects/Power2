@@ -199,7 +199,7 @@ namespace Assets.Scripts
             }
         }
 
-        protected void MaxInitialElementTypeRaisedActions()
+        protected virtual void MaxInitialElementTypeRaisedActions()
         {
             //if (!(_nextUpperLevelGameItemType != GameItemType.NullItem && MaxType == _nextUpperLevelGameItemType)
             if (MaxType < GameItemType._7)
@@ -235,6 +235,7 @@ namespace Assets.Scripts
                             int row;
                             while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
                                    (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) ||
+                                   Items[col][row] == null || Items[col][row] == DisabledItem ||
                                    (Items[col][row] as GameObject).GetComponent<GameItem>().Type >= GameItemType._2x ||
                                    (Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
                             {
@@ -400,7 +401,7 @@ namespace Assets.Scripts
             }
         }
 
-        private void ShowTimeLabel()
+        protected void ShowTimeLabel()
         {
             var bar = GetComponent<PlaygroundProgressBar>();
             var showTimeLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
@@ -653,8 +654,9 @@ namespace Assets.Scripts
                                 GameColors.BackgroundColor;
         }
 
-        protected void RemoveAdditionalItems()
+        protected bool RemoveAdditionalItems()
         {
+            bool result = false;
             for (var i = 0; i < FieldSize; i++)
                 if (Items[i][FieldSize - 1] != null && Items[i][FieldSize - 1] != DisabledItem)
                 {
@@ -680,7 +682,9 @@ namespace Assets.Scripts
                             //Items[i][FieldSize - 1] = null;
                             DropDownItemsCount--;
                         });
+                    result = true;
                 }
+            return result;
         }
 
         protected virtual void Update()
@@ -990,12 +994,12 @@ namespace Assets.Scripts
                 }
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
-                if (/*DropsCount*/CallbacksCount == 0 && !CheckForPossibleMoves())
+                
+                if (!RemoveAdditionalItems() && CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);
                 }
-                RemoveAdditionalItems();
                 UpdateTime();
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;
@@ -1893,7 +1897,7 @@ namespace Assets.Scripts
             }
             var fg = GameObject.Find("/Foreground");
             if (fg == null) return;
-            var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp" + modulePostfix);
+            var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp." + modulePostfix);
             if (manualPrefab == null)
             {
                 if (callback != null)

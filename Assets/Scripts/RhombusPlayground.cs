@@ -36,6 +36,38 @@ namespace Assets.Scripts
             _initialMoveTimerMultiple = 28;
         }
 
+        protected override void VeryHardLevelAction(object sender, EventArgs e)
+        {
+            var actionIndex = RandomObject.Next(0, 2);
+            switch (actionIndex)
+            {
+                case 0:
+                    int col = RandomObject.Next(0, FieldSize - 1);
+                    for (int row = 0; row < FieldSize; row++)
+                    if (Items[col][row] != DisabledItem)
+                    {
+                        var gobj = Items[col][row] as GameObject;
+                        if (gobj == null) continue;
+                        var gi = gobj.GetComponent<GameItem>();
+                        if (gi.MovingType != GameItemMovingType.Static)
+                            RemoveGameItem(col, row);
+                    }
+                    return;
+                case 1:
+                    int row1 = RandomObject.Next(0, FieldSize - 1);
+                    for (int col1 = 0; col1 < FieldSize; col1++)
+                    if (Items[col1][row1] != DisabledItem)
+                    {
+                        var gobj = Items[col1][row1] as GameObject;
+                        if (gobj == null) continue;
+                        var gi = gobj.GetComponent<GameItem>();
+                        if (gi.MovingType != GameItemMovingType.Static)
+                            RemoveGameItem(col1, row1);
+                    }
+                    return;
+            }
+        }
+
         public override bool IsInAnotherLine(IEnumerable<Line> lines, int currentX, int currentY)
         {
             var count = 0;
@@ -274,13 +306,12 @@ namespace Assets.Scripts
                 }
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
-                if (DropsCount == 0 && !CheckForPossibleMoves())
+                if (!RemoveAdditionalItems() && DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);
                     //ClearField();
                 }
-                RemoveAdditionalItems();
                 UpdateTime();
                 SavedataHelper.SaveData(SavedataObject);
                 return 0;

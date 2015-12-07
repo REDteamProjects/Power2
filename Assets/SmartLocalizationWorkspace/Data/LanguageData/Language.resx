@@ -182,19 +182,19 @@
 	<data name="StartGame" xml:space="preserve">
 		<value>Start game button text</value>
 	</data>
-	<data name="[type=GAME_OBJECT]UserHelp_easy" xml:space="preserve">
+	<data name="TimeStart" xml:space="preserve">
+		<value>Progress bar starting label</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp._easy" xml:space="preserve">
 		<value>Easy level help texture</value>
 	</data>
-	<data name="[type=GAME_OBJECT]UserHelp_hard" xml:space="preserve">
+	<data name="[type=GAME_OBJECT]UserHelp._hard" xml:space="preserve">
 		<value>Hard level help texture</value>
 	</data>
-	<data name="[type=GAME_OBJECT]UserHelp_medium" xml:space="preserve">
+	<data name="[type=GAME_OBJECT]UserHelp._medium" xml:space="preserve">
 		<value>Medium level help texture</value>
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>
-	</data>
-	<data name="TimeStart" xml:space="preserve">
-		<value>Progress bar starting label</value>
 	</data>
 </root>

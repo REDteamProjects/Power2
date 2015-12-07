@@ -188,7 +188,7 @@ namespace Assets.Scripts
                     RisePoints(sd.Score);
 
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    DifficultyRaisedGUI();
+                    MaxInitialElementTypeRaisedActions();
                     return;
                 }
             }
@@ -198,7 +198,7 @@ namespace Assets.Scripts
             Preferenses.GamesPlayed++;
             
             GenerateField();
-            DifficultyRaisedGUI();
+            MaxInitialElementTypeRaisedActions();
                 //ShowMaxInitialElement();
                 //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
                 //DownPoint = a.transform.position.y;      
@@ -220,7 +220,20 @@ namespace Assets.Scripts
             IsGameOver = true;
             GenerateGameOverMenu();
             PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
-        } 
+        }
+
+
+        protected override void MaxInitialElementTypeRaisedActions()
+        {
+            if (_showTimeLabel)
+            {
+                _showTimeLabel = false;
+                ShowTimeLabel();
+            }
+            else
+                PlaygroundProgressBar.ProgressBarRun = true;
+        }
+
 
         public override int ClearChains()
         {

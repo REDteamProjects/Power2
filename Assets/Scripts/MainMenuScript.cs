@@ -115,7 +115,7 @@ namespace Assets.Scripts
             var txt = label.GetComponent<Text>();
             txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
             txt.color = GameColors.ForegroundButtonsColor;
-
+            Game.Difficulty = DifficultyLevel._easy;
             Application.LoadLevel(scene);
         }
 
