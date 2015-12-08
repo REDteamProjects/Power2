@@ -30,6 +30,7 @@ namespace Assets.Scripts.Helpers
         public static bool ProgressBarRun;
 
         public static event EventHandler ProgressBarOver;
+
         public static event EventHandler TimeBorderActivated
         {
             add 
@@ -55,6 +56,7 @@ namespace Assets.Scripts.Helpers
                 _timeBorderActivated -= value;
                 if(_timeBorderActivated == null)
                 {
+                    TimeBorderDeActivated = null;
                     if (LeftSmallX != null)
                     {
                         Destroy(LeftSmallX);
@@ -68,6 +70,8 @@ namespace Assets.Scripts.Helpers
                 }
             }
         }
+
+        public static event EventHandler TimeBorderDeActivated;
         
         public float Multiplier { get { return _moveTimerMultiple; } }
         public float State { get { return _progressBarBank; } }
@@ -138,7 +142,12 @@ namespace Assets.Scripts.Helpers
                 else
                 {
                     var upperDelta = deltaXUpper > _progressBarBankUpper ? _progressBarBankUpper : deltaXUpper;
+                    var progressBarBankValue = _progressBarBank;
                     _progressBarBank += upperDelta;
+                    if (TimeBorderDeActivated != null && _progressBarBank > TimeActionBorder && TimeActionBorder > progressBarBankValue)
+                    {
+                        TimeBorderDeActivated(gameObject, EventArgs.Empty);
+                    }
                     _progressBarBankUpper -= upperDelta;
                 }
             }
@@ -147,7 +156,7 @@ namespace Assets.Scripts.Helpers
                 var deltaX = _moveTimerMultiple * Time.deltaTime;
                 var progressBarBankValue = _progressBarBank;
                 _progressBarBank = _progressBarBank - deltaX < 0 ? 0 : _progressBarBank - deltaX;
-                if (_progressBarBank < TimeActionBorder && TimeActionBorder < progressBarBankValue && _timeBorderActivated != null)
+                if (_timeBorderActivated != null && _progressBarBank < TimeActionBorder && TimeActionBorder < progressBarBankValue)
                 {
                     _timeBorderActivated(gameObject, EventArgs.Empty);
                     TimeActionBorder += 4;
@@ -213,6 +222,14 @@ namespace Assets.Scripts.Helpers
             ProgressBarRun = false;
             _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
                .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
+        }
+
+        public static void SetSmallXsColor(Color color)
+        {
+            if(LeftSmallX != null)
+                LeftSmallX.GetComponent<Image>().color = color;
+            if(RightSmallX != null)
+                RightSmallX.GetComponent<Image>().color = color;
         }
     }
 }

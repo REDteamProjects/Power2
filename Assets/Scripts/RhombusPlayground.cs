@@ -306,7 +306,7 @@ namespace Assets.Scripts
                 }
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
-                if (!RemoveAdditionalItems() && DropsCount == 0 && !CheckForPossibleMoves())
+                if (!RemoveAdditionalItems() && CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);
@@ -456,24 +456,18 @@ namespace Assets.Scripts
                         Items[l.X1][l.Y1] = newgobj;
 
                     var points = pointsMultiple * (int)Math.Pow(2, (double)newgobjtype);
-                    var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (o != null)
-                    {
-                        var pointsLabel = o.GetComponent<LabelShowing>();
-                        
                         if (newgobjtype <= MaxInitialElementType)
                         {
                             pointsBank += points;
-                            pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true);
+                            LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
                         }
                         else
                         {
                             pointsBank += 2 * points;
-                            pointsLabel.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true);
+                            LabelShowing.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
                         }
-                    }
                 }
                 lines.Remove(l);
                 if (linesCount == 1)
@@ -551,13 +545,15 @@ namespace Assets.Scripts
                         if (cS.IsMoving) continue;
                         Items[col + downItemSide * rowStaticCounter][row + rowStaticCounter] = Items[col][row];
                         Items[col][row] = null;
-                        if (!cS.IsMoving) DropsCount++;
+                        //if (!cS.IsMoving) DropsCount++;
                         var colS = col;
                         var rowS = row;
+                        CallbacksCount++;
                         cS.MoveTo(null, GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y, rhombusDropSpeed, (item, result) =>
                         {
-                            if (!cS.IsMoving)
-                                DropsCount--;
+                            //if (!cS.IsMoving)
+                               // DropsCount--;
+                            CallbacksCount--;
                             if (!result) return;
                             LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] cc: " + CallbacksCount, true);
                         });
@@ -572,22 +568,23 @@ namespace Assets.Scripts
                     var toCell = GetCellCoordinates(col + downItemSide, row + 1);
                     var col1 = col;
                     var row1 = row;
-                    if (!c.IsMoving) DropsCount++;
+                    //if (!c.IsMoving) 
+                        CallbacksCount++;
                     c.MoveTo(toCell.x, toCell.y, rhombusDropSpeed, (item, result) =>
                     {
-                        if (!c.IsMoving)
-                            DropsCount--;
+                        //if (!c.IsMoving)
+                        CallbacksCount--;
                         if (!result) return;
                         LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] cc: " + CallbacksCount, true);
                     });
                     Items[col + downItemSide][row + 1] = Items[col][row];
                     Items[col][row] = null;
                     if (row + 2 < FieldSize && Items[col][row + 2] == null) 
-                        generateAfterDrop = false;//DropsCount++;
+                        generateAfterDrop = false;
                 }
             }
             //DropsCount -= FieldSize * (FieldSize - 1);
-            if (DropsCount == 0 && generateAfterDrop 
+            if (/*DropsCount == 0 && */generateAfterDrop 
                 && counter < (FieldSize - 1) * (FieldSize - 1))
                 GenerateField(true);
         }
@@ -672,7 +669,7 @@ namespace Assets.Scripts
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, MixField, true);
+                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, MixField, true);
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }

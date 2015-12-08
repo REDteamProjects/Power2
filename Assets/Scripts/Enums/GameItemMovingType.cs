@@ -6,6 +6,7 @@ namespace Assets.Scripts.Enums
     {
         Standart,
         StandartChangable,
+        StandartExchangable,
         Diagonal,
         Free,
         Static

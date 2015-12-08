@@ -254,7 +254,8 @@ public class DragItemScript : MonoBehaviour
                 {
                     case GameItemMovingType.Standart:
                     case GameItemMovingType.StandartChangable:
-                        if (touchDirection != null && giObject.MovingType == GameItemMovingType.Standart)
+                    case GameItemMovingType.StandartExchangable:
+                        if (touchDirection != null /*&& giObject.MovingType == GameItemMovingType.Standart*/)
                         {
                             switch(touchDirection)
                             {

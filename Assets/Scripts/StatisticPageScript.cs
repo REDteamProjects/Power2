@@ -117,7 +117,7 @@ public class StatisticPageScript : MonoBehaviour
         l.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
         var pointsLabel = l.GetComponent<LabelShowing>();
-        pointsLabel.ShowScalingLabel(new Vector3(0,50,0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, Game.maxLabelFontSize, Game.maxLabelFontSize, 1, Game.textFont);
+        pointsLabel.ShowScalingLabel(new Vector3(0,50,0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
     }
 
     public void ResetStats()
@@ -162,7 +162,7 @@ public class StatisticPageScript : MonoBehaviour
                 LoadDataToView<Mode11RhombusPlaygroundSavedata, Mode11RhombusPlayground>();
                 break;
             case GameTypes._match3:
-                LoadDataToView<ModeMatch3PlaygroundSavedata, ModeMatch3Playground>();
+                LoadDataToView<ModeMatch3PlaygroundSavedata, ModeMatch3SquarePlayground>();
                 break;
             case GameTypes._drops:
                 LoadDataToView<ModeDropsPlaygroundSavedata, ModeDropsPlayground>();

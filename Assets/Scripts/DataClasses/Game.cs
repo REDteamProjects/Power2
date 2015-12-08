@@ -19,8 +19,6 @@ namespace Assets.Scripts.DataClasses
         public static GameTheme _theme = GameTheme.dark;
         public static Font textFont;
         public static Font numbersFont;
-        public static Int32 minLabelFontSize = 60;
-        public static Int32 maxLabelFontSize = 100;
         public static float standartItemSpeed = 24;
 
         public static GameTheme Theme
@@ -48,7 +46,7 @@ namespace Assets.Scripts.DataClasses
                     PlaygroundObject = gameObject.AddComponent<Mode11RhombusPlayground>();
                     break;
                 case GameTypes._match3:
-                    PlaygroundObject = gameObject.AddComponent<ModeMatch3Playground>();
+                    PlaygroundObject = gameObject.AddComponent<ModeMatch3SquarePlayground>();
                     break;
                 case GameTypes._drops:
                     PlaygroundObject = gameObject.AddComponent<ModeDropsPlayground>();

@@ -209,7 +209,7 @@ namespace Assets.Scripts
             _dropsbutton = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -220, 0), LanguageManager.Instance.GetTextValue("DropsMode"), 50,
                 () => OnModeSelect("Drops", GameSettingsHelper<ModeDropsPlayground>.Preferenses.MaximumOpenedLevel));
             _match3button = GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -300, 0), LanguageManager.Instance.GetTextValue("Match3Mode"), 50,
-                () => OnModeSelect("Match3", GameSettingsHelper<ModeMatch3Playground>.Preferenses.MaximumOpenedLevel));
+                () => OnModeSelect("Match3", GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.MaximumOpenedLevel));
             _backButton = GenerateMenuButton("Prefabs/BackButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x, 
                 -statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0,
                 OnBackButtonPress);

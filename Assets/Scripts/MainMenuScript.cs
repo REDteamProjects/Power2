@@ -15,6 +15,7 @@ namespace Assets.Scripts
         public MenuState CurrentState;
         private static GameObject _soundButton;
         private static GameObject _mainCamera;
+        private const int _toOpenLevelStep = 65536;
 
         public static void UpdateTheme()
         {
@@ -68,7 +69,20 @@ namespace Assets.Scripts
                 _mainCamera.GetComponent<AudioSource>().Play();
 
             UpdateTheme();
+            if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < _toOpenLevelStep)
+            {
+                //close 8x8Mode
+            }
+            if(GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < _toOpenLevelStep)
+            {
+                //close Match3Mode
+            }
+            if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < _toOpenLevelStep)
+            {
+                //close Mode11Rhombus
+            }
         }
+
 
         public bool SoundEnabled
         {

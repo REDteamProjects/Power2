@@ -176,7 +176,7 @@ R.E.D.team</value>
 		<value>СУМАСШЕДШИЙ</value>
 	</data>
 	<data name="ResetAll" xml:space="preserve">
-		<value>СБРОС ЗНАЧЕНИЙ</value>
+		<value>СБРОСИТЬ ПРОГРЕСС</value>
 	</data>
 	<data name="RhombusMode" xml:space="preserve">
 		<value>РОБМ</value>

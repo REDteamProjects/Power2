@@ -9,10 +9,11 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    class ModeMatch3Playground : SquarePlayground
+    class ModeMatch3SquarePlayground : SquarePlayground
     {
         private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.36F, Y = 12.06F, Z = -1 };
-        private const int GameOverPoints = 65536;
+        private const int GameOverPoints = 32768;
+        private GameItemType toBlock;
 
         public override int CurrentScore
         {
@@ -23,22 +24,25 @@ namespace Assets.Scripts
                 switch(Game.Difficulty)
                 {
                     case DifficultyLevel._easy:
-                        if (CurrentScore < 16384) return;
+                        if (CurrentScore < 8192) return;
                         Game.Difficulty = DifficultyLevel._medium;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 4;
                         DifficultyRaisedGUI();
+                        _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._medium:
-                        if (CurrentScore < 32768) return;
+                        if (CurrentScore < 16384) return;
                         Game.Difficulty = DifficultyLevel._hard;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 8;
                         DifficultyRaisedGUI();
+                        _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._hard:
-                        if (CurrentScore < 49152) return;
+                        if (CurrentScore < 24576) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 12;
                         DifficultyRaisedGUI();
+                        _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._veryhard:
                         if (CurrentScore < GameOverPoints) return;
@@ -49,14 +53,76 @@ namespace Assets.Scripts
             }
         }
 
-        public override IGameSettingsHelper Preferenses
+        protected override void MaxInitialElementTypeRaisedActions()
         {
-            get { return GameSettingsHelper<ModeMatch3Playground>.Preferenses; }
+            if (_showTimeLabel)
+            {
+                _showTimeLabel = false;
+                ShowTimeLabel();
+            }
+            else
+                PlaygroundProgressBar.ProgressBarRun = true;
+            switch(Game.Difficulty)
+            {
+                case DifficultyLevel._hard:
+                    SpawnXItems();
+                    break;
+                case DifficultyLevel._veryhard:
+                    toBlock = (GameItemType)RandomObject.Next(0, FieldSize);
+                    PlaygroundProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
+                    PlaygroundProgressBar.TimeBorderActivated += VeryHardLevelAction;
+                    PlaygroundProgressBar.TimeBorderDeActivated += VeryHardLevelActionDeactivate;
+                    break;
+            }
         }
 
-        public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<ModeMatch3Playground>(); } }
+        protected override void VeryHardLevelAction(object sender, EventArgs e)
+        {
+          /*for (int diag1 = 0,row = FieldSize - 1; diag1 < FieldSize; diag1++,row--)
+              {
+                  var gobj = Items[diag1][diag1] as GameObject;
+                  if (gobj == null) continue;
+                  var gi = gobj.GetComponent<GameItem>();
+                  if (gi.MovingType != GameItemMovingType.Static)
+                      RemoveGameItem(diag1, diag1);
+                  gobj = Items[diag1][row] as GameObject;
+                  if (gobj == null) continue;
+                  gi = gobj.GetComponent<GameItem>();
+                  if (gi.MovingType != GameItemMovingType.Static)
+                      RemoveGameItem(diag1, row);
+              }*/
+            for (int col = 0; col < FieldSize; col++)
+                for (int row = 0; row < FieldSize; row++)
+                    if (Items[col][row] != null)
+                    {
+                        var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
+                        if (gi.Type == toBlock)
+                            gi.MovingType = GameItemMovingType.Static;
+                    }
+        }
 
-        public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<ModeMatch3Playground>(); } }
+        private void VeryHardLevelActionDeactivate(object sender, EventArgs e)
+        {
+            for (int col = 0; col < FieldSize; col++)
+                for (int row = 0; row < FieldSize; row++)
+                    if (Items[col][row] != null)
+                    {
+                        var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
+                        if(gi.Type == toBlock)
+                        gi.MovingType = GameItemMovingType.Standart;
+                    }
+           toBlock = (GameItemType)RandomObject.Next(0, FieldSize);
+           PlaygroundProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
+        }
+
+        public override IGameSettingsHelper Preferenses
+        {
+            get { return GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses; }
+        }
+
+        public override String ItemPrefabName { get { return ItemsNameHelper.GetPrefabPath<ModeMatch3SquarePlayground>(); } }
+
+        public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<ModeMatch3SquarePlayground>(); } }
 
         public override IPlaygroundSavedata SavedataObject
         {
@@ -122,7 +188,7 @@ namespace Assets.Scripts
 
         public override float GameItemSize { get { return 3.805f; } }
 
-        ModeMatch3Playground()
+        ModeMatch3SquarePlayground()
         {          
         }
 
@@ -176,6 +242,15 @@ namespace Assets.Scripts
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
                                 ? GenerateGameItem(sd.Items[i][j], i, j, null, false, null, null, sd.MovingTypes[i][j])
                                 : null;
+                            switch (sd.Items[i][j])
+                            {
+                                case GameItemType._DropDownItem:
+                                    DropDownItemsCount++;
+                                    break;
+                                case GameItemType._XItem:
+                                    XItemsCount++;
+                                    break;
+                            }
                         }
 
                     //var score = GetComponentInChildren<Text>();
@@ -223,18 +298,6 @@ namespace Assets.Scripts
         }
 
 
-        protected override void MaxInitialElementTypeRaisedActions()
-        {
-            if (_showTimeLabel)
-            {
-                _showTimeLabel = false;
-                ShowTimeLabel();
-            }
-            else
-                PlaygroundProgressBar.ProgressBarRun = true;
-        }
-
-
         public override int ClearChains()
         {
             if (IsGameOver) return -1;
@@ -245,6 +308,11 @@ namespace Assets.Scripts
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
+                if (_raiseMaxInitialElement)
+                {
+                    _raiseMaxInitialElement = false;
+                    MaxInitialElementTypeRaisedActions();
+                }
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
                 if (DropsCount == 0 && !CheckForPossibleMoves())
@@ -319,16 +387,16 @@ namespace Assets.Scripts
                 //{
                     //var gi = currentObj.GetComponent<GameItem>();
                     var points = pointsMultiple * (int)Math.Pow(2, (double)cellType);
-                    var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                    /*var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (scalingLabelObject != null)
                     {
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
-                        pointsLabel.transform.SetParent(transform);
+                        pointsLabel.transform.SetParent(transform);*/
                         pointsBank += points;
-                        pointsLabel.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, null, true,
-                            null);
+                        LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
+                            null, 0, cellType);
 
-                    }
+                    //}
                 //}
                 CallbacksCount--;
                 lines.Remove(l);

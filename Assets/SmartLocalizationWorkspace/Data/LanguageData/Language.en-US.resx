@@ -176,7 +176,7 @@ R.E.D.team</value>
 		<value>PSYCHO</value>
 	</data>
 	<data name="ResetAll" xml:space="preserve">
-		<value>Reset All</value>
+		<value>RESET PROGRESS</value>
 	</data>
 	<data name="RhombusMode" xml:space="preserve">
 		<value>RHOMBUS</value>

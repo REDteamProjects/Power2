@@ -23,7 +23,7 @@ public class ItemsNameHelper  {
             }*/
         }
 
-        if (typeT == typeof (ModeMatch3Playground))
+        if (typeT == typeof (ModeMatch3SquarePlayground))
         {
             /*switch (Game.Theme)
             {
@@ -66,7 +66,7 @@ public class ItemsNameHelper  {
         if (typeT == typeof(ModeDropsPlayground))
             return "SD/6x6Atlas";
 
-        if (typeT == typeof(ModeMatch3Playground))
+        if (typeT == typeof(ModeMatch3SquarePlayground))
             return "SD/8x8Atlas";
 
         if (typeT == typeof(RhombusPlayground) || typeT.BaseType == typeof(RhombusPlayground))

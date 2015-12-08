@@ -4,9 +4,16 @@ using UnityEngine.UI;
 using Assets.Scripts;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts.Enums;
+using System.Collections.Generic;
+
 
 public class LabelShowing : MonoBehaviour {
 
+    public static Int32 minLabelFontSize = 70;
+    public static Int32 maxLabelFontSize = 100;
+    private static List<LabelShowing> PointLabels = new List<LabelShowing>();
+    private Vector3 _localScale;
+    private GameItemType? _type = null;
     private int _animateFromSize;
     private int _scaleFontTo;
     private bool _destroyAfterAnimation;
@@ -57,10 +64,20 @@ public class LabelShowing : MonoBehaviour {
                     }
                     else
                     {
-                        if (Shadow != null)
-                        Destroy(Shadow.gameObject);
-                        Destroy(gameObject);
-                        _destroyAfterAnimation = false;
+                        if (_type.HasValue)
+                        {
+                            _scaleState = ScaleState._none;
+                            transform.localScale = Vector3.zero;
+                            if (Shadow != null)
+                                Shadow.transform.localScale = Vector3.zero;
+                        }
+                        else
+                        {
+                            if (Shadow != null)
+                                Destroy(Shadow.gameObject);
+                            Destroy(gameObject);
+                        }
+                        //_destroyAfterAnimation = false;
                         if (_animationFinished == null) return;
                         var callback = _animationFinished;
                         _animationFinished = null;
@@ -79,21 +96,42 @@ public class LabelShowing : MonoBehaviour {
         }
 	}  
 
-    public void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
+    public static void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
          int animateToSize, int step = 1, Font font = null,
-        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, int rotateAngle = 0)
+        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, int rotateAngle = 0, GameItemType? type = null)
     {
         var fg = GameObject.Find("/Foreground");
         //var wp = initGameObject.transform.position;
-        transform.SetParent(fg.transform);
-
         var newPos = fg.transform.InverseTransformPoint(initGameObject.transform.position/*wp*/);
         var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
-
-        ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, step, font, destroyAfterAnimation, callback, false, rotateAngle);
+        if(type.HasValue)
+        {
+            for(int i = 0;i < PointLabels.Count;i++)
+                if(PointLabels[i]._type.HasValue && PointLabels[i]._type.Value == type && PointLabels[i]._scaleState == ScaleState._none)
+                {
+                    PointLabels[i]._labelText.text = text;
+                    PointLabels[i].transform.localPosition = showOn;
+                    PointLabels[i].transform.localScale = PointLabels[i]._localScale;
+                    if (PointLabels[i].Shadow != null)
+                    {
+                        PointLabels[i].Shadow._labelText.text = text;
+                        PointLabels[i].Shadow.transform.localPosition = new Vector3(showOn.x - 3,showOn.y,showOn.z);
+                        PointLabels[i].Shadow.transform.localScale = PointLabels[i]._localScale;
+                    }
+                    PointLabels[i]._scaleState = ScaleState._increase;
+                    return;
+                }
+        }
+        var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+        var label = o.GetComponent<LabelShowing>();
+        label._type = type;
+        label.transform.SetParent(fg.transform);
+        label.ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, step, font, destroyAfterAnimation, callback, false, rotateAngle);
+        if(type.HasValue)
+            PointLabels.Add(label);
     }
 
-    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null, 
+    public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null,
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, bool toForeground = false, int rotateAngle = 0)
     {
         if (toForeground)
@@ -104,7 +142,6 @@ public class LabelShowing : MonoBehaviour {
             position = fg.transform.InverseTransformPoint(position);
             position.z = z;
         }
-
         _step = step;
         //animateToSize += (animateToSize - animateFromSize) % _step;
 
@@ -132,7 +169,7 @@ public class LabelShowing : MonoBehaviour {
                 Shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 Shadow.transform.SetParent(transform.parent);
                 Shadow.transform.localScale = transform.localScale;
-                Shadow.ShowWIthShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? animateToSize > 60 ? 3f : 2f : 0), position.y, position.z),
+                Shadow.ShowWithShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? animateToSize > 60 ? 3f : 2f : 0), position.y, position.z),
                     text, textColor, textColor, animateFromSize, animateToSize, font, rotateAngle);
                 animateFromSize += 1;
                 animateToSize += 1;
@@ -148,9 +185,10 @@ public class LabelShowing : MonoBehaviour {
         _destroyAfterAnimation = destroyAfterAnimation;
         _pauseTimeout = 30 / _step;
         _animationFinished = callback;
+        _localScale = transform.localScale;
     }
 
-     private void ShowWIthShadowLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, int rotateAngle = 0)
+     private void ShowWithShadowLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, Font font = null, int rotateAngle = 0)
      {
          transform.localPosition = position;
 

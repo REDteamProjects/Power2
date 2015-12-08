@@ -132,7 +132,7 @@ public class PauseButtonScript : MonoBehaviour
         if (l != null)
         {
             var pointsLabel = l.GetComponent<LabelShowing>();
-            pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, Game.maxLabelFontSize, Game.maxLabelFontSize, 1, Game.textFont);
+            pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
         }
     }
 

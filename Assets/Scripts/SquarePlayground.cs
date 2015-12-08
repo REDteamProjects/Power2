@@ -229,24 +229,7 @@ namespace Assets.Scripts
                         if (_2xItemsCount < 1)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
-                        while (XItemsCount < MaxAdditionalItemsCount)
-                        {
-                            int col;
-                            int row;
-                            while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
-                                   (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) ||
-                                   Items[col][row] == null || Items[col][row] == DisabledItem ||
-                                   (Items[col][row] as GameObject).GetComponent<GameItem>().Type >= GameItemType._2x ||
-                                   (Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
-                            {
-                            }
-                            RemoveGameItem(col, row, (item, r) =>
-                            {
-                                Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero,
-                                    false, null, null, GameItemMovingType.Static);
-                            });
-                            XItemsCount++;
-                        }
+                        SpawnXItems();
                         _nextUpperLevelGameItemType = GameItemType._13;
                         break;
                     case GameItemType._11:
@@ -287,7 +270,27 @@ namespace Assets.Scripts
         }
         
 
-
+        protected virtual void SpawnXItems()
+        {
+            while (XItemsCount < MaxAdditionalItemsCount)
+            {
+                int col;
+                int row;
+                while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
+                       (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) ||
+                       Items[col][row] == null || Items[col][row] == DisabledItem ||
+                       (Items[col][row] as GameObject).GetComponent<GameItem>().Type >= GameItemType._2x ||
+                       (Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
+                {
+                }
+                RemoveGameItem(col, row, (item, r) =>
+                {
+                    Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero,
+                        false, null, null);
+                });
+                XItemsCount++;
+            }
+        }
 
         protected void DifficultyRaisedGUI(bool withLabel = true)
         {
@@ -356,7 +359,7 @@ namespace Assets.Scripts
             var difficultyRaisedLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
 
             difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
-                GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, () =>
+                GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, () =>
                 {
                         CreateInGameHelpModule(Game.Difficulty.ToString(), () => {
                             if (_showTimeLabel)
@@ -408,7 +411,7 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
             showTimeLabel.ShowScalingLabel(new Vector3(bar.Coordinate.x, bar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-               GameColors.DefaultDark, GameColors.DifficultyLevelsColors[Game.Difficulty], Game.minLabelFontSize - 40, Game.maxLabelFontSize - 50, 1, null, true, () =>
+               GameColors.DefaultDark, GameColors.DifficultyLevelsColors[Game.Difficulty], LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 50, 1, null, true, () =>
                {
                    PlaygroundProgressBar.ProgressBarRun = true;
                });
@@ -664,14 +667,14 @@ namespace Assets.Scripts
                     if (gobj == null ||
                         (gobj.GetComponent<GameItem>().Type != GameItemType._DropDownItem ||
                          gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
-                    var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                   /* var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
                     {
                         var pointsLabel = o.GetComponent<LabelShowing>();
-                        pointsLabel.transform.SetParent(transform);
-                        pointsLabel.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
-                            "+" + 222, Color.white, Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
-                    }
+                        pointsLabel.transform.SetParent(transform);*/
+                        LabelShowing.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
+                            "+" + 222, Color.white, Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._DropDownItem);
+                    //}
                     RisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
                         ProgressBar.AddTime(AdditionalItemCost * 2);
@@ -722,7 +725,7 @@ namespace Assets.Scripts
             HintTimeCounter += Time.deltaTime;
         }
 
-        public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale, GameItemMovingType movingType = GameItemMovingType.Standart)
+        public GameObject InstantiateGameItem(GameItemType itemType, Vector3 localPosition, Vector3 localScale, GameItemMovingType? movingType = null)
         {
             var newgobj = Instantiate(Resources.Load(ItemPrefabName + itemType)) as GameObject;
             if (newgobj == null) return null;
@@ -732,12 +735,12 @@ namespace Assets.Scripts
             newgobj.transform.SetParent(transform);
             newgobj.transform.localPosition = localPosition;
             newgobj.transform.localScale = localScale;
-            newgobj.GetComponent<GameItem>().MovingType = movingType;
+            if(movingType.HasValue)
+                newgobj.GetComponent<GameItem>().MovingType = movingType.Value;
             return newgobj;
         }
 
-        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null,
-            GameItemMovingType movingType = GameItemMovingType.Standart)
+        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
             if (!generateOn.HasValue)
                 generateOn = new Vector2(0, FieldSize - j);
@@ -779,7 +782,7 @@ namespace Assets.Scripts
             return gobj;
         }
 
-        public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType movingType = GameItemMovingType.Standart)
+        public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
             //var minType = MaxType - FieldSize;
             var newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1, (int)MaxInitialElementType + 1);
@@ -787,7 +790,7 @@ namespace Assets.Scripts
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
+            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
         }
 
         //private bool IsEndPoint(IEnumerable<Line> lines, int currentX, int currentY)
@@ -1135,23 +1138,18 @@ namespace Assets.Scripts
                     Destroy(toObj);
                     Items[l.X2][l.Y2] = newgobj;
                     var points = pointsMultiple * (int)Math.Pow(2, (double)newgobjtype);
-                    var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (o != null)
-                       {
-                        var pointsLabel = o.GetComponent<LabelShowing>();
                         if (newgobjtype <= MaxInitialElementType)
                                 {
                                     pointsBank += points;
-                                    pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                        "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
+                                    LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
+                                        "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
                                 }
-                                else
+                         else
                                 {
                                     pointsBank += 2 * points;
-                                    pointsLabel.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                        "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, Game.minLabelFontSize, Game.maxLabelFontSize, 3, Game.numbersFont, true);
-                                }
-                        }                  
+                                    LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
+                                        "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
+                                }               
                 }
                 lines.Remove(l);
                 if (linesCount == 1)
@@ -1205,7 +1203,7 @@ namespace Assets.Scripts
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 10, -3),
-                isWinning ? LanguageManager.Instance.GetTextValue("YouWinTitle") : LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 1, null, false, () =>
+                isWinning ? LanguageManager.Instance.GetTextValue("YouWinTitle") : LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 1, null, false, () =>
                 {
                     var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
                     if (gameOverMenu == null) return;
@@ -1350,6 +1348,7 @@ namespace Assets.Scripts
              */
         }
 
+
         public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
         {
             if (!mixCurrent)
@@ -1433,7 +1432,7 @@ namespace Assets.Scripts
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize, Game.maxLabelFontSize, 2, null, true, MixField, true);
+                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, MixField, true);
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
@@ -1741,6 +1740,8 @@ namespace Assets.Scripts
             if (Items[x1][y1] == null || Items[x1][y1] == DisabledItem ||
                 Items[x2][y2] == null || Items[x2][y2] == DisabledItem)
                 return false;
+            if ((Items[x1][y1] as GameObject).GetComponent<GameItem>().MovingType == GameItemMovingType.StandartExchangable)
+                return true;
             var tItem = Items[x1][y1];
             Items[x1][y1] = Items[x2][y2];
             Items[x2][y2] = tItem;
@@ -1822,7 +1823,7 @@ namespace Assets.Scripts
 
             //comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
             comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -10 : 10, Item00.Y + GameItemSize*2.5f, -1),
-                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, Game.minLabelFontSize / 3, Game.minLabelFontSize, 2, null, true, null, false,
+                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize / 3, LabelShowing.minLabelFontSize, 2, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
