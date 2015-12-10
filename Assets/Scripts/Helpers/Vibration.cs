@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets.Scripts.Helpers;
 using UnityEngine;
+using Assets.Scripts.Enums;
 
  //<summary>
  //Code get from GitHub:
@@ -19,6 +20,8 @@ public static class Vibration
 
     public static void Vibrate()
     {
+        if (GeneralSettings.SoundEnabled > SoundState.vibrate)
+            return;
 #if UNITY_WINRT || UNITY_WP8
         WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(10));
 #endif
@@ -33,6 +36,8 @@ public static class Vibration
 
     public static void Vibrate(long milliseconds)
     {
+        if (GeneralSettings.SoundEnabled > SoundState.vibrate)
+            return;
 #if UNITY_WINRT || UNITY_WP8
         WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(milliseconds));
 #endif
@@ -47,6 +52,8 @@ public static class Vibration
 
     public static void Vibrate(long[] pattern, int repeat)
     {
+        if (GeneralSettings.SoundEnabled > SoundState.vibrate)
+            return;
 #if UNITY_WINRT || UNITY_WP8
         while(repeat-- > 0)
         foreach (var l in pattern)

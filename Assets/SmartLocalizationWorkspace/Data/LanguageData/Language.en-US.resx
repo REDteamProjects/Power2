@@ -194,6 +194,21 @@ PROGRESS</value>
 	<data name="[type=GAME_OBJECT]UserHelp._medium" xml:space="preserve">
 		<value>3941964814692d046a3a7e9cf7ec1225</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.8x8_easy" xml:space="preserve">
+		<value>b03abbd7c4b94074c99a19dba43c4f5b</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_easy" xml:space="preserve">
+		<value>66e6868ec574e4444aba5abc7d5334f0</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_medium" xml:space="preserve">
+		<value>0a6da6c36f2bb414fa5872b9769dbf43</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_veryhard" xml:space="preserve">
+		<value>7ce075a1cdbcacb4e8140c00804ea00f</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Rhombus_easy" xml:space="preserve">
+		<value>26e1709c76366fd4e9888b1f3cacdd1e</value>
+	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>You win!</value>
 	</data>

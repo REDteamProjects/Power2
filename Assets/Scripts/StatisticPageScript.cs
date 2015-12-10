@@ -91,8 +91,8 @@ public class StatisticPageScript : MonoBehaviour
         LoadLevelData(0);
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
         var fg = GameObject.Find("/GUI");
-        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -320, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50, null, GameColors.DefaultLabelColor).GetComponentInChildren<Text>();
-        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -320, 0), btnTextShadow.text, btnTextShadow.fontSize,
+        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -330, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 60, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
+        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -330, 0), btnTextShadow.text, btnTextShadow.fontSize,
                 CreateResetStatConfirmationMenu);
     }
 

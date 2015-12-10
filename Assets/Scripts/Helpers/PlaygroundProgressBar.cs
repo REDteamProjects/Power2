@@ -149,7 +149,7 @@ namespace Assets.Scripts.Helpers
             var audio = _progressBar.GetComponent<AudioSource>();
             if (_progressBarBank < CriticalCount)
                 {
-                    if (!audio.isPlaying && !PauseButtonScript.PauseMenuActive && GeneralSettings.SoundEnabled)
+                    if (!audio.isPlaying && !PauseButtonScript.PauseMenuActive && GeneralSettings.SoundEnabled == SoundState.on)
                         audio.Play();
                     else
                         if (PauseButtonScript.PauseMenuActive || _progressBarBank == 0)

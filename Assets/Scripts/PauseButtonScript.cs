@@ -36,11 +36,9 @@ public class PauseButtonScript : MonoBehaviour
     {
         Vibration.Vibrate();
 
-        GeneralSettings.SoundEnabled = !GeneralSettings.SoundEnabled;
+        GeneralSettings.SoundEnabled++;
 
-        _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundEnabled
-            ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))
-            : Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_off"));
+        _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
     }
 
     void CreatePauseMenu()
@@ -62,9 +60,7 @@ public class PauseButtonScript : MonoBehaviour
         _soundButton = MainMenuScript.GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-pauseButton.transform.localPosition.x,
             pauseButton.transform.localPosition.y, -3), null, 0, OnSoundButtonPressed);
         var rectTransform = _soundButton.transform as RectTransform;
-        _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundEnabled
-            ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))
-            : Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_off"));
+        _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
         _soundButton.name = "SoundButton";
     }
 

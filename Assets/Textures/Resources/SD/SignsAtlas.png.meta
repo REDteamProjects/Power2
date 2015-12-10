@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e465e2fe5c8742948a2ed8b126be603f
-timeCreated: 1449437140
+timeCreated: 1449761483
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -10,7 +10,7 @@ TextureImporter:
     21300006: Signs_3
     21300008: Signs_sound_on
     21300010: Signs_sound_off
-    21300012: Signs_6
+    21300012: Signs_sound_vibration
     21300014: Signs_7
     21300016: Signs_8
     21300018: Signs_9
@@ -128,7 +128,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Signs_6
+    - name: Signs_sound_vibration
       rect:
         serializedVersion: 2
         x: 1024

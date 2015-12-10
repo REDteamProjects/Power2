@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 97814f6152b53f14f8a39004523ec318
-timeCreated: 1445806022
+timeCreated: 1449772639
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,8 +11,8 @@ TextureImporter:
     21300008: ModesButtonsAtlas_logo
     21300010: ModesButtonsAtlas_6x6
     21300012: ModesButtonsAtlas_8x8
-    21300014: ModesButtonsAtlas_rhombus
-    21300016: ModesButtonsAtlas_mtch3
+    21300014: ModesButtonsAtlas_Rhombus
+    21300016: ModesButtonsAtlas_Match3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -88,7 +88,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_rhombus
+    - name: ModesButtonsAtlas_Rhombus
       rect:
         serializedVersion: 2
         x: 512
@@ -98,7 +98,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_mtch3
+    - name: ModesButtonsAtlas_Match3
       rect:
         serializedVersion: 2
         x: 0

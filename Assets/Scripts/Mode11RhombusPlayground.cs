@@ -13,6 +13,12 @@ namespace Assets.Scripts
     {
         private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.1F, Z = -1 };
 
+        protected override String _userHelpPrefix
+        {
+            get { return "Rhombus"; }
+        }
+
+
         public override IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<Mode11RhombusPlayground>.Preferenses; }

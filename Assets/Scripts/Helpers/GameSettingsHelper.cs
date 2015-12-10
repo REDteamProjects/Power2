@@ -11,18 +11,36 @@ namespace Assets.Scripts.Helpers
 {
     public static class GeneralSettings
     {
-        public static bool SoundEnabled
+        public static SoundState SoundEnabled
         {
             get
             {
                 if (PlayerPrefs.HasKey("General_SoundEnabled"))
-                    return PlayerPrefs.GetInt("General_SoundEnabled") != 0;
-                PlayerPrefs.SetInt("General_SoundEnabled", 1);
-                return true;
+                    return (SoundState)PlayerPrefs.GetInt("General_SoundEnabled");
+                PlayerPrefs.SetInt("General_SoundEnabled", 0);
+                return SoundState.on;
             }
             set
             {
-                PlayerPrefs.SetInt("General_SoundEnabled", value ? 1 : 0);
+                PlayerPrefs.SetInt("General_SoundEnabled", (int)(value > SoundState.off ? SoundState.on : value));
+            }
+        }
+
+        public static Sprite SoundButtonSprite
+        {
+            get
+            {
+                switch (SoundEnabled)
+                {
+                    case SoundState.on:
+                        return Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"));
+                    case SoundState.vibrate:
+                        return Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_vibration"));
+                    case SoundState.off:
+                        return Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_off"));
+                    default:
+                        return null;
+                }
             }
         }
 

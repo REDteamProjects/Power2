@@ -15,6 +15,11 @@ namespace Assets.Scripts
         private const int GameOverPoints = 32768;
         private GameItemType toBlock;
 
+        protected override String _userHelpPrefix
+        {
+            get { return "Match3"; }
+        }
+
         public override int CurrentScore
         {
             get { return base.CurrentScore; }
@@ -200,6 +205,7 @@ namespace Assets.Scripts
 
         void Awake()
         {
+
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 

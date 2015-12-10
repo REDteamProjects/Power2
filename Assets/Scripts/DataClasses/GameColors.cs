@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts.Enums;
 using UnityEngine;
+using System;
 
 namespace Assets.Scripts.DataClasses
 {
@@ -9,6 +10,7 @@ namespace Assets.Scripts.DataClasses
         public static Dictionary<GameItemType, Color> ItemsColors = new Dictionary<GameItemType, Color>();
         public static Dictionary<GameItemType, Color> Match3Colors = new Dictionary<GameItemType, Color>();
         public static Dictionary<DifficultyLevel, Color> DifficultyLevelsColors = new Dictionary<DifficultyLevel, Color>();
+        public static Dictionary<String, Color> ModesColors = new Dictionary<String, Color>();
         public static readonly Color DefaultLabelColor = new Color(0.86f, 0.75f, 0.59f);
         public static readonly Color DefaultLight = new Color(0.94f, 0.9f, 0.82f);
         public static readonly Color DefaultDark = new Color(0.157f, 0.157f, 0.157f);
@@ -89,6 +91,11 @@ namespace Assets.Scripts.DataClasses
             DifficultyLevelsColors.Add(DifficultyLevel._medium, new Color(0.59f, 0.59f, 0.59f));//150 150 150
             DifficultyLevelsColors.Add(DifficultyLevel._hard, new Color(0.71f, 0.55f, 0.12f));//180 140 30
             DifficultyLevelsColors.Add(DifficultyLevel._veryhard, new Color(0.16f, 0.55f, 0.78f));//4 140 200
+
+            ModesColors.Add("6x6", new Color(0.86f, 0.82f, 0.59f));
+            ModesColors.Add("8x8", new Color(0.94f, 0.78f, 0.2f));
+            ModesColors.Add("Match3", new Color(0.86f, 0.86f, 0.78f));
+            ModesColors.Add("Rhombus", new Color(0.9f, 0.86f, 0.35f));
         }
     }
 }

@@ -50,7 +50,12 @@ namespace Assets.Scripts
         protected int _currentExchangeItemsCount = 0;
         protected float _initialMoveTimerMultiple = 32;
         protected bool _showTimeLabel = true;
-        
+
+        protected virtual String _userHelpPrefix
+        {
+            get { return ""; }
+        }
+
 
         public virtual IGameSettingsHelper Preferenses
         {
@@ -371,7 +376,8 @@ namespace Assets.Scripts
             difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
                 GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, () =>
                 {
-                        CreateInGameHelpModule(Game.Difficulty.ToString(), () => {
+                    CreateInGameHelpModule(_userHelpPrefix + Game.Difficulty.ToString(), () =>
+                    {
                             if (callback != null)
                                 callback(null, EventArgs.Empty);
                             if (_showTimeLabel)
@@ -1928,7 +1934,7 @@ namespace Assets.Scripts
             UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
             UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -2);
             manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
-            manual.transform.localScale = new Vector3(50, 50, 0);
+            manual.transform.localScale = new Vector3(45, 45, 0);
             manual.transform.localPosition = new Vector3(0, 30, 0);
             UserHelpScript.ShowUserHelpCallback = callback;
             PlayerPrefs.SetInt(modulePostfix, 1);

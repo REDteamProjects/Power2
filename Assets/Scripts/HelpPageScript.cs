@@ -62,7 +62,7 @@ public class HelpPageScript : MonoBehaviour
             Destroy(currentHelp);
         currentHelp = Instantiate(manualPrefab);
         currentHelp.transform.SetParent(InGameHelpModule.transform);
-        currentHelp.transform.localScale = new Vector3(50, 50, 0);
+        currentHelp.transform.localScale = new Vector3(45, 45, 0);
         currentHelp.transform.localPosition = new Vector3(0, 30, -4);
         return true;
     }

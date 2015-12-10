@@ -13,6 +13,11 @@ namespace Assets.Scripts
     {
         private readonly RealPoint _initialGameItemX = new RealPoint() { X = -13.35F, Y = 12.05F, Z = -1 };
 
+        protected override String _userHelpPrefix
+        {
+            get { return "8x8"; }
+        }
+
         public override IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses; }
@@ -91,6 +96,7 @@ namespace Assets.Scripts
 
         void Awake()
         {
+
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 

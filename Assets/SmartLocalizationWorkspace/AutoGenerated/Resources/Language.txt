@@ -191,6 +191,21 @@
 	<data name="[type=GAME_OBJECT]UserHelp._medium" xml:space="preserve">
 		<value>Medium level help texture</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.8x8_easy" xml:space="preserve">
+		<value>8x8 easy level help texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_easy" xml:space="preserve">
+		<value>Match3 easy level help texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_medium" xml:space="preserve">
+		<value>Match3 medium level help texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_veryhard" xml:space="preserve">
+		<value>Match3 veryhard level help texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Rhombus_easy" xml:space="preserve">
+		<value>Rhombus easy level help texture</value>
+	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>
 	</data>

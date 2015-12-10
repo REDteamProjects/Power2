@@ -193,6 +193,21 @@ R.E.D.team</value>
 	<data name="[type=GAME_OBJECT]UserHelp._medium" xml:space="preserve">
 		<value>d54f4b94393a9b048a7450fe0882a3eb</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.8x8_easy" xml:space="preserve">
+		<value>9ae496a8b8ddc554aaae09be4d7fd3aa</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_easy" xml:space="preserve">
+		<value>a088afbd5ffae6a4cab249572d309bdd</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_medium" xml:space="preserve">
+		<value>2112c7d975b752143b3d34136c60ae1a</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3_veryhard" xml:space="preserve">
+		<value>ccb5427923497d74087d436783dedaa2</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Rhombus_easy" xml:space="preserve">
+		<value>de91d36a2278a664bae7215602d90331</value>
+	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>Победа!</value>
 	</data>

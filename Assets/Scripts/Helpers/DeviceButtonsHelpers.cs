@@ -44,7 +44,7 @@ public class DeviceButtonsHelpers : MonoBehaviour
         if (isVibrate)
             Vibration.Vibrate();
 
-        if (!GeneralSettings.SoundEnabled) return;
+        if (GeneralSettings.SoundEnabled != SoundState.on) return;
 
         var mainCamera = GameObject.Find("Main Camera");
 
