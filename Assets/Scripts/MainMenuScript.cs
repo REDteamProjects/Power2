@@ -141,7 +141,7 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
-            if (!_availableScenes.Contains(scene)) return;
+            if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
             Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");
