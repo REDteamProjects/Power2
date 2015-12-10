@@ -55,23 +55,23 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActions()
         {
-            if (_showTimeLabel)
+            /*if (_showTimeLabel)
             {
                 _showTimeLabel = false;
                 ShowTimeLabel();
             }
             else
-                PlaygroundProgressBar.ProgressBarRun = true;
+                PlaygroundProgressBar.ProgressBarRun = true;*/
             switch(Game.Difficulty)
             {
                 case DifficultyLevel._hard:
                     SpawnXItems();
                     break;
                 case DifficultyLevel._veryhard:
-                    toBlock = (GameItemType)RandomObject.Next(0, FieldSize);
-                    PlaygroundProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
+                    toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
                     PlaygroundProgressBar.TimeBorderActivated += VeryHardLevelAction;
                     PlaygroundProgressBar.TimeBorderDeActivated += VeryHardLevelActionDeactivate;
+                    PlaygroundProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
                     break;
             }
         }
@@ -111,7 +111,7 @@ namespace Assets.Scripts
                         if(gi.Type == toBlock)
                         gi.MovingType = GameItemMovingType.Standart;
                     }
-           toBlock = (GameItemType)RandomObject.Next(0, FieldSize);
+           toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
            PlaygroundProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
         }
 
@@ -200,7 +200,6 @@ namespace Assets.Scripts
 
         void Awake()
         {
-
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 
@@ -224,7 +223,12 @@ namespace Assets.Scripts
                 new System.Object[FieldSize],
                 new System.Object[FieldSize]
             };
+
+
             MaxType = GameItemType._7;
+            _raiseMaxInitialElement = true;
+
+           
 
             IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata {Difficulty = Game.Difficulty};
             if (SavedataHelper.IsSaveDataExist(sd))
@@ -260,10 +264,10 @@ namespace Assets.Scripts
                     Game.Difficulty = sd.Difficulty;
 
                     CurrentTime = sd.CurrentPlaygroundTime;
-                    RisePoints(sd.Score);
-
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    MaxInitialElementTypeRaisedActions();
+                    ProgressBar.CreateBar();
+                    RaisePoints(sd.Score);
+                    DifficultyRaisedGUI();
                     return;
                 }
             }
@@ -271,9 +275,9 @@ namespace Assets.Scripts
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)
             Preferenses.GamesPlayed++;
-            
             GenerateField();
-            MaxInitialElementTypeRaisedActions();
+            ProgressBar.CreateBar();
+            DifficultyRaisedGUI();
                 //ShowMaxInitialElement();
                 //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
                 //DownPoint = a.transform.position.y;      
@@ -308,7 +312,7 @@ namespace Assets.Scripts
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
-                if (_raiseMaxInitialElement)
+                if (_raiseMaxInitialElement && CallbacksCount == 0)
                 {
                     _raiseMaxInitialElement = false;
                     MaxInitialElementTypeRaisedActions();
@@ -318,7 +322,7 @@ namespace Assets.Scripts
                 if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
-                    GenerateField(false, true);
+                    GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? true : false);
                 }
                 UpdateTime();
                 SavedataHelper.SaveData(SavedataObject);
@@ -417,7 +421,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
+                RaisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
 
                 pointsBank = 0;
 

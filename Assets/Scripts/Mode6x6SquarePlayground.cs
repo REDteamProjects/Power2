@@ -13,6 +13,10 @@ namespace Assets.Scripts
     class Mode6x6SquarePlayground : SquarePlayground
     {
         private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.22F, Z = -1 };
+        private float _pbState;
+        private float _pbUpper;
+        private float _pbMultiplier;
+
 
         public override IGameSettingsHelper Preferenses
         {
@@ -102,8 +106,6 @@ namespace Assets.Scripts
                 Resources.LoadAll<Sprite>("SD/6x6Atlas")
                .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
 
-            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-
             #if UNITY_WINRT || UNITY_WP8
                 WinRTDeviceHelper.FireShowAd();
             #endif          
@@ -117,6 +119,8 @@ namespace Assets.Scripts
                 new System.Object[FieldSize],
                 new System.Object[FieldSize]
             };
+
+            _showTimeLabel = false;
 
             IPlaygroundSavedata sd = new Mode6x6SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
@@ -162,14 +166,19 @@ namespace Assets.Scripts
                         MaxInitialElementType = mit;
                     else
                         ShowMaxInitialElement();
-                    RisePoints(sd.Score);
+                    RaisePoints(sd.Score);
 
-                    ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                    _pbState = sd.ProgressBarStateData.State;
+                    _pbUpper = sd.ProgressBarStateData.Upper;
+                    _pbMultiplier = sd.ProgressBarStateData.Multiplier;
                     DifficultyRaisedGUI();
                     return;
                 }
             }
 
+            _pbState = ProgressBar.State;
+            _pbUpper = ProgressBar.Upper;
+            _pbMultiplier = ProgressBar.Multiplier;
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)
             //{
@@ -184,6 +193,18 @@ namespace Assets.Scripts
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
         }
+
+        protected override void MaxInitialElementTypeRaisedActions(object o, EventArgs e)
+        {
+            if(Game.Difficulty == DifficultyLevel._veryhard)
+            {
+                PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+                ProgressBar.CreateBar();
+                ProgressBar.InnitializeBar(_pbState, _pbUpper, _pbMultiplier);
+                _showTimeLabel = true;
+            }
+        }
+
 
         public void OnDestroy()
         {

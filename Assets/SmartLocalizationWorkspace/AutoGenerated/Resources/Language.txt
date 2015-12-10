@@ -152,9 +152,6 @@
 	<data name="GameOverTitle" xml:space="preserve">
 		<value>Game over title</value>
 	</data>
-	<data name="LabelsFont" xml:space="preserve">
-		<value>Font for scaling labels</value>
-	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Loading title between scenes</value>
 	</data>

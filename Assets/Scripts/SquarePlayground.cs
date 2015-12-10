@@ -212,7 +212,7 @@ namespace Assets.Scripts
                         Game.Difficulty = DifficultyLevel._medium;
                         _minTypePlus=1;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 4;
-                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActions);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._10;
                         break;
@@ -225,7 +225,7 @@ namespace Assets.Scripts
                         Game.Difficulty = DifficultyLevel._hard;
                         _minTypePlus=1;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 8;
-                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActions);
                         if (_2xItemsCount < 1)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
@@ -241,7 +241,7 @@ namespace Assets.Scripts
                         Game.Difficulty = DifficultyLevel._veryhard;
                         _minTypePlus=1;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 12;
-                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem);
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActions);
                         if (_2xItemsCount < 2)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
@@ -268,7 +268,12 @@ namespace Assets.Scripts
             }
             
         }
-        
+
+        protected virtual void MaxInitialElementTypeRaisedActions(object o, EventArgs e)
+        {
+
+        }
+
 
         protected virtual void SpawnXItems()
         {
@@ -292,7 +297,7 @@ namespace Assets.Scripts
             }
         }
 
-        protected void DifficultyRaisedGUI(bool withLabel = true)
+        protected void DifficultyRaisedGUI(bool withLabel = true, EventHandler callback = null)
         {
             var go = GameObject.Find("/Middleground/Background");
             var oits = go.GetComponent<ObjectImageTransparencyScript>();
@@ -354,7 +359,12 @@ namespace Assets.Scripts
             //}
             #endregion
 
-            if (!withLabel) return;
+            if (!withLabel)
+            {
+                if (callback != null)
+                    callback(null, EventArgs.Empty);
+                return;
+            }
 
             var difficultyRaisedLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
 
@@ -362,6 +372,8 @@ namespace Assets.Scripts
                 GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, () =>
                 {
                         CreateInGameHelpModule(Game.Difficulty.ToString(), () => {
+                            if (callback != null)
+                                callback(null, EventArgs.Empty);
                             if (_showTimeLabel)
                             {
                                 _showTimeLabel = false;
@@ -406,12 +418,11 @@ namespace Assets.Scripts
 
         protected void ShowTimeLabel()
         {
-            var bar = GetComponent<PlaygroundProgressBar>();
             var showTimeLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
-            showTimeLabel.ShowScalingLabel(new Vector3(bar.Coordinate.x, bar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-               GameColors.DefaultDark, GameColors.DifficultyLevelsColors[Game.Difficulty], LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 50, 1, null, true, () =>
+            showTimeLabel.ShowScalingLabel(new Vector3(ProgressBar.Coordinate.x, ProgressBar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
+               GameColors.DefaultDark, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 56, 1, null, true, () =>
                {
                    PlaygroundProgressBar.ProgressBarRun = true;
                });
@@ -487,7 +498,7 @@ namespace Assets.Scripts
                     }
             }
 
-            RisePoints(pointsBank * (int)Game.Difficulty);
+            RaisePoints(pointsBank * (int)Game.Difficulty);
             if (ProgressBar != null)
                 ProgressBar.AddTime(pointsBank * 2);
         }
@@ -675,7 +686,7 @@ namespace Assets.Scripts
                         LabelShowing.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
                             "+" + 222, Color.white, Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._DropDownItem);
                     //}
-                    RisePoints(AdditionalItemCost);
+                    RaisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
                         ProgressBar.AddTime(AdditionalItemCost * 2);
 
@@ -990,7 +1001,7 @@ namespace Assets.Scripts
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
-                if (_raiseMaxInitialElement)
+                if (_raiseMaxInitialElement && CallbacksCount == 0)
                 {
                     _raiseMaxInitialElement = false;
                     MaxInitialElementTypeRaisedActions();
@@ -1168,7 +1179,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
+                RaisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
 
                 pointsBank = 0;
                 lines = GetAllLines();
@@ -1349,7 +1360,7 @@ namespace Assets.Scripts
         }
 
 
-        public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
+        public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false)
         {
             if (!mixCurrent)
             {
@@ -1431,8 +1442,11 @@ namespace Assets.Scripts
                     if (o != null)
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
+                        LabelAnimationFinishedDelegate callback = null;
+                        if (!onlyNoMovesLabel)
+                            callback = MixField;
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, MixField, true);
+                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
@@ -1800,7 +1814,7 @@ namespace Assets.Scripts
             return false;
         }
 
-        protected void RisePoints(int points)
+        protected void RaisePoints(int points)
         {
             if (points == 0)
             {

@@ -154,9 +154,6 @@ R.E.D.team</value>
 	<data name="GameOverTitle" xml:space="preserve">
 		<value>Game Over</value>
 	</data>
-	<data name="LabelsFont" xml:space="preserve">
-		<value>BAUH93</value>
-	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Loading...</value>
 	</data>
@@ -176,7 +173,8 @@ R.E.D.team</value>
 		<value>PSYCHO</value>
 	</data>
 	<data name="ResetAll" xml:space="preserve">
-		<value>RESET PROGRESS</value>
+		<value>RESET
+PROGRESS</value>
 	</data>
 	<data name="RhombusMode" xml:space="preserve">
 		<value>RHOMBUS</value>

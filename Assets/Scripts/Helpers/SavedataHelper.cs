@@ -53,6 +53,15 @@ namespace Assets.Scripts.Helpers
             File.Delete(Application.persistentDataPath + data.FileName);
         }
 
+        public static void RemoveAllData()
+        {
+            System.IO.DirectoryInfo savesDataInfo = new DirectoryInfo(Application.persistentDataPath);
+            foreach (FileInfo file in savesDataInfo.GetFiles())
+            {
+                file.Delete();
+            }
+        }
+
         public static bool IsSaveDataExist(IPlaygroundSavedata data)
         {
             return File.Exists(Application.persistentDataPath + data.FileName);

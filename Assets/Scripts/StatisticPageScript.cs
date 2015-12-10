@@ -91,7 +91,7 @@ public class StatisticPageScript : MonoBehaviour
         LoadLevelData(0);
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
         var fg = GameObject.Find("/GUI");
-        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -320, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
+        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -320, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 50, null, GameColors.DefaultLabelColor).GetComponentInChildren<Text>();
         MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -320, 0), btnTextShadow.text, btnTextShadow.fontSize,
                 CreateResetStatConfirmationMenu);
     }
@@ -117,13 +117,13 @@ public class StatisticPageScript : MonoBehaviour
         l.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
         var pointsLabel = l.GetComponent<LabelShowing>();
-        pointsLabel.ShowScalingLabel(new Vector3(0,50,0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
+        pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
     }
 
-    public void ResetStats()
+    public void ResetProgress()
     {
         GeneralSettings.RemoveAllPrefsExceptGeneral();
-
+        SavedataHelper.RemoveAllData();
         SelectedItem = null;
         LoadLevelData((int)SelectedType.GetValueOrDefault());
         DestroyResetStatConfirmationMenu();

@@ -299,7 +299,7 @@ namespace Assets.Scripts
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
-                if (_raiseMaxInitialElement)
+                if (_raiseMaxInitialElement && CallbacksCount == 0)
                 {
                     _raiseMaxInitialElement = false;
                     MaxInitialElementTypeRaisedActions();
@@ -486,7 +486,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
+                RaisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
 
                 pointsBank = 0;
                 lines = GetAllLines();
@@ -504,92 +504,60 @@ namespace Assets.Scripts
             if (Items == null) return;
 
             var generateAfterDrop = true;
-            var counter = 0;
-            //DropsCount += FieldSize * (FieldSize - 1);
 
             var rhombusDropSpeed = Game.standartItemSpeed - 4;
 
-            for (var row = 0; row < FieldSize - 1; row++)
+            for (var row = FieldSize - 1; row > 0; row--)
             {
-                for (var col = 1; col < FieldSize; col++)
+                for (var col = 0; col < FieldSize; col++)
                 {
-                    var downItemSide = (col + 1) % 2 == 1 ? 1 : -1;
-                    if (Items[col][row] == null)
+                    if (Items[col][row] != null || Items[col][row] == DisabledItem)
                         continue;
-                    counter++;
-                    if (Items[col][row] == DisabledItem || col + downItemSide >= FieldSize ||
-                        Items[col + downItemSide][row + 1] != null)
+                    var side = col % 2 == 1 ? 1 : -1;
+                    var downItemRow = row - 1;
+                    var downItemCol = col + side;
+                    if (downItemCol < 0 || downItemCol >= FieldSize || Items[downItemCol][downItemRow] == DisabledItem || Items[downItemCol][downItemRow] == null)
+                        downItemCol = col - side;
+                    if (row == 0)
                     {
-                        if (col - downItemSide >= 0)
+                        break;
+                    }
+                    while (downItemRow >= 0)
+                    {
+                        var gobj = Items[downItemCol][downItemRow] as GameObject;
+                        if (Items[downItemCol][downItemRow] == null || Items[downItemCol][downItemRow] == DisabledItem)
+                            break;
+                        if (!AreStaticItemsDroppable && gobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
+                            downItemRow--;
+                        else
                         {
-                            downItemSide = -downItemSide;
-                            if (Items[col + downItemSide][row + 1] != null)
+                            generateAfterDrop = false;
+                            var gims = gobj.GetComponent<GameItemMovingScript>();
+                            //var dis = GetComponent<DragItemScript>();
+                            if (gims.IsMoving || gobj.GetComponent<GameItem>().IsTouched)
                                 continue;
+                            //DropsCount++;
+                            Items[col][row] = Items[downItemCol][downItemRow];
+                            Items[downItemCol][downItemRow] = null;
+                            CallbacksCount++;
+                            var coord = GetCellCoordinates(col, row);
+                            gims.MoveTo(coord.x, coord.y, rhombusDropSpeed, (item, result) =>
+                            {
+                                //DropsCount--;
+                                CallbacksCount--;
+                                if (!result) return;
+                                LogFile.Message("New item droped Items[" + downItemCol + "][" + downItemRow + "] DC: " + DropsCount, true);
+                            });
+                            break;
                         }
                     }
-                    var o = Items[col][row] as GameObject;
-                    if (o != null && (Items[col][row] != null && Items[col][row] != DisabledItem && o.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
-                        continue;
-                    var gameObject1 = Items[col + downItemSide][row + 1] as GameObject;
-                    if (gameObject1 != null && (Items[col + downItemSide][row + 1] != null && Items[col + downItemSide][row + 1] != DisabledItem && gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
-                    {
-                        var rowStaticCounter = 1;
-                        GameObject o1;
-                        while ((row + rowStaticCounter) < FieldSize && (o1 = Items[col + downItemSide * (rowStaticCounter)][row + rowStaticCounter] as GameObject) != null && o1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
-                            rowStaticCounter++;
-                        if ((row + rowStaticCounter) >= FieldSize || Items[col + downItemSide * rowStaticCounter][row + rowStaticCounter] != null)
-                            continue;
-                        var gobjS = Items[col][row] as GameObject;
-                        if (gobjS == null) continue;
-                        var cS = gobjS.GetComponent<GameItemMovingScript>();
-                        if (cS.IsMoving) continue;
-                        Items[col + downItemSide * rowStaticCounter][row + rowStaticCounter] = Items[col][row];
-                        Items[col][row] = null;
-                        //if (!cS.IsMoving) DropsCount++;
-                        var colS = col;
-                        var rowS = row;
-                        CallbacksCount++;
-                        cS.MoveTo(null, GetCellCoordinates(col + downItemSide * rowStaticCounter, row + rowStaticCounter).y, rhombusDropSpeed, (item, result) =>
-                        {
-                            //if (!cS.IsMoving)
-                               // DropsCount--;
-                            CallbacksCount--;
-                            if (!result) return;
-                            LogFile.Message("New item droped Items[" + colS + "][" + rowS + "] cc: " + CallbacksCount, true);
-                        });
-                        if (row + 2 < FieldSize && Items[col][row + 2] == null)
-                            generateAfterDrop = false;
-                        continue;
-                    }
-                    var gobj = Items[col][row] as GameObject;
-                    if (gobj == null) continue;
-                    var c = gobj.GetComponent<GameItemMovingScript>();
-                    if (c.IsMoving) continue;
-                    var toCell = GetCellCoordinates(col + downItemSide, row + 1);
-                    var col1 = col;
-                    var row1 = row;
-                    //if (!c.IsMoving) 
-                        CallbacksCount++;
-                    c.MoveTo(toCell.x, toCell.y, rhombusDropSpeed, (item, result) =>
-                    {
-                        //if (!c.IsMoving)
-                        CallbacksCount--;
-                        if (!result) return;
-                        LogFile.Message("New item droped Items[" + col1 + "][" + row1 + "] cc: " + CallbacksCount, true);
-                    });
-                    Items[col + downItemSide][row + 1] = Items[col][row];
-                    Items[col][row] = null;
-                    if (row + 2 < FieldSize && Items[col][row + 2] == null) 
-                        generateAfterDrop = false;
                 }
             }
-            //DropsCount -= FieldSize * (FieldSize - 1);
-            if (/*DropsCount == 0 && */generateAfterDrop 
-                && counter < (FieldSize - 1) * (FieldSize - 1))
+            if (generateAfterDrop)
                 GenerateField(true);
         }
 
-        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
+        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false)
         {
             LogFile.Message("Generating field...", true);
             if (!mixCurrent)
@@ -668,8 +636,11 @@ namespace Assets.Scripts
                     if (o != null)
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
+                        LabelAnimationFinishedDelegate callback = null;
+                        if (!onlyNoMovesLabel)
+                            callback = MixField;
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, MixField, true);
+                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
@@ -684,13 +655,14 @@ namespace Assets.Scripts
             if (!AvailableMoveDirections.ContainsKey(mdir)) return false;
             if (col < 0 || row < 0 || col >= FieldSize || row >= FieldSize)
                 return false;
+            var gameObject1 = Items[col][row] as GameObject;
+            if (gameObject1 == null || gameObject1.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return false;
             var direction = AvailableMoveDirections[mdir];
             var newX = col + (int)direction.x;
             var newY = row - (int)direction.y;
             var o = Items[newX][newY] as GameObject;
-            var gameObject1 = Items[col][row] as GameObject;
-            return gameObject1 != null && (o != null && (newX >= 0 && newX <= FieldSize - 1 && newY >= 0 && newY <= FieldSize - 1 && Items[newX][newY] != null && Items[newX][newY] != DisabledItem &&
-                                                                           o.GetComponent<GameItem>().MovingType != GameItemMovingType.Static && Items[newX][newY] != DisabledItem && gameObject1.GetComponent<GameItem>().MovingType != GameItemMovingType.Static));
+            return o != null && (newX >= 0 && newX <= (FieldSize - 1) && newY >= 0 && newY <= (FieldSize - 1) && Items[newX][newY] != null && Items[newX][newY] != DisabledItem &&
+                                                                           o.GetComponent<GameItem>().MovingType != GameItemMovingType.Static && !o.GetComponent<GameItemMovingScript>().IsMoving);
         }
         
         public override bool IsPointInLine(int col, int row)
@@ -705,6 +677,7 @@ namespace Assets.Scripts
                 if (Items[i][j] == null || Items[i][j] == DisabledItem) continue;
                 var gobj2 = Items[i][j] as GameObject;
                 if (gobj2 == null) continue;
+                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                 var gi2 = gobj2.GetComponent<GameItem>();
                 if (gi.Type == gi2.Type)
                     verticalCount++;
@@ -719,6 +692,7 @@ namespace Assets.Scripts
                     if (Items[i][j] == null || Items[i][j] == DisabledItem) continue;
                     var gobj2 = Items[i][j] as GameObject;
                     if (gobj2 == null) continue;
+                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                     var gi2 = gobj2.GetComponent<GameItem>();
                     if (gi.Type == gi2.Type)
                         verticalCount++;
@@ -737,6 +711,7 @@ namespace Assets.Scripts
                 if (Items[i][j] == null || Items[i][j] == DisabledItem) continue;
                 var gobj2 = Items[i][j] as GameObject;
                 if (gobj2 == null) continue;
+                if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                 var gi2 = gobj2.GetComponent<GameItem>();
                 if (gi.Type == gi2.Type)
                     horizontalCount++;
@@ -750,6 +725,7 @@ namespace Assets.Scripts
                     if (Items[i][j] == null || Items[i][j] == DisabledItem) continue;
                     var gobj2 = Items[i][j] as GameObject;
                     if (gobj2 == null) continue;
+                    if (gobj2.GetComponent<GameItemMovingScript>().IsMoving) break;
                     var gi2 = gobj2.GetComponent<GameItem>();
                     if (gi.Type == gi2.Type)
                         horizontalCount++;
@@ -763,7 +739,6 @@ namespace Assets.Scripts
       
         public override bool CheckForPossibleMoves()
         {
-            Int32 count = 0;
             for (var col = 0; col < FieldSize; col++)
                 for (var row = 0; row < FieldSize; row++)
                 {

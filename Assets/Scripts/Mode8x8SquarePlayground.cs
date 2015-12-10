@@ -91,7 +91,6 @@ namespace Assets.Scripts
 
         void Awake()
         {
-
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 
@@ -100,7 +99,7 @@ namespace Assets.Scripts
 
             GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
                 Resources.LoadAll<Sprite>("SD/8x8Atlas")
-               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString())); //TODO: Copy to other playground
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString())); 
 
             PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
@@ -162,7 +161,8 @@ namespace Assets.Scripts
                         ShowMaxInitialElement();
 
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    RisePoints(sd.Score);
+                    ProgressBar.CreateBar();
+                    RaisePoints(sd.Score);
                     DifficultyRaisedGUI();
                     return;
                 }
@@ -177,6 +177,7 @@ namespace Assets.Scripts
             //}
 
             GenerateField();
+            ProgressBar.CreateBar();
             ShowMaxInitialElement();
             DifficultyRaisedGUI();
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;

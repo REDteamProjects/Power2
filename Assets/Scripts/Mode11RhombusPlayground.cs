@@ -97,6 +97,7 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
 
@@ -123,6 +124,8 @@ namespace Assets.Scripts
                 new []{ DisabledItem, DisabledItem, DisabledItem, DisabledItem, null, DisabledItem, null, DisabledItem, DisabledItem, DisabledItem, DisabledItem },
                 new []{ DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem, null,  DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem },
             };
+
+            
 
             IPlaygroundSavedata sd = new Mode11RhombusPlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
@@ -170,7 +173,8 @@ namespace Assets.Scripts
                         ShowMaxInitialElement();
 
                     ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    RisePoints(sd.Score);
+                    ProgressBar.CreateBar();
+                    RaisePoints(sd.Score);
                     DifficultyRaisedGUI();
                     return;
                 }
@@ -183,6 +187,7 @@ namespace Assets.Scripts
 
 
             GenerateField();
+            ProgressBar.CreateBar();
             ShowMaxInitialElement();
             DifficultyRaisedGUI();
         }

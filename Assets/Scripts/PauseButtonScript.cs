@@ -97,6 +97,7 @@ public class PauseButtonScript : MonoBehaviour
 
     public void OnResetConfirmButtonClick()
     {
+        Time.timeScale = 1F;
         var middleground = GameObject.Find("Middleground");
         if (middleground == null) return;
         var pg = middleground.GetComponentInChildren<IPlayground>();
@@ -107,14 +108,12 @@ public class PauseButtonScript : MonoBehaviour
         SavedataHelper.SaveData(pg.SavedataObject);
         Application.LoadLevel(Application.loadedLevel);
         Vibration.Vibrate();
-        DestroyPauseMenu();
+        //DestroyPauseMenu();
         PauseMenuActive = false;
     }
 
     public void CreateResetConfirmationMenu()
     {
-        Time.timeScale = 0F;
-
         //var fg = GameObject.Find("/Foreground");
 
         _resetConfirmationMenu = Instantiate(Resources.Load("Prefabs/ResetGameConfirmation")) as GameObject;
@@ -132,7 +131,7 @@ public class PauseButtonScript : MonoBehaviour
         if (l != null)
         {
             var pointsLabel = l.GetComponent<LabelShowing>();
-            pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLight, Color.gray, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
+            pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLabelColor, Color.gray, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
         }
     }
 

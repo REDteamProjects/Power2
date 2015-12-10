@@ -154,9 +154,6 @@ R.E.D.team</value>
 	<data name="GameOverTitle" xml:space="preserve">
 		<value>Конец игры</value>
 	</data>
-	<data name="LabelsFont" xml:space="preserve">
-		<value>BITALIC</value>
-	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Загрузка...</value>
 	</data>

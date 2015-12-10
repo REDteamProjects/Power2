@@ -107,7 +107,7 @@ public class LabelShowing : MonoBehaviour {
         if(type.HasValue)
         {
             for(int i = 0;i < PointLabels.Count;i++)
-                if(PointLabels[i]._type.HasValue && PointLabels[i]._type.Value == type && PointLabels[i]._scaleState == ScaleState._none)
+                if(PointLabels[i]._type.Value == type && PointLabels[i]._scaleState == ScaleState._none)
                 {
                     PointLabels[i]._labelText.text = text;
                     PointLabels[i].transform.localPosition = showOn;
@@ -127,8 +127,14 @@ public class LabelShowing : MonoBehaviour {
         label._type = type;
         label.transform.SetParent(fg.transform);
         label.ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, step, font, destroyAfterAnimation, callback, false, rotateAngle);
-        if(type.HasValue)
+        if (label._type.HasValue)
             PointLabels.Add(label);
+    }
+
+    public void OnDestroy()
+    {
+        if (_type.HasValue && PointLabels.Contains(this))
+            PointLabels.Remove(this);
     }
 
     public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null,
@@ -169,6 +175,7 @@ public class LabelShowing : MonoBehaviour {
                 Shadow = scalingLabelObject.GetComponent<LabelShowing>();
                 Shadow.transform.SetParent(transform.parent);
                 Shadow.transform.localScale = transform.localScale;
+                Shadow._type = _type;
                 Shadow.ShowWithShadowLabel(new Vector3(position.x - (rotateAngle == 0 ? animateToSize > 60 ? 3f : 2f : 0), position.y, position.z),
                     text, textColor, textColor, animateFromSize, animateToSize, font, rotateAngle);
                 animateFromSize += 1;

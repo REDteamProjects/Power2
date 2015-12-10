@@ -9,6 +9,7 @@ namespace Assets.Scripts.DataClasses
         public static Dictionary<GameItemType, Color> ItemsColors = new Dictionary<GameItemType, Color>();
         public static Dictionary<GameItemType, Color> Match3Colors = new Dictionary<GameItemType, Color>();
         public static Dictionary<DifficultyLevel, Color> DifficultyLevelsColors = new Dictionary<DifficultyLevel, Color>();
+        public static readonly Color DefaultLabelColor = new Color(0.86f, 0.75f, 0.59f);
         public static readonly Color DefaultLight = new Color(0.94f, 0.9f, 0.82f);
         public static readonly Color DefaultDark = new Color(0.157f, 0.157f, 0.157f);
 
@@ -76,12 +77,12 @@ namespace Assets.Scripts.DataClasses
             ItemsColors.Add(GameItemType._16, new Color(0.47f, 0.67f, 1f));
             ItemsColors.Add(GameItemType._2x, new Color(0.43f, 0.74f, 0.43f));
 
-            Match3Colors.Add(GameItemType._1, new Color(0.86f, 0.86f, 0.78f));
-            Match3Colors.Add(GameItemType._2, new Color(0.96f, 0.9f, 0.55f));
-            Match3Colors.Add(GameItemType._3, new Color(0.94f, 0.9f, 0.2f));
-            Match3Colors.Add(GameItemType._4, new Color(0.78f, 0f, 0.2f));
-            Match3Colors.Add(GameItemType._5, new Color(0.55f, 1f, 0.82f));
-            Match3Colors.Add(GameItemType._6, new Color(0.4f, 0.67f, 0.98f));
+            Match3Colors.Add(GameItemType._1, new Color(0.96f, 0.9f, 0.55f));
+            Match3Colors.Add(GameItemType._2, new Color(0.94f, 0.9f, 0.2f));
+            Match3Colors.Add(GameItemType._3, new Color(0.78f, 0f, 0.2f));
+            Match3Colors.Add(GameItemType._4, new Color(0.78f, 0.12f, 0.55f));
+            Match3Colors.Add(GameItemType._5, new Color(0.71f, 1f, 0.82f));
+            Match3Colors.Add(GameItemType._6, new Color(0.47f, 0.67f, 0.98f));
             Match3Colors.Add(GameItemType._7, new Color(0.43f, 0.74f, 0.43f));
 
             DifficultyLevelsColors.Add(DifficultyLevel._easy, new Color(0.82f, 0.63f, 0.35f));//210 160 89

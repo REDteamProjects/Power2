@@ -231,7 +231,9 @@ namespace Assets.Scripts
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;
-            label.GetComponent<Text>().text = LanguageManager.Instance.GetTextValue("LoadingTitle");
+            var ltext = label.GetComponent<Text>();
+            ltext.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
+            ltext.font = Game.textFont;
 
             Application.LoadLevel(scene);
         }

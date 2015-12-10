@@ -83,7 +83,7 @@ namespace Assets.Scripts
 
         public override float GameItemSize { get { return 3.84f; } }
 
-        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false)
+        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false)
         {
             //if (CallbacksCount > 1) return;
 
@@ -494,7 +494,7 @@ namespace Assets.Scripts
                     else
                         ShowMaxInitialElement();
                     GenerateField(true);
-                    RisePoints(sd.Score);
+                    RaisePoints(sd.Score);
                     DifficultyRaisedGUI();
                     return;
                 }

@@ -54,12 +54,12 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            Game.textFont = Resources.Load<Font>("Fonts/" + LanguageManager.Instance.GetTextValue("LabelsFont"));
-            Game.numbersFont = Resources.Load<Font>("Fonts/BITALIC");
+            Game.textFont = Resources.Load<Font>("Fonts/SEGUIBL");
+            Game.numbersFont = Game.textFont;
             _mainCamera = GameObject.Find("Main Camera");
             var fg = GameObject.Find("/GUI");
             var statsButton = GameObject.Find("/GUI/StatsButton");
-            _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(statsButton.transform.localPosition.x + 120,
+            _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-statsButton.transform.localPosition.x,
                 statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
             _soundButton.GetComponent<Image>().sprite = SoundEnabled
                 ? Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("sound_on"))

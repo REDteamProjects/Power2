@@ -100,24 +100,6 @@ namespace Assets.Scripts.Helpers
 
         void Awake()
         {
-            var fg = GameObject.Find("/Foreground");
-            _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
-            _progressBar.transform.SetParent(fg.transform);
-            _progressBar.transform.localPosition = Coordinate;
-            _progressBar.transform.localScale = Vector3.one;
-            _progressBarLine = GameObject.Find("ProgressBarLine");
-            var rtrans = _progressBarLine.transform as RectTransform;
-            _barYSize = rtrans.sizeDelta.y;
-            var deltabYS = _barYSize / 4;
-            _maxBarYSize = _barYSize + deltabYS;
-            _deltaBarYSize = - deltabYS / 16;
-
-            if (_progressBarBank < 0)
-                _progressBarBank = ProgressBarBaseSize;
-            else
-            {
-                rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
-            }
             var pg = gameObject.GetComponent<IPlayground>();
             _moveTimerMultiple = pg.MoveTimerMultiple;
             _moveTimerMultipleUpper = _moveTimerMultiple * 3f;
@@ -126,7 +108,7 @@ namespace Assets.Scripts.Helpers
 
         void Update()
         {
-            if (_progressBarBank == 0 || !ProgressBarRun) return;
+            if (_progressBarBank == 0 || !ProgressBarRun || _progressBarLine == null) return;
 
             var rtrans = _progressBarLine.transform as RectTransform;
 
@@ -209,6 +191,28 @@ namespace Assets.Scripts.Helpers
 
         }
 
+        public void CreateBar()
+        {
+            var fg = GameObject.Find("/Foreground");
+            _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
+            _progressBar.transform.SetParent(fg.transform);
+            _progressBar.transform.localPosition = Coordinate;
+            _progressBar.transform.localScale = Vector3.one;
+            _progressBarLine = GameObject.Find("ProgressBarLine");
+            var rtrans = _progressBarLine.transform as RectTransform;
+            _barYSize = rtrans.sizeDelta.y;
+            var deltabYS = _barYSize / 4;
+            _maxBarYSize = _barYSize + deltabYS;
+            _deltaBarYSize = -deltabYS / 16;
+
+            if (_progressBarBank < 0)
+                _progressBarBank = ProgressBarBaseSize;
+            else
+            {
+                rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
+            }
+        }
+
         public void InnitializeBar(float count, float upper, float timeMultiple)
         {
             ProgressBarRun = false;
@@ -219,6 +223,7 @@ namespace Assets.Scripts.Helpers
 
         public void UpdateTexture()
         {
+            if (_progressBarLine == null) return;
             ProgressBarRun = false;
             _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
                .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
