@@ -194,6 +194,9 @@ PROGRESS</value>
 	<data name="[type=GAME_OBJECT]UserHelp._medium" xml:space="preserve">
 		<value>3941964814692d046a3a7e9cf7ec1225</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp._veryhard" xml:space="preserve">
+		<value>87ddd7ece509de94b999a89fc0d8fd2c</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.8x8_easy" xml:space="preserve">
 		<value>b03abbd7c4b94074c99a19dba43c4f5b</value>
 	</data>

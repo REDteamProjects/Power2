@@ -11,7 +11,7 @@ namespace Assets.Scripts.DataClasses
         public static Dictionary<GameItemType, Color> Match3Colors = new Dictionary<GameItemType, Color>();
         public static Dictionary<DifficultyLevel, Color> DifficultyLevelsColors = new Dictionary<DifficultyLevel, Color>();
         public static Dictionary<String, Color> ModesColors = new Dictionary<String, Color>();
-        public static readonly Color DefaultLabelColor = new Color(0.86f, 0.75f, 0.59f);
+        public static readonly Color DefaultLabelColor = new Color(0.67f, 0.67f, 0.67f);
         public static readonly Color DefaultLight = new Color(0.94f, 0.9f, 0.82f);
         public static readonly Color DefaultDark = new Color(0.157f, 0.157f, 0.157f);
 

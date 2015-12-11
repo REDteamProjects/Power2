@@ -114,7 +114,7 @@ namespace Assets.Scripts
                 Resources.LoadAll<Sprite>("SD/RhombusAtlas")
                .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
 
-            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]
             {
@@ -200,14 +200,14 @@ namespace Assets.Scripts
 
         public void OnDestroy()
         {
-            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
 
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
         {
             IsGameOver = true;
             GenerateGameOverMenu();
-            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
 
     }

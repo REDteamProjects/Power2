@@ -193,6 +193,9 @@ R.E.D.team</value>
 	<data name="[type=GAME_OBJECT]UserHelp._medium" xml:space="preserve">
 		<value>d54f4b94393a9b048a7450fe0882a3eb</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp._veryhard" xml:space="preserve">
+		<value>ee919eab8a4119e489444839c65098aa</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.8x8_easy" xml:space="preserve">
 		<value>9ae496a8b8ddc554aaae09be4d7fd3aa</value>
 	</data>

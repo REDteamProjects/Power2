@@ -74,9 +74,9 @@ namespace Assets.Scripts
                     break;
                 case DifficultyLevel._veryhard:
                     toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
-                    PlaygroundProgressBar.TimeBorderActivated += VeryHardLevelAction;
-                    PlaygroundProgressBar.TimeBorderDeActivated += VeryHardLevelActionDeactivate;
-                    PlaygroundProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
+                    ProgressBar.TimeBorderActivated += VeryHardLevelAction;
+                    ProgressBar.TimeBorderDeActivated += VeryHardLevelActionDeactivate;
+                    ProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
                     break;
             }
         }
@@ -117,7 +117,7 @@ namespace Assets.Scripts
                         gi.MovingType = GameItemMovingType.Standart;
                     }
            toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
-           PlaygroundProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
+           ProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
         }
 
         public override IGameSettingsHelper Preferenses
@@ -216,7 +216,7 @@ namespace Assets.Scripts
                 Resources.LoadAll<Sprite>("SD/8x8Atlas")
                .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
 
-            PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]
             {
@@ -297,14 +297,14 @@ namespace Assets.Scripts
 
         public void OnDestroy()
         {
-            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
 
         private void ProgressBarOnProgressBarOver(object sender, EventArgs eventArgs)
         {
             IsGameOver = true;
             GenerateGameOverMenu();
-            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
 
 
