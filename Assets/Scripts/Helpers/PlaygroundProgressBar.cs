@@ -231,10 +231,19 @@ namespace Assets.Scripts.Helpers
 
         public void SetSmallXsColor(Color color)
         {
-            if(LeftSmallX != null)
-                LeftSmallX.GetComponent<Image>().color = color;
-            if(RightSmallX != null)
-                RightSmallX.GetComponent<Image>().color = color;
+            var material = Resources.Load("Fonts/SEGUIBL", typeof(Material)) as Material;
+            if (LeftSmallX != null)
+            {
+                var img = LeftSmallX.GetComponent<Image>();
+                img.material = material;
+                img.color = color;
+            }
+            if (RightSmallX != null)
+            {
+                var img = RightSmallX.GetComponent<Image>();
+                img.material = material;
+                img.color = color;
+            }
         }
     }
 }

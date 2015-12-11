@@ -71,19 +71,19 @@ namespace Assets.Scripts
             _availableScenes.Add("6x6");
             if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Game.ToOpenLevelStep)
             {
-                CloseLevelGUI("8x8", "6x6", Game.ToOpenLevelStep - GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord);
+                CloseLevelGUI("8x8", "6x6", Game.ToOpenLevelStep);
             }
             else
                 _availableScenes.Add("8x8");
             if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < Game.ToOpenLevelStep)
             {
-                CloseLevelGUI("Match3", "8x8", Game.ToOpenLevelStep - GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord);
+                CloseLevelGUI("Match3", "8x8", Game.ToOpenLevelStep);
             }
             else
                 _availableScenes.Add("Match3");
             if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Game.ToOpenLevelStep)
             {
-                CloseLevelGUI("Rhombus", "Match3", Game.ToOpenLevelStep - GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord);
+                CloseLevelGUI("Rhombus", "Match3", Game.ToOpenLevelStep);
             }
             else
                 _availableScenes.Add("11Rhombus");

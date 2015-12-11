@@ -251,7 +251,6 @@ namespace Assets.Scripts
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._2x;
-                        ProgressBar.TimeBorderActivated += VeryHardLevelAction;
                         break;
                     case GameItemType._14:
                     case GameItemType._15:
@@ -276,7 +275,7 @@ namespace Assets.Scripts
 
         protected virtual void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
-
+            ProgressBar.TimeBorderActivated += VeryHardLevelAction;
         }
 
 
