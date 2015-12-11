@@ -5,7 +5,6 @@ using Assets.Scripts.Enums;
 using Assets.Scripts.Helpers;
 using UnityEngine;
 using Assets.Scripts.Interfaces;
-using UnityEngine.Advertisements;
 using UnityEngine.UI;
 
 namespace Assets.Scripts
