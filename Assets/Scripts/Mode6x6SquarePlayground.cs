@@ -193,21 +193,22 @@ namespace Assets.Scripts
             //DownPoint = a.transform.position.y;      
         }
 
-        protected override void MaxInitialElementTypeRaisedActions(object o, EventArgs e)
+        protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
             if(Game.Difficulty == DifficultyLevel._veryhard)
             {
-                PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+                ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
                 ProgressBar.CreateBar();
-                ProgressBar.InnitializeBar(_pbState, _pbUpper, _pbMultiplier);
+                ProgressBar.UpdateTexture();
                 _showTimeLabel = true;
+                base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
             }
         }
 
 
         public void OnDestroy()
         {
-            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
             #if UNITY_WINRT || UNITY_WP8
                 WinRTDeviceHelper.FireHideAd();
             #endif
@@ -217,7 +218,7 @@ namespace Assets.Scripts
         {
             IsGameOver = true;
             GenerateGameOverMenu();
-            PlaygroundProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+            ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
     }
 }

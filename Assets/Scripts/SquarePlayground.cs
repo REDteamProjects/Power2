@@ -217,7 +217,7 @@ namespace Assets.Scripts
                         Game.Difficulty = DifficultyLevel._medium;
                         _minTypePlus=1;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 4;
-                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActions);
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._10;
                         break;
@@ -230,7 +230,7 @@ namespace Assets.Scripts
                         Game.Difficulty = DifficultyLevel._hard;
                         _minTypePlus=1;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 8;
-                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActions);
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 1)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
@@ -246,19 +246,18 @@ namespace Assets.Scripts
                         Game.Difficulty = DifficultyLevel._veryhard;
                         _minTypePlus=1;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 12;
-                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActions);
+                        DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 2)
                         Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._2x;
-                        PlaygroundProgressBar.TimeBorderActivated += VeryHardLevelAction;
                         break;
                     case GameItemType._14:
                     case GameItemType._15:
                     case GameItemType._16:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._2x;
-                        PlaygroundProgressBar.TimeBorderActivated += VeryHardLevelAction;
+                        ProgressBar.TimeBorderActivated += VeryHardLevelAction;
                         break;
                     case GameItemType._2x:
                         IsGameOver = true;
@@ -274,9 +273,9 @@ namespace Assets.Scripts
             
         }
 
-        protected virtual void MaxInitialElementTypeRaisedActions(object o, EventArgs e)
+        protected virtual void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
-
+            ProgressBar.TimeBorderActivated += VeryHardLevelAction;
         }
 
 
@@ -428,7 +427,7 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
             showTimeLabel.ShowScalingLabel(new Vector3(ProgressBar.Coordinate.x, ProgressBar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-               GameColors.DefaultDark, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 56, 1, null, true, () =>
+               GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 56, 1, null, true, () =>
                {
                    PlaygroundProgressBar.ProgressBarRun = true;
                });

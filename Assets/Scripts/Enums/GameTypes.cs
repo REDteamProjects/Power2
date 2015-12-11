@@ -9,8 +9,8 @@ namespace Assets.Scripts.Enums
     {
         _6x6,
         _8x8,
-        _rhombus,
         _match3,
+        _rhombus,
         _drops
     }
 }

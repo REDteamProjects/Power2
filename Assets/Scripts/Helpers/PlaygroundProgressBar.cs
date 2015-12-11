@@ -22,16 +22,16 @@ namespace Assets.Scripts.Helpers
         private float _deltaBarYSize = 0;
         private static  float _timeActionBorder = 160;
         private readonly float _timeActionBorderMaximumSize = ProgressBarBaseSize / 2;
-        private static event EventHandler _timeBorderActivated;
-        private static GameObject LeftSmallX = null;
-        private static GameObject RightSmallX = null;
+        private event EventHandler _timeBorderActivated;
+        private GameObject LeftSmallX = null;
+        private GameObject RightSmallX = null;
 
         public readonly Vector3 Coordinate = new Vector3(0, 190, 0);
         public static bool ProgressBarRun;
 
-        public static event EventHandler ProgressBarOver;
+        public event EventHandler ProgressBarOver;
 
-        public static event EventHandler TimeBorderActivated
+        public event EventHandler TimeBorderActivated
         {
             add 
             {
@@ -71,7 +71,7 @@ namespace Assets.Scripts.Helpers
             }
         }
 
-        public static event EventHandler TimeBorderDeActivated;
+        public event EventHandler TimeBorderDeActivated;
         
         public float Multiplier { get { return _moveTimerMultiple; } }
         public float State { get { return _progressBarBank; } }
@@ -229,12 +229,21 @@ namespace Assets.Scripts.Helpers
                .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
         }
 
-        public static void SetSmallXsColor(Color color)
+        public void SetSmallXsColor(Color color)
         {
-            if(LeftSmallX != null)
-                LeftSmallX.GetComponent<Image>().color = color;
-            if(RightSmallX != null)
-                RightSmallX.GetComponent<Image>().color = color;
+            var material = Resources.Load("Fonts/SEGUIBL", typeof(Material)) as Material;
+            if (LeftSmallX != null)
+            {
+                var img = LeftSmallX.GetComponent<Image>();
+                img.material = material;
+                img.color = color;
+            }
+            if (RightSmallX != null)
+            {
+                var img = RightSmallX.GetComponent<Image>();
+                img.material = material;
+                img.color = color;
+            }
         }
     }
 }

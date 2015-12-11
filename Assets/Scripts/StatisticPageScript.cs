@@ -123,10 +123,10 @@ public class StatisticPageScript : MonoBehaviour
     public void ResetProgress()
     {
         GeneralSettings.RemoveAllPrefsExceptGeneral();
-        SavedataHelper.RemoveAllData();
+        DestroyResetStatConfirmationMenu();
         SelectedItem = null;
         LoadLevelData((int)SelectedType.GetValueOrDefault());
-        DestroyResetStatConfirmationMenu();
+        SavedataHelper.RemoveAllData();
     }
 
     public void DestroyResetStatConfirmationMenu()
@@ -158,11 +158,11 @@ public class StatisticPageScript : MonoBehaviour
             case GameTypes._8x8:
                 LoadDataToView<Mode8x8SquarePlaygroundSavedata, Mode8x8SquarePlayground>();
                 break;
-            case GameTypes._rhombus:
-                LoadDataToView<Mode11RhombusPlaygroundSavedata, Mode11RhombusPlayground>();
-                break;
             case GameTypes._match3:
                 LoadDataToView<ModeMatch3PlaygroundSavedata, ModeMatch3SquarePlayground>();
+                break;
+            case GameTypes._rhombus:
+                LoadDataToView<Mode11RhombusPlaygroundSavedata, Mode11RhombusPlayground>();
                 break;
             case GameTypes._drops:
                 LoadDataToView<ModeDropsPlaygroundSavedata, ModeDropsPlayground>();
