@@ -232,7 +232,7 @@ namespace Assets.Scripts
                         MoveTimerMultiple = _initialMoveTimerMultiple + 8;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 1)
-                        Generate2xItem();
+                        SpawnItemOnRandomPlace(GameItemType._2x);//Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         SpawnXItems();
                         _nextUpperLevelGameItemType = GameItemType._13;
@@ -248,7 +248,7 @@ namespace Assets.Scripts
                         MoveTimerMultiple = _initialMoveTimerMultiple + 12;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 2)
-                        Generate2xItem();
+                        SpawnItemOnRandomPlace(GameItemType._2x);//Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._2x;
                         break;
@@ -279,28 +279,6 @@ namespace Assets.Scripts
             ProgressBar.TimeBorderActivated += VeryHardLevelAction;
         }
 
-
-        protected virtual void SpawnXItems()
-        {
-            while (XItemsCount < MaxAdditionalItemsCount)
-            {
-                int col;
-                int row;
-                while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
-                       (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) ||
-                       Items[col][row] == null || Items[col][row] == DisabledItem ||
-                       (Items[col][row] as GameObject).GetComponent<GameItem>().Type >= GameItemType._2x ||
-                       (Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
-                {
-                }
-                RemoveGameItem(col, row, (item, r) =>
-                {
-                    Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero,
-                        false, null, null);
-                });
-                XItemsCount++;
-            }
-        }
 
         protected void DifficultyRaisedGUI(bool withLabel = true, EventHandler callback = null)
         {
@@ -434,21 +412,54 @@ namespace Assets.Scripts
                });
         }
 
-        private void Generate2xItem()
+       /* private void Generate2xItem()
         {
             int col;
             int row;
-            while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
-                       (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1))
+            while (true)
             {
+                col = RandomObject.Next(1, FieldSize - 1);
+                row = RandomObject.Next(1, FieldSize - 1);
                 var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
-                if (gi.Type < GameItemType._2x && gi.Type != MaxType + 1 &&
+                if (gi.Type < GameItemType._2x && gi.Type != (MaxType + 1) &&
                 !gi.GetComponent<GameItemScalingScript>().isScaling)
                     break;
             }
             RemoveGameItem(col, row, (item, r) =>
             {
                 Items[col][row] = GenerateGameItem(GameItemType._2x, col, row, Vector2.zero);
+            });
+        }*/
+
+
+        protected virtual void SpawnXItems()
+        {
+            while (XItemsCount < MaxAdditionalItemsCount)
+            {
+                SpawnItemOnRandomPlace(GameItemType._XItem);
+                XItemsCount++;
+            }
+        }
+
+
+        private void SpawnItemOnRandomPlace(GameItemType type)
+        {
+            int col;
+            int row;
+            while (true)
+            {
+                col = RandomObject.Next(1, FieldSize - 1);
+                row = RandomObject.Next(1, FieldSize - 1);
+                var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
+                if (Items[col][row] != null && Items[col][row] != DisabledItem &&
+                   gi.Type < GameItemType._2x && gi.Type != (MaxType + 1) &&
+                   !(Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
+                    break;
+            }
+            RemoveGameItem(col, row, (item, r) =>
+            {
+                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero,
+                    false, null, null);
             });
         }
 
