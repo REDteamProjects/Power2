@@ -483,7 +483,7 @@ namespace Assets.Scripts
         public void DestroyElements(List<GameItemType> withTypes)
         {
             foreach(var t in withTypes)
-            LogFile.Message("Destroy elements above " + t);
+            LogFile.Message("Destroy elements above " + t,  true);
             var pointsBank = 0;
            // var dis = GetComponent<DragItemScript>();
             for (var i = FieldSize - 1; i >= 0; i--)
@@ -1233,10 +1233,7 @@ namespace Assets.Scripts
                     gameOverMenu.transform.localPosition = new Vector3(0, -70, 0);
 
                 });
-            if(!isWinning)
-            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.GameOver, false, true);
-            else
-                DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Winning, false, true);
+            DeviceButtonsHelpers.OnSoundAction(!isWinning ? Power2Sounds.GameOver : Power2Sounds.Winning, false, true);
         }
 
         public virtual void Drop()
@@ -1250,7 +1247,7 @@ namespace Assets.Scripts
             //var counterOfNotMovingItems = 0;
             for (var col = 0; col < FieldSize; col++)
             {
-                bool nextrow = false;
+                var nextrow = false;
                 for (var row = FieldSize - 1; row >= 0; row--)
                 {
                     if (Items[col][row] != null || Items[col][row] == DisabledItem)
@@ -1376,7 +1373,6 @@ namespace Assets.Scripts
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnY = 1;
-                    var resCol = 0;
                     //if (Game.Difficulty > DifficultyLevel._easy && DropDownItemsCount < MaxAdditionalItemsCount)
                     for (var j = FieldSize - 1; j >= 0; j--)
                     {
@@ -1393,7 +1389,7 @@ namespace Assets.Scripts
                                 //case DifficultyLevel._veryhard:
                                     if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                     {
-                                        resCol = RandomObject.Next(0, FieldSize);//it was in first cycle
+                                        var resCol = RandomObject.Next(0, FieldSize);
                                         var resRow = RandomObject.Next(resCol, FieldSize);
                                         if (resCol == resRow)
                                         {
@@ -1446,21 +1442,18 @@ namespace Assets.Scripts
             {
                 LogFile.Message("Mix field...", true);
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (o != null)
-                    {
-                        var noMovesLabel = o.GetComponent<LabelShowing>();
-                        LabelAnimationFinishedDelegate callback = null;
-                        if (!onlyNoMovesLabel)
-                        {
-                            PlaygroundProgressBar.ProgressBarRun = false;
-                            callback = MixField;
-                        }
-                        noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
-                        //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
-                        //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
-                    }
-                
+                if (o == null) return;
+                var noMovesLabel = o.GetComponent<LabelShowing>();
+                LabelAnimationFinishedDelegate callback = null;
+                if (!onlyNoMovesLabel)
+                {
+                    PlaygroundProgressBar.ProgressBarRun = false;
+                    callback = MixField;
+                }
+                noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
+                    LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
+                //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
+                //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
             }
             //if (!isNoLines && _callbackReady.WaitOne(1))
             // ClearChains();
@@ -1570,7 +1563,6 @@ namespace Assets.Scripts
                             if (currentItem != null && isReverse)
                             {
                                 CallbacksCount++;
-                                float? mtoX1 = position1.x;
                                 currentItem.GetComponent<GameItemMovingScript>()
                                     .MoveTo(position1.x,
                                         position1.y,
@@ -1605,9 +1597,7 @@ namespace Assets.Scripts
                 //item2.GetComponent<GameItem>().IsTouched = false;
                 CallbacksCount++;
                 _currentExchangeItemsCount++;
-                float? mtoX = position1.x;
-                float? mtoY = position1.y;
-                item2.GetComponent<GameItemMovingScript>()
+            item2.GetComponent<GameItemMovingScript>()
                     .MoveTo(position1.x,
                         position1.y,
                         Game.standartItemSpeed, (item, result) =>
@@ -1764,7 +1754,8 @@ namespace Assets.Scripts
             if (Items[x1][y1] == null || Items[x1][y1] == DisabledItem ||
                 Items[x2][y2] == null || Items[x2][y2] == DisabledItem)
                 return false;
-            if ((Items[x1][y1] as GameObject).GetComponent<GameItem>().MovingType == GameItemMovingType.StandartExchangable)
+            var o = Items[x1][y1] as GameObject;
+            if (o != null && o.GetComponent<GameItem>().MovingType == GameItemMovingType.StandartExchangable)
                 return true;
             var tItem = Items[x1][y1];
             Items[x1][y1] = Items[x2][y2];
@@ -1890,13 +1881,12 @@ namespace Assets.Scripts
         public void RemoveGameItem(int i, int j, MovingFinishedDelegate removingCallback = null)
         {
             var o = Items[i][j] as GameObject;
-            if(o.GetComponent<GameItem>().IsTouched)
+            if(o != null && o.GetComponent<GameItem>().IsTouched)
             {
                 GetComponent<DragItemScript>().CancelDragging((s, e) => RemoveGameItem(i, j));
                 return;
             }
-            
-            if (o == null) return;
+
             var giss = o.GetComponent<GameItemScalingScript>();
             var toSize = GameItemSize / ScaleMultiplyer / 4;
             CallbacksCount++;
@@ -1934,10 +1924,13 @@ namespace Assets.Scripts
             Time.timeScale = 0F;
             PauseButtonScript.PauseMenuActive = true;
             UserHelpScript.InGameHelpModule = Instantiate(resource) as GameObject;
-            UserHelpScript.InGameHelpModule.transform.SetParent(fg.transform);
-            UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
-            UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -2);
-            manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
+            if (UserHelpScript.InGameHelpModule != null)
+            {
+                UserHelpScript.InGameHelpModule.transform.SetParent(fg.transform);
+                UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
+                UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -2);
+                manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
+            }
             manual.transform.localScale = new Vector3(45, 45, 0);
             manual.transform.localPosition = new Vector3(0, 30, 0);
             UserHelpScript.ShowUserHelpCallback = callback;
