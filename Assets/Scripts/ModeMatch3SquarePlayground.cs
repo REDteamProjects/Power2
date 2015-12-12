@@ -331,7 +331,6 @@ namespace Assets.Scripts
                     GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? true : false);
                 }
                 UpdateTime();
-                SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
             HintTimeCounter = -1;

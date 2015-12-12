@@ -87,9 +87,9 @@ namespace Assets.Scripts.DataClasses
             Match3Colors.Add(GameItemType._6, new Color(0.47f, 0.67f, 0.98f));
             Match3Colors.Add(GameItemType._7, new Color(0.43f, 0.74f, 0.43f));
 
-            DifficultyLevelsColors.Add(DifficultyLevel._easy, new Color(0.82f, 0.63f, 0.35f));//210 160 89
-            DifficultyLevelsColors.Add(DifficultyLevel._medium, new Color(0.59f, 0.59f, 0.59f));//150 150 150
-            DifficultyLevelsColors.Add(DifficultyLevel._hard, new Color(0.71f, 0.55f, 0.12f));//180 140 30
+            DifficultyLevelsColors.Add(DifficultyLevel._easy, new Color(0.94f, 0.75f, 0.27f));//240 190 70
+            DifficultyLevelsColors.Add(DifficultyLevel._medium, new Color(0.63f, 0.63f, 0.63f));//160 160 160
+            DifficultyLevelsColors.Add(DifficultyLevel._hard, new Color(0.94f, 0.75f, 0.16f));//240 190 40
             DifficultyLevelsColors.Add(DifficultyLevel._veryhard, new Color(0.16f, 0.55f, 0.78f));//4 140 200
 
             ModesColors.Add("6x6", new Color(0.86f, 0.82f, 0.59f));

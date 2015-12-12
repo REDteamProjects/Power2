@@ -313,7 +313,6 @@ namespace Assets.Scripts
                     //ClearField();
                 }
                 UpdateTime();
-                SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
             HintTimeCounter = -1;
@@ -630,6 +629,7 @@ namespace Assets.Scripts
                         Items[i][j] = GenerateGameItem(i, j, deniedList, new Vector2(generateOnX, i));
                     }
                 }
+                SavedataHelper.SaveData(SavedataObject);
             }
             else
             {

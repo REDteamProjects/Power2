@@ -202,6 +202,7 @@ namespace Assets.Scripts
                 ProgressBar.UpdateTexture();
                 _showTimeLabel = true;
                 base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
+                PlaygroundProgressBar.ProgressBarRun = true;
             }
         }
 

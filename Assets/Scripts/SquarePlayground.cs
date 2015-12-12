@@ -450,6 +450,7 @@ namespace Assets.Scripts
             {
                 col = RandomObject.Next(1, FieldSize - 1);
                 row = RandomObject.Next(1, FieldSize - 1);
+                if (Items[col][row] == null || Items[col][row] == DisabledItem) continue;
                 var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
                 if (Items[col][row] != null && Items[col][row] != DisabledItem &&
                    gi.Type < GameItemType._2x && gi.Type != (MaxType + 1) &&
@@ -1032,7 +1033,6 @@ namespace Assets.Scripts
                     GenerateField(false, true);
                 }
                 UpdateTime();
-                SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
             HintTimeCounter = -1;
@@ -1452,6 +1452,7 @@ namespace Assets.Scripts
                         Items[i][j] = GenerateGameItem(i, j, deniedList);
                     }
                 }
+                SavedataHelper.SaveData(SavedataObject);
             }
             else
             {
@@ -1463,7 +1464,7 @@ namespace Assets.Scripts
                         LabelAnimationFinishedDelegate callback = null;
                         if (!onlyNoMovesLabel)
                         {
-                            PlaygroundProgressBar.ProgressBarRun = false;
+                            //PlaygroundProgressBar.ProgressBarRun = false;
                             callback = MixField;
                         }
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
@@ -1792,11 +1793,11 @@ namespace Assets.Scripts
             for (var col = 0; col < FieldSize; col++)
                 for (var row = 0; row < FieldSize; row++)
                 {
-                    if (Items[col][row] == null || Items[col][row] == DisabledItem)
-                    {
+                    if (Items[col][row] == null)
+                        return true;
+                    if(Items[col][row] == DisabledItem)
                         //if (Items[col][row] == null) Debug.LogError("Items[col][row] null in checkForPossibleMoves");
                         continue;
-                    }
                     var gobj = Items[col][row] as GameObject;
                     if (gobj == null) continue;
                     var gi = gobj.GetComponent<GameItem>();
@@ -1916,9 +1917,9 @@ namespace Assets.Scripts
             giss.ScaleTo(new Vector3(toSize, toSize, 0), 8, (item, r) =>
             {
                 Destroy(item);
+                CallbacksCount--;
                 if (removingCallback != null)
                     removingCallback(item, r);
-                CallbacksCount--;
             });
         }
 
