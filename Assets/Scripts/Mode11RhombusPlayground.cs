@@ -140,6 +140,21 @@ namespace Assets.Scripts
                 //var gC = GetComponent<Game>();
                 //gC.Stats = sd.PlaygroundStat;
 
+                Game.Difficulty = sd.Difficulty;
+
+                CurrentTime = sd.CurrentPlaygroundTime;
+
+                var mit = ((RhombusPlaygroundSavedata)sd).MaxInitialElementType;
+                if (mit != MaxInitialElementType)
+                    MaxInitialElementType = mit;
+                else
+                    ShowMaxInitialElement();
+
+                ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                ProgressBar.CreateBar();
+                RaisePoints(sd.Score);
+
+
                 if (sd.Items != null)
                 {
                     for (var i = 0; i < FieldSize; i++)
@@ -167,21 +182,6 @@ namespace Assets.Scripts
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
-
-                    Game.Difficulty = sd.Difficulty;
-
-                    CurrentTime = sd.CurrentPlaygroundTime;
-
-                    var mit = ((RhombusPlaygroundSavedata)sd).MaxInitialElementType;
-                    if (mit != MaxInitialElementType)
-                        MaxInitialElementType = mit;
-                    else
-                        ShowMaxInitialElement();
-
-                    ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    ProgressBar.CreateBar();
-                    RaisePoints(sd.Score);
-                    DifficultyRaisedGUI();
                     return;
                 }
             }

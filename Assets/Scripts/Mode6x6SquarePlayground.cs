@@ -129,6 +129,21 @@ namespace Assets.Scripts
                 //var gC = GetComponent<Game>();
                 //gC.Stats = sd.PlaygroundStat;
 
+                Game.Difficulty = sd.Difficulty;
+
+                CurrentTime = sd.CurrentPlaygroundTime;
+
+                var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
+                if (mit != MaxInitialElementType)
+                    MaxInitialElementType = mit;
+                else
+                    ShowMaxInitialElement();
+                RaisePoints(sd.Score);
+
+                _pbState = sd.ProgressBarStateData.State;
+                _pbUpper = sd.ProgressBarStateData.Upper;
+                _pbMultiplier = sd.ProgressBarStateData.Multiplier;
+
                 if (sd.Items != null)
                 {
                     for (var i = 0; i < FieldSize; i++)
@@ -156,21 +171,7 @@ namespace Assets.Scripts
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
 
-                    Game.Difficulty = sd.Difficulty;
-
-                    CurrentTime = sd.CurrentPlaygroundTime;
-
-                    var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
-                    if (mit != MaxInitialElementType)
-                        MaxInitialElementType = mit;
-                    else
-                        ShowMaxInitialElement();
-                    RaisePoints(sd.Score);
-
-                    _pbState = sd.ProgressBarStateData.State;
-                    _pbUpper = sd.ProgressBarStateData.Upper;
-                    _pbMultiplier = sd.ProgressBarStateData.Multiplier;
-                    DifficultyRaisedGUI();
+                    
                     return;
                 }
             }
@@ -202,7 +203,6 @@ namespace Assets.Scripts
                 ProgressBar.UpdateTexture();
                 _showTimeLabel = true;
                 base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
-                PlaygroundProgressBar.ProgressBarRun = true;
             }
         }
 

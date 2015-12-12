@@ -240,9 +240,16 @@ namespace Assets.Scripts
             if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
-                
+               
                 //var gC = GetComponent<Game>();
                 //gC.Stats = sd.PlaygroundStat;
+
+                Game.Difficulty = sd.Difficulty;
+
+                CurrentTime = sd.CurrentPlaygroundTime;
+                ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                ProgressBar.CreateBar();
+                RaisePoints(sd.Score);
 
                 if (sd.Items != null)
                 {
@@ -266,14 +273,6 @@ namespace Assets.Scripts
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
-
-                    Game.Difficulty = sd.Difficulty;
-
-                    CurrentTime = sd.CurrentPlaygroundTime;
-                    ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    ProgressBar.CreateBar();
-                    RaisePoints(sd.Score);
-                    DifficultyRaisedGUI();
                     return;
                 }
             }

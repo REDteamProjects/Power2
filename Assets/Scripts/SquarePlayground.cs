@@ -346,6 +346,13 @@ namespace Assets.Scripts
             {
                 if (callback != null)
                     callback(null, EventArgs.Empty);
+                if (_showTimeLabel)
+                {
+                    _showTimeLabel = false;
+                    ShowTimeLabel();
+                }
+                else
+                    PlaygroundProgressBar.ProgressBarRun = true;
                 return;
             }
 
