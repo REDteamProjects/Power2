@@ -100,9 +100,9 @@ public class LabelShowing : MonoBehaviour {
          int animateToSize, int step = 1, Font font = null,
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, int rotateAngle = 0, GameItemType? type = null)
     {
-        var fg = GameObject.Find("/Foreground");
+        var mg = GameObject.Find("/Middleground");
         //var wp = initGameObject.transform.position;
-        var newPos = fg.transform.InverseTransformPoint(initGameObject.transform.position/*wp*/);
+        var newPos = mg.transform.InverseTransformPoint(initGameObject.transform.position);// calling it with foreground causes MaxInitialElement z index decreasing(shows under pause menu)...
         var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
         if(type.HasValue)
         {
@@ -125,6 +125,7 @@ public class LabelShowing : MonoBehaviour {
         var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
         var label = o.GetComponent<LabelShowing>();
         label._type = type;
+        var fg = GameObject.Find("/Foreground");
         label.transform.SetParent(fg.transform);
         label.ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, step, font, destroyAfterAnimation, callback, false, rotateAngle);
         if (label._type.HasValue)

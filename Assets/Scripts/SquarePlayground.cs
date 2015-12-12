@@ -275,6 +275,7 @@ namespace Assets.Scripts
 
         protected virtual void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
+            if(Game.Difficulty == DifficultyLevel._veryhard)
             ProgressBar.TimeBorderActivated += VeryHardLevelAction;
         }
 
@@ -1230,6 +1231,7 @@ namespace Assets.Scripts
                     
                     gameOverMenu.transform.localScale = Vector3.one;
                     gameOverMenu.transform.localPosition = new Vector3(0, -70, 0);
+
                 });
             if(!isWinning)
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.GameOver, false, true);
@@ -1449,7 +1451,10 @@ namespace Assets.Scripts
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         LabelAnimationFinishedDelegate callback = null;
                         if (!onlyNoMovesLabel)
+                        {
+                            PlaygroundProgressBar.ProgressBarRun = false;
                             callback = MixField;
+                        }
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 

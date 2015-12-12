@@ -16,7 +16,7 @@ namespace Assets.Scripts
 
         public override float ScaleMultiplyer
         {
-            get { return 3.7f; }// 4.95f; }
+            get { return 4.1f; }// 4.95f; }
             //get { return 1; }
         }
 
@@ -88,7 +88,7 @@ namespace Assets.Scripts
         public override Vector3 GetCellCoordinates(int col, int row)
         {
             //var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.0625;
-            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.225;
+            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.220;
             var roundedX = Math.Round(Item00.X + col * halfItem, 2);
             var roundedY = Math.Round(Item00.Y - row * halfItem, 2);
             return new Vector3((float)roundedX, (float)roundedY, Item00.Z);
@@ -518,6 +518,8 @@ namespace Assets.Scripts
                     var downItemCol = col + side;
                     if (downItemCol < 0 || downItemCol >= FieldSize || Items[downItemCol][downItemRow] == DisabledItem || Items[downItemCol][downItemRow] == null)
                         downItemCol = col - side;
+                    if (downItemCol < 0 || downItemCol >= FieldSize)
+                        continue;
                     if (row == 0)
                     {
                         break;
