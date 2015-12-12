@@ -122,8 +122,12 @@ public class LabelShowing : MonoBehaviour {
                     return;
                 }
         }
-        var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-        var label = o.GetComponent<LabelShowing>();
+        GameObject obj;
+        if (type.HasValue)
+        obj = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
+        else
+        obj = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+        var label = obj.GetComponent<LabelShowing>();
         label._type = type;
         var fg = GameObject.Find("/Foreground");
         label.transform.SetParent(fg.transform);

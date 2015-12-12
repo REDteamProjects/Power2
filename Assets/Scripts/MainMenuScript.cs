@@ -97,7 +97,7 @@ namespace Assets.Scripts
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
             var label = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
             label.transform.SetParent(obj.transform);
-            label.transform.localPosition = new Vector3(15, 0, -4);
+            label.transform.localPosition = new Vector3(-10, 0, -4);
             var labelText = label.GetComponent<Text>();
             labelText.font = Game.textFont;
             labelText.color = GameColors.ModesColors[previos];
