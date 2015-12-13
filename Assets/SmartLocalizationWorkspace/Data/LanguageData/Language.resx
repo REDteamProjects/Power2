@@ -170,6 +170,9 @@
 	<data name="Psycho" xml:space="preserve">
 		<value>Psycho button text</value>
 	</data>
+	<data name="RateUs" xml:space="preserve">
+		<value>Text for rate app button</value>
+	</data>
 	<data name="ResetAll" xml:space="preserve">
 		<value>Reset all button text</value>
 	</data>
@@ -191,6 +194,9 @@
 	<data name="[type=GAME_OBJECT]UserHelp._medium" xml:space="preserve">
 		<value>Medium level help texture</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp._veryhard" xml:space="preserve">
+		<value>Veryhard level help texture</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.8x8_easy" xml:space="preserve">
 		<value>8x8 easy level help texture</value>
 	</data>
@@ -208,8 +214,5 @@
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>
-	</data>
-	<data name="[type=GAME_OBJECT]UserHelp._veryhard" xml:space="preserve">
-		<value>Veryhard level help texture</value>
 	</data>
 </root>
