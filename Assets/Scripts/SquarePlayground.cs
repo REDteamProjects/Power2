@@ -36,6 +36,8 @@ namespace Assets.Scripts
         private float _currentTime;
         private int _minTypePlus = 0;
         //private Int32 _lowestNullItem;
+        private GameObject _leftComboLabel;
+        private GameObject _rightComboLabel;
 
         protected static readonly System.Random RandomObject = new System.Random();
         protected GameItemType MaxType = GameItemType._3;
@@ -187,7 +189,7 @@ namespace Assets.Scripts
             }
         }
 
-        protected bool _raiseMaxInitialElement = false;
+        protected bool _raiseMaxInitialElement = true;
 
         public GameItemType MaxInitialElementType
         {
@@ -207,12 +209,15 @@ namespace Assets.Scripts
         protected virtual void MaxInitialElementTypeRaisedActions()
         {
             //if (!(_nextUpperLevelGameItemType != GameItemType.NullItem && MaxType == _nextUpperLevelGameItemType)
-            if (MaxType < GameItemType._7)
-                _nextUpperLevelGameItemType = GameItemType._7;
-            else
-            {
                 switch (MaxType)
                 {
+                    case GameItemType._3:
+                    case GameItemType._4:
+                    case GameItemType._5:
+                    case GameItemType._6:
+                        DifficultyRaisedGUI(false);
+                        _nextUpperLevelGameItemType = GameItemType._7;
+                        break;
                     case GameItemType._7:
                         Game.Difficulty = DifficultyLevel._medium;
                         _minTypePlus=1;
@@ -225,6 +230,7 @@ namespace Assets.Scripts
                     case GameItemType._9:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._10;
+                        DifficultyRaisedGUI(false);
                         break;
                     case GameItemType._10:
                         Game.Difficulty = DifficultyLevel._hard;
@@ -241,6 +247,7 @@ namespace Assets.Scripts
                     case GameItemType._12:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._13;
+                        DifficultyRaisedGUI(false);
                         break;
                     case GameItemType._13:
                         Game.Difficulty = DifficultyLevel._veryhard;
@@ -258,6 +265,7 @@ namespace Assets.Scripts
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._2x;
                         ProgressBar.TimeBorderActivated += VeryHardLevelAction;
+                        DifficultyRaisedGUI(false);
                         break;
                     case GameItemType._2x:
                         IsGameOver = true;
@@ -269,7 +277,6 @@ namespace Assets.Scripts
                     DestroyElements(new List<GameItemType>() {MinType, MinType+_minTypePlus});
                     //GenerateField();
                 }
-            }
             
         }
 
@@ -1863,9 +1870,31 @@ namespace Assets.Scripts
             var comboLabel = labelObject.GetComponent<LabelShowing>();
             comboLabel.name = "ComboLabel";
             comboLabel.transform.SetParent(transform);
-
+            bool isLeft = count % 2 == 0;
+            if(isLeft)
+            {
+                if (_leftComboLabel != null)
+                {
+                    var shadow = _leftComboLabel.GetComponent<LabelShowing>().Shadow;
+                    if (shadow != null)
+                        Destroy(shadow.gameObject);
+                    Destroy(_leftComboLabel);
+                }
+                _leftComboLabel = labelObject;
+            }
+            else
+            {
+                if (_rightComboLabel != null)
+                {
+                    var shadow = _rightComboLabel.GetComponent<LabelShowing>().Shadow;
+                    if (shadow != null)
+                        Destroy(shadow.gameObject);
+                    Destroy(_rightComboLabel);
+                }
+                _rightComboLabel = labelObject;
+            }
             //comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
-            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -10 : 10, Item00.Y + GameItemSize*2.5f, -1),
+            comboLabel.ShowScalingLabel(new Vector3(isLeft ? -10 : 10, Item00.Y + GameItemSize*2.5f, -1),
                 LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize / 3, LabelShowing.minLabelFontSize, 2, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
@@ -1902,7 +1931,7 @@ namespace Assets.Scripts
                     Destroy(item);
                 }
             Items = null;
-            MaxType = GameItemType.NullItem;
+            MaxType = GameItemType._3;
             CurrentScore = 0;
         }
 

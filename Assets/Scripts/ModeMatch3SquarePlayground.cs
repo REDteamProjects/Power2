@@ -248,6 +248,7 @@ namespace Assets.Scripts
 
                 CurrentTime = sd.CurrentPlaygroundTime;
                 ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
 
@@ -280,9 +281,10 @@ namespace Assets.Scripts
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)
             Preferenses.GamesPlayed++;
-            GenerateField();
+            ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+            if (!ProgressBar.Exists)
             ProgressBar.CreateBar();
-            DifficultyRaisedGUI();
+            GenerateField();
                 //ShowMaxInitialElement();
                 //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
                 //DownPoint = a.transform.position.y;      

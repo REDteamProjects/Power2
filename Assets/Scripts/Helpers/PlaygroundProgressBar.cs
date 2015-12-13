@@ -72,7 +72,9 @@ namespace Assets.Scripts.Helpers
         }
 
         public event EventHandler TimeBorderDeActivated;
-        
+
+
+        public bool Exists { get { return _progressBar != null; } }
         public float Multiplier { get { return _moveTimerMultiple; } }
         public float State { get { return _progressBarBank; } }
         public float Upper { get { return _progressBarBankUpper; } }
@@ -194,11 +196,14 @@ namespace Assets.Scripts.Helpers
         public void CreateBar()
         {
             var fg = GameObject.Find("/Foreground");
-            _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
-            _progressBar.transform.SetParent(fg.transform);
-            _progressBar.transform.localPosition = Coordinate;
-            _progressBar.transform.localScale = Vector3.one;
-            _progressBarLine = GameObject.Find("ProgressBarLine");
+            if (_progressBar == null)
+            {
+                _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
+                _progressBar.transform.SetParent(fg.transform);
+                _progressBar.transform.localPosition = Coordinate;
+                _progressBar.transform.localScale = Vector3.one;
+            }
+                _progressBarLine = GameObject.Find("ProgressBarLine");
             var rtrans = _progressBarLine.transform as RectTransform;
             _barYSize = rtrans.sizeDelta.y;
             var deltabYS = _barYSize / 4;
@@ -219,6 +224,9 @@ namespace Assets.Scripts.Helpers
             _progressBarBank = count >= ProgressBarBaseSize ? ProgressBarBaseSize : count;
             _progressBarBankUpper = upper;
             _moveTimerMultiple = timeMultiple;
+            if (!Exists) return;
+            var rtrans = _progressBarLine.transform as RectTransform;
+            rtrans.sizeDelta = new Vector2(_progressBarBank, rtrans.sizeDelta.y);
         }
 
         public void UpdateTexture()

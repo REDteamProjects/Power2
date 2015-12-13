@@ -188,7 +188,6 @@ namespace Assets.Scripts
             //}
             GenerateField();
             ShowMaxInitialElement();
-            DifficultyRaisedGUI();
             
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
@@ -199,6 +198,7 @@ namespace Assets.Scripts
             if(Game.Difficulty == DifficultyLevel._veryhard)
             {
                 ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+                if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 ProgressBar.UpdateTexture();
                 _showTimeLabel = true;

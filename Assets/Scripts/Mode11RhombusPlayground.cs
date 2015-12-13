@@ -151,6 +151,7 @@ namespace Assets.Scripts
                     ShowMaxInitialElement();
 
                 ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
 
@@ -191,11 +192,11 @@ namespace Assets.Scripts
             if (Preferenses.CurrentItemType < MaxInitialElementType)
                 Preferenses.CurrentItemType = MaxInitialElementType;
 
-
-            GenerateField();
+            ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+            if (!ProgressBar.Exists)
             ProgressBar.CreateBar();
+            GenerateField();
             ShowMaxInitialElement();
-            DifficultyRaisedGUI();
         }
 
         public void OnDestroy()

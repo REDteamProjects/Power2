@@ -140,6 +140,7 @@ namespace Assets.Scripts
                     ShowMaxInitialElement();
 
                 ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                if(!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
 
@@ -183,10 +184,11 @@ namespace Assets.Scripts
                 Preferenses.CurrentItemType = MaxInitialElementType;
             //}
 
-            GenerateField();
+            ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+            if (!ProgressBar.Exists)
             ProgressBar.CreateBar();
+            GenerateField();
             ShowMaxInitialElement();
-            DifficultyRaisedGUI();
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
 
