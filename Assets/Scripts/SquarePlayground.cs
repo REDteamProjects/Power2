@@ -351,15 +351,19 @@ namespace Assets.Scripts
 
             if (!withLabel)
             {
-                if (callback != null)
-                    callback(null, EventArgs.Empty);
-                if (_showTimeLabel)
+                CreateInGameHelpModule(_userHelpPrefix + Game.Difficulty.ToString(), () =>
                 {
-                    _showTimeLabel = false;
-                    ShowTimeLabel();
-                }
-                else
-                    PlaygroundProgressBar.ProgressBarRun = true;
+                    if (callback != null)
+                        callback(null, EventArgs.Empty);
+                    if (_showTimeLabel)
+                    {
+                        _showTimeLabel = false;
+                        ShowTimeLabel();
+                    }
+                    else
+                        PlaygroundProgressBar.ProgressBarRun = true;
+
+                });
                 return;
             }
 
