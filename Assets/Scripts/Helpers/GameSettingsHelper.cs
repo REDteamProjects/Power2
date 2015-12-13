@@ -63,11 +63,14 @@ namespace Assets.Scripts.Helpers
         {
             var theme = ActiveTheme;
             var sound = SoundEnabled;
+            var pressedLogoLabel = PlayerPrefs.HasKey("PressLogoLabel");
 
             PlayerPrefs.DeleteAll();
 
             ActiveTheme = theme;
             SoundEnabled = sound;
+            if (pressedLogoLabel)
+                PlayerPrefs.SetInt("PressLogoLabel",1);
         }
     }
 

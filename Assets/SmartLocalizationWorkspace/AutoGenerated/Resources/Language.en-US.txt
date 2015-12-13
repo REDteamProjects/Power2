@@ -169,6 +169,9 @@ R.E.D.team</value>
 	<data name="Player" xml:space="preserve">
 		<value>PLAYER</value>
 	</data>
+	<data name="PressLogo" xml:space="preserve">
+		<value>PRESS!</value>
+	</data>
 	<data name="Psycho" xml:space="preserve">
 		<value>PSYCHO</value>
 	</data>

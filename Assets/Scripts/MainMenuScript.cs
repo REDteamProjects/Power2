@@ -17,6 +17,7 @@ namespace Assets.Scripts
         private static GameObject _soundButton;
         private static GameObject _mainCamera;
         private List<string> _availableScenes = new List<string>();
+        private static GameObject _pressLogoLabel;
 
         public static void UpdateTheme()
         {
@@ -27,6 +28,15 @@ namespace Assets.Scripts
             {
                 bg.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0]/*"SD/6x6Atlas"*/)
                   .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
+            }
+
+            if(_pressLogoLabel != null)
+            {
+                var ls = _pressLogoLabel.GetComponent<LabelShowing>();
+                if (ls.Shadow != null)
+                    Destroy(ls.Shadow.gameObject);
+                Destroy(_pressLogoLabel);
+                PlayerPrefs.SetInt("PressLogoLabel", 1);
             }
             /*var changeObject = GameObject.Find("StatsButton");
             if (changeObject != null)
@@ -87,6 +97,16 @@ namespace Assets.Scripts
             }
             else
                 _availableScenes.Add("11Rhombus");
+
+            if (!PlayerPrefs.HasKey("PressLogoLabel"))
+            {
+                _pressLogoLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject);
+                _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI").transform);
+                var pressLogoLabelShowing = _pressLogoLabel.GetComponent<LabelShowing>();
+                pressLogoLabelShowing.ShowScalingLabel(new Vector3(125, 370, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
+               GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 50);
+            }
+
         }
 
 

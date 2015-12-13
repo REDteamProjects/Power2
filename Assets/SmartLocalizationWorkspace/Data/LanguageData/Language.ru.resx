@@ -169,6 +169,9 @@ R.E.D.team</value>
 	<data name="Player" xml:space="preserve">
 		<value>ИГРОК</value>
 	</data>
+	<data name="PressLogo" xml:space="preserve">
+		<value>НАЖМИ!</value>
+	</data>
 	<data name="Psycho" xml:space="preserve">
 		<value>СУМАСШЕДШИЙ</value>
 	</data>

@@ -38,8 +38,8 @@ public class StatisticPageScript : MonoBehaviour
 
         newgobj.transform.SetParent(levelTitle.transform);
         newgobj.transform.localPosition = new Vector3(0, 0);
-        newgobj.transform.localScale = type <= GameItemType.DisabledItem ? new Vector3(80, 80) :/*typeObjectName.Contains("Match3") ? new Vector3(5, 5) : */
-            new Vector3(10, 10);
+        //newgobj.transform.localScale = type <= GameItemType.DisabledItem ? new Vector3(80, 80) : new Vector3(10, 10);
+        newgobj.transform.localScale = new Vector3(10, 10);
     }
 
     private void LoadDataToView<TSavedataType, TType>()
