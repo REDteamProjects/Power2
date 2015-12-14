@@ -73,7 +73,7 @@ namespace Assets.Scripts
             }
             protected set
             {
-                gameObject.GetComponent<PlaygroundProgressBar>().MoveTimerMultiple = _initialMoveTimerMultiple;
+                ProgressBar.MoveTimerMultiple = _initialMoveTimerMultiple;
             }
         }
 
@@ -215,7 +215,7 @@ namespace Assets.Scripts
                     case GameItemType._4:
                     case GameItemType._5:
                     case GameItemType._6:
-                        DifficultyRaisedGUI(false);
+                        DifficultyRaisedGUI(false, MaxInitialElementTypeRaisedActionsAdditional);
                         _nextUpperLevelGameItemType = GameItemType._7;
                         break;
                     case GameItemType._7:
@@ -230,7 +230,8 @@ namespace Assets.Scripts
                     case GameItemType._9:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._10;
-                        DifficultyRaisedGUI(false);
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
+                        DifficultyRaisedGUI(false, MaxInitialElementTypeRaisedActionsAdditional);
                         break;
                     case GameItemType._10:
                         Game.Difficulty = DifficultyLevel._hard;
@@ -247,7 +248,8 @@ namespace Assets.Scripts
                     case GameItemType._12:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._13;
-                        DifficultyRaisedGUI(false);
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 8;
+                        DifficultyRaisedGUI(false, MaxInitialElementTypeRaisedActionsAdditional);
                         break;
                     case GameItemType._13:
                         Game.Difficulty = DifficultyLevel._veryhard;
@@ -264,8 +266,8 @@ namespace Assets.Scripts
                     case GameItemType._16:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._2x;
-                        ProgressBar.TimeBorderActivated += VeryHardLevelAction;
-                        DifficultyRaisedGUI(false);
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 12;
+                        DifficultyRaisedGUI(false, MaxInitialElementTypeRaisedActionsAdditional);
                         break;
                     case GameItemType._2x:
                         IsGameOver = true;
@@ -302,78 +304,34 @@ namespace Assets.Scripts
 
                 var points = GameObject.Find("Points");
                 points.GetComponent<Text>().color = GameColors.DifficultyLevelsColors[Game.Difficulty];
-
                 oits.SetTransparency(1f, null);
-            });
 
 
-            #region Needn't case
-            //switch (Game.Difficulty)
-            //{
-            //    case DifficultyLevel.medium:
-            //        oits.SetTransparency(0.1f, (obj, res) =>
-            //            {
-            //                var backgroundObject = GameObject.Find("/Middleground/Background");
-            //                backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-            //                    .SingleOrDefault(t => t.name.Contains(DifficultyLevel.medium.ToString()));
-
-            //                GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.medium);
-
-            //                oits.SetTransparency(1f, null);
-            //            });
-            //        break;
-            //    case DifficultyLevel.hard:
-            //        oits.SetTransparency(0.1f, (obj, res) =>
-            //             {
-            //                 var backgroundObject = GameObject.Find("/Middleground/Background");
-            //                 backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-            //                    .SingleOrDefault(t => t.name.Contains(DifficultyLevel.hard.ToString()));
-
-            //                 GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.hard);
-
-            //                 oits.SetTransparency(1f, null);
-            //             });
-            //        break;
-            //    case DifficultyLevel.veryhard:
-            //        oits.SetTransparency(0.1f, (obj, res) =>
-            //             {
-            //                 var backgroundObject = GameObject.Find("/Middleground/Background");
-            //                 backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-            //                    .SingleOrDefault(t => t.name.Contains(DifficultyLevel.veryhard.ToString()));
-
-            //                 GetComponent<PlaygroundProgressBar>().UpdateTexture(DifficultyLevel.veryhard);
-
-            //                 oits.SetTransparency(1f, null);
-            //             });
-            //        break;
-            //}
-            #endregion
-
-            if (!withLabel)
-            {
-                CreateInGameHelpModule(_userHelpPrefix + Game.Difficulty.ToString(), () =>
-                {
-                    if (callback != null)
-                        callback(null, EventArgs.Empty);
-                    if (_showTimeLabel)
-                    {
-                        _showTimeLabel = false;
-                        ShowTimeLabel();
-                    }
-                    else
-                        PlaygroundProgressBar.ProgressBarRun = true;
-
-                });
-                return;
-            }
-
-            var difficultyRaisedLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
-
-            difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
-                GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, () =>
+                if (!withLabel)
                 {
                     CreateInGameHelpModule(_userHelpPrefix + Game.Difficulty.ToString(), () =>
                     {
+                        if (callback != null)
+                            callback(null, EventArgs.Empty);
+                        if (_showTimeLabel)
+                        {
+                            _showTimeLabel = false;
+                            ShowTimeLabel();
+                        }
+                        else
+                            PlaygroundProgressBar.ProgressBarRun = true;
+
+                    });
+                    return;
+                }
+
+                var difficultyRaisedLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject).GetComponent<LabelShowing>();
+
+                difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
+                    GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, () =>
+                    {
+                        CreateInGameHelpModule(_userHelpPrefix + Game.Difficulty.ToString(), () =>
+                        {
                             if (callback != null)
                                 callback(null, EventArgs.Empty);
                             if (_showTimeLabel)
@@ -383,9 +341,12 @@ namespace Assets.Scripts
                             }
                             else
                                 PlaygroundProgressBar.ProgressBarRun = true;
-                            
+
                         });
-                }, true);
+                    }, true);
+            });
+
+            
         }
 
         protected virtual void VeryHardLevelAction(object sender, EventArgs e)

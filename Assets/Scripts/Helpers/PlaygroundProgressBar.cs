@@ -23,6 +23,7 @@ namespace Assets.Scripts.Helpers
         private static  float _timeActionBorder = 160;
         private readonly float _timeActionBorderMaximumSize = ProgressBarBaseSize / 2;
         private event EventHandler _timeBorderActivated;
+        private event EventHandler _timeBorderDeActivated;
         private GameObject LeftSmallX = null;
         private GameObject RightSmallX = null;
 
@@ -35,6 +36,7 @@ namespace Assets.Scripts.Helpers
         {
             add 
             {
+                if(_timeBorderActivated==null || !_timeBorderActivated.GetInvocationList().Contains(value))
                 _timeBorderActivated += value;
                 if (LeftSmallX == null)
                 {
@@ -56,7 +58,7 @@ namespace Assets.Scripts.Helpers
                 _timeBorderActivated -= value;
                 if(_timeBorderActivated == null)
                 {
-                    TimeBorderDeActivated = null;
+                    _timeBorderDeActivated = null;
                     if (LeftSmallX != null)
                     {
                         Destroy(LeftSmallX);
@@ -71,7 +73,18 @@ namespace Assets.Scripts.Helpers
             }
         }
 
-        public event EventHandler TimeBorderDeActivated;
+        public event EventHandler TimeBorderDeActivated
+        {
+            add
+            {
+                if (_timeBorderDeActivated == null || !_timeBorderDeActivated.GetInvocationList().Contains(value))
+                    _timeBorderDeActivated += value;
+            }
+            remove
+            {
+                _timeBorderDeActivated -= value;
+            }
+        }
 
 
         public bool Exists { get { return _progressBar != null; } }
@@ -128,9 +141,9 @@ namespace Assets.Scripts.Helpers
                     var upperDelta = deltaXUpper > _progressBarBankUpper ? _progressBarBankUpper : deltaXUpper;
                     var progressBarBankValue = _progressBarBank;
                     _progressBarBank += upperDelta;
-                    if (TimeBorderDeActivated != null && _progressBarBank > TimeActionBorder && TimeActionBorder > progressBarBankValue)
+                    if (_timeBorderDeActivated != null && _progressBarBank > TimeActionBorder && TimeActionBorder > progressBarBankValue)
                     {
-                        TimeBorderDeActivated(gameObject, EventArgs.Empty);
+                        _timeBorderDeActivated(gameObject, EventArgs.Empty);
                     }
                     _progressBarBankUpper -= upperDelta;
                 }
