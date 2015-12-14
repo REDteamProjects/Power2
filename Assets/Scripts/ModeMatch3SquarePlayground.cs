@@ -212,9 +212,10 @@ namespace Assets.Scripts
             /*GameObject.Find("PauseButton").GetComponent<Image>().color =
                 GameColors.ForegroundButtonsColor;*/
 
-            GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
+            /*GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
                 Resources.LoadAll<Sprite>("SD/8x8Atlas")
-               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));*/
+            MainMenuScript.UpdateTheme();
 
             ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
@@ -240,9 +241,17 @@ namespace Assets.Scripts
             if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
-                
+               
                 //var gC = GetComponent<Game>();
                 //gC.Stats = sd.PlaygroundStat;
+
+                Game.Difficulty = sd.Difficulty;
+
+                CurrentTime = sd.CurrentPlaygroundTime;
+                ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                if (!ProgressBar.Exists)
+                ProgressBar.CreateBar();
+                RaisePoints(sd.Score);
 
                 if (sd.Items != null)
                 {
@@ -266,14 +275,6 @@ namespace Assets.Scripts
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
-
-                    Game.Difficulty = sd.Difficulty;
-
-                    CurrentTime = sd.CurrentPlaygroundTime;
-                    ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    ProgressBar.CreateBar();
-                    RaisePoints(sd.Score);
-                    DifficultyRaisedGUI();
                     return;
                 }
             }
@@ -281,9 +282,10 @@ namespace Assets.Scripts
             //var stat = GetComponent<Game>().Stats;
             //if (stat != null)
             Preferenses.GamesPlayed++;
-            GenerateField();
+            ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+            if (!ProgressBar.Exists)
             ProgressBar.CreateBar();
-            DifficultyRaisedGUI();
+            GenerateField();
                 //ShowMaxInitialElement();
                 //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
                 //DownPoint = a.transform.position.y;      
@@ -331,7 +333,6 @@ namespace Assets.Scripts
                     GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? true : false);
                 }
                 UpdateTime();
-                SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
             HintTimeCounter = -1;

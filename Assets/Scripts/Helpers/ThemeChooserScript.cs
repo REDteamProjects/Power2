@@ -21,11 +21,14 @@ namespace Assets.Scripts.Helpers
         {
             switch (Game.Theme)
             {
-                case GameTheme.dark:
-                    Game.Theme = GameTheme.light;
-                    break;
                 case GameTheme.light:
                     Game.Theme = GameTheme.dark;
+                    break;
+                case GameTheme.dark:
+                    Game.Theme = GameTheme.additional_1;
+                    break;
+                case GameTheme.additional_1:
+                    Game.Theme = GameTheme.light;
                     break;
             }
 

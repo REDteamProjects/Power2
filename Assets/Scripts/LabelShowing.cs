@@ -23,7 +23,7 @@ public class LabelShowing : MonoBehaviour {
     private ScaleState _scaleState = ScaleState._increase;
     private int _step = 1;
     private int _currentFontSize;
-    private LabelShowing Shadow = null;
+    public LabelShowing Shadow = null;
 
 	// Update is called once per frame
 	void Update () {

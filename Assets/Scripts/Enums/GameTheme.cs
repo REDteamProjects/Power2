@@ -10,6 +10,7 @@ namespace Assets.Scripts.Enums
     public enum GameTheme
     {
         dark,
-        light
+        light,
+        additional_1
     }
 }

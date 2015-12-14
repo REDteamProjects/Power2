@@ -36,6 +36,8 @@ namespace Assets.Scripts
         private float _currentTime;
         private int _minTypePlus = 0;
         //private Int32 _lowestNullItem;
+        private GameObject _leftComboLabel;
+        private GameObject _rightComboLabel;
 
         protected static readonly System.Random RandomObject = new System.Random();
         protected GameItemType MaxType = GameItemType._3;
@@ -187,7 +189,7 @@ namespace Assets.Scripts
             }
         }
 
-        protected bool _raiseMaxInitialElement = false;
+        protected bool _raiseMaxInitialElement = true;
 
         public GameItemType MaxInitialElementType
         {
@@ -207,12 +209,15 @@ namespace Assets.Scripts
         protected virtual void MaxInitialElementTypeRaisedActions()
         {
             //if (!(_nextUpperLevelGameItemType != GameItemType.NullItem && MaxType == _nextUpperLevelGameItemType)
-            if (MaxType < GameItemType._7)
-                _nextUpperLevelGameItemType = GameItemType._7;
-            else
-            {
                 switch (MaxType)
                 {
+                    case GameItemType._3:
+                    case GameItemType._4:
+                    case GameItemType._5:
+                    case GameItemType._6:
+                        DifficultyRaisedGUI(false);
+                        _nextUpperLevelGameItemType = GameItemType._7;
+                        break;
                     case GameItemType._7:
                         Game.Difficulty = DifficultyLevel._medium;
                         _minTypePlus=1;
@@ -225,6 +230,7 @@ namespace Assets.Scripts
                     case GameItemType._9:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._10;
+                        DifficultyRaisedGUI(false);
                         break;
                     case GameItemType._10:
                         Game.Difficulty = DifficultyLevel._hard;
@@ -232,7 +238,7 @@ namespace Assets.Scripts
                         MoveTimerMultiple = _initialMoveTimerMultiple + 8;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 1)
-                        Generate2xItem();
+                        SpawnItemOnRandomPlace(GameItemType._2x);//Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         SpawnXItems();
                         _nextUpperLevelGameItemType = GameItemType._13;
@@ -241,6 +247,7 @@ namespace Assets.Scripts
                     case GameItemType._12:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._13;
+                        DifficultyRaisedGUI(false);
                         break;
                     case GameItemType._13:
                         Game.Difficulty = DifficultyLevel._veryhard;
@@ -248,7 +255,7 @@ namespace Assets.Scripts
                         MoveTimerMultiple = _initialMoveTimerMultiple + 12;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 2)
-                        Generate2xItem();
+                        SpawnItemOnRandomPlace(GameItemType._2x);//Generate2xItem();
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._2x;
                         break;
@@ -258,6 +265,7 @@ namespace Assets.Scripts
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._2x;
                         ProgressBar.TimeBorderActivated += VeryHardLevelAction;
+                        DifficultyRaisedGUI(false);
                         break;
                     case GameItemType._2x:
                         IsGameOver = true;
@@ -269,7 +277,6 @@ namespace Assets.Scripts
                     DestroyElements(new List<GameItemType>() {MinType, MinType+_minTypePlus});
                     //GenerateField();
                 }
-            }
             
         }
 
@@ -279,28 +286,6 @@ namespace Assets.Scripts
             ProgressBar.TimeBorderActivated += VeryHardLevelAction;
         }
 
-
-        protected virtual void SpawnXItems()
-        {
-            while (XItemsCount < MaxAdditionalItemsCount)
-            {
-                int col;
-                int row;
-                while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
-                       (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) ||
-                       Items[col][row] == null || Items[col][row] == DisabledItem ||
-                       (Items[col][row] as GameObject).GetComponent<GameItem>().Type >= GameItemType._2x ||
-                       (Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
-                {
-                }
-                RemoveGameItem(col, row, (item, r) =>
-                {
-                    Items[col][row] = GenerateGameItem(GameItemType._XItem, col, row, Vector2.zero,
-                        false, null, null);
-                });
-                XItemsCount++;
-            }
-        }
 
         protected void DifficultyRaisedGUI(bool withLabel = true, EventHandler callback = null)
         {
@@ -366,8 +351,19 @@ namespace Assets.Scripts
 
             if (!withLabel)
             {
-                if (callback != null)
-                    callback(null, EventArgs.Empty);
+                CreateInGameHelpModule(_userHelpPrefix + Game.Difficulty.ToString(), () =>
+                {
+                    if (callback != null)
+                        callback(null, EventArgs.Empty);
+                    if (_showTimeLabel)
+                    {
+                        _showTimeLabel = false;
+                        ShowTimeLabel();
+                    }
+                    else
+                        PlaygroundProgressBar.ProgressBarRun = true;
+
+                });
                 return;
             }
 
@@ -434,21 +430,55 @@ namespace Assets.Scripts
                });
         }
 
-        private void Generate2xItem()
+       /* private void Generate2xItem()
         {
             int col;
             int row;
-            while ((col = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1) >
-                       (row = RandomObject.Next(1, FieldSize - 1)) * RandomObject.Next(1, FieldSize - 1))
+            while (true)
             {
+                col = RandomObject.Next(1, FieldSize - 1);
+                row = RandomObject.Next(1, FieldSize - 1);
                 var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
-                if (gi.Type < GameItemType._2x && gi.Type != MaxType + 1 &&
+                if (gi.Type < GameItemType._2x && gi.Type != (MaxType + 1) &&
                 !gi.GetComponent<GameItemScalingScript>().isScaling)
                     break;
             }
             RemoveGameItem(col, row, (item, r) =>
             {
                 Items[col][row] = GenerateGameItem(GameItemType._2x, col, row, Vector2.zero);
+            });
+        }*/
+
+
+        protected virtual void SpawnXItems()
+        {
+            while (XItemsCount < MaxAdditionalItemsCount)
+            {
+                SpawnItemOnRandomPlace(GameItemType._XItem);
+                XItemsCount++;
+            }
+        }
+
+
+        private void SpawnItemOnRandomPlace(GameItemType type)
+        {
+            int col;
+            int row;
+            while (true)
+            {
+                col = RandomObject.Next(1, FieldSize - 1);
+                row = RandomObject.Next(1, FieldSize - 1);
+                if (Items[col][row] == null || Items[col][row] == DisabledItem) continue;
+                var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
+                if (Items[col][row] != null && Items[col][row] != DisabledItem &&
+                   gi.Type < GameItemType._2x && gi.Type != (MaxType + 1) &&
+                   !(Items[col][row] as GameObject).GetComponent<GameItemScalingScript>().isScaling)
+                    break;
+            }
+            RemoveGameItem(col, row, (item, r) =>
+            {
+                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero,
+                    false, null, null);
             });
         }
 
@@ -1021,7 +1051,6 @@ namespace Assets.Scripts
                     GenerateField(false, true);
                 }
                 UpdateTime();
-                SavedataHelper.SaveData(SavedataObject);
                 return 0;
             }
             HintTimeCounter = -1;
@@ -1437,11 +1466,13 @@ namespace Assets.Scripts
                         Items[i][j] = GenerateGameItem(i, j, deniedList);
                     }
                 }
+                SavedataHelper.SaveData(SavedataObject);
             }
             else
             {
                 LogFile.Message("Mix field...", true);
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+<<<<<<< HEAD
                 if (o == null) return;
                 var noMovesLabel = o.GetComponent<LabelShowing>();
                 LabelAnimationFinishedDelegate callback = null;
@@ -1454,6 +1485,23 @@ namespace Assets.Scripts
                     LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
                 //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
                 //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
+=======
+                    if (o != null)
+                    {
+                        var noMovesLabel = o.GetComponent<LabelShowing>();
+                        LabelAnimationFinishedDelegate callback = null;
+                        if (!onlyNoMovesLabel)
+                        {
+                            //PlaygroundProgressBar.ProgressBarRun = false;
+                            callback = MixField;
+                        }
+                        noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
+                            LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
+                        //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
+                        //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
+                    }
+                
+>>>>>>> 7113c7cce95502278ef8640c35cb356cd81ae896
             }
             //if (!isNoLines && _callbackReady.WaitOne(1))
             // ClearChains();
@@ -1772,11 +1820,11 @@ namespace Assets.Scripts
             for (var col = 0; col < FieldSize; col++)
                 for (var row = 0; row < FieldSize; row++)
                 {
-                    if (Items[col][row] == null || Items[col][row] == DisabledItem)
-                    {
+                    if (Items[col][row] == null)
+                        return true;
+                    if(Items[col][row] == DisabledItem)
                         //if (Items[col][row] == null) Debug.LogError("Items[col][row] null in checkForPossibleMoves");
                         continue;
-                    }
                     var gobj = Items[col][row] as GameObject;
                     if (gobj == null) continue;
                     var gi = gobj.GetComponent<GameItem>();
@@ -1835,9 +1883,31 @@ namespace Assets.Scripts
             var comboLabel = labelObject.GetComponent<LabelShowing>();
             comboLabel.name = "ComboLabel";
             comboLabel.transform.SetParent(transform);
-
+            bool isLeft = count % 2 == 0;
+            if(isLeft)
+            {
+                if (_leftComboLabel != null)
+                {
+                    var shadow = _leftComboLabel.GetComponent<LabelShowing>().Shadow;
+                    if (shadow != null)
+                        Destroy(shadow.gameObject);
+                    Destroy(_leftComboLabel);
+                }
+                _leftComboLabel = labelObject;
+            }
+            else
+            {
+                if (_rightComboLabel != null)
+                {
+                    var shadow = _rightComboLabel.GetComponent<LabelShowing>().Shadow;
+                    if (shadow != null)
+                        Destroy(shadow.gameObject);
+                    Destroy(_rightComboLabel);
+                }
+                _rightComboLabel = labelObject;
+            }
             //comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
-            comboLabel.ShowScalingLabel(new Vector3(count%2 == 0 ? -10 : 10, Item00.Y + GameItemSize*2.5f, -1),
+            comboLabel.ShowScalingLabel(new Vector3(isLeft ? -10 : 10, Item00.Y + GameItemSize*2.5f, -1),
                 LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize / 3, LabelShowing.minLabelFontSize, 2, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
@@ -1874,7 +1944,7 @@ namespace Assets.Scripts
                     Destroy(item);
                 }
             Items = null;
-            MaxType = GameItemType.NullItem;
+            MaxType = GameItemType._3;
             CurrentScore = 0;
         }
 
@@ -1895,9 +1965,9 @@ namespace Assets.Scripts
             giss.ScaleTo(new Vector3(toSize, toSize, 0), 8, (item, r) =>
             {
                 Destroy(item);
+                CallbacksCount--;
                 if (removingCallback != null)
                     removingCallback(item, r);
-                CallbacksCount--;
             });
         }
 

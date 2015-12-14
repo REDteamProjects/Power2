@@ -51,7 +51,7 @@ namespace Assets.Scripts.DataClasses
         public void ResetDynamicPart()
         {
             Items = null;
-            MaxInitialElementType = GameItemType.NullItem;
+            MaxInitialElementType = GameItemType._3;
             Score = 0;
         }
 

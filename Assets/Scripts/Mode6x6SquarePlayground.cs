@@ -100,10 +100,11 @@ namespace Assets.Scripts
 
             /*GameObject.Find("PauseButton").GetComponent<Image>().color =
                 GameColors.ForegroundButtonsColor;*/
-
+            /*
             GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
                 Resources.LoadAll<Sprite>("SD/6x6Atlas")
-               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));*/
+            MainMenuScript.UpdateTheme();
 
             #if UNITY_WINRT || UNITY_WP8
                 WinRTDeviceHelper.FireShowAd();
@@ -128,6 +129,21 @@ namespace Assets.Scripts
 
                 //var gC = GetComponent<Game>();
                 //gC.Stats = sd.PlaygroundStat;
+
+                Game.Difficulty = sd.Difficulty;
+
+                CurrentTime = sd.CurrentPlaygroundTime;
+
+                var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
+                if (mit != MaxInitialElementType)
+                    MaxInitialElementType = mit;
+                else
+                    ShowMaxInitialElement();
+                RaisePoints(sd.Score);
+
+                _pbState = sd.ProgressBarStateData.State;
+                _pbUpper = sd.ProgressBarStateData.Upper;
+                _pbMultiplier = sd.ProgressBarStateData.Multiplier;
 
                 if (sd.Items != null)
                 {
@@ -156,21 +172,7 @@ namespace Assets.Scripts
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
 
-                    Game.Difficulty = sd.Difficulty;
-
-                    CurrentTime = sd.CurrentPlaygroundTime;
-
-                    var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
-                    if (mit != MaxInitialElementType)
-                        MaxInitialElementType = mit;
-                    else
-                        ShowMaxInitialElement();
-                    RaisePoints(sd.Score);
-
-                    _pbState = sd.ProgressBarStateData.State;
-                    _pbUpper = sd.ProgressBarStateData.Upper;
-                    _pbMultiplier = sd.ProgressBarStateData.Multiplier;
-                    DifficultyRaisedGUI();
+                    
                     return;
                 }
             }
@@ -187,7 +189,6 @@ namespace Assets.Scripts
             //}
             GenerateField();
             ShowMaxInitialElement();
-            DifficultyRaisedGUI();
             
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
@@ -198,6 +199,7 @@ namespace Assets.Scripts
             if(Game.Difficulty == DifficultyLevel._veryhard)
             {
                 ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+                if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 ProgressBar.UpdateTexture();
                 _showTimeLabel = true;

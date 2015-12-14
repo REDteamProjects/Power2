@@ -102,10 +102,11 @@ namespace Assets.Scripts
 
             /*GameObject.Find("PauseButton").GetComponent<Image>().color =
                 GameColors.ForegroundButtonsColor;*/
-
+            /*
             GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
                 Resources.LoadAll<Sprite>("SD/8x8Atlas")
-               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString())); 
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString())); */
+            MainMenuScript.UpdateTheme();
 
             ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
@@ -128,6 +129,21 @@ namespace Assets.Scripts
 
                 //var gC = GetComponent<Game>();
                 //gC.Stats = sd.PlaygroundStat;
+
+                Game.Difficulty = sd.Difficulty;
+
+                CurrentTime = sd.CurrentPlaygroundTime;
+
+                var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
+                if (mit != MaxInitialElementType)
+                    MaxInitialElementType = mit;
+                else
+                    ShowMaxInitialElement();
+
+                ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                if(!ProgressBar.Exists)
+                ProgressBar.CreateBar();
+                RaisePoints(sd.Score);
 
                 if (sd.Items != null)
                 {
@@ -156,20 +172,7 @@ namespace Assets.Scripts
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
 
-                    Game.Difficulty = sd.Difficulty;
-
-                    CurrentTime = sd.CurrentPlaygroundTime;
-
-                    var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
-                    if (mit != MaxInitialElementType)
-                        MaxInitialElementType = mit;
-                    else
-                        ShowMaxInitialElement();
-
-                    ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                    ProgressBar.CreateBar();
-                    RaisePoints(sd.Score);
-                    DifficultyRaisedGUI();
+                   
                     return;
                 }
             }
@@ -182,10 +185,11 @@ namespace Assets.Scripts
                 Preferenses.CurrentItemType = MaxInitialElementType;
             //}
 
-            GenerateField();
+            ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+            if (!ProgressBar.Exists)
             ProgressBar.CreateBar();
+            GenerateField();
             ShowMaxInitialElement();
-            DifficultyRaisedGUI();
             //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
             //DownPoint = a.transform.position.y;      
 
