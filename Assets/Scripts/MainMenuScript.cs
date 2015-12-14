@@ -26,8 +26,13 @@ namespace Assets.Scripts
             var bg = GameObject.Find("BackgroundGrid");
             if (bg != null)
             {
-                bg.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0]/*"SD/6x6Atlas"*/)
+
+                var sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
                   .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
+                if(sprite == null)
+                    sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
+                  .SingleOrDefault(t => t.name.Contains(GameTheme.light.ToString()));
+                bg.GetComponent<Image>().sprite = sprite;
             }
 
             if(_pressLogoLabel != null)

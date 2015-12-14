@@ -100,10 +100,11 @@ namespace Assets.Scripts
 
             /*GameObject.Find("PauseButton").GetComponent<Image>().color =
                 GameColors.ForegroundButtonsColor;*/
-
+            /*
             GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
                 Resources.LoadAll<Sprite>("SD/6x6Atlas")
-               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
+               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));*/
+            MainMenuScript.UpdateTheme();
 
             #if UNITY_WINRT || UNITY_WP8
                 WinRTDeviceHelper.FireShowAd();
