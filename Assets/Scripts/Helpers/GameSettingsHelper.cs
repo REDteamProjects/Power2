@@ -92,6 +92,8 @@ namespace Assets.Scripts.Helpers
 
         int MaxMultiplier { get; set; }
 
+        int MovesRecord { get; set; }
+
         void RemovePrefs();
     }
 
@@ -226,6 +228,21 @@ namespace Assets.Scripts.Helpers
             set
             {
                 PlayerPrefs.SetInt(GetType().FullName + "_MaxMultiplier", value);
+            }
+        }
+
+        public int MovesRecord
+        {
+            get
+            {
+                if (PlayerPrefs.HasKey(GetType().FullName + "_MovesRecord"))
+                    return PlayerPrefs.GetInt(GetType().FullName + "_MovesRecord");
+                PlayerPrefs.SetInt(GetType().FullName + "_MovesRecord", 0);
+                return 0;
+            }
+            set
+            {
+                PlayerPrefs.SetInt(GetType().FullName + "_MovesRecord", value);
             }
         }
 

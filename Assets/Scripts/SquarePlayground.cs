@@ -45,11 +45,12 @@ namespace Assets.Scripts
         protected const int MaxAdditionalItemsCount = 2;
         protected int DropDownItemsCount;
         protected int XItemsCount;
-        protected int _2xItemsCount = 0;
+        protected int _2xItemsCount;
+        protected int GameRecordCount;
         private bool _isGameOver;
-        private bool _isMixing = false;
-        protected bool _callClearChainsAfterExchange = false;
-        protected int _currentExchangeItemsCount = 0;
+        private bool _isMixing;
+        protected bool _callClearChainsAfterExchange;
+        protected int _currentExchangeItemsCount;
         protected float _initialMoveTimerMultiple = 32;
         protected bool _showTimeLabel = true;
 
@@ -58,12 +59,10 @@ namespace Assets.Scripts
             get { return ""; }
         }
 
-
         public virtual IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<SquarePlayground>.Preferenses; }
         }
-
         
         public float MoveTimerMultiple
         {
@@ -88,7 +87,6 @@ namespace Assets.Scripts
                     SavedataHelper.SaveData(SavedataObject);
             }
         }
-
 
         public bool IsMixing
         {
@@ -200,7 +198,12 @@ namespace Assets.Scripts
 
                 MaxType = value;
                 if (Preferenses.CurrentItemType < MaxType)
+                {
                     Preferenses.CurrentItemType = MaxType;
+                    var movesRecord = Preferenses.MovesRecord;
+                    if (movesRecord == 0 || movesRecord < GameRecordCount)
+                        movesRecord = GameRecordCount;
+                }
                 _raiseMaxInitialElement = true;
                 ShowMaxInitialElement();
             }

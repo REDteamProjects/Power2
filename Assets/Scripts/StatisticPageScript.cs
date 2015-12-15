@@ -84,6 +84,11 @@ public class StatisticPageScript : MonoBehaviour
         var time = new TimeSpan(0, 0, (int)(pref.LongestSession));
         timeText.text = (time.Hours > 0 ? time.Hours.ToString("D2") + ":" : "") + time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2");
         GameObject.Find("BodyShadow/Time").GetComponent<Text>().text = timeText.text;
+
+        var movesText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Moves").GetComponent<Text>();
+        movesText.text = noData ? "0" : pref.MovesRecord.ToString(CultureInfo.InvariantCulture);
+        GameObject.Find("BodyShadow/Moves").GetComponent<Text>().text = movesText.text;
+
     }
 
     void Awake()
@@ -91,8 +96,8 @@ public class StatisticPageScript : MonoBehaviour
         LoadLevelData(0);
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
         var fg = GameObject.Find("/GUI");
-        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -330, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 60, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
-        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -330, 0), btnTextShadow.text, btnTextShadow.fontSize,
+        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -360, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 60, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
+        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -360, 0), btnTextShadow.text, btnTextShadow.fontSize,
                 CreateResetStatConfirmationMenu);
     }
 

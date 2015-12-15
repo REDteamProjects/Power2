@@ -185,7 +185,12 @@ namespace Assets.Scripts
             //{
             Preferenses.GamesPlayed++;
             if (Preferenses.CurrentItemType < MaxInitialElementType)
+            {
                 Preferenses.CurrentItemType = MaxInitialElementType;
+                var movesRecord = Preferenses.MovesRecord;
+                if (movesRecord == 0 || movesRecord < GameRecordCount)
+                    movesRecord = GameRecordCount;
+            }
             //}
             GenerateField();
             ShowMaxInitialElement();
