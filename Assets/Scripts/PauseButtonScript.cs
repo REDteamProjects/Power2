@@ -59,7 +59,6 @@ public class PauseButtonScript : MonoBehaviour
 
         _soundButton = MainMenuScript.GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-pauseButton.transform.localPosition.x,
             pauseButton.transform.localPosition.y, -3), null, 0, OnSoundButtonPressed);
-        var rectTransform = _soundButton.transform as RectTransform;
         _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
         _soundButton.name = "SoundButton";
     }

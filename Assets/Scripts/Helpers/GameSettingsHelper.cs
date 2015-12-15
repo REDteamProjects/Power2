@@ -158,7 +158,6 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                var type = GetType();
                 if (PlayerPrefs.HasKey(GetType().FullName + "_ScoreRecord"))
                     return PlayerPrefs.GetInt(GetType().FullName + "_ScoreRecord");
                 PlayerPrefs.SetInt(GetType().FullName + "_ScoreRecord", 0);
