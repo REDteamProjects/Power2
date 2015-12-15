@@ -32,21 +32,21 @@ namespace Assets.Scripts
                         if (CurrentScore < 8192) return;
                         Game.Difficulty = DifficultyLevel._medium;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 4;
-                        DifficultyRaisedGUI();
+                        DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._medium:
                         if (CurrentScore < 16384) return;
                         Game.Difficulty = DifficultyLevel._hard;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 8;
-                        DifficultyRaisedGUI();
+                        DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._hard:
                         if (CurrentScore < 24576) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
                         MoveTimerMultiple = _initialMoveTimerMultiple + 12;
-                        DifficultyRaisedGUI();
+                        DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._veryhard:
@@ -233,7 +233,6 @@ namespace Assets.Scripts
 
 
             MaxType = GameItemType._7;
-            _raiseMaxInitialElement = true;
 
            
 
@@ -275,6 +274,7 @@ namespace Assets.Scripts
                     //var score = GetComponentInChildren<Text>();
                     //if (score != null)
                     //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
+                    DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                     return;
                 }
             }
@@ -286,6 +286,7 @@ namespace Assets.Scripts
             if (!ProgressBar.Exists)
             ProgressBar.CreateBar();
             GenerateField();
+            DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                 //ShowMaxInitialElement();
                 //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
                 //DownPoint = a.transform.position.y;      
@@ -360,7 +361,7 @@ namespace Assets.Scripts
                             //LogFile.Message("Items[i][l.Y1] == null");
                             continue;
                         }
-                        if (IsInAnotherLine(lines, l.X1, j))
+                        if (LinesWithItem(lines, l.X1, j).Count() > 1)
                         {
                             //LogFile.Message("Items[" + l.X1 + "][" + j + "] = null;");
                             continue;
@@ -381,7 +382,7 @@ namespace Assets.Scripts
                             LogFile.Message("Items[i][l.Y1] == null", true);
                             continue;
                         }
-                        if (IsInAnotherLine(lines, i, l.Y1))
+                        if (LinesWithItem(lines, i, l.Y1).Count() > 1)
                         {
                             LogFile.Message("Items[" + i + "][" + l.Y1 + "] on another line", true);
                             continue;
