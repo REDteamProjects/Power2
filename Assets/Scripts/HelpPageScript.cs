@@ -25,7 +25,7 @@ public class HelpPageScript : MonoBehaviour
         InGameHelpModule = Instantiate(Resources.Load("Prefabs/HelpPageInGameHelper")) as GameObject;
         InGameHelpModule.transform.SetParent(fg.transform);
         InGameHelpModule.transform.localScale = Vector3.one;
-        InGameHelpModule.transform.localPosition = new Vector3(0, 0, 0);
+        InGameHelpModule.transform.localPosition = new Vector3(0, -25, 0);
         GameObject.Find("/Foreground/ToMainMenuButton").transform.SetParent(InGameHelpModule.transform);
         nextbtn = GameObject.Find("/Foreground/HelpPageInGameHelper(Clone)/NextButton");
         nextbtn.GetComponent<Button>().onClick.AddListener(() => NextHelpItem());
