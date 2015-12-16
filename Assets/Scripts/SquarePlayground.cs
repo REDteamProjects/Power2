@@ -466,7 +466,7 @@ namespace Assets.Scripts
                 buttonComponent.onClick.AddListener(() => ThemeChooserScript.OnScriptGameThemeChange());
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
-            c.MoveTo(null, 340f, Game.standartItemSpeed / 2, (item, result) =>
+            c.MoveTo(null, 340f, Game.standartItemSpeed / 4, (item, result) =>
             {
                 if (!result) return;
                 if (cmi != null)
@@ -1022,7 +1022,7 @@ namespace Assets.Scripts
             var pointsBank = 0;
             var l = lines.FirstOrDefault();
             int repeatForLine = -1;
-            bool raiseMaxIEtype = false;
+            bool raiseMaxIEtype = true;
             int toObjX = 0, toObjY = 0;
             Vector3 toCell = Vector3.zero;
             while (l != null && !IsGameOver)

@@ -167,11 +167,17 @@
 	<data name="Player" xml:space="preserve">
 		<value>Player button text</value>
 	</data>
+	<data name="PressLogo" xml:space="preserve">
+		<value>Main menu press logo label</value>
+	</data>
 	<data name="Psycho" xml:space="preserve">
 		<value>Psycho button text</value>
 	</data>
 	<data name="RateUs" xml:space="preserve">
 		<value>Text for rate app button</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_RateUs" xml:space="preserve">
+		<value>New Value</value>
 	</data>
 	<data name="ResetAll" xml:space="preserve">
 		<value>Reset all button text</value>
@@ -209,13 +215,13 @@
 	<data name="[type=GAME_OBJECT]UserHelp.Match3_veryhard" xml:space="preserve">
 		<value>Match3 veryhard level help texture</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.RemoveAds" xml:space="preserve">
+		<value>New Value</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.Rhombus_easy" xml:space="preserve">
 		<value>Rhombus easy level help texture</value>
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>
-	</data>
-	<data name="PressLogo" xml:space="preserve">
-		<value>Main menu press logo label</value>
 	</data>
 </root>

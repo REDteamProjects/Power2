@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine.UI;
 using Assets.Scripts.DataClasses;
 using Assets.Scripts;
+using Assets.Scripts.Helpers;
 
 public class AboutPageScript : MonoBehaviour {
 
@@ -21,19 +22,8 @@ public class AboutPageScript : MonoBehaviour {
         GameObject.Find("AboutTextShadow").GetComponent<Text>().text = modestext.text;
         var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", modestext.transform.parent, Vector3.one, new Vector3(3, -350, 0), LanguageManager.Instance.GetTextValue("RateUs"), 60, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
         MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", modestext.transform.parent, Vector3.one, new Vector3(0, -350, 0), btnTextShadow.text, btnTextShadow.fontSize,
-                GoToStore);
+                RateUsHelper.GoToStore);
     }
 
-    void GoToStore()
-    {
-    #if UNITY_WINRT || UNITY_WP8
-        Application.OpenURL("https://www.windowsphone.com");
-    #endif
-    #if UNITY_ANDROID
-        Application.OpenURL("http://play.google.com");
-    #endif
-    #if UNITY_IOS
-        Application.OpenURL("http://www.itunes.com");
-    #endif
-    }
+    
 }

@@ -165,7 +165,7 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
-            //if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
+            if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
             Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");
@@ -181,7 +181,7 @@ namespace Assets.Scripts
             label.transform.localScale = Vector3.one;
             var txt = label.GetComponent<Text>();
             txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
-            txt.color = GameColors.ForegroundButtonsColor;
+            txt.color = GameColors.DefaultLabelColor;
             Game.Difficulty = DifficultyLevel._easy;
             Application.LoadLevel(scene);
         }
@@ -218,5 +218,30 @@ namespace Assets.Scripts
 
             return button;
         }
+
+        void OnApplicationQuit()
+        {
+            if(!PlayerPrefs.HasKey("RateUsUserMessage"))
+            {
+                Application.CancelQuit();
+                var gui = GameObject.Find("/GUI");
+                if (gui == null) return;
+                var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp_RateUs");
+                if (manualPrefab == null)
+                    return;
+                var manual = Instantiate(manualPrefab);
+                var resource = Resources.Load("Prefabs/RateUsUserMessage");
+                PauseButtonScript.PauseMenuActive = true;
+                RateUsHelper.RateUsModule = Instantiate(resource) as GameObject;
+                RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
+                RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
+                RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -2);
+                manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
+                manual.transform.localScale = new Vector3(45, 45, 0);
+                manual.transform.localPosition = new Vector3(0, 30, 0);
+                PlayerPrefs.SetInt("RateUsUserMessage", 1);
+            }
+        }
+
     }
 }

@@ -38,8 +38,11 @@ public class HelpPageScript : MonoBehaviour
                 _allModulesPostfixList.RemoveAt(i);
                 i--;
             }
-        if(!_allModulesPostfixList.Contains("UserHelp._easy"))
-            _allModulesPostfixList.Insert(0,"UserHelp._easy");
+        if (!_allModulesPostfixList.Contains("UserHelp._easy"))
+        {
+            _allModulesPostfixList.Insert(0, "UserHelp.RemoveAds");
+            _allModulesPostfixList.Insert(0, "UserHelp._easy");
+        }
         LoadHelp(0);
         var imgprev = prevbtn.GetComponent<Image>();
         imgprev.color = new Color(imgprev.color.r, imgprev.color.g, imgprev.color.b, 0.5f);
@@ -77,31 +80,27 @@ public class HelpPageScript : MonoBehaviour
     {
         if (LoadHelp(_currentIndex + 1))
             _currentIndex++;
+        Image img;
         if (_currentIndex == _allModulesPostfixList.Count-1)
         {
-            var img = nextbtn.GetComponent<Image>();
+            img = nextbtn.GetComponent<Image>();
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
         }
-        if(_currentIndex == 1)
-        {
-            var img = prevbtn.GetComponent<Image>();
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
-        }
+        img = prevbtn.GetComponent<Image>();
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
     }
 
     public void PrevHelpItem()
     {
         if (LoadHelp(_currentIndex - 1))
             _currentIndex--;
+        Image img;
         if (_currentIndex == 0)
         {
-            var img = prevbtn.GetComponent<Image>();
+            img = prevbtn.GetComponent<Image>();
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
         }
-        if (_currentIndex == 1)
-        {
-            var img = nextbtn.GetComponent<Image>();
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
-        }
+        img = nextbtn.GetComponent<Image>();
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
     }
 }
