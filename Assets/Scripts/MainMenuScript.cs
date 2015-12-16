@@ -112,6 +112,45 @@ namespace Assets.Scripts
                GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 50);
             }
 
+
+
+            if (PlayerPrefs.HasKey("_easy") && !PlayerPrefs.HasKey("RateUsUserMessage"))
+            {
+                Application.CancelQuit();
+                var gui = GameObject.Find("/GUI");
+                if (gui == null) return;
+                var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp_RateUs");
+                if (manualPrefab == null)
+                    return;
+                var manual = Instantiate(manualPrefab);
+                var resource = Resources.Load("Prefabs/RateUsUserMessage");
+                PauseButtonScript.PauseMenuActive = true;
+                RateUsHelper.RateUsModule = Instantiate(resource) as GameObject;
+                RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
+                RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
+                RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -6);
+                manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
+                manual.transform.localScale = new Vector3(45, 45, 0);
+                manual.transform.localPosition = new Vector3(0, 30, 0);
+                var rateNowButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateNowButton");
+                if (rateNowButton != null)
+                {
+                    var text = rateNowButton.GetComponentInChildren<Text>();
+                    text.font = Game.textFont;
+                    text.fontSize = LabelShowing.minLabelFontSize;
+                    text.text = LanguageManager.Instance.GetTextValue("RateUs");
+                }
+                var rateLaterButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateLaterButton");
+                if (rateLaterButton != null)
+                {
+                    var text = rateLaterButton.GetComponentInChildren<Text>();
+                    text.font = Game.textFont;
+                    text.fontSize = LabelShowing.minLabelFontSize;
+                    text.text = LanguageManager.Instance.GetTextValue("Later");
+                }
+                PlayerPrefs.SetInt("RateUsUserMessage", 1);
+            }
+
         }
 
 
@@ -165,7 +204,7 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
-            //if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
+            if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
             Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");
@@ -181,7 +220,7 @@ namespace Assets.Scripts
             label.transform.localScale = Vector3.one;
             var txt = label.GetComponent<Text>();
             txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
-            txt.color = GameColors.ForegroundButtonsColor;
+            txt.color = GameColors.DefaultLabelColor;
             Game.Difficulty = DifficultyLevel._easy;
             Application.LoadLevel(scene);
         }
