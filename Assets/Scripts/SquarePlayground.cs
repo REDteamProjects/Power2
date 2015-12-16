@@ -46,7 +46,7 @@ namespace Assets.Scripts
         protected int DropDownItemsCount;
         protected int XItemsCount;
         protected int _2xItemsCount;
-        protected int GameRecordCount;
+        protected int GameMovesCount;
         private bool _isGameOver;
         private bool _isMixing;
         protected bool _callClearChainsAfterExchange;
@@ -201,8 +201,8 @@ namespace Assets.Scripts
                 {
                     Preferenses.CurrentItemType = MaxType;
                     var movesRecord = Preferenses.MovesRecord;
-                    if (movesRecord == 0 || movesRecord < GameRecordCount)
-                        movesRecord = GameRecordCount;
+                    if (movesRecord == 0 || movesRecord < GameMovesCount)
+                        Preferenses.MovesRecord = GameMovesCount;
                 }
                 _raiseMaxInitialElement = true;
                 ShowMaxInitialElement();
@@ -1565,6 +1565,9 @@ namespace Assets.Scripts
         {
             var item1 = Items[x1][y1] as GameObject;
             var item2 = Items[x2][y2] as GameObject;
+
+            GameMovesCount++;
+            
             if (item2 == null)
             {
                 RevertMovedItem(x1, y1);
@@ -1673,6 +1676,7 @@ namespace Assets.Scripts
 
                         });
             //}
+
             return true;
         }
 

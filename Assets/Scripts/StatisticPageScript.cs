@@ -68,10 +68,11 @@ public class StatisticPageScript : MonoBehaviour
         GameObject.Find("BodyShadow/Score").GetComponent<Text>().text = scoreText.text;
 
         var gamesText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) + */"Body/Game").GetComponent<Text>();
-        gamesText.text = noData ? "" : pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
+        gamesText.text = noData ? "0" : pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
         GameObject.Find("BodyShadow/Game").GetComponent<Text>().text = gamesText.text;
 
-        GenerateLevelTitle<TType>(pref.CurrentItemType);
+        if (!noData)
+            GenerateLevelTitle<TType>(pref.CurrentItemType);
 
         var timeText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Time").GetComponent<Text>();
         if (pref.LongestSession < 1 || noData)

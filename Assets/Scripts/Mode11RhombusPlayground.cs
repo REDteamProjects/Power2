@@ -194,8 +194,8 @@ namespace Assets.Scripts
             {
                 Preferenses.CurrentItemType = MaxInitialElementType;
                 var movesRecord = Preferenses.MovesRecord;
-                if (movesRecord == 0 || movesRecord < GameRecordCount)
-                    movesRecord = GameRecordCount;
+                if (movesRecord == 0 || movesRecord < GameMovesCount)
+                    Preferenses.MovesRecord = GameMovesCount;
             }
 
             ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
