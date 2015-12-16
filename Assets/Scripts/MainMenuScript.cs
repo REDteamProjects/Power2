@@ -112,6 +112,45 @@ namespace Assets.Scripts
                GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 50);
             }
 
+
+
+            if (PlayerPrefs.HasKey("_easy") && !PlayerPrefs.HasKey("RateUsUserMessage"))
+            {
+                Application.CancelQuit();
+                var gui = GameObject.Find("/GUI");
+                if (gui == null) return;
+                var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp_RateUs");
+                if (manualPrefab == null)
+                    return;
+                var manual = Instantiate(manualPrefab);
+                var resource = Resources.Load("Prefabs/RateUsUserMessage");
+                PauseButtonScript.PauseMenuActive = true;
+                RateUsHelper.RateUsModule = Instantiate(resource) as GameObject;
+                RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
+                RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
+                RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -6);
+                manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
+                manual.transform.localScale = new Vector3(45, 45, 0);
+                manual.transform.localPosition = new Vector3(0, 30, 0);
+                var rateNowButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateNowButton");
+                if (rateNowButton != null)
+                {
+                    var text = rateNowButton.GetComponentInChildren<Text>();
+                    text.font = Game.textFont;
+                    text.fontSize = LabelShowing.minLabelFontSize;
+                    text.text = LanguageManager.Instance.GetTextValue("RateUs");
+                }
+                var rateLaterButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateLaterButton");
+                if (rateLaterButton != null)
+                {
+                    var text = rateLaterButton.GetComponentInChildren<Text>();
+                    text.font = Game.textFont;
+                    text.fontSize = LabelShowing.minLabelFontSize;
+                    text.text = LanguageManager.Instance.GetTextValue("Later");
+                }
+                PlayerPrefs.SetInt("RateUsUserMessage", 1);
+            }
+
         }
 
 
@@ -218,36 +257,5 @@ namespace Assets.Scripts
 
             return button;
         }
-
-        void OnApplicationQuit()
-        {
-            if(!PlayerPrefs.HasKey("RateUsUserMessage"))
-            {
-                Application.CancelQuit();
-                var gui = GameObject.Find("/GUI");
-                if (gui == null) return;
-                var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp_RateUs");
-                if (manualPrefab == null)
-                    return;
-                var manual = Instantiate(manualPrefab);
-                var resource = Resources.Load("Prefabs/RateUsUserMessage");
-                PauseButtonScript.PauseMenuActive = true;
-                RateUsHelper.RateUsModule = Instantiate(resource) as GameObject;
-                RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
-                RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
-                RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -2);
-                manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
-                manual.transform.localScale = new Vector3(45, 45, 0);
-                manual.transform.localPosition = new Vector3(0, 30, 0);
-                var rateNowButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateNowButton");
-                if (rateNowButton != null)
-                    rateNowButton.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("RateUS");
-                var rateLaterButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateLaterButton");
-                if (rateLaterButton != null)
-                    rateLaterButton.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("Later");
-                PlayerPrefs.SetInt("RateUsUserMessage", 1);
-            }
-        }
-
     }
 }
