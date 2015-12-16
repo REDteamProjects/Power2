@@ -152,6 +152,9 @@
 	<data name="GameOverTitle" xml:space="preserve">
 		<value>Game over title</value>
 	</data>
+	<data name="Later" xml:space="preserve">
+		<value>For later button</value>
+	</data>
 	<data name="LoadingTitle" xml:space="preserve">
 		<value>Loading title between scenes</value>
 	</data>
@@ -175,9 +178,6 @@
 	</data>
 	<data name="RateUs" xml:space="preserve">
 		<value>Text for rate app button</value>
-	</data>
-	<data name="[type=GAME_OBJECT]UserHelp_RateUs" xml:space="preserve">
-		<value>New Value</value>
 	</data>
 	<data name="ResetAll" xml:space="preserve">
 		<value>Reset all button text</value>
@@ -220,6 +220,9 @@
 	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.Rhombus_easy" xml:space="preserve">
 		<value>Rhombus easy level help texture</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_RateUs" xml:space="preserve">
+		<value>New Value</value>
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>

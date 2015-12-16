@@ -236,9 +236,15 @@ namespace Assets.Scripts
                 RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
                 RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
                 RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -2);
-                manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
+                manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
                 manual.transform.localScale = new Vector3(45, 45, 0);
                 manual.transform.localPosition = new Vector3(0, 30, 0);
+                var rateNowButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateNowButton");
+                if (rateNowButton != null)
+                    rateNowButton.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("RateUS");
+                var rateLaterButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateLaterButton");
+                if (rateLaterButton != null)
+                    rateLaterButton.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("Later");
                 PlayerPrefs.SetInt("RateUsUserMessage", 1);
             }
         }
