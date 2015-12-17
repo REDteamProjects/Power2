@@ -96,9 +96,9 @@ namespace Assets.Scripts
             }
             else
                 _availableScenes.Add("Match3");
-            if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Game.ToOpenLevelStep)
+            if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.GameOverPoints)
             {
-                CloseLevelGUI("Rhombus", "Match3", Game.ToOpenLevelStep);
+                CloseLevelGUI("Rhombus", "Match3", ModeMatch3SquarePlayground.GameOverPoints);
             }
             else
                 _availableScenes.Add("11Rhombus");
@@ -202,7 +202,9 @@ namespace Assets.Scripts
 
         public void OnNavigationButtonClick(String scene)
         {
+            #if !DEBUG
             if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
+            #endif
             Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");

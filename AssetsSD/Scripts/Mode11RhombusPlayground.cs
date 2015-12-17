@@ -172,7 +172,7 @@ namespace Assets.Scripts
                                 case GameItemType._2x:
                                     _2xItemsCount++;
                                     break;
-                                case GameItemType._DropDownItem:
+                                case GameItemType._ToMoveItem:
                                     DropDownItemsCount++;
                                     break;
                                 case GameItemType._XItem:

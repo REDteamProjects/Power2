@@ -6,14 +6,16 @@ using UnityEngine;
 using Assets.Scripts.Interfaces;
 using System;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 namespace Assets.Scripts
 {
     class ModeMatch3SquarePlayground : SquarePlayground
     {
         private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.36F, Y = 12.06F, Z = -1 };
-        private const int GameOverPoints = 32768;
+        public static readonly int GameOverPoints = 32768;
         private GameItemType toBlock;
+        private GameItemType lastMoved;
 
         protected override String _userHelpPrefix
         {
@@ -31,21 +33,21 @@ namespace Assets.Scripts
                     case DifficultyLevel._easy:
                         if (CurrentScore < 8192) return;
                         Game.Difficulty = DifficultyLevel._medium;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
+                        MoveTimerMultiple = _initialMoveTimerMultiple - 2;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._medium:
                         if (CurrentScore < 16384) return;
                         Game.Difficulty = DifficultyLevel._hard;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 8;
+                        MoveTimerMultiple = _initialMoveTimerMultiple - 4;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         _raiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._hard:
                         if (CurrentScore < 24576) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 12;
+                        MoveTimerMultiple = _initialMoveTimerMultiple - 8;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         _raiseMaxInitialElement = true;
                         return;
@@ -73,10 +75,10 @@ namespace Assets.Scripts
                     SpawnXItems();
                     break;
                 case DifficultyLevel._veryhard:
-                    toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
+                    toBlock = (GameItemType)RandomObject.Next(1, (int)MaxType+1);
                     ProgressBar.TimeBorderActivated += VeryHardLevelAction;
                     ProgressBar.TimeBorderDeActivated += VeryHardLevelActionDeactivate;
-                    ProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
+                    ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
                     break;
             }
         }
@@ -104,6 +106,7 @@ namespace Assets.Scripts
                         if (gi.Type == toBlock)
                             gi.MovingType = GameItemMovingType.Static;
                     }
+            MoveTimerMultiple = MoveTimerMultiple - 16;
         }
 
         private void VeryHardLevelActionDeactivate(object sender, EventArgs e)
@@ -117,7 +120,8 @@ namespace Assets.Scripts
                         gi.MovingType = GameItemMovingType.Standart;
                     }
            toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
-           ProgressBar.SetSmallXsColor(GameColors.ItemsColors[toBlock]);
+           ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
+           MoveTimerMultiple = MoveTimerMultiple + 16;
         }
 
         public override IGameSettingsHelper Preferenses
@@ -262,7 +266,7 @@ namespace Assets.Scripts
                                 : null;
                             switch (sd.Items[i][j])
                             {
-                                case GameItemType._DropDownItem:
+                                case GameItemType._ToMoveItem:
                                     DropDownItemsCount++;
                                     break;
                                 case GameItemType._XItem:
@@ -298,6 +302,18 @@ namespace Assets.Scripts
             //    PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
         }
 
+        public override GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
+        {
+            //var minType = MaxType - FieldSize;
+            int newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 : (int)GameItemType._1, (int)MaxInitialElementType + 1);
+            if (deniedTypes == null || deniedTypes.Count == 0)
+                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
+            while (deniedTypes.Contains((GameItemType)newType))
+                newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
+            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+        }
+
+
         public void OnDestroy()
         {
             ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
@@ -331,7 +347,8 @@ namespace Assets.Scripts
                 if (DropsCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
-                    GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? true : false);
+                    if(lastMoved != GameItemType._ToMoveItem)
+                    GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? false : true);
                 }
                 UpdateTime();
                 return 0;
@@ -440,6 +457,16 @@ namespace Assets.Scripts
             LogFile.Message("All lines collected", true);
 
             return linesCount;
+        }
+
+        public override bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
+        {
+            var gobj = Items[x1][y1] as GameObject;
+            if(gobj != null && Items[x1][y1] != DisabledItem)
+            {
+                lastMoved = gobj.GetComponent<GameItem>().Type;
+            }
+            return base.GameItemsExchange(x1, y1, x2, y2, speed, isReverse, exchangeCallback);
         }
 
     }

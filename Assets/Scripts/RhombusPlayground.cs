@@ -620,7 +620,7 @@ namespace Assets.Scripts
                                     var resRow = RandomObject.Next(0, FieldSize);
                                     if (resCol == resRow)
                                     {
-                                        Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
+                                        Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
                                         //(Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
                                         DropDownItemsCount++;
                                         generateOnX++;

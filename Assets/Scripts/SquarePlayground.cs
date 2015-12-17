@@ -68,11 +68,11 @@ namespace Assets.Scripts
         {
             get
             {
-                return _initialMoveTimerMultiple;
+                return ProgressBar.MoveTimerMultiple;
             }
             protected set
             {
-                ProgressBar.MoveTimerMultiple = _initialMoveTimerMultiple;
+                ProgressBar.MoveTimerMultiple = value;
             }
         }
 
@@ -165,7 +165,7 @@ namespace Assets.Scripts
                     _selectedPoint1 = null;
                 }
                 if (value != null) LogFile.Message("SelectedPoint1 X = " + value.X + " Y= " + value.Y, true);
-                if (value == null || Items[value.X][value.Y] == null) return;
+                if (/*value == null || */value != null && Items[value.X][value.Y] == null) return;
                 _selectedPoint1Coordinate = value;
             }
         }
@@ -182,7 +182,7 @@ namespace Assets.Scripts
                     _selectedPoint2 = null;
                 }
                 if (value != null) LogFile.Message("SelectedPoint2 X = " + value.X + " Y= " + value.Y, true);
-                if (value == null || Items[value.X][value.Y] == null) return;
+                if (/*value == null || */value != null && Items[value.X][value.Y] == null) return;
                 _selectedPoint2Coordinate = value;
             }
         }
@@ -224,7 +224,7 @@ namespace Assets.Scripts
                     case GameItemType._7:
                         Game.Difficulty = DifficultyLevel._medium;
                         _minTypePlus=1;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 2;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         DeviceButtonsHelpers.OnSoundAction(Power2Sounds.NextLevel, false);
                         _nextUpperLevelGameItemType = GameItemType._10;
@@ -233,13 +233,13 @@ namespace Assets.Scripts
                     case GameItemType._9:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._10;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 2;
                         DifficultyRaisedGUI(false, MaxInitialElementTypeRaisedActionsAdditional);
                         break;
                     case GameItemType._10:
                         Game.Difficulty = DifficultyLevel._hard;
                         _minTypePlus=1;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 8;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 1)
                         SpawnItemOnRandomPlace(GameItemType._2x);//Generate2xItem();
@@ -251,13 +251,13 @@ namespace Assets.Scripts
                     case GameItemType._12:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._13;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 8;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 4;
                         DifficultyRaisedGUI(false, MaxInitialElementTypeRaisedActionsAdditional);
                         break;
                     case GameItemType._13:
                         Game.Difficulty = DifficultyLevel._veryhard;
                         _minTypePlus=1;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 12;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 2;
                         DifficultyRaisedGUI(_nextUpperLevelGameItemType != GameItemType.NullItem, MaxInitialElementTypeRaisedActionsAdditional);
                         if (_2xItemsCount < 2)
                         SpawnItemOnRandomPlace(GameItemType._2x);//Generate2xItem();
@@ -269,7 +269,7 @@ namespace Assets.Scripts
                     case GameItemType._16:
                         _minTypePlus = 0;
                         _nextUpperLevelGameItemType = GameItemType._2x;
-                        MoveTimerMultiple = _initialMoveTimerMultiple + 12;
+                        MoveTimerMultiple = _initialMoveTimerMultiple + 2;
                         DifficultyRaisedGUI(false, MaxInitialElementTypeRaisedActionsAdditional);
                         break;
                     case GameItemType._2x:
@@ -676,7 +676,7 @@ namespace Assets.Scripts
                 {
                     var gobj = Items[i][FieldSize - 1] as GameObject;
                     if (gobj == null ||
-                        (gobj.GetComponent<GameItem>().Type != GameItemType._DropDownItem ||
+                        (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
                          gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
                    /* var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                     if (o != null)
@@ -684,7 +684,7 @@ namespace Assets.Scripts
                         var pointsLabel = o.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);*/
                         LabelShowing.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
-                            "+" + 222, Color.white, Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._DropDownItem);
+                            "+" + 222, Color.white, Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
                     //}
                     RaisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
@@ -709,8 +709,11 @@ namespace Assets.Scripts
             if (!(HintTimeCounter >= 0)) return;
             if (HintTimeCounter > HintDelayTime && _selectedPoint1 == null && _selectedPoint2 == null)
             {
+                if (SelectedPoint1Coordinate == null || SelectedPoint2Coordinate == null) return;
                 var parentGobj = Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] as GameObject;
-                if (parentGobj == null) return;
+                if (parentGobj == null || parentGobj == DisabledItem || parentGobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return;
+                var parentGobj2 = Items[SelectedPoint2Coordinate.X][SelectedPoint2Coordinate.Y] as GameObject;
+                if (parentGobj2 == null || parentGobj2 == DisabledItem || parentGobj2.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return;
                 _selectedPoint1 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
                 if (_selectedPoint1 == null)
                 {
@@ -720,15 +723,14 @@ namespace Assets.Scripts
                 _selectedPoint1.transform.SetParent(parentGobj.transform);
                 _selectedPoint1.transform.localScale = new Vector3(1.2f, 1.2f);
                 _selectedPoint1.transform.localPosition = new Vector3(0, -0.03f, -1);
-                parentGobj = Items[SelectedPoint2Coordinate.X][SelectedPoint2Coordinate.Y] as GameObject;
-                if (parentGobj == null) return;
+
                 _selectedPoint2 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
                 if (_selectedPoint2 == null)
                 {
                     LogFile.Message("SelectedPoint2 initialization failed", true);
                     return;
                 }
-                _selectedPoint2.transform.SetParent(parentGobj.transform);
+                _selectedPoint2.transform.SetParent(parentGobj2.transform);
                 _selectedPoint2.transform.localScale = new Vector3(1.2f, 1.2f);
                 _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
@@ -792,25 +794,25 @@ namespace Assets.Scripts
             return gobj;
         }
 
-        public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
+        public virtual GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
             //var minType = MaxType - FieldSize;
+            int newType;
             var possibility = RandomObject.Next(1, 101);
             var minItem = (int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
-            int newType;
-            if(possibility <=50)
-            {
-                newType = minItem;
-            }
-            else
-                if (possibility <= 80)
+            if (possibility <= 50)
                 {
-                    newType = minItem + 1;
+                    newType = minItem;
                 }
                 else
-                {
-                    newType = RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
-                }
+                    if (possibility <= 80)
+                    {
+                        newType = minItem + 1;
+                    }
+                    else
+                    {
+                        newType = RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
+                    }
             if (deniedTypes == null || deniedTypes.Count == 0)
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
@@ -1437,7 +1439,7 @@ namespace Assets.Scripts
                                         var resRow = RandomObject.Next(resCol, FieldSize);
                                         if (resCol == resRow)
                                         {
-                                            Items[i][j] = GenerateGameItem(GameItemType._DropDownItem, i, j, new Vector2(0, generateOnY));
+                                            Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(0, generateOnY));
                                             DropDownItemsCount++;
                                             generateOnY++;
                                             continue;
@@ -1530,7 +1532,7 @@ namespace Assets.Scripts
                         if (Items[i][j] == null || Items[i][j] == DisabledItem)
                             continue;
                         var go = Items[i][j] as GameObject;
-                        if (go == null || (gi = go.GetComponent<GameItem>()).MovingType == GameItemMovingType.Static || gi.Type == GameItemType._DropDownItem) continue;
+                        if (go == null || (gi = go.GetComponent<GameItem>()).MovingType == GameItemMovingType.Static || gi.Type == GameItemType._ToMoveItem) continue;
                         toMixList.Add(Items[i][j]);
                     }
                 }
@@ -1541,7 +1543,7 @@ namespace Assets.Scripts
                         if (Items[i][j] == null || Items[i][j] == DisabledItem)
                             continue;
                         var go = Items[i][j] as GameObject;
-                        if (go == null || (gi = go.GetComponent<GameItem>()).MovingType == GameItemMovingType.Static || gi.Type == GameItemType._DropDownItem) continue;
+                        if (go == null || (gi = go.GetComponent<GameItem>()).MovingType == GameItemMovingType.Static || gi.Type == GameItemType._ToMoveItem) continue;
 
                         var index = RandomObject.Next(0, toMixList.Count);
                         Items[i][j] = toMixList[index];
@@ -1557,7 +1559,7 @@ namespace Assets.Scripts
                     if (Items[i][j] == null || Items[i][j] == DisabledItem)
                         continue;
                     var gameObject1 = Items[i][j] as GameObject;
-                    if (gameObject1 == null || (gi = gameObject1.GetComponent<GameItem>()).MovingType == GameItemMovingType.Static || gi.Type == GameItemType._DropDownItem) continue;
+                    if (gameObject1 == null || (gi = gameObject1.GetComponent<GameItem>()).MovingType == GameItemMovingType.Static || gi.Type == GameItemType._ToMoveItem) continue;
 
                     var moving = gameObject1.GetComponent<GameItemMovingScript>();
                     var toCell = GetCellCoordinates(i, j);
@@ -2004,10 +2006,10 @@ namespace Assets.Scripts
             UserHelpScript.InGameHelpModule = Instantiate(resource) as GameObject;
             UserHelpScript.InGameHelpModule.transform.SetParent(fg.transform);
             UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
-            UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -2);
+            UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -6);
             manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
             manual.transform.localScale = new Vector3(45, 45, 0);
-            manual.transform.localPosition = new Vector3(0, 30, 0);
+            manual.transform.localPosition = new Vector3(0, 30, -2);
             UserHelpScript.ShowUserHelpCallback = callback;
             PlayerPrefs.SetInt(modulePostfix, 1);
         }

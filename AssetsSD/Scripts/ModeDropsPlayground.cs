@@ -141,7 +141,7 @@ namespace Assets.Scripts
                                     if (Items[respCol][availibleColumns[respCol]] == DisabledItem)
                                         break;
 
-                                    GenerateDropsModeItem(respCol, availibleColumns[respCol], GameItemType._DropDownItem);
+                                    GenerateDropsModeItem(respCol, availibleColumns[respCol], GameItemType._ToMoveItem);
                                     DropDownItemsCount++;
                                     return;
                                 }
@@ -458,7 +458,7 @@ namespace Assets.Scripts
                             var newGameItem = Items[i][j] as GameObject;
                             switch (sd.Items[i][j])
                             {
-                                case GameItemType._DropDownItem:
+                                case GameItemType._ToMoveItem:
                                     if (newGameItem != null)
                                         newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
                                     DropDownItemsCount++;

@@ -24,7 +24,7 @@ namespace Assets.Scripts.Enums
         _16,
         _2x,
         _XItem,
-        _DropDownItem,
+        _ToMoveItem,
         _RobotItem,
         _TimeItem,
         _BombItem

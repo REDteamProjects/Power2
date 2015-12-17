@@ -93,7 +93,15 @@ namespace Assets.Scripts.Helpers
         public float Upper { get { return _progressBarBankUpper; } }
         public double CriticalCount { get { return 100; } }
 
-        public float MoveTimerMultiple { set { _moveTimerMultiple = value; } }
+        public float MoveTimerMultiple {
+            get { return _moveTimerMultiple; }
+            set {
+                if (value < 1)
+                    _moveTimerMultiple = 1;
+                else
+                _moveTimerMultiple = value; 
+            } 
+        }
 
         public float TimeActionBorder
         {
