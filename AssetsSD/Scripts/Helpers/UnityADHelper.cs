@@ -1,0 +1,128 @@
+﻿using System;
+using System.Collections;
+using UnityEngine;
+using GoogleMobileAds.Api;
+
+public enum AdMobADType
+{
+    NoAd,
+    Banner,
+    Interstitial
+}
+
+public class UnityADHelper : MonoBehaviour
+{
+
+    private BannerView bannerView;
+    private InterstitialAd interstitialAd;
+
+    public AdMobADType Type = AdMobADType.NoAd;
+
+    void Awake()
+    {
+        switch (Type)
+        {
+            case AdMobADType.NoAd:
+                return;
+            case AdMobADType.Banner:
+                CreateBanner();
+                return;
+            case AdMobADType.Interstitial:
+                CreateInterstitial();
+                if (!interstitialAd.IsLoaded())
+                    StartCoroutine(InterstitialAdCoroutine());
+                else
+                    interstitialAd.Show();
+                return;
+        }
+    }
+
+    private IEnumerator InterstitialAdCoroutine()
+    {
+        while (!interstitialAd.IsLoaded()) {}
+        LogFile.Message("interstitialAd.IsLoaded()");
+        interstitialAd.Show();
+        yield return null;
+    }
+
+    public void OnDestroy()
+    {
+        DeleteBanner();
+        DeleteInterstitial();
+    }
+
+    private void CreateBanner()
+    {
+        try 
+        { 
+            var bannerId = String.Empty;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            bannerId = "ca-app-pub-8526262957509496/2427972369";
+#endif
+#if UNITY_IOS && !UNITY_EDITOR
+            bannerId = "ca-app-pub-8526262957509496/3765104764";
+#endif
+
+            if (String.IsNullOrEmpty(bannerId))
+                return;
+
+            // Create a 320x50 banner at the top of the screen.
+            bannerView = new BannerView(
+                    bannerId, AdSize.Banner, AdPosition.Bottom);
+            // Create an empty ad request.
+            var request = new AdRequest.Builder()
+                .AddTestDevice(AdRequest.TestDeviceSimulator)
+                .Build();
+            // Load the banner with the request.
+            bannerView.LoadAd(request);
+        }
+        catch (Exception ex)
+        {
+            LogFile.Message(ex.Message + ex.StackTrace);
+        }
+    }
+
+    private void DeleteBanner()
+    {
+        if (bannerView != null)
+            bannerView.Destroy();
+    }
+
+    private void DeleteInterstitial()
+    {
+        if (interstitialAd != null)
+            interstitialAd.Destroy();
+    }
+
+    private void CreateInterstitial()
+    {
+
+        try
+        {
+            var interstitialId = String.Empty;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            interstitialId = "ca-app-pub-8526262957509496/1817366765";
+#endif
+#if UNITY_IOS && !UNITY_EDITOR
+        interstitialId = "ca-app-pub-8526262957509496/1817366765";
+#endif
+            if (String.IsNullOrEmpty(interstitialId))
+                return;
+
+            // Initialize an InterstitialAd.
+            var interstitial = new InterstitialAd(interstitialId);
+            // Create an empty ad request.
+            var request = new AdRequest.Builder()
+                .AddTestDevice(AdRequest.TestDeviceSimulator)
+                .Build();
+            // Load the interstitial with the request.
+            interstitial.LoadAd(request);
+        }
+        catch (Exception ex)
+        {
+            LogFile.Message(ex.Message + ex.StackTrace);
+        }
+    }
+}
