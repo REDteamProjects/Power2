@@ -42,8 +42,9 @@ public class HelpPageScript : MonoBehaviour
         {
             _allModulesPostfixList.Insert(0, "UserHelp._easy");
         }
+        _allModulesPostfixList.Insert(1, "UserHelp.UserProgress");
         if (!PlayerPrefs.HasKey("AdsRemoved"))
-            _allModulesPostfixList.Insert(1, "UserHelp.RemoveAds");
+            _allModulesPostfixList.Insert(2, "UserHelp.RemoveAds");
         LoadHelp(0);
         var imgprev = prevbtn.GetComponent<Image>();
         imgprev.color = new Color(imgprev.color.r, imgprev.color.g, imgprev.color.b, 0.5f);

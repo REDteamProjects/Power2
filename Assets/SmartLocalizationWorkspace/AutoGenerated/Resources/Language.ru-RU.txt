@@ -223,6 +223,9 @@ R.E.D.team</value>
 	<data name="[type=GAME_OBJECT]UserHelp.Rhombus_easy" xml:space="preserve">
 		<value>de91d36a2278a664bae7215602d90331</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.UserProgress" xml:space="preserve">
+		<value>f6499bf0f3016664a84d1df2cfd02d30</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp_RateUs" xml:space="preserve">
 		<value>79fc8248e02fac4479599e4a70c19ef9</value>
 	</data>

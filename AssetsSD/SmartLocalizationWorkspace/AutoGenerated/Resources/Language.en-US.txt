@@ -135,7 +135,7 @@
 		<value>8X8</value>
 	</data>
 	<data name="AboutText" xml:space="preserve">
-		<value>Power2 game 
+		<value>TwoX game 
 All right reserved 
 R.E.D.team</value>
 	</data>
@@ -223,6 +223,9 @@ PROGRESS</value>
 	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.Rhombus_easy" xml:space="preserve">
 		<value>26e1709c76366fd4e9888b1f3cacdd1e</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.UserProgress" xml:space="preserve">
+		<value>2dc31a5948bd0304f807d7fb51389e1f</value>
 	</data>
 	<data name="[type=GAME_OBJECT]UserHelp_RateUs" xml:space="preserve">
 		<value>62edb80958c2d0f479b5efea3c40ff64</value>
