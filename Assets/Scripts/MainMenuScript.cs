@@ -73,9 +73,9 @@ namespace Assets.Scripts
             Game.textFont = Resources.Load<Font>("Fonts/SEGUIBL");
             Game.numbersFont = Game.textFont;
             _mainCamera = GameObject.Find("Main Camera");
-            var fg = GameObject.Find("/GUI");
+            var gui = GameObject.Find("/GUI");
             var statsButton = GameObject.Find("/GUI/StatsButton");
-            _soundButton = GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-statsButton.transform.localPosition.x,
+            _soundButton = GenerateMenuButton("Prefabs/SoundButton", gui.transform, Vector3.one, new Vector3(-statsButton.transform.localPosition.x,
                 statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
             _soundButton.name = "SoundButton";
@@ -117,8 +117,6 @@ namespace Assets.Scripts
             if (PlayerPrefs.HasKey("_easy") && !PlayerPrefs.HasKey("RateUsUserMessage"))
             {
                 Application.CancelQuit();
-                var gui = GameObject.Find("/GUI");
-                if (gui == null) return;
                 var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp_RateUs");
                 if (manualPrefab == null)
                     return;
@@ -131,7 +129,7 @@ namespace Assets.Scripts
                 RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -6);
                 manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
                 manual.transform.localScale = new Vector3(45, 45, 0);
-                manual.transform.localPosition = new Vector3(0, 30, 0);
+                manual.transform.localPosition = new Vector3(0, 30, -1);
                 var rateNowButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateNowButton");
                 if (rateNowButton != null)
                 {
