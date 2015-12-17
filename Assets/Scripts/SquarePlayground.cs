@@ -106,7 +106,7 @@ namespace Assets.Scripts
 
         protected GameItemType MinType
         {
-            get { return MaxType - FieldSize + 1 > GameItemType._1 ? MaxType - FieldSize + 1 : GameItemType._1; }
+            get { return MaxType - FieldSize> GameItemType._1 ? MaxType - FieldSize: GameItemType._1; }
         }
 
         public int CallbacksCount
@@ -795,7 +795,22 @@ namespace Assets.Scripts
         public GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
             //var minType = MaxType - FieldSize;
-            var newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1, (int)MaxInitialElementType + 1);
+            var possibility = RandomObject.Next(1, 101);
+            var minItem = (int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
+            int newType;
+            if(possibility <=50)
+            {
+                newType = minItem;
+            }
+            else
+                if (possibility <= 80)
+                {
+                    newType = minItem + 1;
+                }
+                else
+                {
+                    newType = RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
+                }
             if (deniedTypes == null || deniedTypes.Count == 0)
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
