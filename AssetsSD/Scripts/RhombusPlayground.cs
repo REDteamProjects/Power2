@@ -781,11 +781,11 @@ namespace Assets.Scripts
             for (var col = 0; col < FieldSize; col++)
                 for (var row = 0; row < FieldSize; row++)
                 {
-                    if (Items[col][row] == null || Items[col][row] == DisabledItem)
-                    {
-                        if (Items[col][row] == null) Debug.LogError("Items[col][row] null in checkForPossibleMoves");
+                    if(Items[col][row] == null)
+                        return true;
+                    if (Items[col][row] == DisabledItem)
+                        //if (Items[col][row] == null) Debug.LogError("Items[col][row] null in checkForPossibleMoves");
                         continue;
-                    }
                     var gobj = Items[col][row] as GameObject;
                     if (gobj == null) continue;
                     var gi = gobj.GetComponent<GameItem>();
@@ -793,30 +793,30 @@ namespace Assets.Scripts
                     // возможна горизонтальная, две подряд      
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 1, Y = 1 }, new List<Point>
                      {
-                         new Point{X = -1, Y = -3}, new Point{X = -1, Y = 1}, new Point{X = -3, Y = -1}, new Point{X = 2, Y = 4},
-                         new Point{X = 4, Y = 2}, new Point{X = 2, Y = 0}
+                         new Point{X = -1, Y = -3}, new Point{X = -3, Y = -1}, new Point{X = -1, Y = 1}, new Point{X = 1, Y = -1 },
+                         new Point{X = 2, Y = 4}, new Point{X = 4, Y = 2}, new Point{X = 2, Y = 0},  new Point{X = 0, Y = 2 }
                      }
                         ))
                         return true;
                     // возможна горизонтальная, две по разным сторонам      
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 2, Y = 2 }, new List<Point>
                      {
-                         new Point{X = 1, Y = -1}, new Point{X = 1, Y = 3}
+                         new Point{X = -1, Y = 1}, new Point{X = 1, Y = -1}, new Point{X = 1, Y = 3}, new Point{X = 3, Y = 1}
                      }
                         ))
                         return true;
                     // возможна вертикальная, две подряд      
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 1, Y = -1 }, new List<Point>
                      {
-                         new Point{X = -1, Y = -1}, new Point{X = -3, Y = 1}, new Point{X = -1, Y = 3}, new Point{X = 2, Y = -4},
-                         new Point{X = 4, Y = -2}, new Point{X = 2, Y = 0}
+                         new Point{X = -1, Y = -1}, new Point{X = 1, Y = 1}, new Point{X = -3, Y = 1}, new Point{X = -1, Y = 3},
+                         new Point{X = 2, Y = -4},  new Point{X = 4, Y = -2}, new Point{X = 2, Y = 0}, new Point{X = 0, Y = -2}
                      }
                         ))
                         return true;
                     // возможна вертикальная, две по разным сторонам       
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 2, Y = -2 }, new List<Point>
                      {
-                         new Point{X = 1, Y = 1}, new Point{X = 1, Y = -3}
+                         new Point{X = -1, Y = -1}, new Point{X = 1, Y = 1}, new Point{X = 3, Y = -1}, new Point{X = 1, Y = -3},
                      }
                         ))
                         return true;
