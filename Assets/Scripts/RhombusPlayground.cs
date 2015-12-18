@@ -14,11 +14,10 @@ namespace Assets.Scripts
 
         public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<RhombusPlayground>(); } }
 
-        public override float ScaleMultiplyer
-        {
-            get { return 4.1f; }// 4.95f; }
-            //get { return 1; }
-        }
+        //protected override float ScaleMultiplyer
+        //{
+        //    get { return 4.1f; }
+        //}
 
         public RhombusPlayground()
             : base(new Dictionary<MoveDirections, Vector2>
@@ -33,7 +32,8 @@ namespace Assets.Scripts
                 { MoveDirections.DR, new Vector2(2, -2) },
             })
         {
-            _initialMoveTimerMultiple = 28;
+            InitialMoveTimerMultiple = 28;
+            ScaleMultiplyer = 4.1f;
         }
 
         protected override void VeryHardLevelAction(object sender, EventArgs e)
@@ -89,11 +89,10 @@ namespace Assets.Scripts
         
         public override Vector3 GetCellCoordinates(int col, int row)
         {
-            //var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.0625;
             var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.220;
-            var roundedX = Math.Round(Item00.X + col * halfItem, 2);
-            var roundedY = Math.Round(Item00.Y - row * halfItem, 2);
-            return new Vector3((float)roundedX, (float)roundedY, Item00.Z);
+            var roundedX = Math.Round(InitialGameItem.X + col * halfItem, 2);
+            var roundedY = Math.Round(InitialGameItem.Y - row * halfItem, 2);
+            return new Vector3((float)roundedX, (float)roundedY, InitialGameItem.Z);
         }
         
         public override bool MatchPattern(GameItemType itemType, Point firstItem, Point secondItem, IEnumerable<Point> pointForCheck)
@@ -301,9 +300,9 @@ namespace Assets.Scripts
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
-                if (_raiseMaxInitialElement && CallbacksCount == 0)
+                if (RaiseMaxInitialElement && CallbacksCount == 0)
                 {
-                    _raiseMaxInitialElement = false;
+                    RaiseMaxInitialElement = false;
                     MaxInitialElementTypeRaisedActions();
                 }
                 ChainCounter = 0;
@@ -615,14 +614,14 @@ namespace Assets.Scripts
                         {
                             case DifficultyLevel._medium:
                             //case DifficultyLevel._veryhard:
-                                if (DropDownItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
+                                if (ToMoveItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
                                 {
                                     var resRow = RandomObject.Next(0, FieldSize);
                                     if (resCol == resRow)
                                     {
                                         Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
                                         //(Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
-                                        DropDownItemsCount++;
+                                        ToMoveItemsCount++;
                                         generateOnX++;
                                         continue;
                                     }
@@ -680,14 +679,12 @@ namespace Assets.Scripts
                             callback = MixField;
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
                              LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
-                        //noMovesLabel.ShowScalingLabel(new Vector3(0, Item00.Y + GameItemSize * 2.5f, -4), 
+                        //noMovesLabel.ShowScalingLabel(new Vector3(0, InitialGameItem.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
                 
             }
         }
-       
-
 
         public override bool IsItemMovingAvailable(int col, int row, MoveDirections mdir)
         {

@@ -265,7 +265,10 @@ namespace Assets.Scripts.Helpers
                 PlayerPrefs.DeleteKey(typeName + "_LongestSession");
 
             if (PlayerPrefs.HasKey(typeName + "_MaxMultiplier"))
-                PlayerPrefs.DeleteKey(typeName + "_MaxMultiplier"); 
+                PlayerPrefs.DeleteKey(typeName + "_MaxMultiplier");
+
+            if (PlayerPrefs.HasKey(typeName + "_MovesRecord"))
+                PlayerPrefs.DeleteKey(typeName + "_MovesRecord"); 
         }
 
         //public static void RemoveAllPrefs()

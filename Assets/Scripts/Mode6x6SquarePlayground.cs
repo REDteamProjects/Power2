@@ -32,10 +32,10 @@ namespace Assets.Scripts
             {
                 var sd = new Mode6x6SquarePlaygroundSavedata
                 {
-                    MaxInitialElementType = this.MaxInitialElementType,//MaxType,
+                    MaxInitialElementType = this.MaxInitialElementType,
                     Items = new GameItemType[FieldSize][],
+                    MovesCount = GameMovesCount,
                     MovingTypes = new GameItemMovingType[FieldSize][],
-                    //PlaygroundStat = GetComponent<Game>().Stats,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
                     Difficulty = Game.Difficulty,
                     ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper }
@@ -95,15 +95,6 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
-                                GameColors.BackgroundColor;
-
-            /*GameObject.Find("PauseButton").GetComponent<Image>().color =
-                GameColors.ForegroundButtonsColor;*/
-            /*
-            GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
-                Resources.LoadAll<Sprite>("SD/6x6Atlas")
-               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));*/
             MainMenuScript.UpdateTheme();
 
             #if UNITY_WINRT || UNITY_WP8
@@ -120,25 +111,24 @@ namespace Assets.Scripts
                 new System.Object[FieldSize]
             };
 
-            _showTimeLabel = false;
+            IsTimeLabelShow = false;
 
             IPlaygroundSavedata sd = new Mode6x6SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 
-                //var gC = GetComponent<Game>();
-                //gC.Stats = sd.PlaygroundStat;
-
                 Game.Difficulty = sd.Difficulty;
 
                 CurrentTime = sd.CurrentPlaygroundTime;
 
                 var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
-                if (mit != MaxInitialElementType)
-                    MaxInitialElementType = mit;
-                else
+                
+                MaxInitialElementType = mit;
+
+                if (mit == MaxInitialElementType)
                     ShowMaxInitialElement();
+
                 RaisePoints(sd.Score);
 
                 _pbState = sd.ProgressBarStateData.State;
@@ -157,22 +147,16 @@ namespace Assets.Scripts
                             switch (sd.Items[i][j])
                             {
                                 case GameItemType._2x:
-                                   _2xItemsCount++;
+                                   Items2XCount++;
                                     break;
                                 case GameItemType._ToMoveItem:
-                                    DropDownItemsCount++;
+                                    ToMoveItemsCount++;
                                     break;
                                 case GameItemType._XItem:
                                     XItemsCount++;
                                     break;
                             }
                         }
-
-                    //var score = GetComponentInChildren<Text>();
-                    //if (score != null)
-                    //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
-
-                    
                     return;
                 }
             }
@@ -180,23 +164,21 @@ namespace Assets.Scripts
             _pbState = ProgressBar.State;
             _pbUpper = ProgressBar.Upper;
             _pbMultiplier = ProgressBar.Multiplier;
-            //var stat = GetComponent<Game>().Stats;
-            //if (stat != null)
-            //{
+
             Preferenses.GamesPlayed++;
-            if (Preferenses.CurrentItemType < MaxInitialElementType)
-            {
-                Preferenses.CurrentItemType = MaxInitialElementType;
-                var movesRecord = Preferenses.MovesRecord;
-                if (movesRecord == 0 || movesRecord < GameMovesCount)
-                    Preferenses.MovesRecord = GameMovesCount;
-            }
+
+            //if (Preferenses.CurrentItemType == MaxInitialElementType)
+            //{
+            //    var movesRecord = Preferenses.MovesRecord;
+            //    if (movesRecord == 0 || movesRecord < GameMovesCount)
+            //        Preferenses.MovesRecord = GameMovesCount;
             //}
+            //if (Preferenses.CurrentItemType < MaxInitialElementType)
+            //    Preferenses.CurrentItemType = MaxInitialElementType;
+
             GenerateField();
             ShowMaxInitialElement();
-            
-            //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
-            //DownPoint = a.transform.position.y;      
+                  
         }
 
         protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
@@ -207,7 +189,7 @@ namespace Assets.Scripts
                 if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 ProgressBar.UpdateTexture();
-                _showTimeLabel = true;
+                IsTimeLabelShow = true;
                 base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
             }
         }

@@ -22,7 +22,7 @@ namespace Assets.Scripts
             get { return 81920; }
         }
 
-        protected override String _userHelpPrefix
+        protected override String UserHelpPrefix
         {
             get { return "Match3"; }
         }
@@ -38,23 +38,23 @@ namespace Assets.Scripts
                     case DifficultyLevel._easy:
                         if (CurrentScore < 8192) return;
                         Game.Difficulty = DifficultyLevel._medium;
-                        MoveTimerMultiple = _initialMoveTimerMultiple - 2;
+                        MoveTimerMultiple = InitialMoveTimerMultiple - 2;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
-                        _raiseMaxInitialElement = true;
+                        RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._medium:
                         if (CurrentScore < 16384) return;
                         Game.Difficulty = DifficultyLevel._hard;
-                        MoveTimerMultiple = _initialMoveTimerMultiple - 4;
+                        MoveTimerMultiple = InitialMoveTimerMultiple - 4;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
-                        _raiseMaxInitialElement = true;
+                        RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._hard:
                         if (CurrentScore < 24576) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
-                        MoveTimerMultiple = _initialMoveTimerMultiple - 8;
+                        MoveTimerMultiple = InitialMoveTimerMultiple - 8;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
-                        _raiseMaxInitialElement = true;
+                        RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._veryhard:
                         if (CurrentScore < GameOverPoints) return;
@@ -67,9 +67,9 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActions()
         {
-            /*if (_showTimeLabel)
+            /*if (IsTimeLabelShow)
             {
-                _showTimeLabel = false;
+                IsTimeLabelShow = false;
                 ShowTimeLabel();
             }
             else
@@ -146,7 +146,7 @@ namespace Assets.Scripts
                 {
                     Items = new GameItemType[FieldSize][],
                     MovingTypes = new GameItemMovingType[FieldSize][],
-                    //PlaygroundStat = GetComponent<Game>().Stats,
+                    MovesCount = GameMovesCount,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
                     Difficulty = Game.Difficulty,
                     ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper }
@@ -195,10 +195,10 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        public override float ScaleMultiplyer
-        {
-            get { return 5.4f; }
-        }
+        //protected override float ScaleMultiplyer
+        //{
+        //    get { return 5.4f; }
+        //}
 
         public override float GameItemSize { get { return 3.805f; } }
 
@@ -214,16 +214,6 @@ namespace Assets.Scripts
 
         void Awake()
         {
-
-            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
-                                GameColors.BackgroundColor;
-
-            /*GameObject.Find("PauseButton").GetComponent<Image>().color =
-                GameColors.ForegroundButtonsColor;*/
-
-            /*GameObject.Find("BackgroundGrid").GetComponent<Image>().sprite =
-                Resources.LoadAll<Sprite>("SD/8x8Atlas")
-               .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));*/
             MainMenuScript.UpdateTheme();
 
             ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
@@ -240,19 +230,13 @@ namespace Assets.Scripts
                 new System.Object[FieldSize]
             };
 
-
             MaxType = GameItemType._7;
-
-           
 
             IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata {Difficulty = Game.Difficulty};
             if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
                
-                //var gC = GetComponent<Game>();
-                //gC.Stats = sd.PlaygroundStat;
-
                 Game.Difficulty = sd.Difficulty;
 
                 CurrentTime = sd.CurrentPlaygroundTime;
@@ -272,7 +256,7 @@ namespace Assets.Scripts
                             switch (sd.Items[i][j])
                             {
                                 case GameItemType._ToMoveItem:
-                                    DropDownItemsCount++;
+                                    ToMoveItemsCount++;
                                     break;
                                 case GameItemType._XItem:
                                     XItemsCount++;
@@ -280,44 +264,39 @@ namespace Assets.Scripts
                             }
                         }
 
-                    //var score = GetComponentInChildren<Text>();
-                    //if (score != null)
-                    //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
                     DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                     return;
                 }
             }
 
-            //var stat = GetComponent<Game>().Stats;
-            //if (stat != null)
             Preferenses.GamesPlayed++;
+
+            //if (Preferenses.CurrentItemType == MaxInitialElementType)
+            //{
+            //    var movesRecord = Preferenses.MovesRecord;
+            //    if (movesRecord == 0 || movesRecord < GameMovesCount)
+            //        Preferenses.MovesRecord = GameMovesCount;
+            //}
+            //if (Preferenses.CurrentItemType < MaxInitialElementType)
+            //    Preferenses.CurrentItemType = MaxInitialElementType;
+
             ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
             if (!ProgressBar.Exists)
-            ProgressBar.CreateBar();
+                ProgressBar.CreateBar();
+            
             GenerateField();
             DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
-                //ShowMaxInitialElement();
-                //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
-                //DownPoint = a.transform.position.y;      
-
-            //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
-            //DownPoint = a.transform.position.y;  
-            //var progressBar = ProgressBar;
-            //if (progressBar != null)
-            //    PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
         }
 
         public override GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
-            //var minType = MaxType - FieldSize;
-            int newType = RandomObject.Next((int)MaxType > FieldSize ? (int)MinType + 1 : (int)GameItemType._1, (int)MaxInitialElementType + 1);
+            var newType = RandomObject.Next((int)(MaxType > (GameItemType)FieldSize ? MinType + 1 : GameItemType._1), (int)MaxInitialElementType + 1);
             if (deniedTypes == null || deniedTypes.Count == 0)
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
             return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
         }
-
 
         public void OnDestroy()
         {
@@ -331,7 +310,6 @@ namespace Assets.Scripts
             ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
         }
 
-
         public override int ClearChains()
         {
             if (IsGameOver) return -1;
@@ -342,9 +320,9 @@ namespace Assets.Scripts
             var lines = GetAllLines();
             if (lines.Count == 0)
             {
-                if (_raiseMaxInitialElement && CallbacksCount == 0)
+                if (RaiseMaxInitialElement && CallbacksCount == 0)
                 {
-                    _raiseMaxInitialElement = false;
+                    RaiseMaxInitialElement = false;
                     MaxInitialElementTypeRaisedActions();
                 }
                 ChainCounter = 0;

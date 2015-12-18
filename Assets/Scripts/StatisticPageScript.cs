@@ -71,10 +71,15 @@ public class StatisticPageScript : MonoBehaviour
         gamesText.text = noData ? "0" : pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
         GameObject.Find("BodyShadow/Game").GetComponent<Text>().text = gamesText.text;
 
+        var movesText = GameObject.Find("Body/Moves").GetComponent<Text>();
+        movesText.text = noData ? "0" : pref.MovesRecord.ToString(CultureInfo.InvariantCulture);
+        GameObject.Find("BodyShadow/Moves").GetComponent<Text>().text = movesText.text;
+
         if (!noData)
             GenerateLevelTitle<TType>(pref.CurrentItemType);
 
-        var timeText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Time").GetComponent<Text>();
+        var timeText = GameObject.Find("Body/Time").GetComponent<Text>();
+        
         if (pref.LongestSession < 1 || noData)
         {
             timeText.text = "00:00";
@@ -85,11 +90,6 @@ public class StatisticPageScript : MonoBehaviour
         var time = new TimeSpan(0, 0, (int)(pref.LongestSession));
         timeText.text = (time.Hours > 0 ? time.Hours.ToString("D2") + ":" : "") + time.Minutes.ToString("D2") + ":" + time.Seconds.ToString("D2");
         GameObject.Find("BodyShadow/Time").GetComponent<Text>().text = timeText.text;
-
-        var movesText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Moves").GetComponent<Text>();
-        movesText.text = noData ? "0" : pref.MovesRecord.ToString(CultureInfo.InvariantCulture);
-        GameObject.Find("BodyShadow/Moves").GetComponent<Text>().text = movesText.text;
-
     }
 
     void Awake()
@@ -117,13 +117,16 @@ public class StatisticPageScript : MonoBehaviour
 
         _resetConfirmationMenu.transform.localScale = Vector3.one;
         _resetConfirmationMenu.transform.localPosition = new Vector3(0, 0, -2);
+        
         var l = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
         if (l == null) return;
+
         l.transform.SetParent(_resetConfirmationMenu.transform);
         l.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
 
         var pointsLabel = l.GetComponent<LabelShowing>();
-        pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
+        pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0), LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLabelColor, GameColors.DefaultDark, 
+            LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
     }
 
     public void ResetProgress()
