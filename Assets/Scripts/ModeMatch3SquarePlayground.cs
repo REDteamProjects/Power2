@@ -17,6 +17,11 @@ namespace Assets.Scripts
         private GameItemType toBlock;
         private GameItemType lastMoved;
 
+        public static Int32 ToOpenPoints
+        {
+            get { return 81920; }
+        }
+
         protected override String _userHelpPrefix
         {
             get { return "Match3"; }
@@ -344,7 +349,8 @@ namespace Assets.Scripts
                 }
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
-                if (DropsCount == 0 && !CheckForPossibleMoves())
+
+                if (!RemoveAdditionalItems() && CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
                     if(lastMoved != GameItemType._ToMoveItem)
@@ -354,9 +360,7 @@ namespace Assets.Scripts
                 return 0;
             }
             HintTimeCounter = -1;
-
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
-            CallbacksCount = lines.Count;
             var linesCount = lines.Count;
             var pointsBank = 0;
             var l = lines.FirstOrDefault();
@@ -373,7 +377,7 @@ namespace Assets.Scripts
                     pointsMultiple += l.Y2 - l.Y1 - 2;
                     for (var j = l.Y2; j >= l.Y1; j--)
                     {
-                        if (Items[l.X1][j] == null)
+                        if (Items[l.X1][j] == null || Items[l.X1][j] == DisabledItem)
                         {
                             //LogFile.Message("Items[i][l.Y1] == null");
                             continue;
@@ -394,7 +398,7 @@ namespace Assets.Scripts
                     pointsMultiple += l.X2 - l.X1 - 2;
                     for (var i = l.X2; i >= l.X1; i--)
                     {
-                        if (Items[i][l.Y1] == null)
+                        if (Items[i][l.Y1] == null || Items[i][l.Y1] == DisabledItem)
                         {
                             LogFile.Message("Items[i][l.Y1] == null", true);
                             continue;
@@ -422,12 +426,11 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);*/
                         pointsBank += points;
-                        LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
+                        LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.Match3Colors[cellType], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
                             null, 0, cellType);
 
                     //}
                 //}
-                CallbacksCount--;
                 lines.Remove(l);
 
                 if (linesCount == 1)

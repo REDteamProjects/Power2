@@ -323,7 +323,7 @@ namespace Assets.Scripts
             var pointsBank = 0;
             var l = lines.FirstOrDefault();
             int repeatForLine = -1;
-            bool raiseMaxIEtype = false;
+            bool raiseMaxIEtype = true;
             int toObjX = 0, toObjY = 0;
             Vector3 toCell = Vector3.zero;
             while (l != null && !IsGameOver)
@@ -494,13 +494,13 @@ namespace Assets.Scripts
                         {
                             pointsBank += points;
                             LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
+                                "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.ItemsColors[newgobjtype], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
                         }
                         else
                         {
                             pointsBank += 2 * points;
                             LabelShowing.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.ItemsColors[newgobjtype], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
                         }
                 }
                 lines.Remove(l);
@@ -574,7 +574,7 @@ namespace Assets.Scripts
                             var gims = gobj.GetComponent<GameItemMovingScript>();
                             //var dis = GetComponent<DragItemScript>();
                             if (gims.IsMoving || gobj.GetComponent<GameItem>().IsTouched)
-                                continue;
+                                break;
                             //DropsCount++;
                             Items[col][row] = Items[downItemCol][downItemRow];
                             Items[downItemCol][downItemRow] = null;
@@ -699,9 +699,9 @@ namespace Assets.Scripts
             var direction = AvailableMoveDirections[mdir];
             var newX = col + (int)direction.x;
             var newY = row - (int)direction.y;
-            var o = Items[newX][newY] as GameObject;
-            return o != null && (newX >= 0 && newX <= (FieldSize - 1) && newY >= 0 && newY <= (FieldSize - 1) && Items[newX][newY] != null && Items[newX][newY] != DisabledItem &&
-                                                                           o.GetComponent<GameItem>().MovingType != GameItemMovingType.Static && !o.GetComponent<GameItemMovingScript>().IsMoving);
+            GameObject gobj;
+            return newX >= 0 && newX <= (FieldSize - 1) && newY >= 0 && newY <= (FieldSize - 1) && Items[newX][newY] != DisabledItem && (gobj = Items[newX][newY] as GameObject)!= null &&
+                                                                           gobj.GetComponent<GameItem>().MovingType != GameItemMovingType.Static && !gobj.GetComponent<GameItemMovingScript>().IsMoving;
         }
         
         public override bool IsPointInLine(int col, int row)

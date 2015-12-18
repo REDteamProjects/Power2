@@ -21,8 +21,6 @@ namespace Assets.Scripts.DataClasses
         public static Font numbersFont;
         public static float standartItemSpeed = 24;
 
-        public const int ToOpenLevelStep = 65536;
-
         public static GameTheme Theme
         {
             get { return GeneralSettings.ActiveTheme; }

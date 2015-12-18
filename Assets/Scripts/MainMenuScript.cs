@@ -24,7 +24,7 @@ namespace Assets.Scripts
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
             var bg = GameObject.Find("BackgroundGrid");
-            if (bg != null)
+            /*if (bg != null)
             {
 
                 var sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
@@ -33,7 +33,7 @@ namespace Assets.Scripts
                     sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
                   .SingleOrDefault(t => t.name.Contains(GameTheme.light.ToString()));
                 bg.GetComponent<Image>().sprite = sprite;
-            }
+            }*/
 
             if(_pressLogoLabel != null)
             {
@@ -84,21 +84,21 @@ namespace Assets.Scripts
 
             UpdateTheme();
             _availableScenes.Add("6x6");
-            if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Game.ToOpenLevelStep)
+            if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
             {
-                CloseLevelGUI("8x8", "6x6", Game.ToOpenLevelStep);
+                CloseLevelGUI("8x8", "6x6", Mode8x8SquarePlayground.ToOpenPoints);
             }
             else
                 _availableScenes.Add("8x8");
-            if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < Game.ToOpenLevelStep)
+            if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
             {
-                CloseLevelGUI("Match3", "8x8", Game.ToOpenLevelStep);
+                CloseLevelGUI("Match3", "8x8", ModeMatch3SquarePlayground.ToOpenPoints);
             }
             else
                 _availableScenes.Add("Match3");
-            if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.GameOverPoints)
+            if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
             {
-                CloseLevelGUI("Rhombus", "Match3", ModeMatch3SquarePlayground.GameOverPoints);
+                CloseLevelGUI("Rhombus", "Match3", Mode11RhombusPlayground.ToOpenPoints);
             }
             else
                 _availableScenes.Add("11Rhombus");
@@ -114,7 +114,7 @@ namespace Assets.Scripts
 
 
 
-            if (PlayerPrefs.HasKey("_easy") && !PlayerPrefs.HasKey("RateUsUserMessage"))
+            if (PlayerPrefs.HasKey("_hard") && !PlayerPrefs.HasKey("RateUsUserMessage"))
             {
                 Application.CancelQuit();
                 var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp_RateUs");

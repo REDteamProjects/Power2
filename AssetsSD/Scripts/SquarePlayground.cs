@@ -59,6 +59,11 @@ namespace Assets.Scripts
             get { return ""; }
         }
 
+        public static Int32 ToOpenPoints
+        {
+            get { return 0; }
+        }
+
         public virtual IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<SquarePlayground>.Preferenses; }
@@ -388,7 +393,7 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
             showTimeLabel.ShowScalingLabel(new Vector3(ProgressBar.Coordinate.x, ProgressBar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-               GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 56, 1, null, true, () =>
+               GameColors.DefaultLabelColor, GameColors.DefaultLabelColor, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 56, 1, null, true, () =>
                {
                    PlaygroundProgressBar.ProgressBarRun = true;
                });
@@ -684,7 +689,7 @@ namespace Assets.Scripts
                         var pointsLabel = o.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);*/
                         LabelShowing.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
-                            "+" + 222, Color.white, Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
+                            "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
                     //}
                     RaisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
@@ -800,19 +805,24 @@ namespace Assets.Scripts
             int newType;
             var possibility = RandomObject.Next(1, 101);
             var minItem = (int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
+            var isEven = (i + j) % 2;
             if (possibility <= 50)
-                {
+                possibility = isEven == 0 ? 50 : 20;
+            else
+                if (possibility <= 70)
+                    possibility = isEven == 0 ? 20 : 50;
+            switch(possibility)
+            {
+                case 50:
                     newType = minItem;
-                }
-                else
-                    if (possibility <= 80)
-                    {
-                        newType = minItem + 1;
-                    }
-                    else
-                    {
-                        newType = RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
-                    }
+                    break;
+                case 20:
+                    newType = RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
+                    break;
+                default:
+                    newType = minItem + 1;
+                    break;
+            }
             if (deniedTypes == null || deniedTypes.Count == 0)
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
@@ -1203,13 +1213,13 @@ namespace Assets.Scripts
                                 {
                                     pointsBank += points;
                                     LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                        "+" + points, GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
+                                        "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.ItemsColors[newgobjtype], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
                                 }
                          else
                                 {
                                     pointsBank += 2 * points;
                                     LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                        "+" + points + "x2", GameColors.ItemsColors[newgobjtype], Color.gray, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
+                                        "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.ItemsColors[newgobjtype], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
                                 }
                 }
                 lines.Remove(l);

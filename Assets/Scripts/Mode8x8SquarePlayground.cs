@@ -18,6 +18,11 @@ namespace Assets.Scripts
             get { return "8x8"; }
         }
 
+        public static Int32 ToOpenPoints
+        {
+            get { return 65536; }
+        }
+
         public override IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses; }

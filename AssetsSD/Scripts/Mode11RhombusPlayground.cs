@@ -19,6 +19,11 @@ namespace Assets.Scripts
         }
 
 
+        public static Int32 ToOpenPoints
+        {
+            get { return ModeMatch3SquarePlayground.GameOverPoints; }
+        }
+
         public override IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<Mode11RhombusPlayground>.Preferenses; }

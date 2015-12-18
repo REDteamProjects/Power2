@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 932d87c16db6e7849901c7b87b71d801
-timeCreated: 1450340689
+timeCreated: 1450457726
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -59,7 +59,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1024
+        y: 512
         width: 512
         height: 512
       alignment: 0
@@ -69,7 +69,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 512
-        y: 1024
+        y: 512
         width: 512
         height: 512
       alignment: 0
@@ -79,33 +79,13 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 512
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_veryhard
-      rect:
-        serializedVersion: 2
-        x: 512
-        y: 512
-        width: 512
-        height: 512
-      alignment: 0
-      pivot: {x: .5, y: .5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_dark
-      rect:
-        serializedVersion: 2
-        x: 0
         y: 0
         width: 512
         height: 512
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: RhombusAtlas_light
+    - name: RhombusAtlas_veryhard
       rect:
         serializedVersion: 2
         x: 512
