@@ -716,9 +716,9 @@ namespace Assets.Scripts
             {
                 if (SelectedPoint1Coordinate == null || SelectedPoint2Coordinate == null) return;
                 var parentGobj = Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] as GameObject;
-                if (parentGobj == null || parentGobj == DisabledItem || parentGobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return;
+                if (parentGobj == null || Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] == DisabledItem || parentGobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return;
                 var parentGobj2 = Items[SelectedPoint2Coordinate.X][SelectedPoint2Coordinate.Y] as GameObject;
-                if (parentGobj2 == null || parentGobj2 == DisabledItem || parentGobj2.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return;
+                if (parentGobj2 == null || Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] == DisabledItem || parentGobj2.GetComponent<GameItem>().MovingType == GameItemMovingType.Static) return;
                 _selectedPoint1 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
                 if (_selectedPoint1 == null)
                 {
