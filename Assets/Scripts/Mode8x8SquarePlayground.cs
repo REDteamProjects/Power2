@@ -117,7 +117,7 @@ namespace Assets.Scripts
                 new System.Object[FieldSize],
                 new System.Object[FieldSize]
             };
-
+            Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode8x8SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
@@ -137,6 +137,7 @@ namespace Assets.Scripts
                 if(!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
+                GameMovesCount = sd.MovesCount;
 
                 if (sd.Items != null)
                 {
@@ -163,8 +164,6 @@ namespace Assets.Scripts
                     return;
                 }
             }
-
-            Preferenses.GamesPlayed++;
 
             //if (Preferenses.CurrentItemType == MaxInitialElementType)
             //{

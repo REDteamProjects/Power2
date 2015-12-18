@@ -105,56 +105,58 @@ namespace Assets.Scripts
 
             foreach (var lineGenerationPoint in lineGenerationPoints)
             {
-                if (secondItem.Y < 0)//TODO: Recalculate directions, error somewhere
+                if (secondItem.Y < 0 && lineGenerationPoint.Y <= 0)//TODO: Recalculate directions, error somewhere
                 {
                     LogFile.Message("secondItem.Y < 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem "
                         + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.Y) > 1)
                         SelectedPoint1 = new Point
                         {
-                            X = firstItem.X + 1,
+                            X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1,
                             Y = firstItem.Y - 1
                         };
                     else
                     {
                         SelectedPoint1 = new Point
                         {
-                            X = firstItem.X + (lineGenerationPoint.X > 0 ? 2 : -1),
-                            Y = firstItem.Y + (lineGenerationPoint.X > 0 ? -2 : 1)
+                            X = firstItem.X + (secondItem.X > 0 ? 2 : -1),
+                            Y = firstItem.Y + (secondItem.X > 0 ? -2 : 1)
                         };
                     }
                 }
-                else if (secondItem.Y > 0)
+                else if (secondItem.Y > 0 && lineGenerationPoint.Y >= 0)
                 {
                     LogFile.Message("secondItem.Y > 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem " + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: "
                         + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.X) > 1)
                         SelectedPoint1 = new Point
                         {
-                            X = firstItem.X + 1,
+                            X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1,
                             Y = firstItem.Y + 1
                         };
                     else
                     {
                         SelectedPoint1 = new Point
                         {
-                            X = firstItem.X + (lineGenerationPoint.X > 0 ? 2 : -1),
-                            Y = firstItem.Y + (lineGenerationPoint.X > 0 ? 2 : -1)
+                            X = firstItem.X + (secondItem.X > 0 ? 2 : -1),
+                            Y = firstItem.Y + (secondItem.X > 0 ? 2 : -1)
                         };
                     }
                 }
+                else
+                    continue;
 
-                if (Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != null)
+                if (Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != null && Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != DisabledItem)
                 {
                     var selectedObject = Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] as GameObject;
                     if (selectedObject != null)
                     {
                         var gi = selectedObject.GetComponent<GameItem>();
-                        if (gi.MovingType == GameItemMovingType.Static || gi.Type == GameItemType.NullItem || gi.Type == GameItemType.DisabledItem)
+                        if (gi.MovingType == GameItemMovingType.Static || gi.Type == GameItemType.NullItem)
                             continue;
                     }
                 }
-
+                else continue;
                 SelectedPoint2 = new Point { X = firstItem.X + lineGenerationPoint.X, Y = firstItem.Y + lineGenerationPoint.Y };
                 return true;
             }

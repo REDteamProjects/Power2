@@ -231,7 +231,7 @@ namespace Assets.Scripts
             };
 
             MaxType = GameItemType._7;
-
+            Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata {Difficulty = Game.Difficulty};
             if (SavedataHelper.IsSaveDataExist(sd))
             {
@@ -244,6 +244,7 @@ namespace Assets.Scripts
                 if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
+                GameMovesCount = sd.MovesCount;
 
                 if (sd.Items != null)
                 {
@@ -269,7 +270,7 @@ namespace Assets.Scripts
                 }
             }
 
-            Preferenses.GamesPlayed++;
+            
 
             //if (Preferenses.CurrentItemType == MaxInitialElementType)
             //{

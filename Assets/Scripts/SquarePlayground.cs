@@ -847,16 +847,17 @@ namespace Assets.Scripts
                         };
                     }
                 }
-                if (Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != null)
+                if (Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != null && Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != DisabledItem)
                 {
                     var selectedObject = Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] as GameObject;
                     if (selectedObject != null)
                     {
                         var gi = selectedObject.GetComponent<GameItem>();
-                        if (gi.MovingType == GameItemMovingType.Static || gi.Type == GameItemType.NullItem || gi.Type == GameItemType.DisabledItem)
+                        if (gi.MovingType == GameItemMovingType.Static || gi.Type == GameItemType.NullItem)
                             continue;
                     }
                 }
+                else continue;
                 SelectedPoint2 = new Point { X = firstItem.X + lineGenerationPoint.X, Y = firstItem.Y + lineGenerationPoint.Y };
                 return true;
             }
@@ -1236,10 +1237,6 @@ namespace Assets.Scripts
             if (Items == null) return;
 
             var generateAfterDrop = false;
-            //_lowestNullItem = 0;
-            //if (DropsCount == 0) GenerateField(true);
-
-            //var counterOfNotMovingItems = 0;
             for (var col = 0; col < FieldSize; col++)
             {
                 bool nextrow = false;
@@ -1256,29 +1253,27 @@ namespace Assets.Scripts
                     while (fromrow >= 0)
                     {
                         var gobj = Items[col][fromrow] as GameObject;
-                        if (gobj != null && (Items[col][fromrow] == null || Items[col][row] == DisabledItem || (!AreStaticItemsDroppable && gobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)))
+                        if (Items[col][fromrow] == null || Items[col][row] == DisabledItem || (!AreStaticItemsDroppable && gobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                             fromrow--;
                         else
                         {
                             generateAfterDrop = true;
-                            if (gobj != null)
+                            var gims = gobj.GetComponent<GameItemMovingScript>();
+                            //var dis = GetComponent<DragItemScript>();
+                            nextrow = gims.IsMoving || gobj.GetComponent<GameItem>().IsTouched;
+                            if (nextrow)
+                                break;
+                            //DropsCount++;
+                            Items[col][row] = Items[col][fromrow];
+                            Items[col][fromrow] = null;
+                            CallbacksCount++;
+                            gims.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
                             {
-                                var gims = gobj.GetComponent<GameItemMovingScript>();
-
-                                nextrow = gims.IsMoving || gobj.GetComponent<GameItem>().IsTouched;
-                                if (nextrow)
-                                    break;
-
-                                Items[col][row] = Items[col][fromrow];
-                                Items[col][fromrow] = null;
-                                CallbacksCount++;
-                                gims.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
-                                {
-                                    CallbacksCount--;
-                                    if (!result) return;
-                                    LogFile.Message("New item droped Items[" + col + "][" + fromrow + "] DC: " + DropsCount, true);
-                                });
-                            }
+                                //DropsCount--;
+                                CallbacksCount--;
+                                if (!result) return;
+                                LogFile.Message("New item droped Items[" + col + "][" + fromrow + "] DC: " + DropsCount, true);
+                            });
                             break;
                         }
                     }

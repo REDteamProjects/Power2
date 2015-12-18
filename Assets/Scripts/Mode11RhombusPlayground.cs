@@ -127,8 +127,8 @@ namespace Assets.Scripts
                 new []{ DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem, null,  DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem },
             };
 
-            
 
+            Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode11RhombusPlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
@@ -148,7 +148,7 @@ namespace Assets.Scripts
                 if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
-
+                GameMovesCount = sd.MovesCount;
 
                 if (sd.Items != null)
                 {
@@ -178,7 +178,7 @@ namespace Assets.Scripts
             }
 
 
-            Preferenses.GamesPlayed++;
+            
 
             if (Preferenses.CurrentItemType == MaxInitialElementType)
             {

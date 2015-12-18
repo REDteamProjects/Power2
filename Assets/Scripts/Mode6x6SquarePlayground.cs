@@ -112,7 +112,7 @@ namespace Assets.Scripts
             };
 
             IsTimeLabelShow = false;
-
+            Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode6x6SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
@@ -130,6 +130,7 @@ namespace Assets.Scripts
                     ShowMaxInitialElement();
 
                 RaisePoints(sd.Score);
+                GameMovesCount = sd.MovesCount;
 
                 _pbState = sd.ProgressBarStateData.State;
                 _pbUpper = sd.ProgressBarStateData.Upper;
@@ -165,7 +166,7 @@ namespace Assets.Scripts
             _pbUpper = ProgressBar.Upper;
             _pbMultiplier = ProgressBar.Multiplier;
 
-            Preferenses.GamesPlayed++;
+            
 
             //if (Preferenses.CurrentItemType == MaxInitialElementType)
             //{

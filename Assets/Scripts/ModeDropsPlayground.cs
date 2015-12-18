@@ -433,6 +433,7 @@ namespace Assets.Scripts
                 new System.Object[FieldSize]
             };
 
+            Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new ModeDropsPlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
@@ -486,12 +487,14 @@ namespace Assets.Scripts
                         ShowMaxInitialElement();
                     GenerateField(true);
                     RaisePoints(sd.Score);
+                    GameMovesCount = sd.MovesCount;
+
                     DifficultyRaisedGUI();
                     return;
                 }
             }
 
-            Preferenses.GamesPlayed++;
+            
             
             //if (Preferenses.CurrentItemType == MaxInitialElementType)
             //{
