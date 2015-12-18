@@ -1213,13 +1213,13 @@ namespace Assets.Scripts
                                 {
                                     pointsBank += points;
                                     LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                        "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.ItemsColors[newgobjtype], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
+                                        "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
                                 }
                          else
                                 {
                                     pointsBank += 2 * points;
                                     LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, -3),
-                                        "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.ItemsColors[newgobjtype], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
+                                        "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
                                 }
                 }
                 lines.Remove(l);

@@ -426,7 +426,7 @@ namespace Assets.Scripts
                         var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
                         pointsLabel.transform.SetParent(transform);*/
                         pointsBank += points;
-                        LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.Match3Colors[cellType], LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
+                        LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
                             null, 0, cellType);
 
                     //}
