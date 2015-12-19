@@ -18,8 +18,11 @@ public class UnityADHelper : MonoBehaviour
 
     public AdMobADType Type = AdMobADType.NoAd;
 
+    public AdSize BannerSize = AdSize.Banner;
+
     void Awake()
     {
+#if !DEBUG
         switch (Type)
         {
             case AdMobADType.NoAd:
@@ -35,6 +38,7 @@ public class UnityADHelper : MonoBehaviour
                     interstitialAd.Show();
                 return;
         }
+#endif
     }
 
     private IEnumerator InterstitialAdCoroutine()
@@ -69,10 +73,12 @@ public class UnityADHelper : MonoBehaviour
 
             // Create a 320x50 banner at the top of the screen.
             bannerView = new BannerView(
-                    bannerId, AdSize.Banner, AdPosition.Bottom);
+                    bannerId, BannerSize, AdPosition.Bottom);
             // Create an empty ad request.
             var request = new AdRequest.Builder()
+#if DEBUG
                 .AddTestDevice(AdRequest.TestDeviceSimulator)
+#endif
                 .Build();
             // Load the banner with the request.
             bannerView.LoadAd(request);
@@ -115,7 +121,9 @@ public class UnityADHelper : MonoBehaviour
             var interstitial = new InterstitialAd(interstitialId);
             // Create an empty ad request.
             var request = new AdRequest.Builder()
+#if DEBUG
                 .AddTestDevice(AdRequest.TestDeviceSimulator)
+#endif
                 .Build();
             // Load the interstitial with the request.
             interstitial.LoadAd(request);

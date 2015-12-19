@@ -123,14 +123,15 @@ namespace Assets.Scripts
                 CurrentTime = sd.CurrentPlaygroundTime;
 
                 var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
-                
+
+                GameMovesCount = sd.MovesCount;
+
                 MaxInitialElementType = mit;
 
                 if (mit == MaxInitialElementType)
                     ShowMaxInitialElement();
 
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
 
                 _pbState = sd.ProgressBarStateData.State;
                 _pbUpper = sd.ProgressBarStateData.Upper;

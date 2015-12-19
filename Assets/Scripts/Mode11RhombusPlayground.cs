@@ -180,14 +180,14 @@ namespace Assets.Scripts
 
             
 
-            if (Preferenses.CurrentItemType == MaxInitialElementType)
-            {
-                var movesRecord = Preferenses.MovesRecord;
-                if (movesRecord == 0 || movesRecord < GameMovesCount)
-                    Preferenses.MovesRecord = GameMovesCount;
-            }
-            if (Preferenses.CurrentItemType < MaxInitialElementType)
-                Preferenses.CurrentItemType = MaxInitialElementType;
+            //if (Preferenses.CurrentItemType == MaxInitialElementType)
+            //{
+            //    var movesRecord = Preferenses.MovesRecord;
+            //    if (movesRecord == 0 || movesRecord < GameMovesCount)
+            //        Preferenses.MovesRecord = GameMovesCount;
+            //}
+            //if (Preferenses.CurrentItemType < MaxInitialElementType)
+            //    Preferenses.CurrentItemType = MaxInitialElementType;
 
             ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
             if (!ProgressBar.Exists)

@@ -197,8 +197,14 @@ namespace Assets.Scripts
 
                 MaxType = value;
 
+                if (Preferenses.CurrentItemType == MaxType && Preferenses.MovesRecord > GameMovesCount)
+                    Preferenses.MovesRecord = GameMovesCount;
+
                 if (Preferenses.CurrentItemType < MaxType)
+                {
                     Preferenses.CurrentItemType = MaxType;
+                    Preferenses.MovesRecord = GameMovesCount;
+                }
 
                 RaiseMaxInitialElement = true;
                 ShowMaxInitialElement();
@@ -1744,7 +1750,7 @@ namespace Assets.Scripts
             var comboLabel = labelObject.GetComponent<LabelShowing>();
             comboLabel.name = "ComboLabel";
             comboLabel.transform.SetParent(transform);
-            bool isLeft = count % 2 == 0;
+            var isLeft = count % 2 == 0;
             if (isLeft)
             {
                 if (_leftComboLabel != null)
@@ -1767,7 +1773,7 @@ namespace Assets.Scripts
                 }
                 _rightComboLabel = labelObject;
             }
-            //comboLabel.transform.RotateAround(Vector3.zero, Vector3.forward, count % 2 == 0 ? 30 : -30);
+
             comboLabel.ShowScalingLabel(new Vector3(isLeft ? -10 : 10, InitialGameItem.Y + GameItemSize * 2.5f, -1),
                 LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize / 3, LabelShowing.minLabelFontSize, 2, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
