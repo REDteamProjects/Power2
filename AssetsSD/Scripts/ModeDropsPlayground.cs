@@ -15,10 +15,10 @@ namespace Assets.Scripts
 
         private Point _currentDroppingItem;
 
-        public override float ScaleMultiplyer
-        {
-            get { return 1f; }
-        }
+        //protected override float ScaleMultiplyer
+        //{
+        //    get { return 1f; }
+        //}
 
         public Point CurrentDroppingItem 
         {
@@ -35,7 +35,7 @@ namespace Assets.Scripts
 
         public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<ModeDropsPlayground>(); } }
 
-        public override bool AreStaticItemsDroppable { get { return true; } }
+        //public override bool AreStaticItemsDroppable { get { return true; } }
 
         public override bool isDisabledItemActive { get { return true; } }
 
@@ -45,12 +45,12 @@ namespace Assets.Scripts
             {
                 var sd = new ModeDropsPlaygroundSavedata
                 {
-                    MaxInitialElementType = this.MaxInitialElementType,//MaxType,
+                    MaxInitialElementType = this.MaxInitialElementType,
                     Items = new GameItemType[FieldSize][],
-                    //PlaygroundStat = GetComponent<Game>().Stats,
+                    MovesCount = GameMovesCount,
                     CurrentPlaygroundTime = CurrentTime + Time.timeSinceLevelLoad,
                     Difficulty = Game.Difficulty,
-                    //ProgressBarStateData = new ProgressBarState { Multiplier = ProgressBar.Multiplier, State = ProgressBar.State, Upper = ProgressBar.Upper }
+                    
                 };
 
                 if (Items == null)
@@ -134,7 +134,7 @@ namespace Assets.Scripts
                                     return;
                                 }
                             }
-                            if (DropDownItemsCount < MaxAdditionalItemsCount)
+                            if (ToMoveItemsCount < MaxAdditionalItemsCount)
                             {
                                 if (RandomObject.Next(0, FieldSize) % 3 == 0)
                                 {
@@ -142,7 +142,7 @@ namespace Assets.Scripts
                                         break;
 
                                     GenerateDropsModeItem(respCol, availibleColumns[respCol], GameItemType._ToMoveItem);
-                                    DropDownItemsCount++;
+                                    ToMoveItemsCount++;
                                     return;
                                 }
                             }
@@ -417,8 +417,7 @@ namespace Assets.Scripts
 
         void Awake()
         {
-            GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
-                                GameColors.BackgroundColor;
+            MainMenuScript.UpdateTheme();
 
             GameItemMovingScript.MovingItemFinished += GameItemMovingScriptMovingItemFinished;
 
@@ -433,15 +432,12 @@ namespace Assets.Scripts
                 new System.Object[FieldSize],
                 new System.Object[FieldSize]
             };
-            //MaxType = GameItemType._8;
 
+            Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new ModeDropsPlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
-
-                //var gC = GetComponent<Game>();
-                //gC.Stats = sd.PlaygroundStat;
 
                 if (sd.Items != null)
                 {
@@ -461,7 +457,7 @@ namespace Assets.Scripts
                                 case GameItemType._ToMoveItem:
                                     if (newGameItem != null)
                                         newGameItem.GetComponent<GameItem>().IsDraggableWhileMoving = true;
-                                    DropDownItemsCount++;
+                                    ToMoveItemsCount++;
                                     break;
                                 case GameItemType._XItem:
                                     if (newGameItem != null)
@@ -480,10 +476,6 @@ namespace Assets.Scripts
                             }
                         }
 
-                    //var score = GetComponentInChildren<Text>();
-                    //if (score != null)
-                    //    score.text = sd.Score.ToString(CultureInfo.InvariantCulture);
-
                     Game.Difficulty = sd.Difficulty;
 
                     CurrentTime = sd.CurrentPlaygroundTime;
@@ -495,33 +487,29 @@ namespace Assets.Scripts
                         ShowMaxInitialElement();
                     GenerateField(true);
                     RaisePoints(sd.Score);
+                    GameMovesCount = sd.MovesCount;
+
                     DifficultyRaisedGUI();
                     return;
                 }
             }
 
-            //var stat = GetComponent<Game>().Stats;
-            //if (stat != null)
+            
+            
+            //if (Preferenses.CurrentItemType == MaxInitialElementType)
             //{
-            Preferenses.GamesPlayed++;
-            if (Preferenses.CurrentItemType < MaxInitialElementType)
-            {
-                Preferenses.CurrentItemType = MaxInitialElementType;
-                var movesRecord = Preferenses.MovesRecord;
-                if (movesRecord == 0 || movesRecord < GameMovesCount)
-                    Preferenses.MovesRecord = GameMovesCount;
-            }
-
-
+            //    var movesRecord = Preferenses.MovesRecord;
+            //    if (movesRecord == 0 || movesRecord < GameMovesCount)
+            //        Preferenses.MovesRecord = GameMovesCount;
             //}
+            //if (Preferenses.CurrentItemType < MaxInitialElementType)
+            //    Preferenses.CurrentItemType = MaxInitialElementType;
+
+
             GenerateField();
             ShowMaxInitialElement();
+
             DifficultyRaisedGUI();
-            //var a = Items[FieldSize - 1][FieldSize-1] as GameObject;
-            //DownPoint = a.transform.position.y;  
-            //var progressBar = ProgressBar;
-            //if (progressBar != null)
-            //    PlaygroundProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
         }
 
         void GameItemMovingScriptMovingItemFinished(object sender, int count)

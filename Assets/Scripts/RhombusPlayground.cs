@@ -89,7 +89,7 @@ namespace Assets.Scripts
         
         public override Vector3 GetCellCoordinates(int col, int row)
         {
-            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.220;
+            var halfItem = GameItemSize * 0.9325 / 2 + GameItemSize * 0.227;
             var roundedX = Math.Round(InitialGameItem.X + col * halfItem, 2);
             var roundedY = Math.Round(InitialGameItem.Y - row * halfItem, 2);
             return new Vector3((float)roundedX, (float)roundedY, InitialGameItem.Z);
@@ -103,49 +103,53 @@ namespace Assets.Scripts
             var lineGenerationPoints = pointForCheck.Where(point => MatchType(firstItem.X + point.X, firstItem.Y + point.Y, itemType)).ToList();
             if (!lineGenerationPoints.Any()) return false;
 
+            int SP1X, SP1Y;
             foreach (var lineGenerationPoint in lineGenerationPoints)
             {
-                if (secondItem.Y < 0 && lineGenerationPoint.Y <= 0)//TODO: Recalculate directions, error somewhere
+                if (secondItem.Y < 0)
                 {
                     LogFile.Message("secondItem.Y < 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem "
                         + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.Y) > 1)
-                        SelectedPoint1 = new Point
                         {
-                            X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1,
-                            Y = firstItem.Y - 1
-                        };
+                            SP1X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1;
+                            SP1Y = firstItem.Y - 1;
+                        }
                     else
                     {
-                        SelectedPoint1 = new Point
-                        {
-                            X = firstItem.X + (secondItem.X > 0 ? 2 : -1),
-                            Y = firstItem.Y + (secondItem.X > 0 ? -2 : 1)
-                        };
+                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -1);
+                            SP1Y = firstItem.Y + (secondItem.X > 0 ? -2 : 1);
                     }
                 }
-                else if (secondItem.Y > 0 && lineGenerationPoint.Y >= 0)
+                else if (secondItem.Y > 0)
                 {
                     LogFile.Message("secondItem.Y > 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem " + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: "
                         + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (Math.Abs(secondItem.X) > 1)
-                        SelectedPoint1 = new Point
                         {
-                            X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1,
-                            Y = firstItem.Y + 1
-                        };
+                            SP1X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1;
+                            SP1Y = firstItem.Y + 1;
+                        }
                     else
                     {
-                        SelectedPoint1 = new Point
-                        {
-                            X = firstItem.X + (secondItem.X > 0 ? 2 : -1),
-                            Y = firstItem.Y + (secondItem.X > 0 ? 2 : -1)
-                        };
+                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -1);
+                            SP1Y = firstItem.Y + (secondItem.X > 0 ? 2 : -1);
                     }
                 }
                 else
                     continue;
+                if ((SP1X < 0) || (SP1X >= FieldSize) || (SP1Y < 0) || (SP1Y >= FieldSize) || Items[SP1X][SP1Y] == null || Items[SP1X][SP1Y] == DisabledItem)
+                    continue;
+                SelectedPoint1 = new Point
+                {
+                    X = SP1X,
+                    Y = SP1Y
+                };
 
+                var diffX = Math.Abs(SelectedPoint1Coordinate.X - firstItem.X + lineGenerationPoint.X);
+                var diffY = Math.Abs(SelectedPoint1Coordinate.Y - firstItem.Y + lineGenerationPoint.Y);
+                if(!((diffX == 0 && diffY == 2) || (diffX == 2 && diffY == 0)))
+                    continue;
                 if (Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != null && Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != DisabledItem)
                 {
                     var selectedObject = Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] as GameObject;

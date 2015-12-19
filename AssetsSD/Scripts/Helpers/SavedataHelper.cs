@@ -55,7 +55,7 @@ namespace Assets.Scripts.Helpers
 
         public static void RemoveAllData()
         {
-            System.IO.DirectoryInfo savesDataInfo = new DirectoryInfo(Application.persistentDataPath);
+            var savesDataInfo = new DirectoryInfo(Application.persistentDataPath);
             foreach (FileInfo file in savesDataInfo.GetFiles())
             {
                 file.Delete();

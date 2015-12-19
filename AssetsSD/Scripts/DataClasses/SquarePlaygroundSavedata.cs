@@ -53,6 +53,7 @@ namespace Assets.Scripts.DataClasses
             Items = null;
             MaxInitialElementType = GameItemType._3;
             Score = 0;
+            MovesCount = 0;
         }
 
         public DifficultyLevel Difficulty
@@ -62,6 +63,13 @@ namespace Assets.Scripts.DataClasses
         }
 
         public ProgressBarState ProgressBarStateData
+        {
+            get;
+            set;
+        }
+
+
+        public int MovesCount
         {
             get;
             set;

@@ -789,7 +789,7 @@ namespace Assets.Scripts
             var gobj = Items[x][y] as GameObject;
             if (gobj == null) return false;
             var gi = gobj.GetComponent<GameItem>();
-            return gi != null && gi.Type == itemType;
+            return gi != null && gi.Type == itemType && gi.MovingType != GameItemMovingType.Static;
         }
 
         public virtual Vector3 GetCellCoordinates(int col, int row)
