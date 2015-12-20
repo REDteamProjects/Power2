@@ -135,16 +135,18 @@ namespace Assets.Scripts
                 {
                     var text = rateNowButton.GetComponentInChildren<Text>();
                     text.font = Game.textFont;
-                    text.fontSize = LabelShowing.minLabelFontSize;
+                    text.fontSize = LabelShowing.maxLabelFontSize;
                     text.text = LanguageManager.Instance.GetTextValue("RateUs");
+                    text.color = GameColors.DifficultyLevelsColors[DifficultyLevel._hard];
                 }
                 var rateLaterButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateLaterButton");
                 if (rateLaterButton != null)
                 {
                     var text = rateLaterButton.GetComponentInChildren<Text>();
                     text.font = Game.textFont;
-                    text.fontSize = LabelShowing.minLabelFontSize;
-                    text.text = LanguageManager.Instance.GetTextValue("Later");
+                    text.fontSize = 20;
+                    text.text = "X";
+                    text.color = GameColors.DefaultDark;
                 }
                 PlayerPrefs.SetInt("RateUsUserMessage", 1);
             }

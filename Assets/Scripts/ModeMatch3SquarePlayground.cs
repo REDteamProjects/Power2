@@ -36,21 +36,21 @@ namespace Assets.Scripts
                 switch(Game.Difficulty)
                 {
                     case DifficultyLevel._easy:
-                        if (CurrentScore < 8192) return;
+                        if (CurrentScore < 4096) return;
                         Game.Difficulty = DifficultyLevel._medium;
                         MoveTimerMultiple = InitialMoveTimerMultiple - 2;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._medium:
-                        if (CurrentScore < 16384) return;
+                        if (CurrentScore < 12288) return;
                         Game.Difficulty = DifficultyLevel._hard;
                         MoveTimerMultiple = InitialMoveTimerMultiple - 4;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._hard:
-                        if (CurrentScore < 24576) return;
+                        if (CurrentScore < 20480) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
                         MoveTimerMultiple = InitialMoveTimerMultiple - 8;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
@@ -329,11 +329,15 @@ namespace Assets.Scripts
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
 
-                if (!RemoveAdditionalItems() && CallbacksCount == 0 && !CheckForPossibleMoves())
+                if (CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
-                    if(lastMoved != GameItemType._ToMoveItem)
-                    GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? false : true);
+                    if (lastMoved != GameItemType._ToMoveItem)
+                    {
+                        GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? false : true);
+                        if (Game.Difficulty > DifficultyLevel._easy)
+                            lastMoved = GameItemType._ToMoveItem;
+                    }
                 }
                 UpdateTime();
                 return 0;
