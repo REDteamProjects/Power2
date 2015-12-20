@@ -84,29 +84,29 @@ namespace Assets.Scripts
 
             UpdateTheme();
             _availableScenes.Add("6x6");
-#if !DEBUG
+//#if !DEBUG
             if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("8x8", "6x6", Mode8x8SquarePlayground.ToOpenPoints);
             }
             else
-#endif
+//#endif
             _availableScenes.Add("8x8");
-#if !DEBUG
+//#if !DEBUG
             if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Match3", "8x8", ModeMatch3SquarePlayground.ToOpenPoints);
             }
             else
-#endif
+//#endif
             _availableScenes.Add("Match3");
-#if !DEBUG
+//#if !DEBUG
             if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Rhombus", "Match3", Mode11RhombusPlayground.ToOpenPoints);
             }
             else
-#endif
+//#endif
             _availableScenes.Add("11Rhombus");
 
             if (!PlayerPrefs.HasKey("PressLogoLabel"))
@@ -160,7 +160,6 @@ namespace Assets.Scripts
                     text.text = "X";
                     text.color = GameColors.DefaultDark;
                 }
-                PlayerPrefs.SetInt("RateUsUserMessage", 1);
             }
 
         }
@@ -171,21 +170,23 @@ namespace Assets.Scripts
             var obj = GameObject.Find("/GUI/MainBlock/" + level);
             var img = obj.GetComponent<Image>();
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
+            var lockLogo = Instantiate(Resources.Load("Prefabs/LockLogo")) as GameObject;
+            lockLogo.transform.SetParent(obj.transform);
+            lockLogo.transform.localPosition = new Vector3(0, -2, -4);
             var label = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
             label.transform.SetParent(obj.transform);
-            label.transform.localPosition = new Vector3(-10, 0, -4);
+            label.transform.localPosition = new Vector3(0, -62, -4);
             var labelText = label.GetComponent<Text>();
             labelText.font = Game.textFont;
             labelText.color = GameColors.ModesColors[previos];
-            labelText.fontSize = LabelShowing.minLabelFontSize;
+            labelText.fontSize = LabelShowing.minLabelFontSize - 20;
             labelText.text = pointsLeft.ToString();
-            labelText.alignment = TextAnchor.MiddleRight;
             var modeLogo = Instantiate(Resources.Load("Prefabs/ModeLogo")) as GameObject;
-            var newsprite = Resources.LoadAll<Sprite>("SD/ModesButtonsAtlas")
+            var modeSprite = Resources.LoadAll<Sprite>("SD/ModesButtonsAtlas")
             .SingleOrDefault(t => t.name.Contains(previos));
-            modeLogo.GetComponent<SpriteRenderer>().sprite = newsprite;
+            modeLogo.GetComponent<SpriteRenderer>().sprite = modeSprite;
             modeLogo.transform.SetParent(obj.transform);
-            modeLogo.transform.localPosition = new Vector3(60, -2, -4);
+            modeLogo.transform.localPosition = new Vector3(0, -30, -5);
         }
 
         public SoundState SoundEnabled

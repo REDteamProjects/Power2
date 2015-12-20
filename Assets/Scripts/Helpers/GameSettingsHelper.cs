@@ -64,6 +64,7 @@ namespace Assets.Scripts.Helpers
             var theme = ActiveTheme;
             var sound = SoundEnabled;
             var pressedLogoLabel = PlayerPrefs.HasKey("PressLogoLabel");
+            var ratedUs = PlayerPrefs.HasKey("RateUsUserMessage");
 
             PlayerPrefs.DeleteAll();
 
@@ -71,6 +72,8 @@ namespace Assets.Scripts.Helpers
             SoundEnabled = sound;
             if (pressedLogoLabel)
                 PlayerPrefs.SetInt("PressLogoLabel",1);
+            if(ratedUs)
+                PlayerPrefs.SetInt("RateUsUserMessage",1);
         }
     }
 

@@ -27,11 +27,13 @@ namespace Assets.Scripts.Helpers
         public void RateUsNow()
         {
             GoToStore();
+            PlayerPrefs.SetInt("RateUsUserMessage", 1);
         }
 
         public void CloseRateUsModule()
         {
             DestroyRateUsModule();
+            PlayerPrefs.SetInt("RateUsUserMessage", 1);
         }
 
         public static void DestroyRateUsModule()
