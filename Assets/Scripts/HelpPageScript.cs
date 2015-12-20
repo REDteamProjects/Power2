@@ -43,7 +43,7 @@ public class HelpPageScript : MonoBehaviour
             _allModulesPostfixList.Insert(0, "UserHelp._easy");
         }
         _allModulesPostfixList.Insert(1, "UserHelp.UserProgress");
-        if (!PlayerPrefs.HasKey("AdsRemoved"))
+        if (UnityADHelper.AdTaps <= 16)
             _allModulesPostfixList.Insert(2, "UserHelp.RemoveAds");
         LoadHelp(0);
         var imgprev = prevbtn.GetComponent<Image>();

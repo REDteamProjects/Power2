@@ -72,7 +72,7 @@ namespace Assets.Scripts
 
         protected GameItemType MinType
         {
-            get { return MaxType - FieldSize > GameItemType._1 ? MaxType - FieldSize : GameItemType._1; }
+            get { return MaxType - FieldSize > GameItemType._1 ? MaxType - FieldSize + 1 : GameItemType._1; }
         }
 
         public float MoveTimerMultiple
@@ -853,6 +853,10 @@ namespace Assets.Scripts
                         };
                     }
                 }
+                var diffX = Math.Abs(SelectedPoint1Coordinate.X - (firstItem.X + lineGenerationPoint.X));
+                var diffY = Math.Abs(SelectedPoint1Coordinate.Y - (firstItem.Y + lineGenerationPoint.Y));
+                if (!((diffX == 0 && diffY == 1) || (diffX == 1 && diffY == 0)))
+                    continue;
                 if (Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != null && Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != DisabledItem)
                 {
                     var selectedObject = Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] as GameObject;

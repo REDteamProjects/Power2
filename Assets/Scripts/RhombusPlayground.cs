@@ -110,30 +110,30 @@ namespace Assets.Scripts
                 {
                     LogFile.Message("secondItem.Y < 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem "
                         + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
-                    if (Math.Abs(secondItem.Y) > 1)
+                    if (secondItem.Y < -1)
                         {
-                            SP1X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1;
+                            SP1X = firstItem.X + (secondItem.X > 0 ? 1 : -1);
                             SP1Y = firstItem.Y - 1;
                         }
                     else
                     {
-                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -1);
-                            SP1Y = firstItem.Y + (secondItem.X > 0 ? -2 : 1);
+                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -2);
+                            SP1Y = firstItem.Y - 2;
                     }
                 }
                 else if (secondItem.Y > 0)
                 {
                     LogFile.Message("secondItem.Y > 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem " + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: "
                         + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
-                    if (Math.Abs(secondItem.X) > 1)
+                    if (secondItem.Y > 1)
                         {
-                            SP1X = secondItem.X > 0 ? firstItem.X + 1 : firstItem.X - 1;
+                            SP1X = firstItem.X + (secondItem.X > 0 ? 1 : -1);
                             SP1Y = firstItem.Y + 1;
                         }
                     else
                     {
-                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -1);
-                            SP1Y = firstItem.Y + (secondItem.X > 0 ? 2 : -1);
+                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -2);
+                            SP1Y = firstItem.Y + 2;
                     }
                 }
                 else
@@ -146,8 +146,8 @@ namespace Assets.Scripts
                     Y = SP1Y
                 };
 
-                var diffX = Math.Abs(SelectedPoint1Coordinate.X - firstItem.X + lineGenerationPoint.X);
-                var diffY = Math.Abs(SelectedPoint1Coordinate.Y - firstItem.Y + lineGenerationPoint.Y);
+                var diffX = Math.Abs(SelectedPoint1Coordinate.X - (firstItem.X + lineGenerationPoint.X));
+                var diffY = Math.Abs(SelectedPoint1Coordinate.Y - (firstItem.Y + lineGenerationPoint.Y));
                 if(!((diffX == 0 && diffY == 2) || (diffX == 2 && diffY == 0)))
                     continue;
                 if (Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != null && Items[SelectedPoint1Coordinate.X][SelectedPoint1Coordinate.Y] != DisabledItem)

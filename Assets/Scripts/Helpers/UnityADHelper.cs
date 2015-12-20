@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using GoogleMobileAds.Api;
+using UnityEngine.UI;
 
 public enum AdMobADType
 {
@@ -19,6 +20,37 @@ public class UnityADHelper : MonoBehaviour
     public AdMobADType Type = AdMobADType.NoAd;
 
     public AdSize BannerSize = AdSize.Banner;
+
+    public static int AdTaps
+    {
+       get
+       {
+        if (PlayerPrefs.HasKey("AdTaps"))
+            return PlayerPrefs.GetInt("AdTaps");
+        return 0;
+       }
+
+       private set
+       {
+            PlayerPrefs.SetInt("AdTaps", value);
+       }
+    }
+
+
+    private void OnAdTap()
+    {
+        AdTaps++;
+        if(AdTaps == 16)
+            switch (Type)
+            {
+                case AdMobADType.Banner:
+                    DeleteBanner();
+                    break;
+                case AdMobADType.Interstitial:
+                    DeleteInterstitial();
+                    break;
+            }
+    }
 
     void Awake()
     {
@@ -57,6 +89,9 @@ public class UnityADHelper : MonoBehaviour
 
     private void CreateBanner()
     {
+        if (AdTaps > 16)
+            return;
+
         try 
         { 
             var bannerId = String.Empty;
@@ -82,6 +117,8 @@ public class UnityADHelper : MonoBehaviour
                 .Build();
             // Load the banner with the request.
             bannerView.LoadAd(request);
+
+            GetComponent<Button>().onClick.AddListener(() => OnAdTap());
         }
         catch (Exception ex)
         {
@@ -103,7 +140,8 @@ public class UnityADHelper : MonoBehaviour
 
     private void CreateInterstitial()
     {
-
+        if (AdTaps > 16)
+            return;
         try
         {
             var interstitialId = String.Empty;
