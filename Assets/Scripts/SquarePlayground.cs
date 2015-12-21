@@ -17,6 +17,7 @@ namespace Assets.Scripts
     {
         public static readonly System.Object _disabledItem = new object();
         protected static readonly System.Random RandomObject = new System.Random();
+        protected const int _spawnItemTypesInterval = 6;
 
         private const int AdditionalItemCost = 222;
         private const float HintDelayTime = 4;
@@ -72,7 +73,7 @@ namespace Assets.Scripts
 
         protected GameItemType MinType
         {
-            get { return MaxType - 6/*FieldSize*/ > GameItemType._1 ? MaxType - 6/*FieldSize + 1*/ : GameItemType._1; }
+            get { return MaxType - _spawnItemTypesInterval/*FieldSize*/ > GameItemType._1 ? MaxType - _spawnItemTypesInterval/*FieldSize + 1*/ : GameItemType._1; }
         }
 
         public float MoveTimerMultiple
@@ -278,9 +279,9 @@ namespace Assets.Scripts
                     GenerateGameOverMenu(true);
                     return;
             }
-            if ((int)MaxType > 6)
+            if (MaxType - _spawnItemTypesInterval > GameItemType._1)
             {
-                DestroyElements(new List<GameItemType> { MinType, MinType + _minTypePlus });
+                DestroyElements(new List<GameItemType> { MinType - 1, MinType - 1 + _minTypePlus });
             }
 
         }
