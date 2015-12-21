@@ -319,12 +319,11 @@ namespace Assets.Scripts
 
                     if (lastMoved != GameItemType._ToMoveItem)
                     {
-                        GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy);
+                        GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix + "NoMoves"));
                         if (Game.Difficulty > DifficultyLevel._easy)
                             lastMoved = GameItemType._ToMoveItem;
                     }
 
-                    CreateInGameHelpModule(UserHelpPrefix + "NoMoves");
                 }
                 UpdateTime();
                 return 0;

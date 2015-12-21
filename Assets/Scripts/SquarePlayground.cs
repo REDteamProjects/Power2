@@ -1297,7 +1297,7 @@ namespace Assets.Scripts
                 GenerateField(true);
         }
 
-        public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false)
+        public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false, LabelAnimationFinishedDelegate callback = null)
         {
             if (!mixCurrent)
             {
@@ -1374,15 +1374,9 @@ namespace Assets.Scripts
                 var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                 if (o == null) return;
                 var noMovesLabel = o.GetComponent<LabelShowing>();
-                LabelAnimationFinishedDelegate callback = null;
-                if (!onlyNoMovesLabel)
-                {
-                    callback = MixField;
-                }
                 noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                    LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
                     LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null,
-                    true, !onlyNoMovesLabel ? MixField : (LabelAnimationFinishedDelegate)null, true);
+                    true, !onlyNoMovesLabel ? MixField : callback, true);
             }
         }
 

@@ -601,7 +601,7 @@ namespace Assets.Scripts
                 GenerateField(true);
         }
 
-        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false)
+        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false, LabelAnimationFinishedDelegate callback = null)
         {
             LogFile.Message("Generating field...", true);
             if (!mixCurrent)
@@ -680,11 +680,9 @@ namespace Assets.Scripts
                     if (o != null)
                     {
                         var noMovesLabel = o.GetComponent<LabelShowing>();
-                        LabelAnimationFinishedDelegate callback = null;
-                        if (!onlyNoMovesLabel)
-                            callback = MixField;
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
+                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark,
+                             LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, !onlyNoMovesLabel ? MixField : callback, true);
                         //noMovesLabel.ShowScalingLabel(new Vector3(0, InitialGameItem.Y + GameItemSize * 2.5f, -4), 
                         //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
                     }
