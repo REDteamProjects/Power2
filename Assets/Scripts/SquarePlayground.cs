@@ -72,7 +72,7 @@ namespace Assets.Scripts
 
         protected GameItemType MinType
         {
-            get { return MaxType - FieldSize > GameItemType._1 ? MaxType - FieldSize + 1 : GameItemType._1; }
+            get { return MaxType - 6/*FieldSize*/ > GameItemType._1 ? MaxType - 6/*FieldSize + 1*/ : GameItemType._1; }
         }
 
         public float MoveTimerMultiple
@@ -278,7 +278,7 @@ namespace Assets.Scripts
                     GenerateGameOverMenu(true);
                     return;
             }
-            if ((int)MaxType > FieldSize)
+            if ((int)MaxType > 6)
             {
                 DestroyElements(new List<GameItemType> { MinType, MinType + _minTypePlus });
             }
@@ -757,7 +757,7 @@ namespace Assets.Scripts
         {
             int newType;
             var possibility = RandomObject.Next(1, 101);
-            var minItem = (int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
+            var minItem = (int)MinType + _minTypePlus;//(int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
             var isEven = (i + j) % 2;
             if (possibility <= 50)
                 possibility = isEven == 0 ? 50 : 20;
@@ -1230,7 +1230,8 @@ namespace Assets.Scripts
 
             var gameOverLabel = gameOverLabelObject.GetComponent<LabelShowing>();
             gameOverLabel.ShowScalingLabel(new Vector3(0, 10, -3),
-                isWinning ? LanguageManager.Instance.GetTextValue("YouWinTitle") : LanguageManager.Instance.GetTextValue("GameOverTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 1, null, false, () =>
+                isWinning ? LanguageManager.Instance.GetTextValue("YouWinTitle") : LanguageManager.Instance.GetTextValue("GameOverTitle"), isWinning ? GameColors.DifficultyLevelsColors[DifficultyLevel._hard] :
+                GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 1, null, false, () =>
                 {
                     gameOverMenu.transform.localScale = Vector3.one;
                     gameOverMenu.transform.localPosition = new Vector3(0, -70, 0);

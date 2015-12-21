@@ -70,7 +70,7 @@ TextureImporter:
   cubemapConvolutionSteps: 8
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -3
+  textureFormat: 12
   maxTextureSize: 2048
   textureSettings:
     filterMode: 2
@@ -89,11 +89,15 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 50
   alphaIsTransparency: 1
-  textureType: 8
+  textureType: 5
   buildTargetSettings:
   - buildTarget: WP8
     maxTextureSize: 1024
-    textureFormat: -2
+    textureFormat: 2
+    compressionQuality: 50
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: 12
     compressionQuality: 50
   spriteSheet:
     sprites:

@@ -30,7 +30,7 @@ public class UnityADHelper : MonoBehaviour
         return 0;
        }
 
-       private set
+       set
        {
             PlayerPrefs.SetInt("AdTaps", value);
        }

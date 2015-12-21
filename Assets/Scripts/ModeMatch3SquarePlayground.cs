@@ -291,7 +291,7 @@ namespace Assets.Scripts
 
         public override GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
-            var newType = RandomObject.Next((int)(MaxType > (GameItemType)FieldSize ? MinType + 1 : GameItemType._1), (int)MaxInitialElementType + 1);
+            var newType = RandomObject.Next((int)(/*MaxType > (GameItemType)FieldSize ? MinType + 1 :*/ GameItemType._1), (int)MaxInitialElementType + 1);
             if (deniedTypes == null || deniedTypes.Count == 0)
                 return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))

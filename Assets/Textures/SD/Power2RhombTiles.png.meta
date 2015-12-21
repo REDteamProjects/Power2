@@ -70,7 +70,11 @@ TextureImporter:
   spritePixelsToUnits: 50
   alphaIsTransparency: 0
   textureType: 5
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: 12
+    compressionQuality: 50
   spriteSheet:
     sprites:
     - name: Power2RhombTiles_0

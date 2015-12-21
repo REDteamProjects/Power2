@@ -54,7 +54,11 @@ TextureImporter:
   spritePixelsToUnits: 50
   alphaIsTransparency: 0
   textureType: 5
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 1024
+    textureFormat: 12
+    compressionQuality: 50
   spriteSheet:
     sprites:
     - name: Match3TestBlack_0

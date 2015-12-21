@@ -192,8 +192,9 @@ public class DragItemScript : MonoBehaviour
                                 (!(realTouchPosition.y < gobj.transform.localPosition.y + half))) continue;
 
                             var gims = gobj.GetComponent<GameItemMovingScript>();
+                            var giss = gobj.GetComponent<GameItemScalingScript>();
                             var gi = gobj.GetComponent<GameItem>();
-                            if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
+                            if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving) || giss.isScaling) continue;
 
                             TouchedItem = new Point { X = col, Y = row };
                             touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
