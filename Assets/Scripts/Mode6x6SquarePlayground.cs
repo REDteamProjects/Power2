@@ -185,10 +185,9 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
-            if(Game.Difficulty == DifficultyLevel._veryhard)
+            if (Game.Difficulty == DifficultyLevel._veryhard && !ProgressBar.Exists)
             {
                 ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-                if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 ProgressBar.UpdateTexture();
                 IsTimeLabelShow = true;

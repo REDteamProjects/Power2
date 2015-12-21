@@ -158,7 +158,7 @@ namespace Assets.Scripts
                     text.font = Game.textFont;
                     text.fontSize = 20;
                     text.text = "X";
-                    text.color = GameColors.DefaultDark;
+                    text.color = new Color(GameColors.DefaultDark.r,GameColors.DefaultDark.g,GameColors.DefaultDark.b,0.7f);
                 }
             }
 
@@ -186,7 +186,7 @@ namespace Assets.Scripts
             .SingleOrDefault(t => t.name.Contains(previos));
             modeLogo.GetComponent<SpriteRenderer>().sprite = modeSprite;
             modeLogo.transform.SetParent(obj.transform);
-            modeLogo.transform.localPosition = new Vector3(0, -30, -5);
+            modeLogo.transform.localPosition = new Vector3(0, -31, -5);
         }
 
         public SoundState SoundEnabled

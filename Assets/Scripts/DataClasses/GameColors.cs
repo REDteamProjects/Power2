@@ -14,7 +14,7 @@ namespace Assets.Scripts.DataClasses
         public static readonly Color DefaultLabelColor = new Color(0.67f, 0.67f, 0.67f);
         public static readonly Color DefaultLight = new Color(1f, 0.98f, 0.88f);//new Color(1f, 0.95f, 0.85f);
         public static readonly Color DefaultDark = new Color(0.16f, 0.16f, 0.18f);
-        public static readonly Color Additional1 = new Color(0.6f, 0.1f, 0f);
+        public static readonly Color Additional1 = new Color(0.2f, 0.8f, 1f);//new Color(0.6f, 0.1f, 0f);
 
         public static Color BackgroundColor
         {
