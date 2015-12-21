@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e465e2fe5c8742948a2ed8b126be603f
-timeCreated: 1450605921
+timeCreated: 1450694533
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -43,7 +43,7 @@ TextureImporter:
     21300072: SignsAtlas_17
     21300074: SignsAtlas_18
     21300076: SignsAtlas_X
-    21300078: SignsAtlas_19
+    21300078: SignsAtlas_X
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -276,6 +276,16 @@ TextureImporter:
         y: 0
         width: 256
         height: 256
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SignsAtlas_X
+      rect:
+        serializedVersion: 2
+        x: 406
+        y: 846
+        width: 110
+        height: 110
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

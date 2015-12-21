@@ -137,7 +137,7 @@ namespace Assets.Scripts
                 {
                     RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
                     RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
-                    RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -6);
+                    RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -10);
                     manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
                 }
                 manual.transform.localScale = new Vector3(45, 45, 0);
