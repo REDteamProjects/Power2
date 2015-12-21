@@ -72,7 +72,7 @@ namespace Assets.Scripts
 
         protected GameItemType MinType
         {
-            get { return MaxType - 6/*FieldSize*/ > GameItemType._1 ? MaxType - 6/*FieldSize + 1*/ : GameItemType._1; }
+            get { return MaxType - 6 > GameItemType._1 ? MaxType - 6 : GameItemType._1; }
         }
 
         public float MoveTimerMultiple
@@ -1372,14 +1372,11 @@ namespace Assets.Scripts
                 LogFile.Message("Mix field...", true);
                 var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                 if (o == null) return;
+
                 var noMovesLabel = o.GetComponent<LabelShowing>();
-                LabelAnimationFinishedDelegate callback = null;
-                if (!onlyNoMovesLabel)
-                {
-                    callback = MixField;
-                }
                 noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                    LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
+                    LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null,
+                    true, !onlyNoMovesLabel ? MixField : (LabelAnimationFinishedDelegate)null, true);
             }
         }
 

@@ -33,7 +33,7 @@ namespace Assets.Scripts
             protected set
             {
                 base.CurrentScore = value;
-                switch(Game.Difficulty)
+                switch (Game.Difficulty)
                 {
                     case DifficultyLevel._easy:
                         if (CurrentScore < 4096) return;
@@ -67,20 +67,13 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActions()
         {
-            /*if (IsTimeLabelShow)
-            {
-                IsTimeLabelShow = false;
-                ShowTimeLabel();
-            }
-            else
-                PlaygroundProgressBar.ProgressBarRun = true;*/
-            switch(Game.Difficulty)
+            switch (Game.Difficulty)
             {
                 case DifficultyLevel._hard:
                     SpawnXItems();
                     break;
                 case DifficultyLevel._veryhard:
-                    toBlock = (GameItemType)RandomObject.Next(1, (int)MaxType+1);
+                    toBlock = (GameItemType)RandomObject.Next(1, (int)MaxType + 1);
                     ProgressBar.TimeBorderActivated += VeryHardLevelAction;
                     ProgressBar.TimeBorderDeActivated += VeryHardLevelActionDeactivate;
                     ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
@@ -90,19 +83,19 @@ namespace Assets.Scripts
 
         protected override void VeryHardLevelAction(object sender, EventArgs e)
         {
-          /*for (int diag1 = 0,row = FieldSize - 1; diag1 < FieldSize; diag1++,row--)
-              {
-                  var gobj = Items[diag1][diag1] as GameObject;
-                  if (gobj == null) continue;
-                  var gi = gobj.GetComponent<GameItem>();
-                  if (gi.MovingType != GameItemMovingType.Static)
-                      RemoveGameItem(diag1, diag1);
-                  gobj = Items[diag1][row] as GameObject;
-                  if (gobj == null) continue;
-                  gi = gobj.GetComponent<GameItem>();
-                  if (gi.MovingType != GameItemMovingType.Static)
-                      RemoveGameItem(diag1, row);
-              }*/
+            /*for (int diag1 = 0,row = FieldSize - 1; diag1 < FieldSize; diag1++,row--)
+                {
+                    var gobj = Items[diag1][diag1] as GameObject;
+                    if (gobj == null) continue;
+                    var gi = gobj.GetComponent<GameItem>();
+                    if (gi.MovingType != GameItemMovingType.Static)
+                        RemoveGameItem(diag1, diag1);
+                    gobj = Items[diag1][row] as GameObject;
+                    if (gobj == null) continue;
+                    gi = gobj.GetComponent<GameItem>();
+                    if (gi.MovingType != GameItemMovingType.Static)
+                        RemoveGameItem(diag1, row);
+                }*/
             for (int col = 0; col < FieldSize; col++)
                 for (int row = 0; row < FieldSize; row++)
                     if (Items[col][row] != null)
@@ -121,12 +114,12 @@ namespace Assets.Scripts
                     if (Items[col][row] != null)
                     {
                         var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
-                        if(gi.Type == toBlock)
-                        gi.MovingType = GameItemMovingType.Standart;
+                        if (gi.Type == toBlock)
+                            gi.MovingType = GameItemMovingType.Standart;
                     }
-           toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
-           ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
-           MoveTimerMultiple = MoveTimerMultiple + 16;
+            toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
+            ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
+            MoveTimerMultiple = MoveTimerMultiple + 16;
         }
 
         public override IGameSettingsHelper Preferenses
@@ -195,16 +188,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        //protected override float ScaleMultiplyer
-        //{
-        //    get { return 5.4f; }
-        //}
-
         public override float GameItemSize { get { return 3.805f; } }
-
-        ModeMatch3SquarePlayground()
-        {          
-        }
 
         void OnLevelWasLoaded()
         {
@@ -232,17 +216,17 @@ namespace Assets.Scripts
 
             MaxType = GameItemType._7;
             Preferenses.GamesPlayed++;
-            IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata {Difficulty = Game.Difficulty};
+            IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
-               
+
                 Game.Difficulty = sd.Difficulty;
 
                 CurrentTime = sd.CurrentPlaygroundTime;
                 ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
                 if (!ProgressBar.Exists)
-                ProgressBar.CreateBar();
+                    ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
                 GameMovesCount = sd.MovesCount;
 
@@ -270,7 +254,7 @@ namespace Assets.Scripts
                 }
             }
 
-            
+
 
             //if (Preferenses.CurrentItemType == MaxInitialElementType)
             //{
@@ -284,7 +268,7 @@ namespace Assets.Scripts
             ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
             if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
-            
+
             GenerateField();
             DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
         }
@@ -332,12 +316,15 @@ namespace Assets.Scripts
                 if (CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
+
                     if (lastMoved != GameItemType._ToMoveItem)
                     {
-                        GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? false : true);
+                        GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy);
                         if (Game.Difficulty > DifficultyLevel._easy)
                             lastMoved = GameItemType._ToMoveItem;
                     }
+
+                    CreateInGameHelpModule(UserHelpPrefix + "NoMoves");
                 }
                 UpdateTime();
                 return 0;
@@ -350,7 +337,7 @@ namespace Assets.Scripts
             while (l != null && !IsGameOver)
             {
                 var pointsMultiple = 1;
-                
+
                 var currentObj = Items[l.X2][l.Y2] as GameObject;
                 var gi = currentObj.GetComponent<GameItem>();
                 var cellType = gi.Type;
@@ -361,15 +348,10 @@ namespace Assets.Scripts
                     for (var j = l.Y2; j >= l.Y1; j--)
                     {
                         if (Items[l.X1][j] == null || Items[l.X1][j] == DisabledItem)
-                        {
-                            //LogFile.Message("Items[i][l.Y1] == null");
                             continue;
-                        }
                         if (LinesWithItem(lines, l.X1, j).Count() > 1)
-                        {
-                            //LogFile.Message("Items[" + l.X1 + "][" + j + "] = null;");
                             continue;
-                        }
+
                         var gobj = Items[l.X1][j] as GameObject;
                         if (gobj == null) continue;
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
@@ -398,22 +380,11 @@ namespace Assets.Scripts
                     }
                 }
 
-                //var currentObj = Items[l.X2][l.Y2] as GameObject;
-                //if (currentObj != null)
-                //{
-                    //var gi = currentObj.GetComponent<GameItem>();
-                    var points = pointsMultiple * (int)Math.Pow(2, (double)cellType);
-                    /*var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (scalingLabelObject != null)
-                    {
-                        var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
-                        pointsLabel.transform.SetParent(transform);*/
-                        pointsBank += points;
-                        LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
-                            null, 0, cellType);
+                var points = pointsMultiple * (int)Math.Pow(2, (double)cellType);
+                pointsBank += points;
+                LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
+                    null, 0, cellType);
 
-                    //}
-                //}
                 lines.Remove(l);
 
                 if (linesCount == 1)
@@ -448,7 +419,7 @@ namespace Assets.Scripts
         public override bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
             var gobj = Items[x1][y1] as GameObject;
-            if(gobj != null && Items[x1][y1] != DisabledItem)
+            if (gobj != null && Items[x1][y1] != DisabledItem)
             {
                 lastMoved = gobj.GetComponent<GameItem>().Type;
             }

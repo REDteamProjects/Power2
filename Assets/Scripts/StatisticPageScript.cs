@@ -47,40 +47,28 @@ public class StatisticPageScript : MonoBehaviour
         where TType : IPlayground
     {
         var typeObject = typeof(TType);
-        var typeSaveDataObject = typeof (TSavedataType);
-        var constructorInfo = typeSaveDataObject.GetConstructor(Type.EmptyTypes);
-        if (constructorInfo == null) return;
-        var sd = (IPlaygroundSavedata)constructorInfo.Invoke(null);
-        //SavedataHelper.LoadData(ref sd);
 
         SelectedItem = GameObject.Find(typeObject.Name.Substring(0, typeObject.Name.Length - 10));
-        var noData = false;
-        if (!SavedataHelper.IsSaveDataExist(sd))
-        {
-            GenerateLevelTitle<TType>(GameItemType.DisabledItem);
-            noData = true;
-        }
 
         var pref = GameSettingsHelper<TType>.Preferenses;
 
-        var scoreText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) +*/ "Body/Score").GetComponent<Text>();
-        scoreText.text = noData ? "0" : pref.ScoreRecord.ToString(CultureInfo.InvariantCulture);
+        var scoreText = GameObject.Find("Body/Score").GetComponent<Text>();
+        scoreText.text = pref.ScoreRecord.ToString(CultureInfo.InvariantCulture);
         GameObject.Find("BodyShadow/Score").GetComponent<Text>().text = scoreText.text;
 
-        var gamesText = GameObject.Find(/*typeObject.Name.Substring(0, typeObject.Name.Length - 10) + */"Body/Game").GetComponent<Text>();
-        gamesText.text = noData ? "0" : pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
+        var gamesText = GameObject.Find("Body/Game").GetComponent<Text>();
+        gamesText.text = pref.GamesPlayed.ToString(CultureInfo.InvariantCulture);
         GameObject.Find("BodyShadow/Game").GetComponent<Text>().text = gamesText.text;
 
         var movesText = GameObject.Find("Body/Moves").GetComponent<Text>();
-        movesText.text = noData ? "0" : pref.MovesRecord.ToString(CultureInfo.InvariantCulture);
+        movesText.text = pref.MovesRecord.ToString(CultureInfo.InvariantCulture);
         GameObject.Find("BodyShadow/Moves").GetComponent<Text>().text = movesText.text;
 
-        if (!noData)
-            GenerateLevelTitle<TType>(pref.CurrentItemType);
+        GenerateLevelTitle<TType>(pref.CurrentItemType <= GameItemType.NullItem ? GameItemType.DisabledItem : pref.CurrentItemType);
 
         var timeText = GameObject.Find("Body/Time").GetComponent<Text>();
         
-        if (pref.LongestSession < 1 || noData)
+        if (pref.LongestSession < 1 )
         {
             timeText.text = "00:00";
             GameObject.Find("BodyShadow/Time").GetComponent<Text>().text = timeText.text;

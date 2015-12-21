@@ -12,7 +12,7 @@ namespace Assets.Scripts.Helpers
 
         public static void GoToStore()
         {
-        DestroyRateUsModule();
+            DestroyRateUsModule();
 #if UNITY_WINRT || UNITY_WP8
             Application.OpenURL("https://www.windowsphone.com");
 #endif
@@ -38,11 +38,9 @@ namespace Assets.Scripts.Helpers
 
         public static void DestroyRateUsModule()
         {
-            if (RateUsModule != null)
-            {
-                Destroy(RateUsModule);
-                PlayerPrefs.SetInt("RateUsUserMessage", 1);
-            }
+            if (RateUsModule == null) return;
+            Destroy(RateUsModule);
+            PlayerPrefs.SetInt("RateUsUserMessage", 1);
         }
     }
 }

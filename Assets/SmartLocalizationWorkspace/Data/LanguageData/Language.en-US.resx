@@ -136,8 +136,9 @@
 	</data>
 	<data name="AboutText" xml:space="preserve">
 		<value>TwoX game 
-All right reserved 
-R.E.D.team</value>
+by R.E.D.team
+
+All rights reserved.</value>
 	</data>
 	<data name="ComboTitle" xml:space="preserve">
 		<value>Combo x</value>
@@ -217,6 +218,9 @@ PROGRESS</value>
 	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.Match3_veryhard" xml:space="preserve">
 		<value>7ce075a1cdbcacb4e8140c00804ea00f</value>
+	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3NoMoves" xml:space="preserve">
+		<value>aa233458d43cba34681dee860fec2d2a</value>
 	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.RemoveAds" xml:space="preserve">
 		<value>eb004350521d02c4da8907af65c9fc5a</value>
