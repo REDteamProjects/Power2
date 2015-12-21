@@ -24,16 +24,6 @@ namespace Assets.Scripts
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
             var bg = GameObject.Find("BackgroundGrid");
-            /*if (bg != null)
-            {
-
-                var sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
-                  .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
-                if(sprite == null)
-                    sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
-                  .SingleOrDefault(t => t.name.Contains(GameTheme.light.ToString()));
-                bg.GetComponent<Image>().sprite = sprite;
-            }*/
 
             if (_pressLogoLabel != null)
             {
@@ -43,29 +33,6 @@ namespace Assets.Scripts
                 Destroy(_pressLogoLabel);
                 PlayerPrefs.SetInt("PressLogoLabel", 1);
             }
-            /*var changeObject = GameObject.Find("StatsButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }
-
-            changeObject = GameObject.Find("HelpButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }
-
-            changeObject = GameObject.Find("SoundButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }
-
-            changeObject = GameObject.Find("AboutButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }*/
         }
 
         void Awake()
@@ -84,29 +51,29 @@ namespace Assets.Scripts
 
             UpdateTheme();
             _availableScenes.Add("6x6");
-//#if !DEBUG
+#if !DEBUG
             if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("8x8", "6x6", Mode8x8SquarePlayground.ToOpenPoints);
             }
             else
-//#endif
+#endif
             _availableScenes.Add("8x8");
-//#if !DEBUG
+#if !DEBUG
             if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Match3", "8x8", ModeMatch3SquarePlayground.ToOpenPoints);
             }
             else
-//#endif
+#endif
             _availableScenes.Add("Match3");
-//#if !DEBUG
+#if !DEBUG
             if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Rhombus", "Match3", Mode11RhombusPlayground.ToOpenPoints);
             }
             else
-//#endif
+#endif
             _availableScenes.Add("11Rhombus");
 
             if (!PlayerPrefs.HasKey("PressLogoLabel"))

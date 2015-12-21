@@ -70,3 +70,6 @@ UnityVS.Power2.CSharp.csproj
 UnityVS.Power2.sln
 obj/
 .gitignore.rej
+ProjectSettings/
+UnityVS.Power2.v12.suo
+Assets/Textures/Thumbs.db.meta
