@@ -58,3 +58,14 @@ Temporary Items
  /Library/ScriptAssemblies/
  /obj/
  /Temp/
+Library/
+bin/
+ProjectSettings/EditorBuildSettings.asset
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectVersion.txt
+UnityVS.Power2.CSharp.Editor.Plugins.csproj
+UnityVS.Power2.CSharp.Editor.csproj
+UnityVS.Power2.CSharp.Plugins.csproj
+UnityVS.Power2.CSharp.csproj
+UnityVS.Power2.sln
+obj/
