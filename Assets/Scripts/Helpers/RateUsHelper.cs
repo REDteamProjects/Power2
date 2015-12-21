@@ -12,16 +12,16 @@ namespace Assets.Scripts.Helpers
 
         public static void GoToStore()
         {
-        DestroyRateUsModule();
-        #if UNITY_WINRT || UNITY_WP8
-                    Application.OpenURL("https://www.windowsphone.com");
-        #endif
-        #if UNITY_ANDROID
-                Application.OpenURL("http://play.google.com");
-        #endif
-        #if UNITY_IOS
-                Application.OpenURL("http://www.itunes.com");
-        #endif
+            DestroyRateUsModule();
+#if UNITY_WINRT || UNITY_WP8
+            Application.OpenURL("https://www.windowsphone.com");
+#endif
+#if UNITY_ANDROID
+            Application.OpenURL("market://details?id=com.REDteam.TwoX/");
+#endif
+#if UNITY_IOS
+            Application.OpenURL("http://www.itunes.com");
+#endif
         }
 
         public void RateUsNow()
@@ -38,11 +38,9 @@ namespace Assets.Scripts.Helpers
 
         public static void DestroyRateUsModule()
         {
-            if (RateUsModule != null)
-            {
-                Destroy(RateUsModule);
-                PlayerPrefs.SetInt("RateUsUserMessage", 1);
-            }
+            if (RateUsModule == null) return;
+            Destroy(RateUsModule);
+            PlayerPrefs.SetInt("RateUsUserMessage", 1);
         }
     }
 }

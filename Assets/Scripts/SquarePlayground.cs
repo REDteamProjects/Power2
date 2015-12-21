@@ -1381,6 +1381,8 @@ namespace Assets.Scripts
                 }
                 noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
                     LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
+                    LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null,
+                    true, !onlyNoMovesLabel ? MixField : (LabelAnimationFinishedDelegate)null, true);
             }
         }
 

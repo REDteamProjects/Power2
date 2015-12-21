@@ -25,9 +25,7 @@ public class UnityADHelper : MonoBehaviour
     {
        get
        {
-        if (PlayerPrefs.HasKey("AdTaps"))
-            return PlayerPrefs.GetInt("AdTaps");
-        return 0;
+           return PlayerPrefs.HasKey("AdTaps") ? PlayerPrefs.GetInt("AdTaps") : 0;
        }
 
        set
@@ -40,16 +38,16 @@ public class UnityADHelper : MonoBehaviour
     private void OnAdTap()
     {
         AdTaps++;
-        if(AdTaps == 16)
-            switch (Type)
-            {
-                case AdMobADType.Banner:
-                    DeleteBanner();
-                    break;
-                case AdMobADType.Interstitial:
-                    DeleteInterstitial();
-                    break;
-            }
+        if (AdTaps != 16) return;
+        switch (Type)
+        {
+            case AdMobADType.Banner:
+                DeleteBanner();
+                break;
+            case AdMobADType.Interstitial:
+                DeleteInterstitial();
+                break;
+        }
     }
 
     void Awake()
@@ -118,7 +116,7 @@ public class UnityADHelper : MonoBehaviour
             // Load the banner with the request.
             bannerView.LoadAd(request);
 
-            GetComponent<Button>().onClick.AddListener(() => OnAdTap());
+            GetComponent<Button>().onClick.AddListener(OnAdTap);
         }
         catch (Exception ex)
         {
@@ -130,6 +128,7 @@ public class UnityADHelper : MonoBehaviour
     {
         if (bannerView != null)
             bannerView.Destroy();
+        GetComponent<Button>().onClick.RemoveListener(OnAdTap);
     }
 
     private void DeleteInterstitial()
