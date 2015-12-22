@@ -33,6 +33,8 @@ namespace Assets.Scripts
             protected set
             {
                 base.CurrentScore = value;
+                if (CurrentScore >= Preferenses.ScoreRecord && Preferenses.MovesRecord > GameMovesCount)
+                    Preferenses.MovesRecord = GameMovesCount;
                 switch (Game.Difficulty)
                 {
                     case DifficultyLevel._easy:

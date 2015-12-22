@@ -17,7 +17,7 @@ namespace Assets.Scripts
     {
         public static readonly System.Object _disabledItem = new object();
         protected static readonly System.Random RandomObject = new System.Random();
-        protected const int _spawnItemTypesInterval = 5;
+        protected virtual int _spawnItemTypesInterval { get { return 5; } }
 
         protected const int AdditionalItemCost = 222;
         private const float HintDelayTime = 4;
