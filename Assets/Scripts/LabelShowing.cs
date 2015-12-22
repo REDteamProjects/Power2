@@ -103,7 +103,7 @@ public class LabelShowing : MonoBehaviour {
         var mg = GameObject.Find("/Middleground");
         //var wp = initGameObject.transform.position;
         var newPos = mg.transform.InverseTransformPoint(initGameObject.transform.position);// calling it with foreground causes MaxInitialElement z index decreasing(shows under pause menu)...
-        var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z-2);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
+        var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z-);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
         if(type.HasValue)
         {
             for(int i = 0;i < PointLabels.Count;i++)
