@@ -116,10 +116,10 @@ namespace Assets.Scripts
                             SP1Y = firstItem.Y - 1;
                         }
                     else
-                    {
-                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -2);
-                            SP1Y = firstItem.Y - 2;
-                    }
+                        {
+                            SP1X = firstItem.X + (lineGenerationPoint.Y > -2 ? -1 : 2);
+                            SP1Y = firstItem.Y + (lineGenerationPoint.Y > -2 ? 1 : -2);
+                        }
                 }
                 else if (secondItem.Y > 0)
                 {
@@ -131,10 +131,10 @@ namespace Assets.Scripts
                             SP1Y = firstItem.Y + 1;
                         }
                     else
-                    {
-                            SP1X = firstItem.X + (secondItem.X > 0 ? 2 : -2);
-                            SP1Y = firstItem.Y + 2;
-                    }
+                        {
+                            SP1X = firstItem.X + (lineGenerationPoint.Y < 2 ? -1 : 2);
+                            SP1Y = firstItem.Y + (lineGenerationPoint.Y < 2 ? -1 : 2);
+                        }
                 }
                 else
                     continue;
@@ -323,6 +323,7 @@ namespace Assets.Scripts
                 return 0;
             }
             HintTimeCounter = -1;
+            _isDropDone = false;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
             var pointsBank = 0;
@@ -340,8 +341,8 @@ namespace Assets.Scripts
                     pointsMultiple += l.Y2 - l.Y1 - 2;
                     if (repeatForLine == -1)
                     {
-                        toObjX = l.X2;
-                        toObjY = l.Y2;
+                        toObjX = l.X2 - (l.X2 - l.X1) / 2;
+                        toObjY = l.Y2 - (l.Y2 - l.Y1) / 2;
                         for (int i = l.X2, j = l.Y2; i >= l.X1 && j >= l.Y1; i--, j--)
                         {
                             var lwi = LinesWithItem(lines, i, j);
@@ -413,8 +414,8 @@ namespace Assets.Scripts
 
                     if (repeatForLine == -1)
                     {
-                        toObjX = l.X2;
-                        toObjY = l.Y2;
+                        toObjX = l.X2 - (l.X2 - l.X1) / 2;
+                        toObjY = l.Y2 - (l.Y2 - l.Y1) / 2;
                         for (int i = l.X1, j = l.Y1; i <= l.X2 && j >= l.Y2; i++, j--)
                         {
                             var lwi = LinesWithItem(lines, i, j);
@@ -598,7 +599,10 @@ namespace Assets.Scripts
                 }
             }
             if (generateAfterDrop)
+            {
+                _isDropDone = true;
                 GenerateField(true);
+            }
         }
 
         public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false, LabelAnimationFinishedDelegate callback = null)
@@ -682,9 +686,8 @@ namespace Assets.Scripts
                         var noMovesLabel = o.GetComponent<LabelShowing>();
                         noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
                              LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark,
-                             LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, !onlyNoMovesLabel ? MixField : callback, true);
-                        //noMovesLabel.ShowScalingLabel(new Vector3(0, InitialGameItem.Y + GameItemSize * 2.5f, -4), 
-                        //    "No moves", new Color(240, 223, 206), new Color(240, 223, 206), 60, 90, null, true, null, true);
+                             LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, /*!onlyNoMovesLabel ? MixField :*/ callback, true);
+                        if (!onlyNoMovesLabel) MixField();
                     }
                 
             }
@@ -824,5 +827,43 @@ namespace Assets.Scripts
                 }
             return false;
         }
+
+
+        protected override bool RemoveAdditionalItems()
+        {
+            bool result = false;
+            for (int y = FieldSize / 2, x = 0; y < FieldSize; y++, x++)
+            {
+                if (Items[x][y] != null && Items[x][y] != DisabledItem)
+                {
+                    var gobj = Items[x][y] as GameObject;
+                    if (gobj == null ||
+                        (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
+                         gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
+                    LabelShowing.ShowScalingLabel(gobj, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
+                    RaisePoints(AdditionalItemCost);
+                    if (ProgressBar != null)
+                        ProgressBar.AddTime(AdditionalItemCost * 2);
+                    RemoveGameItem(x, y);
+                    result = true;
+                }
+                var x2 = FieldSize - x - 1;
+                if (x2 != x && Items[x2][y] != null && Items[x2][y] != DisabledItem)
+                {
+                    var gobj = Items[x2][y] as GameObject;
+                    if (gobj == null ||
+                        (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
+                         gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
+                    LabelShowing.ShowScalingLabel(gobj, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
+                    RaisePoints(AdditionalItemCost);
+                    if (ProgressBar != null)
+                        ProgressBar.AddTime(AdditionalItemCost * 2);
+                    RemoveGameItem(x2, y);
+                    result = true;
+                }
+            }
+            return result;
+        }
+
     }
 }

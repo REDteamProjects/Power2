@@ -19,7 +19,7 @@ namespace Assets.Scripts
         protected static readonly System.Random RandomObject = new System.Random();
         protected const int _spawnItemTypesInterval = 6;
 
-        private const int AdditionalItemCost = 222;
+        protected const int AdditionalItemCost = 222;
         private const float HintDelayTime = 4;
         protected const int MaxAdditionalItemsCount = 2;
 
@@ -45,6 +45,7 @@ namespace Assets.Scripts
         protected int GameMovesCount;
         private bool _isGameOver;
         private bool _isMixing;
+        protected bool _isDropDone = false;
 
         protected GameItemType MaxType = GameItemType._3;
         protected bool CallClearChainsAfterExchange;
@@ -490,7 +491,7 @@ namespace Assets.Scripts
 
         public float DeltaToExchange { get { return GameItemSize / 2f; } }
 
-        public float DeltaToMove { get { return GameItemSize / 4f; } }
+        public float DeltaToMove { get { return GameItemSize / 6f; } }
 
         public object[][] Items { get; set; }
 
@@ -633,7 +634,7 @@ namespace Assets.Scripts
                                 GameColors.BackgroundColor;
         }
 
-        protected bool RemoveAdditionalItems()
+        protected virtual bool RemoveAdditionalItems()
         {
             bool result = false;
             for (var i = 0; i < FieldSize; i++)
@@ -669,7 +670,7 @@ namespace Assets.Scripts
         {
             if (IsGameOver || PauseButtonScript.PauseMenuActive) return;
 
-            if (CallbacksCount == 0)
+            if (!_isDropDone && CallbacksCount == 0)
                 Drop();
             if (!(HintTimeCounter >= 0)) return;
             if (HintTimeCounter > HintDelayTime && _selectedPoint1 == null && _selectedPoint2 == null)
@@ -997,6 +998,7 @@ namespace Assets.Scripts
                 return 0;
             }
             HintTimeCounter = -1;
+            _isDropDone = false;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
             var pointsBank = 0;
@@ -1014,7 +1016,7 @@ namespace Assets.Scripts
                     if (repeatForLine == -1)
                     {
                         toObjX = l.X2;
-                        toObjY = l.Y2;
+                        toObjY = l.Y2 - (l.Y2 - l.Y1)/2;
                         for (var j = l.Y2; j >= l.Y1; j--)
                         {
                             var lwi = LinesWithItem(lines, l.X1, j);
@@ -1082,7 +1084,7 @@ namespace Assets.Scripts
                     pointsMultiple += l.X2 - l.X1 - 2;
                     if (repeatForLine == -1)
                     {
-                        toObjX = l.X2;
+                        toObjX = l.X2 - (l.X2 - l.X1) / 2;
                         toObjY = l.Y2;
                         for (var i = l.X2; i >= l.X1; i--)
                         {
@@ -1294,7 +1296,10 @@ namespace Assets.Scripts
                 }
             }
             if (generateAfterDrop)
+            {
+                _isDropDone = true;
                 GenerateField(true);
+            }
         }
 
         public virtual void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false, LabelAnimationFinishedDelegate callback = null)
@@ -1376,7 +1381,8 @@ namespace Assets.Scripts
                 var noMovesLabel = o.GetComponent<LabelShowing>();
                 noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
                     LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null,
-                    true, !onlyNoMovesLabel ? MixField : callback, true);
+                    true, /*!onlyNoMovesLabel ? MixField :*/ callback, true);
+                if (!onlyNoMovesLabel) MixField();
             }
         }
 
@@ -1803,14 +1809,15 @@ namespace Assets.Scripts
             for (var i = 0; i < FieldSize; i++)
                 for (var j = 0; j < FieldSize; j++)
                 {
-                    var item = Items[i][j] as GameObject;
+                    /*var item = Items[i][j] as GameObject;
                     if (item != null)
                     {
                         var gims = item.GetComponent<GameItemMovingScript>();
                         if (gims != null) gims.CancelMoving(true);
                     }
                     Items[i][j] = null;
-                    Destroy(item);
+                    Destroy(item);*/
+                    RemoveGameItem(i, j);
                 }
             Items = null;
             MaxType = GameItemType._3;
@@ -1832,7 +1839,7 @@ namespace Assets.Scripts
             var toSize = GameItemSize / ScaleMultiplyer / 4;
             CallbacksCount++;
             Items[i][j] = null;
-
+            _isDropDone = false;
             giss.ScaleTo(new Vector3(toSize, toSize, 0), 8, (item, r) =>
             {
                 Destroy(item);

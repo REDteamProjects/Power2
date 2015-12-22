@@ -286,10 +286,10 @@ public class DragItemScript : MonoBehaviour
                                                 ? MoveDirections.Up
                                                 : MoveDirections.Down).Value))
                                     {
-                                        var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
+                                        /*var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
                                         if (touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
                                             && movingItemGameObject != null && movingItemGameObject.GetComponent<GameItemMovingScript>()
-                                                .IsMoving) touchDirection = null;
+                                                .IsMoving)*/ touchDirection = null;
                                         return;
                                     }
                                     deltaXYZ = deltaY;
@@ -305,35 +305,17 @@ public class DragItemScript : MonoBehaviour
                                             ? MoveDirections.Up
                                             : MoveDirections.Down).Value))
                                 {
-                                    /*var movingItemGameObject = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
-                                    var res = touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
-                                              && movingItemGameObject != null &&
-                                              movingItemGameObject.GetComponent<GameItemMovingScript>()
-                                                  .IsMoving;
-                                    if (res){ touchDirection = null;
-                                        return;
-                                    }
-                                    if (
-                                        !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
-                                            (touchDirection = realTouchPosition.x > touchOriginalPosition.x
-                                                ? MoveDirections.Right
-                                                : MoveDirections.Left).Value))
-                                    {
-                                        //if (res) touchDirection = null;
-                                        return;
-                                    }*/
-
                                     if (
                                         !pg.IsItemMovingAvailable(TouchedItem.X, TouchedItem.Y,
                                             (touchDirection = realTouchPosition.x > touchOriginalPosition.x
                                                 ? MoveDirections.Right
                                                 : MoveDirections.Left).Value))
                                     {
-                                    var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
+                                    /*var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
                                     if( touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
                                              && movingItemGameObject != null &&
                                               movingItemGameObject.GetComponent<GameItemMovingScript>()
-                                                  .IsMoving) touchDirection = null;
+                                                  .IsMoving)*/ touchDirection = null;
                                         return;
                                     }
                                     deltaXYZ = deltaX;

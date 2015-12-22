@@ -400,8 +400,11 @@ namespace Assets.Scripts
                     });
                 }
             }
-            if (counter == 0 && DropsCount == 0 && generateAfterDrop && CallbacksCount == 0)
+            if (generateAfterDrop)
+            {
+                _isDropDone = true;
                 GenerateField(true);
+            }
         }
 
         void OnLevelWasLoaded()

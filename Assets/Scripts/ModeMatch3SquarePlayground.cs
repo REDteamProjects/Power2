@@ -329,6 +329,7 @@ namespace Assets.Scripts
                 return 0;
             }
             HintTimeCounter = -1;
+            _isDropDone = false;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
             var pointsBank = 0;
