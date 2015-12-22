@@ -482,7 +482,7 @@ namespace Assets.Scripts
                     Game.Difficulty = sd.Difficulty;
 
                     CurrentTime = sd.CurrentPlaygroundTime;
-
+                    GameMovesCount = sd.MovesCount;
                     var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
                     if (mit != MaxInitialElementType)
                         MaxInitialElementType = mit;
@@ -490,7 +490,7 @@ namespace Assets.Scripts
                         ShowMaxInitialElement();
                     GenerateField(true);
                     RaisePoints(sd.Score);
-                    GameMovesCount = sd.MovesCount;
+                    
 
                     DifficultyRaisedGUI();
                     return;

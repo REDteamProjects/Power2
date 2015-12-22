@@ -137,6 +137,7 @@ namespace Assets.Scripts
                 Game.Difficulty = sd.Difficulty;
 
                 CurrentTime = sd.CurrentPlaygroundTime;
+                GameMovesCount = sd.MovesCount;
 
                 var mit = ((RhombusPlaygroundSavedata)sd).MaxInitialElementType;
                 if (mit != MaxInitialElementType)
@@ -148,7 +149,7 @@ namespace Assets.Scripts
                 if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
+                
 
                 if (sd.Items != null)
                 {

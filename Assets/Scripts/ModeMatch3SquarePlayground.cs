@@ -224,13 +224,13 @@ namespace Assets.Scripts
                 SavedataHelper.LoadData(ref sd);
 
                 Game.Difficulty = sd.Difficulty;
-
+                GameMovesCount = sd.MovesCount;
                 CurrentTime = sd.CurrentPlaygroundTime;
                 ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
                 if (!ProgressBar.Exists)
                     ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
+                
 
                 if (sd.Items != null)
                 {

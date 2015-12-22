@@ -127,6 +127,8 @@ namespace Assets.Scripts
 
                 CurrentTime = sd.CurrentPlaygroundTime;
 
+                GameMovesCount = sd.MovesCount;
+
                 var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
                 if (mit != MaxInitialElementType)
                     MaxInitialElementType = mit;
@@ -137,7 +139,6 @@ namespace Assets.Scripts
                 if(!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
 
                 if (sd.Items != null)
                 {
