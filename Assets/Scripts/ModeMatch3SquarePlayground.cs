@@ -33,7 +33,7 @@ namespace Assets.Scripts
             protected set
             {
                 base.CurrentScore = value;
-                if (CurrentScore >= Preferenses.ScoreRecord && Preferenses.MovesRecord > GameMovesCount)
+                if ((CurrentScore == Preferenses.ScoreRecord && Preferenses.MovesRecord > GameMovesCount) || CurrentScore > Preferenses.ScoreRecord)
                     Preferenses.MovesRecord = GameMovesCount;
                 switch (Game.Difficulty)
                 {
