@@ -808,15 +808,17 @@ namespace Assets.Scripts
                 if (Items[col][row] != null && Items[col][row] != DisabledItem)
                 {
                     var gobj = Items[col][row] as GameObject;
-                    if (gobj == null ||
+                    if (!(gobj == null ||
                         (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
-                         gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
-                    LabelShowing.ShowScalingLabel(gobj, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
-                    RaisePoints(AdditionalItemCost);
-                    if (ProgressBar != null)
-                        ProgressBar.AddTime(AdditionalItemCost * 2);
-                    RemoveGameItem(col, row);
-                    result = true;
+                         gobj.GetComponent<GameItemMovingScript>().IsMoving)))
+                    {
+                        LabelShowing.ShowScalingLabel(gobj, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
+                        RaisePoints(AdditionalItemCost);
+                        if (ProgressBar != null)
+                            ProgressBar.AddTime(AdditionalItemCost * 2);
+                        RemoveGameItem(col, row);
+                        result = true;
+                    }
                 }
                 
                 var col2 = FieldSize - col - 1;
