@@ -21,6 +21,20 @@ namespace Assets.Scripts
             get { return "Rhombus"; }
         }
 
+        protected override float HintDelayTime
+        {
+            get
+            {
+                switch (Game.Difficulty)
+                {
+                    case DifficultyLevel._veryhard:
+                        return base.HintDelayTime;
+                    default:
+                        return base.HintDelayTime * 2;
+                }
+            }
+        }
+
 
         public static Int32 ToOpenPoints
         {

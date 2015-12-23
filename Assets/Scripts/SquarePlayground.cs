@@ -20,7 +20,7 @@ namespace Assets.Scripts
         protected virtual int _spawnItemTypesInterval { get { return 5; } }
 
         protected const int AdditionalItemCost = 222;
-        private const float HintDelayTime = 4;
+        protected virtual float HintDelayTime { get { return 4; } }
         protected const int MaxAdditionalItemsCount = 2;
 
         private readonly AutoResetEvent _callbackReady = new AutoResetEvent(false);

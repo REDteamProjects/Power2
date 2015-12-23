@@ -17,6 +17,19 @@ namespace Assets.Scripts
         private float _pbMultiplier;*/
 
 
+        protected override float HintDelayTime 
+        { get 
+            { 
+                switch(Game.Difficulty)
+                {
+                    case DifficultyLevel._veryhard:
+                        return base.HintDelayTime;
+                    default:
+                        return base.HintDelayTime * 2;
+                }
+            } 
+        }
+
         public override IGameSettingsHelper Preferenses
         {
             get { return GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses; }
