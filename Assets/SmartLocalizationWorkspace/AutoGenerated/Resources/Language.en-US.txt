@@ -180,7 +180,7 @@ All rights reserved.</value>
 		<value>PSYCHO</value>
 	</data>
 	<data name="RateUs" xml:space="preserve">
-		<value>RATE NOW</value>
+		<value>RATE US</value>
 	</data>
 	<data name="ResetAll" xml:space="preserve">
 		<value>RESET

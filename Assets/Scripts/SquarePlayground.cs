@@ -358,26 +358,28 @@ namespace Assets.Scripts
             switch (actionIndex)
             {
                 case 0:
-                    var col = RandomObject.Next(0, FieldSize - 1);
-                    for (var row = 0; row < FieldSize; row++)
-                    {
-                        var gobj = Items[col][row] as GameObject;
-                        if (gobj == null) continue;
-                        var gi = gobj.GetComponent<GameItem>();
-                        if (gi.MovingType != GameItemMovingType.Static)
-                            RemoveGameItem(col, row);
-                    }
+                    int col = RandomObject.Next(0, FieldSize);
+                    for (int row = 0; row < FieldSize; row++)
+                        if (Items[col][row] != DisabledItem)
+                        {
+                            var gobj = Items[col][row] as GameObject;
+                            if (gobj == null) continue;
+                            var gi = gobj.GetComponent<GameItem>();
+                            if (gi.MovingType != GameItemMovingType.Static)
+                                RemoveGameItem(col, row);
+                        }
                     return;
                 case 1:
-                    var row1 = RandomObject.Next(0, FieldSize - 1);
-                    for (var col1 = 0; col1 < FieldSize; col1++)
-                    {
-                        var gobj = Items[col1][row1] as GameObject;
-                        if (gobj == null) continue;
-                        var gi = gobj.GetComponent<GameItem>();
-                        if (gi.MovingType != GameItemMovingType.Static)
-                            RemoveGameItem(col1, row1);
-                    }
+                    int row1 = RandomObject.Next(0, FieldSize);
+                    for (int col1 = 0; col1 < FieldSize; col1++)
+                        if (Items[col1][row1] != DisabledItem)
+                        {
+                            var gobj = Items[col1][row1] as GameObject;
+                            if (gobj == null) continue;
+                            var gi = gobj.GetComponent<GameItem>();
+                            if (gi.MovingType != GameItemMovingType.Static)
+                                RemoveGameItem(col1, row1);
+                        }
                     return;
             }
         }
@@ -396,23 +398,43 @@ namespace Assets.Scripts
                 });
         }
 
-        protected virtual void SpawnXItems()
+        protected void SpawnXItems()
         {
             while (XItemsCount < MaxAdditionalItemsCount)
             {
-                SpawnItemOnRandomPlace(GameItemType._XItem);
+                SpawnItemOnRandomPlace(GameItemType._XItem, XItemsCount % 2 == 0 ? MoveDirections.Left : MoveDirections.Right);
                 XItemsCount++;
             }
         }
 
-        private void SpawnItemOnRandomPlace(GameItemType type)
+        private void SpawnItemOnRandomPlace(GameItemType type, MoveDirections? area = null)
         {
             int col;
             int row;
+            int fromCol = 1;
+            int toCol = FieldSize - 1;
+            int fromRow = fromCol;
+            int toRow = toCol;
+            if(area != null)
+            switch (area.Value)
+            {
+                case MoveDirections.Left:
+                    fromCol = 1;
+                    toCol = FieldSize/2;
+                    fromRow = 1;
+                    toRow = FieldSize - 1;
+                    break;
+                case MoveDirections.Right:
+                    fromCol = FieldSize / 2;
+                    toCol = FieldSize - 1;
+                    fromRow = 1;
+                    toRow = FieldSize - 1;
+                    break;
+            }
             while (true)
             {
-                col = RandomObject.Next(1, FieldSize - 1);
-                row = RandomObject.Next(1, FieldSize - 1);
+                col = RandomObject.Next(fromCol, toCol);
+                row = RandomObject.Next(fromRow, toRow);
                 if (Items[col][row] == null || Items[col][row] == DisabledItem) continue;
                 var o = Items[col][row] as GameObject;
                 if (o == null) continue;
@@ -757,32 +779,32 @@ namespace Assets.Scripts
         public virtual GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null,
             MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
-            int newType;
+            GameItemType newType;
             var possibility = RandomObject.Next(1, 101);
-            var minItem = (int)MinType + _minTypePlus;//(int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
-            var isEven = (i + j) % 2;
+            //var minItem = (int)MinType + _minTypePlus;//(int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
+            //var isEven = (i + j) % 2;
             if (possibility <= 50)
-                possibility = isEven == 0 ? 50 : 20;
+                possibility = 50;//isEven == 0 ? 50 : 20;
             else
                 if (possibility <= 70)
-                    possibility = isEven == 0 ? 20 : 50;
+                    possibility = 20;//isEven == 0 ? 20 : 50;
             switch (possibility)
             {
                 case 50:
-                    newType = minItem;
+                    newType = GameItemType._1;//minItem;
                     break;
                 case 20:
-                    newType = RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
+                    newType = GameItemType._3;//RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
                     break;
                 default:
-                    newType = minItem + 1;
+                    newType = GameItemType._2;//minItem + 1;
                     break;
             }
             if (deniedTypes == null || deniedTypes.Count == 0)
-                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
-            while (deniedTypes.Contains((GameItemType)newType))
-                newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+                return GenerateGameItem(newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
+            while (deniedTypes.Contains(newType))
+                newType = (GameItemType)RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
+            return GenerateGameItem(newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
         }
 
         public virtual IEnumerable<Line> LinesWithItem(IEnumerable<Line> lines, int currentX, int currentY)
@@ -1152,8 +1174,8 @@ namespace Assets.Scripts
                 if (toGobj != null)
                 {
                     var toGi = toGobj.GetComponent<GameItem>();
-                    if (raiseMaxIEtype && toGi.Type == MaxInitialElementType + 1)
-                        MaxInitialElementType++;
+                    if (raiseMaxIEtype && toGi.Type > MaxInitialElementType)
+                        MaxInitialElementType = toGi.Type;
                     var newgobjtype = toGi.Type != GameItemType._2x ? toGi.Type + 1 : GameItemType._2x;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
                                 new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
@@ -1203,7 +1225,7 @@ namespace Assets.Scripts
                 l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected", true);
-            RemoveAdditionalItems();
+            //RemoveAdditionalItems();
 
             return linesCount;
         }
@@ -1219,6 +1241,7 @@ namespace Assets.Scripts
             var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             if (/*pausebackground == null || */gameOverLabelObject == null) return;
             PauseButtonScript.PauseMenuActive = true;
+            Time.timeScale = 0F;
             if (fg != null)
             {
                 //pausebackground.transform.SetParent(fg.transform);
@@ -1238,7 +1261,6 @@ namespace Assets.Scripts
                 {
                     gameOverMenu.transform.localScale = Vector3.one;
                     gameOverMenu.transform.localPosition = new Vector3(0, -70, 0);
-
                 });
             if (!isWinning)
                 DeviceButtonsHelpers.OnSoundAction(Power2Sounds.GameOver, false, true);
@@ -1378,11 +1400,20 @@ namespace Assets.Scripts
                 LogFile.Message("Mix field...", true);
                 var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
                 if (o == null) return;
+                if (!onlyNoMovesLabel)
+                {
+                    PlaygroundProgressBar.ProgressBarRun = false;
+                    callback = () =>
+                    {
+                        MixField();
+                        PlaygroundProgressBar.ProgressBarRun = true;
+                    };
+                }
                 var noMovesLabel = o.GetComponent<LabelShowing>();
                 noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
                     LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null,
-                    true, /*!onlyNoMovesLabel ? MixField :*/ callback, true);
-                if (!onlyNoMovesLabel) MixField();
+                    true, callback, true);
+                //if (!onlyNoMovesLabel) MixField();
             }
         }
 

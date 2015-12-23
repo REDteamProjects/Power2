@@ -36,37 +36,6 @@ namespace Assets.Scripts
             ScaleMultiplyer = 4.1f;
         }
 
-        protected override void VeryHardLevelAction(object sender, EventArgs e)
-        {
-            var actionIndex = RandomObject.Next(0, 2);
-            switch (actionIndex)
-            {
-                case 0:
-                    int col = RandomObject.Next(0, FieldSize - 1);
-                    for (int row = 0; row < FieldSize; row++)
-                    if (Items[col][row] != DisabledItem)
-                    {
-                        var gobj = Items[col][row] as GameObject;
-                        if (gobj == null) continue;
-                        var gi = gobj.GetComponent<GameItem>();
-                        if (gi.MovingType != GameItemMovingType.Static)
-                            RemoveGameItem(col, row);
-                    }
-                    return;
-                case 1:
-                    int row1 = RandomObject.Next(0, FieldSize - 1);
-                    for (int col1 = 0; col1 < FieldSize; col1++)
-                    if (Items[col1][row1] != DisabledItem)
-                    {
-                        var gobj = Items[col1][row1] as GameObject;
-                        if (gobj == null) continue;
-                        var gi = gobj.GetComponent<GameItem>();
-                        if (gi.MovingType != GameItemMovingType.Static)
-                            RemoveGameItem(col1, row1);
-                    }
-                    return;
-            }
-        }
 
         public override IEnumerable<Line> LinesWithItem(IEnumerable<Line> lines, int currentX, int currentY)
         {
@@ -485,15 +454,14 @@ namespace Assets.Scripts
                 if (toGobj != null)
                 {
                     var toGi = toGobj.GetComponent<GameItem>();
-                    if (raiseMaxIEtype && toGi.Type == MaxInitialElementType + 1)
-                        MaxInitialElementType++;
+                    if (raiseMaxIEtype && toGi.Type > MaxInitialElementType)
+                        MaxInitialElementType = toGi.Type;
                     var newgobjtype = toGi.Type != GameItemType._2x ? toGi.Type + 1 : GameItemType._2x;
                     var newgobj = InstantiateGameItem(newgobjtype, toCell,
                         new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f));
                     if (toGobj.GetComponent<GameItemMovingScript>().IsMoving)
                         CallbacksCount--;
                     Destroy(toGobj);
-                    //if (l.Orientation == LineOrientation.Horizontal)
                         Items[toObjX][toObjY] = newgobj;
                     var points = pointsMultiple * (int)Math.Pow(2, (double)newgobjtype);
                         if (newgobjtype <= MaxInitialElementType)
@@ -537,7 +505,7 @@ namespace Assets.Scripts
                 l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected", true);
-            RemoveAdditionalItems();
+            //RemoveAdditionalItems();
             
             return linesCount;
         }
@@ -681,14 +649,21 @@ namespace Assets.Scripts
             {
                     LogFile.Message("Mix field...", true);
                     var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (o != null)
+                    if (o == null) return;
+                    if (!onlyNoMovesLabel)
                     {
-                        var noMovesLabel = o.GetComponent<LabelShowing>();
-                        noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
-                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark,
-                             LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, /*!onlyNoMovesLabel ? MixField :*/ callback, true);
-                        if (!onlyNoMovesLabel) MixField();
+                        PlaygroundProgressBar.ProgressBarRun = false;
+                        callback = () =>
+                        {
+                            MixField();
+                            PlaygroundProgressBar.ProgressBarRun = true;
+                        };
                     }
+                    var noMovesLabel = o.GetComponent<LabelShowing>();
+                    noMovesLabel.ShowScalingLabel(new Vector3(0, -2, -4),
+                             LanguageManager.Instance.GetTextValue("NoMovesTitle"), GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark,
+                             LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, callback, true);
+                    //if (!onlyNoMovesLabel) MixField();
                 
             }
         }
@@ -832,11 +807,11 @@ namespace Assets.Scripts
         protected override bool RemoveAdditionalItems()
         {
             bool result = false;
-            for (int y = FieldSize / 2, x = 0; y < FieldSize; y++, x++)
+            for (int row = FieldSize / 2, col = 0; row < FieldSize; row++, col++)
             {
-                if (Items[x][y] != null && Items[x][y] != DisabledItem)
+                if (Items[col][row] != null && Items[col][row] != DisabledItem)
                 {
-                    var gobj = Items[x][y] as GameObject;
+                    var gobj = Items[col][row] as GameObject;
                     if (gobj == null ||
                         (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
                          gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
@@ -844,13 +819,13 @@ namespace Assets.Scripts
                     RaisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
                         ProgressBar.AddTime(AdditionalItemCost * 2);
-                    RemoveGameItem(x, y);
+                    RemoveGameItem(col, row);
                     result = true;
                 }
-                var x2 = FieldSize - x - 1;
-                if (x2 != x && Items[x2][y] != null && Items[x2][y] != DisabledItem)
+                var col2 = FieldSize - col - 1;
+                if (col2 != col && Items[col2][row] != null && Items[col2][row] != DisabledItem)
                 {
-                    var gobj = Items[x2][y] as GameObject;
+                    var gobj = Items[col2][row] as GameObject;
                     if (gobj == null ||
                         (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
                          gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
@@ -858,7 +833,7 @@ namespace Assets.Scripts
                     RaisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
                         ProgressBar.AddTime(AdditionalItemCost * 2);
-                    RemoveGameItem(x2, y);
+                    RemoveGameItem(col2, row);
                     result = true;
                 }
             }

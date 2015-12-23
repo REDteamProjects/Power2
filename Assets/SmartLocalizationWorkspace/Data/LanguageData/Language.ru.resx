@@ -179,7 +179,7 @@ R.E.D.team
 		<value>СУМАСШЕДШИЙ</value>
 	</data>
 	<data name="RateUs" xml:space="preserve">
-		<value>ОЦЕНИТЬ СЕЙЧАС</value>
+		<value>ОЦЕНИТЬ</value>
 	</data>
 	<data name="ResetAll" xml:space="preserve">
 		<value>СБРОСИТЬ ПРОГРЕСС</value>
