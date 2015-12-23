@@ -14,11 +14,6 @@ namespace Assets.Scripts
 
         public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<RhombusPlayground>(); } }
 
-        //protected override float ScaleMultiplyer
-        //{
-        //    get { return 4.1f; }
-        //}
-
         public RhombusPlayground()
             : base(new Dictionary<MoveDirections, Vector2>
             {
@@ -39,7 +34,7 @@ namespace Assets.Scripts
 
         public override IEnumerable<Line> LinesWithItem(IEnumerable<Line> lines, int currentX, int currentY)
         {
-            List<Line> ret = new List<Line>();
+            var ret = new List<Line>();
             foreach (var l in lines)
             {
                 if (l.Y1 > l.Y2)
@@ -53,7 +48,7 @@ namespace Assets.Scripts
                         ret.Add(l);
                 }
             }
-            return ret;//lines.Count(l => (l.X1 <= currentX && l.X2 >= currentX && l.Y1 <= currentY && l.Y2 >= currentY)) > 1;
+            return ret;
         }
         
         public override Vector3 GetCellCoordinates(int col, int row)
@@ -72,22 +67,23 @@ namespace Assets.Scripts
             var lineGenerationPoints = pointForCheck.Where(point => MatchType(firstItem.X + point.X, firstItem.Y + point.Y, itemType)).ToList();
             if (!lineGenerationPoints.Any()) return false;
 
-            int SP1X, SP1Y;
             foreach (var lineGenerationPoint in lineGenerationPoints)
             {
+                int sp1X;
+                int sp1Y;
                 if (secondItem.Y < 0)
                 {
                     LogFile.Message("secondItem.Y < 0 and firstItem: " + firstItem.X + " " + firstItem.Y + " secondItem "
                         + secondItem.X + " " + secondItem.Y + "lineGenerationPoint: " + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (secondItem.Y < -1)
                         {
-                            SP1X = firstItem.X + (secondItem.X > 0 ? 1 : -1);
-                            SP1Y = firstItem.Y - 1;
+                            sp1X = firstItem.X + (secondItem.X > 0 ? 1 : -1);
+                            sp1Y = firstItem.Y - 1;
                         }
                     else
                         {
-                            SP1X = firstItem.X + (lineGenerationPoint.Y > -2 ? -1 : 2);
-                            SP1Y = firstItem.Y + (lineGenerationPoint.Y > -2 ? 1 : -2);
+                            sp1X = firstItem.X + (lineGenerationPoint.Y > -2 ? -1 : 2);
+                            sp1Y = firstItem.Y + (lineGenerationPoint.Y > -2 ? 1 : -2);
                         }
                 }
                 else if (secondItem.Y > 0)
@@ -96,23 +92,23 @@ namespace Assets.Scripts
                         + lineGenerationPoint.X + " " + lineGenerationPoint.Y, true);
                     if (secondItem.Y > 1)
                         {
-                            SP1X = firstItem.X + (secondItem.X > 0 ? 1 : -1);
-                            SP1Y = firstItem.Y + 1;
+                            sp1X = firstItem.X + (secondItem.X > 0 ? 1 : -1);
+                            sp1Y = firstItem.Y + 1;
                         }
                     else
                         {
-                            SP1X = firstItem.X + (lineGenerationPoint.Y < 2 ? -1 : 2);
-                            SP1Y = firstItem.Y + (lineGenerationPoint.Y < 2 ? -1 : 2);
+                            sp1X = firstItem.X + (lineGenerationPoint.Y < 2 ? -1 : 2);
+                            sp1Y = firstItem.Y + (lineGenerationPoint.Y < 2 ? -1 : 2);
                         }
                 }
                 else
                     continue;
-                if ((SP1X < 0) || (SP1X >= FieldSize) || (SP1Y < 0) || (SP1Y >= FieldSize) || Items[SP1X][SP1Y] == null || Items[SP1X][SP1Y] == DisabledItem)
+                if ((sp1X < 0) || (sp1X >= FieldSize) || (sp1Y < 0) || (sp1Y >= FieldSize) || Items[sp1X][sp1Y] == null || Items[sp1X][sp1Y] == DisabledItem)
                     continue;
                 SelectedPoint1 = new Point
                 {
-                    X = SP1X,
-                    Y = SP1Y
+                    X = sp1X,
+                    Y = sp1Y
                 };
 
                 var diffX = Math.Abs(SelectedPoint1Coordinate.X - (firstItem.X + lineGenerationPoint.X));
@@ -286,24 +282,27 @@ namespace Assets.Scripts
                 {
                     LogFile.Message("No moves", true);
                     GenerateField(false, true);
-                    //ClearField();
                 }
                 UpdateTime();
                 return 0;
             }
+
             HintTimeCounter = -1;
             _isDropDone = false;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
+            
             var linesCount = lines.Count;
             var pointsBank = 0;
             var l = lines.FirstOrDefault();
-            int repeatForLine = -1;
-            bool raiseMaxIEtype = true;
+            var repeatForLine = -1;
+            var raiseMaxIEtype = true;
             int toObjX = 0, toObjY = 0;
-            Vector3 toCell = Vector3.zero;
+            var toCell = Vector3.zero;
+
             while (l != null && !IsGameOver)
             {
                 var pointsMultiple = 1;
+                
                 //Vertical
                 if (l.Orientation == LineOrientation.Vertical)
                 {
@@ -315,13 +314,11 @@ namespace Assets.Scripts
                         for (int i = l.X2, j = l.Y2; i >= l.X1 && j >= l.Y1; i--, j--)
                         {
                             var lwi = LinesWithItem(lines, i, j);
-                            if (lwi.Count() > 1)
-                            {
-                                //LogFile.Message("Items[" + l.X1 + "][" + j + "] = null;");
-                                toObjX = i;
-                                toObjY = j;
-                                repeatForLine = lines.IndexOf(lwi.Where(line => line != l).FirstOrDefault());
-                            }
+                            if (lwi.Count() <= 1) continue;
+                            
+                            toObjX = i;
+                            toObjY = j;
+                            repeatForLine = lines.IndexOf(lwi.FirstOrDefault(line => line != l));
                         }
                         toCell = GetCellCoordinates(toObjX, toObjY);
                     }
@@ -334,17 +331,14 @@ namespace Assets.Scripts
                     for (int i = l.X2, j = l.Y2; i >= l.X1 && j >= l.Y1; i--, j--)
                     {
                         if (Items[i][j] == null || Items[i][j] == DisabledItem || (i == toObjX && j == toObjY))
-                        {
-                            //LogFile.Message("Items[i][j] == null || Items[i][j] == DisabledItem");
                             continue;
-                        }
 
                         var gobj = Items[i][j] as GameObject;
                         if (gobj == null) continue;
 
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
                         var c = gobj.GetComponent<GameItemMovingScript>();
-                        //if (c.IsMoving) continue;
+
                         var cX = i;
                         var cY = j;
                         if (c.GetComponent<GameItem>().IsTouched)
@@ -376,6 +370,8 @@ namespace Assets.Scripts
                         }
                     }
                 }
+
+
                 //Horizontal
                 else
                 {
@@ -388,13 +384,11 @@ namespace Assets.Scripts
                         for (int i = l.X1, j = l.Y1; i <= l.X2 && j >= l.Y2; i++, j--)
                         {
                             var lwi = LinesWithItem(lines, i, j);
-                            if (lwi.Count() > 1)
-                            {
-                                //LogFile.Message("Items[" + l.X1 + "][" + j + "] = null;");
-                                toObjX = i;
-                                toObjY = j;
-                                repeatForLine = lines.IndexOf(lwi.Where(line => line != l).FirstOrDefault());
-                            }
+                            if (lwi.Count() <= 1) continue;
+                            
+                            toObjX = i;
+                            toObjY = j;
+                            repeatForLine = lines.IndexOf(lwi.FirstOrDefault(line => line != l));
                         }
                         toCell = GetCellCoordinates(toObjX, toObjY);
                     }
@@ -408,16 +402,13 @@ namespace Assets.Scripts
                     for (int i = l.X1, j = l.Y1; i <= l.X2 && j >= l.Y2; i++, j--)
                     {
                         if (Items[i][j] == null || Items[i][j] == DisabledItem || (i == toObjX && j == toObjY))
-                        {
-                            //LogFile.Message("Items[i][j] == null || Items[i][j] == DisabledItem");
                             continue;
-                        }
+
                         var gobj = Items[i][j] as GameObject;
                         if (gobj == null) continue;
                         gobj.transform.localPosition = 
                             new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
                         var c = gobj.GetComponent<GameItemMovingScript>();
-                        //if (c.IsMoving) continue;
 
                         var cX = i;
                         var cY = j;
@@ -450,6 +441,7 @@ namespace Assets.Scripts
                         }
                     }
                 }
+
                 var toGobj = Items[toObjX][toObjY] as GameObject;
                 if (toGobj != null)
                 {
@@ -467,13 +459,13 @@ namespace Assets.Scripts
                         if (newgobjtype <= MaxInitialElementType)
                         {
                             pointsBank += points;
-                            LabelShowing.ShowScalingLabel(newgobj,//new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                            LabelShowing.ShowScalingLabel(newgobj,
                                 "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
                         }
                         else
                         {
                             pointsBank += 2 * points;
-                            LabelShowing.ShowScalingLabel(newgobj, //new Vector3(newgobj.transform.localPosition.x, newgobj.transform.localPosition.y + GameItemSize / 2, newgobj.transform.localPosition.z - 1),
+                            LabelShowing.ShowScalingLabel(newgobj, 
                                 "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
                         }
                 }
@@ -482,10 +474,7 @@ namespace Assets.Scripts
                     DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Line, false);
 
                 LogFile.Message("line collected", true);
-                if (repeatForLine == -1)
-                    l = lines.FirstOrDefault();
-                else
-                    l = lines[repeatForLine - 1];
+                l = repeatForLine == -1 ? lines.FirstOrDefault() : lines[repeatForLine - 1];
 
                 if (ProgressBar != null)
                     ProgressBar.AddTime(pointsMultiple * 2);
@@ -505,8 +494,7 @@ namespace Assets.Scripts
                 l = lines.FirstOrDefault();
             }
             LogFile.Message("All lines collected", true);
-            //RemoveAdditionalItems();
-            
+
             return linesCount;
         }
 
@@ -540,37 +528,37 @@ namespace Assets.Scripts
                         var gobj = Items[downItemCol][downItemRow] as GameObject;
                         if (Items[downItemCol][downItemRow] == null || Items[downItemCol][downItemRow] == DisabledItem)
                             break;
-                        if (!AreStaticItemsDroppable && gobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
+                        if (gobj != null && (!AreStaticItemsDroppable && gobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
                             downItemRow--;
                         else
                         {
                             generateAfterDrop = false;
-                            var gims = gobj.GetComponent<GameItemMovingScript>();
-                            //var dis = GetComponent<DragItemScript>();
-                            if (gims.IsMoving || gobj.GetComponent<GameItem>().IsTouched)
-                                break;
-                            //DropsCount++;
-                            Items[col][row] = Items[downItemCol][downItemRow];
-                            Items[downItemCol][downItemRow] = null;
-                            CallbacksCount++;
-                            var coord = GetCellCoordinates(col, row);
-                            gims.MoveTo(coord.x, coord.y, rhombusDropSpeed, (item, result) =>
+                            if (gobj != null)
                             {
-                                //DropsCount--;
-                                CallbacksCount--;
-                                if (!result) return;
-                                LogFile.Message("New item droped Items[" + downItemCol + "][" + downItemRow + "] DC: " + DropsCount, true);
-                            });
+                                var gims = gobj.GetComponent<GameItemMovingScript>();
+
+                                if (gims.IsMoving || gobj.GetComponent<GameItem>().IsTouched)
+                                    break;
+
+                                Items[col][row] = Items[downItemCol][downItemRow];
+                                Items[downItemCol][downItemRow] = null;
+                                CallbacksCount++;
+                                var coord = GetCellCoordinates(col, row);
+                                gims.MoveTo(coord.x, coord.y, rhombusDropSpeed, (item, result) =>
+                                {
+                                    CallbacksCount--;
+                                    if (!result) return;
+                                    LogFile.Message("New item droped Items[" + downItemCol + "][" + downItemRow + "] DC: " + DropsCount, true);
+                                });
+                            }
                             break;
                         }
                     }
                 }
             }
-            if (generateAfterDrop)
-            {
-                _isDropDone = true;
-                GenerateField(true);
-            }
+            if (!generateAfterDrop) return;
+            _isDropDone = true;
+            GenerateField(true);
         }
 
         public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false, LabelAnimationFinishedDelegate callback = null)
@@ -686,6 +674,7 @@ namespace Assets.Scripts
         public override bool IsPointInLine(int col, int row)
         {
             var verticalCount = 0;
+            
             //Vertical before
             var gobj = Items[col][row] as GameObject;
             if (gobj == null) return false;
@@ -702,6 +691,7 @@ namespace Assets.Scripts
                 else
                     break;
             }
+            
             //Vertical after
             if (verticalCount < 3)
             {
@@ -723,6 +713,7 @@ namespace Assets.Scripts
             if (verticalCount > 1)
                 return true;
             var horizontalCount = 0;
+            
             //Horizontal before
             for (int i = col - 1, j = row + 1; i >= 0 && j < FieldSize; i--, j++)
             {
@@ -762,12 +753,15 @@ namespace Assets.Scripts
                 {
                     if(Items[col][row] == null)
                         return true;
+
                     if (Items[col][row] == DisabledItem)
-                        //if (Items[col][row] == null) Debug.LogError("Items[col][row] null in checkForPossibleMoves");
                         continue;
+
                     var gobj = Items[col][row] as GameObject;
                     if (gobj == null) continue;
+
                     var gi = gobj.GetComponent<GameItem>();
+
                     var positionPoint = new Point { X = col, Y = row };
                     // возможна горизонтальная, две подряд      
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 1, Y = 1 }, new List<Point>
@@ -777,6 +771,7 @@ namespace Assets.Scripts
                      }
                         ))
                         return true;
+
                     // возможна горизонтальная, две по разным сторонам      
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 2, Y = 2 }, new List<Point>
                      {
@@ -784,6 +779,7 @@ namespace Assets.Scripts
                      }
                         ))
                         return true;
+
                     // возможна вертикальная, две подряд      
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 1, Y = -1 }, new List<Point>
                      {
@@ -792,6 +788,7 @@ namespace Assets.Scripts
                      }
                         ))
                         return true;
+
                     // возможна вертикальная, две по разным сторонам       
                     if (MatchPattern(gi.Type, positionPoint, new Point { X = 2, Y = -2 }, new List<Point>
                      {
@@ -803,10 +800,9 @@ namespace Assets.Scripts
             return false;
         }
 
-
         protected override bool RemoveAdditionalItems()
         {
-            bool result = false;
+            var result = false;
             for (int row = FieldSize / 2, col = 0; row < FieldSize; row++, col++)
             {
                 if (Items[col][row] != null && Items[col][row] != DisabledItem)
@@ -822,6 +818,7 @@ namespace Assets.Scripts
                     RemoveGameItem(col, row);
                     result = true;
                 }
+                
                 var col2 = FieldSize - col - 1;
                 if (col2 != col && Items[col2][row] != null && Items[col2][row] != DisabledItem)
                 {
