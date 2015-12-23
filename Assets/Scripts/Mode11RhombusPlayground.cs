@@ -158,9 +158,10 @@ namespace Assets.Scripts
                 GameMovesCount = sd.MovesCount;
 
                 var mit = ((RhombusPlaygroundSavedata)sd).MaxInitialElementType;
-                if (mit != MaxInitialElementType)
-                    MaxInitialElementType = mit;
-                else
+                
+                MaxInitialElementType = mit;
+
+                if (mit == MaxInitialElementType)
                     ShowMaxInitialElement();
 
                 /*ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);

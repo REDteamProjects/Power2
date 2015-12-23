@@ -515,7 +515,8 @@ namespace Assets.Scripts
                     var side = col % 2 == 1 ? 1 : -1;
                     var downItemRow = row - 1;
                     var downItemCol = col + side;
-                    if (downItemCol < 0 || downItemCol >= FieldSize || Items[downItemCol][downItemRow] == DisabledItem || Items[downItemCol][downItemRow] == null)
+                    if (downItemCol < 0 || downItemCol >= FieldSize || Items[downItemCol][downItemRow] == DisabledItem || Items[downItemCol][downItemRow] == null || 
+                        (Items[downItemCol][downItemRow] as GameObject).GetComponent<GameItem>().MovingType == GameItemMovingType.Static)
                         downItemCol = col - side;
                     if (downItemCol < 0 || downItemCol >= FieldSize)
                         continue;
