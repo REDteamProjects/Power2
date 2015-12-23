@@ -12,9 +12,9 @@ namespace Assets.Scripts
     class Mode6x6SquarePlayground : SquarePlayground
     {
         private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.22F, Z = -1 };
-        private float _pbState;
+        /*private float _pbState;
         private float _pbUpper;
-        private float _pbMultiplier;
+        private float _pbMultiplier;*/
 
 
         public override IGameSettingsHelper Preferenses
@@ -133,9 +133,9 @@ namespace Assets.Scripts
 
                 RaisePoints(sd.Score);
 
-                _pbState = sd.ProgressBarStateData.State;
+                /*_pbState = sd.ProgressBarStateData.State;
                 _pbUpper = sd.ProgressBarStateData.Upper;
-                _pbMultiplier = sd.ProgressBarStateData.Multiplier;
+                _pbMultiplier = sd.ProgressBarStateData.Multiplier;*/
 
                 if (sd.Items != null)
                 {
@@ -163,9 +163,9 @@ namespace Assets.Scripts
                 }
             }
 
-            _pbState = ProgressBar.State;
+            /*_pbState = ProgressBar.State;
             _pbUpper = ProgressBar.Upper;
-            _pbMultiplier = ProgressBar.Multiplier;
+            _pbMultiplier = ProgressBar.Multiplier;*/
 
             
 
