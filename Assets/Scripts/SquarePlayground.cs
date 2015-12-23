@@ -280,10 +280,10 @@ namespace Assets.Scripts
                     GenerateGameOverMenu(true);
                     return;
             }
-            /*if (MaxType - _spawnItemTypesInterval > GameItemType._1)
+            if (MaxType - _spawnItemTypesInterval > GameItemType._1)
             {
                 DestroyElements(new List<GameItemType> { MinType - 1, MinType - 1 + _minTypePlus });
-            }*/
+            }
 
         }
 
@@ -779,32 +779,32 @@ namespace Assets.Scripts
         public virtual GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null,
             MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
-            GameItemType newType;
+            int newType;
             var possibility = RandomObject.Next(1, 101);
-            //var minItem = (int)MinType + _minTypePlus;//(int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
-            //var isEven = (i + j) % 2;
+            var minItem = (int)MinType + _minTypePlus;//(int)MaxType > FieldSize ? (int)MinType + 1 + _minTypePlus : (int)GameItemType._1;
+            var isEven = (i + j) % 2;
             if (possibility <= 50)
-                possibility = 50;//isEven == 0 ? 50 : 20;
+                possibility = isEven == 0 ? 50 : 20;
             else
                 if (possibility <= 70)
-                    possibility = 20;//isEven == 0 ? 20 : 50;
+                    possibility = isEven == 0 ? 20 : 50;
             switch (possibility)
             {
                 case 50:
-                    newType = GameItemType._1;//minItem;
+                    newType = minItem;
                     break;
                 case 20:
-                    newType = GameItemType._3;//RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
+                    newType = RandomObject.Next(minItem + 2, (int)MaxInitialElementType + 1);
                     break;
                 default:
-                    newType = GameItemType._2;//minItem + 1;
+                    newType = minItem + 1;
                     break;
             }
             if (deniedTypes == null || deniedTypes.Count == 0)
-                return GenerateGameItem(newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
-            while (deniedTypes.Contains(newType))
-                newType = (GameItemType)RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem(newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
+            while (deniedTypes.Contains((GameItemType)newType))
+                newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
+            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
         }
 
         public virtual IEnumerable<Line> LinesWithItem(IEnumerable<Line> lines, int currentX, int currentY)
