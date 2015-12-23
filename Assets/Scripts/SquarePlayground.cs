@@ -280,10 +280,10 @@ namespace Assets.Scripts
                     GenerateGameOverMenu(true);
                     return;
             }
-            if (MaxType - _spawnItemTypesInterval > GameItemType._1)
+            /*if (MaxType - _spawnItemTypesInterval > GameItemType._1)
             {
                 DestroyElements(new List<GameItemType> { MinType - 1, MinType - 1 + _minTypePlus });
-            }
+            }*/
 
         }
 
