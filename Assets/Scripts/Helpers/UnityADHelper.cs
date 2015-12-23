@@ -35,24 +35,12 @@ public class UnityADHelper : MonoBehaviour
     }
 
 
-    private void OnAdTap()
-    {
-        AdTaps++;
-        if (AdTaps != 16) return;
-        switch (Type)
-        {
-            case AdMobADType.Banner:
-                DeleteBanner();
-                break;
-            case AdMobADType.Interstitial:
-                DeleteInterstitial();
-                break;
-        }
-    }
-
     void Awake()
     {
 #if !DEBUG
+        if (AdTaps >= 16)
+            return;
+
         switch (Type)
         {
             case AdMobADType.NoAd:
@@ -87,9 +75,6 @@ public class UnityADHelper : MonoBehaviour
 
     private void CreateBanner()
     {
-        if (AdTaps > 16)
-            return;
-
         try 
         { 
             var bannerId = String.Empty;
@@ -113,34 +98,24 @@ public class UnityADHelper : MonoBehaviour
                 .AddTestDevice(AdRequest.TestDeviceSimulator)
 #endif
                 .Build();
+
+            bannerView.AdOpened += (sender, args) =>
+            {
+                AdTaps++;
+                if (AdTaps != 16) return;
+                DeleteBanner();
+            };
             // Load the banner with the request.
             bannerView.LoadAd(request);
-
-            GetComponent<Button>().onClick.AddListener(OnAdTap);
         }
         catch (Exception ex)
         {
             LogFile.Message(ex.Message + ex.StackTrace);
         }
     }
-
-    private void DeleteBanner()
-    {
-        if (bannerView != null)
-            bannerView.Destroy();
-        GetComponent<Button>().onClick.RemoveListener(OnAdTap);
-    }
-
-    private void DeleteInterstitial()
-    {
-        if (interstitialAd != null)
-            interstitialAd.Destroy();
-    }
-
+    
     private void CreateInterstitial()
     {
-        if (AdTaps > 16)
-            return;
         try
         {
             var interstitialId = String.Empty;
@@ -148,9 +123,9 @@ public class UnityADHelper : MonoBehaviour
 #if UNITY_ANDROID && !UNITY_EDITOR
             interstitialId = "ca-app-pub-8526262957509496/1817366765";
 #endif
-#if UNITY_IOS && !UNITY_EDITOR
-        interstitialId = "ca-app-pub-8526262957509496/1817366765";
-#endif
+//#if UNITY_IOS && !UNITY_EDITOR
+//        interstitialId = "ca-app-pub-8526262957509496/1817366765";
+//#endif
             if (String.IsNullOrEmpty(interstitialId))
                 return;
 
@@ -162,7 +137,15 @@ public class UnityADHelper : MonoBehaviour
                 .AddTestDevice(AdRequest.TestDeviceSimulator)
 #endif
                 .Build();
+
             // Load the interstitial with the request.
+            interstitial.AdOpened += (sender, args) =>
+            {
+                AdTaps++;
+                if (AdTaps != 16) return;
+                DeleteInterstitial();
+            };
+
             interstitial.LoadAd(request);
         }
         catch (Exception ex)
@@ -170,4 +153,18 @@ public class UnityADHelper : MonoBehaviour
             LogFile.Message(ex.Message + ex.StackTrace);
         }
     }
+    
+    private void DeleteBanner()
+    {
+        if (bannerView != null)
+            bannerView.Destroy();
+    }
+
+    private void DeleteInterstitial()
+    {
+        if (interstitialAd != null)
+            interstitialAd.Destroy();
+    }
+
+    
 }

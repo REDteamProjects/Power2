@@ -17,7 +17,7 @@ namespace Assets.Scripts.Helpers
             Application.OpenURL("https://www.windowsphone.com");
 #endif
 #if UNITY_ANDROID
-            Application.OpenURL("market://details?id=com.REDteam.TwoX/");
+            Application.OpenURL("market://details?id=com.REDteam.TwoX");
 #endif
 #if UNITY_IOS
             Application.OpenURL("http://www.itunes.com");
