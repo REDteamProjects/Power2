@@ -76,7 +76,7 @@ namespace Assets.Scripts
 //#endif
             _availableScenes.Add("11Rhombus");
 
-            if (!PlayerPrefs.HasKey("PressLogoLabel"))
+            //if (!PlayerPrefs.HasKey("PressLogoLabel"))
             {
                 _pressLogoLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject);
                 if (_pressLogoLabel != null)
@@ -84,7 +84,7 @@ namespace Assets.Scripts
                     _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI").transform);
                     var pressLogoLabelShowing = _pressLogoLabel.GetComponent<LabelShowing>();
                     pressLogoLabelShowing.ShowScalingLabel(new Vector3(125, 350, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
-                        GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 25, LabelShowing.minLabelFontSize-15);
+                        GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize+10, LabelShowing.minLabelFontSize+40, 1, null, false, null, false, 0, new Vector3(0.3f,0.3f,1));
                 }
             }
 

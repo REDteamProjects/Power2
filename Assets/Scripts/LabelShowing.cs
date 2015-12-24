@@ -143,7 +143,7 @@ public class LabelShowing : MonoBehaviour {
     }
 
     public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null,
-        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, bool toForeground = false, int rotateAngle = 0)
+        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, bool toForeground = false, int rotateAngle = 0, Vector3? scaleTo = null)
     {
         if (toForeground)
         {
@@ -153,7 +153,7 @@ public class LabelShowing : MonoBehaviour {
             position = fg.transform.InverseTransformPoint(position);
             position.z = z;
         }
-        transform.localScale = Vector3.one;
+        transform.localScale = scaleTo == null ? Vector3.one : scaleTo.Value;
         _step = step;
         //animateToSize += (animateToSize - animateFromSize) % _step;
 
