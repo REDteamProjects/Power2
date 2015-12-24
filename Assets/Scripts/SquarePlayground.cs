@@ -51,6 +51,7 @@ namespace Assets.Scripts
         protected bool CallClearChainsAfterExchange;
         protected int CurrentExchangeItemsCount;
         protected float InitialMoveTimerMultiple = 32;
+        private readonly Vector3 _selectionScale = new Vector3(1.1f, 1.1f, 1f);
 
         #region Scenes Arguments
 
@@ -75,6 +76,11 @@ namespace Assets.Scripts
         protected virtual Vector3 GameItemScale
         {
             get { return Vector3.one; }
+        }
+
+        protected virtual Vector3 SelectionScale
+        {
+            get { return _selectionScale; }
         }
 
         protected GameItemType MinType
@@ -403,7 +409,7 @@ namespace Assets.Scripts
                 });
         }
 
-        protected void SpawnXItems()
+        protected virtual void SpawnXItems()
         {
             while (XItemsCount < MaxAdditionalItemsCount)
             {
@@ -412,7 +418,7 @@ namespace Assets.Scripts
             }
         }
 
-        private void SpawnItemOnRandomPlace(GameItemType type, MoveDirections? area = null)
+        protected void SpawnItemOnRandomPlace(GameItemType type, MoveDirections? area = null, Vector3? scaleTo = null)
         {
             int col;
             int row;
@@ -451,7 +457,7 @@ namespace Assets.Scripts
             }
             RemoveGameItem(col, row, (item, r) =>
             {
-                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero, GameItemScale);
+                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero, scaleTo == null ? GameItemScale : scaleTo);
             });
         }
 
@@ -714,7 +720,7 @@ namespace Assets.Scripts
                     return;
                 }
                 _selectedPoint1.transform.SetParent(parentGobj.transform);
-                _selectedPoint1.transform.localScale = new Vector3(1.1f, 1.1f);
+                _selectedPoint1.transform.localScale = SelectionScale;
                 _selectedPoint1.transform.localPosition = new Vector3(0, -0.03f, -1);
 
                 _selectedPoint2 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
@@ -724,7 +730,7 @@ namespace Assets.Scripts
                     return;
                 }
                 _selectedPoint2.transform.SetParent(parentGobj2.transform);
-                _selectedPoint2.transform.localScale = new Vector3(1.1f, 1.1f);
+                _selectedPoint2.transform.localScale = SelectionScale;
                 _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
             HintTimeCounter += Time.deltaTime;

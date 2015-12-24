@@ -16,6 +16,8 @@ namespace Assets.Scripts
         public static readonly int GameOverPoints = 32768;
         private GameItemType toBlock;
         private GameItemType lastMoved;
+        private readonly Vector3 _selectionScale = new Vector3(0.8f, 0.8f, 1f);
+        private readonly Vector3 _6x6ItemsScale = new Vector3(0.74f, 0.74f, 1f);
 
         public static Int32 ToOpenPoints
         {
@@ -26,6 +28,12 @@ namespace Assets.Scripts
         {
             get { return "Match3"; }
         }
+
+        protected override Vector3 SelectionScale
+        {
+            get { return _selectionScale; }
+        }
+
 
         public override int CurrentScore
         {
@@ -238,7 +246,7 @@ namespace Assets.Scripts
                         for (var j = 0; j < FieldSize; j++)
                         {
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
-                                ? GenerateGameItem(sd.Items[i][j], i, j,null, null, false, null, null, sd.MovingTypes[i][j])
+                                ? GenerateGameItem(sd.Items[i][j], i, j, null, sd.Items[i][j] == GameItemType._XItem ? _6x6ItemsScale : Vector3.one, false, null, null, sd.MovingTypes[i][j])
                                 : null;
                             switch (sd.Items[i][j])
                             {
@@ -426,6 +434,15 @@ namespace Assets.Scripts
                 lastMoved = gobj.GetComponent<GameItem>().Type;
             }
             return base.GameItemsExchange(x1, y1, x2, y2, speed, isReverse, exchangeCallback);
+        }
+
+        protected override void SpawnXItems()
+        {
+            while (XItemsCount < MaxAdditionalItemsCount)
+            {
+                SpawnItemOnRandomPlace(GameItemType._XItem, XItemsCount % 2 == 0 ? MoveDirections.Left : MoveDirections.Right, _6x6ItemsScale);
+                XItemsCount++;
+            }
         }
 
     }
