@@ -107,7 +107,7 @@ namespace Assets.Scripts
                     RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -10);
                     manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
                 }
-                manual.transform.localScale = new Vector3(45, 45, 0);
+                manual.transform.localScale = new Vector3(25, 25, 0);
                 manual.transform.localPosition = new Vector3(0, 30, -1);
                 var rateNowButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateNowButton");
                 if (rateNowButton != null)
