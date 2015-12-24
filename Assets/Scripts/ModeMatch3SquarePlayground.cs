@@ -12,7 +12,7 @@ namespace Assets.Scripts
 {
     class ModeMatch3SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.36F, Y = 12.06F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint { X = -192/*-13.35F*/, Y = 172/*12.05F*/, Z = -1 };
         public static readonly int GameOverPoints = 32768;
         private GameItemType toBlock;
         private GameItemType lastMoved;
@@ -190,7 +190,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        public override float GameItemSize { get { return 3.805f; } }
+        public override float GameItemSize { get { return 55f;/*3.805f;*/ } }
 
         void OnLevelWasLoaded()
         {
@@ -238,7 +238,7 @@ namespace Assets.Scripts
                         for (var j = 0; j < FieldSize; j++)
                         {
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
-                                ? GenerateGameItem(sd.Items[i][j], i, j, null, false, null, null, sd.MovingTypes[i][j])
+                                ? GenerateGameItem(sd.Items[i][j], i, j,null, null, false, null, null, sd.MovingTypes[i][j])
                                 : null;
                             switch (sd.Items[i][j])
                             {
@@ -279,10 +279,10 @@ namespace Assets.Scripts
         {
             var newType = RandomObject.Next((int)(/*MaxType > (GameItemType)FieldSize ? MinType + 1 :*/ GameItemType._1), (int)MaxInitialElementType + 1);
             if (deniedTypes == null || deniedTypes.Count == 0)
-                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
+                return GenerateGameItem((GameItemType)newType, i, j, generateOn, null, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+            return GenerateGameItem((GameItemType)newType, i, j, generateOn, null, isItemDirectionChangable, dropSpeed, movingCallback);
         }
 
         public void OnDestroy()

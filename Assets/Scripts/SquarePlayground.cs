@@ -72,6 +72,11 @@ namespace Assets.Scripts
             get { return ""; }
         }
 
+        protected virtual Vector3 GameItemScale
+        {
+            get { return Vector3.one; }
+        }
+
         protected GameItemType MinType
         {
             get { return MaxType - _spawnItemTypesInterval/*FieldSize*/ > GameItemType._1 ? MaxType - _spawnItemTypesInterval/*FieldSize + 1*/ : GameItemType._1; }
@@ -392,7 +397,7 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
             showTimeLabel.ShowScalingLabel(new Vector3(ProgressBar.Coordinate.x, ProgressBar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-                GameColors.DefaultLabelColor, GameColors.DefaultLabelColor, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 56, 1, null, true, () =>
+                GameColors.DefaultLabelColor, GameColors.DefaultLabelColor, LabelShowing.minLabelFontSize - 30, LabelShowing.maxLabelFontSize - 40, 1, null, true, () =>
                 {
                     PlaygroundProgressBar.ProgressBarRun = true;
                 });
@@ -446,7 +451,7 @@ namespace Assets.Scripts
             }
             RemoveGameItem(col, row, (item, r) =>
             {
-                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero);
+                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero, GameItemScale);
             });
         }
 
@@ -460,7 +465,7 @@ namespace Assets.Scripts
                 cmi.transform.localPosition = new Vector3(cmi.transform.localPosition.x, cmi.transform.localPosition.y, 0);
             gobj.transform.SetParent(fg.transform);
             gobj.transform.localPosition = new Vector3(0, 400f, -1);
-            gobj.transform.localScale = new Vector3(16, 16);
+            gobj.transform.localScale = Vector3.one;//new Vector3(16, 16);
             gobj.name = "MaximumItem";
             gobj.AddComponent<Button>();
             var image = gobj.AddComponent<Image>();
@@ -709,7 +714,7 @@ namespace Assets.Scripts
                     return;
                 }
                 _selectedPoint1.transform.SetParent(parentGobj.transform);
-                _selectedPoint1.transform.localScale = new Vector3(1.2f, 1.2f);
+                _selectedPoint1.transform.localScale = new Vector3(1.1f, 1.1f);
                 _selectedPoint1.transform.localPosition = new Vector3(0, -0.03f, -1);
 
                 _selectedPoint2 = Instantiate(Resources.Load(ItemPrefabName + "_SelectedItem")) as GameObject;
@@ -719,7 +724,7 @@ namespace Assets.Scripts
                     return;
                 }
                 _selectedPoint2.transform.SetParent(parentGobj2.transform);
-                _selectedPoint2.transform.localScale = new Vector3(1.2f, 1.2f);
+                _selectedPoint2.transform.localScale = new Vector3(1.1f, 1.1f);
                 _selectedPoint2.transform.localPosition = new Vector3(0, -0.03f, -1);
             }
             HintTimeCounter += Time.deltaTime;
@@ -740,7 +745,7 @@ namespace Assets.Scripts
             return newgobj;
         }
 
-        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
+        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, Vector3? scaleTo = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
             if (!generateOn.HasValue)
                 generateOn = new Vector2(0, FieldSize - j);
@@ -755,7 +760,7 @@ namespace Assets.Scripts
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y - 6 * GameItemSize), true);
             CallbacksCount++;
-            var toS = GameItemSize / ScaleMultiplyer;
+            //var toS = GameItemSize / ScaleMultiplyer;
             c.MoveTo(cell.x, cell.y, dropSpeed.HasValue ? dropSpeed.Value : 10 - i % 2 + j * 1.5f, (item, result) =>
             {
                 CallbacksCount--;
@@ -770,7 +775,7 @@ namespace Assets.Scripts
                         if (CallbacksCount == CurrentExchangeItemsCount)
                             CallClearChainsAfterExchange = true;
                 }
-            }, new Vector2(InitialGameItem.X, InitialGameItem.Y + GameItemSize / 2), new Vector3(toS, toS, 1f), isItemDirectionChangable,
+            }, new Vector2(InitialGameItem.X, InitialGameItem.Y + GameItemSize / 2), scaleTo != null ? scaleTo : Vector3.one/*new Vector3(toS, toS, 1f)*/, isItemDirectionChangable,
             null, Power2Sounds.Drop);
 
             return gobj;
@@ -801,10 +806,10 @@ namespace Assets.Scripts
                     break;
             }
             if (deniedTypes == null || deniedTypes.Count == 0)
-                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
+                return GenerateGameItem((GameItemType)newType, i, j, generateOn, GameItemScale, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+            return GenerateGameItem((GameItemType)newType, i, j, generateOn, GameItemScale, isItemDirectionChangable, dropSpeed, movingCallback);
         }
 
         public virtual IEnumerable<Line> LinesWithItem(IEnumerable<Line> lines, int currentX, int currentY)
@@ -1177,8 +1182,8 @@ namespace Assets.Scripts
                     if (raiseMaxIEtype && toGi.Type > MaxInitialElementType)
                         MaxInitialElementType = toGi.Type;
                     var newgobjtype = toGi.Type != GameItemType._2x ? toGi.Type + 1 : GameItemType._2x;
-                    var newgobj = InstantiateGameItem(newgobjtype, toCell,
-                                new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
+                    var newgobj = InstantiateGameItem(newgobjtype, toCell, GameItemScale);
+                                //new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 0f));
                     if (toGobj.GetComponent<GameItemMovingScript>().IsMoving)
                         CallbacksCount--;
                     Destroy(toGobj);
@@ -1348,7 +1353,7 @@ namespace Assets.Scripts
                                         var resRow = RandomObject.Next(resCol, FieldSize);
                                         if (resCol == resRow)
                                         {
-                                            Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(0, generateOnY));
+                                            Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(0, generateOnY), GameItemScale);
                                             ToMoveItemsCount++;
                                             generateOnY++;
                                             continue;
@@ -1813,8 +1818,8 @@ namespace Assets.Scripts
                 _rightComboLabel = labelObject;
             }
 
-            comboLabel.ShowScalingLabel(new Vector3(isLeft ? -10 : 10, InitialGameItem.Y + GameItemSize * 2.5f, -1),
-                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize / 3, LabelShowing.minLabelFontSize, 2, null, true, null, false,
+            comboLabel.ShowScalingLabel(new Vector3(isLeft ? -150 : 150, InitialGameItem.Y + GameItemSize * 2.5f, -1),
+                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize / 4, LabelShowing.minLabelFontSize/2, 2, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
@@ -1867,7 +1872,7 @@ namespace Assets.Scripts
             }
 
             var giss = o.GetComponent<GameItemScalingScript>();
-            var toSize = GameItemSize / ScaleMultiplyer / 4;
+            var toSize = 0.5f;
             CallbacksCount++;
             Items[i][j] = null;
             _isDropDone = false;
@@ -1909,7 +1914,7 @@ namespace Assets.Scripts
                 UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -6);
                 manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
             }
-            manual.transform.localScale = new Vector3(45, 45, 0);
+            //manual.transform.localScale = new Vector3(45, 45, 0);
             manual.transform.localPosition = new Vector3(0, 30, -2);
             UserHelpScript.ShowUserHelpCallback = callback;
             PlayerPrefs.SetInt(modulePostfix, 1);

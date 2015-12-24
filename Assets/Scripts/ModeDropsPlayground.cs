@@ -536,7 +536,7 @@ namespace Assets.Scripts
             })
                 ;
             var gameItem = (type != GameItemType.NullItem) ?
-                GenerateGameItem(type, col, row, new Vector2(0, 1), true, 2, callback)
+                GenerateGameItem(type, col, row, new Vector2(0, 1),null, true, 2, callback)
                 : GenerateGameItem(col, row, null, new Vector2(0, 1), true, 2, callback);
 
             if (gameItem != null)

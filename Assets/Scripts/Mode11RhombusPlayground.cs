@@ -11,7 +11,7 @@ namespace Assets.Scripts
 {
     class Mode11RhombusPlayground : RhombusPlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.1F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -192/*-12.8F*/, Y = 182/*12.1F*/, Z = -1 };
         /*private float _pbState;
         private float _pbUpper;
         private float _pbMultiplier;*/
@@ -104,7 +104,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 11; } }
 
-        public override float GameItemSize { get { return 3.7f; } }
+        public override float GameItemSize { get { return 55.5f;/*3.7f;*/ } }
 
         //public override GameItemType MaxInitialElementType
         //{
@@ -181,7 +181,7 @@ namespace Assets.Scripts
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
                                 ? (sd.Items[i][j] == GameItemType.DisabledItem
                                 ? DisabledItem
-                                : GenerateGameItem(sd.Items[i][j], i, j, new Vector2(i % 2 == 1 ? -i : i, i), false, null, null, sd.MovingTypes[i][j]))
+                                : GenerateGameItem(sd.Items[i][j], i, j, new Vector2(i % 2 == 1 ? -i : i, i),null, false, null, null, sd.MovingTypes[i][j]))
                             : null;
                             switch (sd.Items[i][j])
                             {
@@ -224,13 +224,19 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
-            if (Game.Difficulty == DifficultyLevel._veryhard && !ProgressBar.Exists)
+            switch(Game.Difficulty)
             {
-                ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-                ProgressBar.CreateBar();
-                ProgressBar.UpdateTexture();
-                IsTimeLabelShow = true;
-                base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
+                case DifficultyLevel._hard:
+                case DifficultyLevel._veryhard:
+                    if (!ProgressBar.Exists)
+                    {
+                        ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+                        ProgressBar.CreateBar();
+                        ProgressBar.UpdateTexture();
+                        IsTimeLabelShow = true;
+                    }
+                    base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
+                    break;
             }
         }
 

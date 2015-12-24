@@ -449,8 +449,8 @@ namespace Assets.Scripts
                     if (raiseMaxIEtype && toGi.Type > MaxInitialElementType)
                         MaxInitialElementType = toGi.Type;
                     var newgobjtype = toGi.Type != GameItemType._2x ? toGi.Type + 1 : GameItemType._2x;
-                    var newgobj = InstantiateGameItem(newgobjtype, toCell,
-                        new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f));
+                    var newgobj = InstantiateGameItem(newgobjtype, toCell, Vector3.one);
+                        //new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f));
                     if (toGobj.GetComponent<GameItemMovingScript>().IsMoving)
                         CallbacksCount--;
                     Destroy(toGobj);
@@ -586,7 +586,7 @@ namespace Assets.Scripts
                                     var resRow = RandomObject.Next(0, FieldSize);
                                     if (resCol == resRow)
                                     {
-                                        Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
+                                        Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), null, false, 10 + i * 2);//may be calculate speed or generateOn vector in another way
                                         //(Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
                                         ToMoveItemsCount++;
                                         generateOnX++;

@@ -11,7 +11,7 @@ namespace Assets.Scripts
 {
     class Mode6x6SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.22F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -184/*12.8F*/, Y = 176/*12.22F*/, Z = -1 };
         /*private float _pbState;
         private float _pbUpper;
         private float _pbMultiplier;*/
@@ -98,7 +98,7 @@ namespace Assets.Scripts
 
         public override RealPoint InitialGameItemPosition { get { return _initialGameItemX; } }
 
-        public override float GameItemSize { get { return 5.14f; } }
+        public override float GameItemSize { get { return 73.9f;/*5.14f;*/ } }
 
         void OnLevelWasLoaded()
         {
@@ -157,7 +157,7 @@ namespace Assets.Scripts
                         {
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem ? (
                                 sd.Items[i][j] != GameItemType.DisabledItem ?
-                                GenerateGameItem(sd.Items[i][j], i, j, null, false, null, null, sd.MovingTypes[i][j]) : DisabledItem)
+                                GenerateGameItem(sd.Items[i][j], i, j,null, null, false, null, null, sd.MovingTypes[i][j]) : DisabledItem)
                                 : null;
                             switch (sd.Items[i][j])
                             {

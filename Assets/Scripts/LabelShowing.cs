@@ -9,8 +9,8 @@ using System.Collections.Generic;
 
 public class LabelShowing : MonoBehaviour {
 
-    public static Int32 minLabelFontSize = 70;
-    public static Int32 maxLabelFontSize = 100;
+    public static Int32 minLabelFontSize = 40;
+    public static Int32 maxLabelFontSize = 60;
     private static List<LabelShowing> PointLabels = new List<LabelShowing>();
     private Vector3 _localScale;
     private GameItemType? _type = null;
@@ -153,6 +153,7 @@ public class LabelShowing : MonoBehaviour {
             position = fg.transform.InverseTransformPoint(position);
             position.z = z;
         }
+        transform.localScale = Vector3.one;
         _step = step;
         //animateToSize += (animateToSize - animateFromSize) % _step;
 

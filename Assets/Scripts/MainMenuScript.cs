@@ -51,29 +51,29 @@ namespace Assets.Scripts
 
             UpdateTheme();
             _availableScenes.Add("6x6");
-#if !DEBUG
+//#if !DEBUG
             if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("8x8", "6x6", Mode8x8SquarePlayground.ToOpenPoints);
             }
             else
-#endif
+//#endif
             _availableScenes.Add("8x8");
-#if !DEBUG
+//#if !DEBUG
             if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Match3", "8x8", ModeMatch3SquarePlayground.ToOpenPoints);
             }
             else
-#endif
+//#endif
             _availableScenes.Add("Match3");
-#if !DEBUG
+//#if !DEBUG
             if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Rhombus", "Match3", Mode11RhombusPlayground.ToOpenPoints);
             }
             else
-#endif
+//#endif
             _availableScenes.Add("11Rhombus");
 
             if (!PlayerPrefs.HasKey("PressLogoLabel"))
@@ -83,8 +83,8 @@ namespace Assets.Scripts
                 {
                     _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI").transform);
                     var pressLogoLabelShowing = _pressLogoLabel.GetComponent<LabelShowing>();
-                    pressLogoLabelShowing.ShowScalingLabel(new Vector3(125, 370, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
-                        GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 50);
+                    pressLogoLabelShowing.ShowScalingLabel(new Vector3(125, 350, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
+                        GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 25, LabelShowing.minLabelFontSize-15);
                 }
             }
 
@@ -146,7 +146,7 @@ namespace Assets.Scripts
             var labelText = label.GetComponent<Text>();
             labelText.font = Game.textFont;
             labelText.color = GameColors.ModesColors[previos];
-            labelText.fontSize = LabelShowing.minLabelFontSize - 20;
+            labelText.fontSize = LabelShowing.maxLabelFontSize-10;
             labelText.text = pointsLeft.ToString();
             var modeLogo = Instantiate(Resources.Load("Prefabs/ModeLogo")) as GameObject;
             var modeSprite = Resources.LoadAll<Sprite>("SD/ModesButtonsAtlas")
@@ -196,13 +196,14 @@ namespace Assets.Scripts
                 if (gui != component.gameObject)
                     Destroy(component.gameObject);
             }
-            var label = Instantiate(Resources.Load("Prefabs/LoadingLabel")) as GameObject;
+            var label = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;
             var txt = label.GetComponent<Text>();
             txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
-            txt.color = GameColors.DefaultLabelColor;
+            txt.fontSize = LabelShowing.minLabelFontSize;
+            txt.color = GameColors.DifficultyLevelsColors[DifficultyLevel._hard];
             Game.Difficulty = DifficultyLevel._easy;
             Application.LoadLevel(scene);
         }
