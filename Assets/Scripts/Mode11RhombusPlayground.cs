@@ -21,6 +21,11 @@ namespace Assets.Scripts
             get { return "Rhombus"; }
         }
 
+        public override float ItemSpeedMultiplier
+        {
+            get { return 0.8f; }
+        }
+
         protected override float HintDelayTime
         {
             get

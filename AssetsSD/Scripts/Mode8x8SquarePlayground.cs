@@ -11,11 +11,22 @@ namespace Assets.Scripts
 {
     class Mode8x8SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -13.35F, Y = 12.05F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -192/*-13.35F*/, Y = 172/*12.05F*/, Z = -1 };
+        private readonly Vector3 _gameItemScale = new Vector3(0.74f, 0.74f, 1f);
 
         protected override String UserHelpPrefix
         {
             get { return "8x8"; }
+        }
+
+        protected override Vector3 GameItemScale
+        {
+            get { return _gameItemScale; }
+        }
+
+        public override float ItemSpeedMultiplier
+        {
+            get { return _gameItemScale.x; }
         }
 
         public static Int32 ToOpenPoints
@@ -91,7 +102,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        public override float GameItemSize { get { return 3.805f; } }
+        public override float GameItemSize { get { return 55f;/*3.805f;*/ } }
 
         void OnLevelWasLoaded()
         {
@@ -127,6 +138,8 @@ namespace Assets.Scripts
 
                 CurrentTime = sd.CurrentPlaygroundTime;
 
+                GameMovesCount = sd.MovesCount;
+
                 var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
                 if (mit != MaxInitialElementType)
                     MaxInitialElementType = mit;
@@ -137,7 +150,6 @@ namespace Assets.Scripts
                 if(!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
 
                 if (sd.Items != null)
                 {
@@ -146,7 +158,7 @@ namespace Assets.Scripts
                         {
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem ? (
                                 sd.Items[i][j] != GameItemType.DisabledItem ?
-                                GenerateGameItem(sd.Items[i][j], i, j, null, false, null, null, sd.MovingTypes[i][j]) : DisabledItem)
+                                GenerateGameItem(sd.Items[i][j], i, j, null, GameItemScale, false, null, null, sd.MovingTypes[i][j]) : DisabledItem)
                                 : null;
                             switch (sd.Items[i][j])
                             {

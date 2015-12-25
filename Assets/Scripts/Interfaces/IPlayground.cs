@@ -90,6 +90,11 @@ namespace Assets.Scripts.Interfaces
         float GameItemSize { get; }
 
         /// <summary>
+        /// Game item speed multiplier
+        /// </summary>
+        float ItemSpeedMultiplier { get; }
+
+        /// <summary>
         /// Position of first game item
         /// </summary>
         RealPoint InitialGameItemPosition { get; }

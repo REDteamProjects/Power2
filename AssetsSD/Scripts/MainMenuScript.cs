@@ -24,18 +24,8 @@ namespace Assets.Scripts
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
             var bg = GameObject.Find("BackgroundGrid");
-            /*if (bg != null)
-            {
 
-                var sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
-                  .SingleOrDefault(t => t.name.Contains(Game.Theme.ToString()));
-                if(sprite == null)
-                    sprite = Resources.LoadAll<Sprite>("SD/" + bg.GetComponent<Image>().sprite.name.Split('_')[0])
-                  .SingleOrDefault(t => t.name.Contains(GameTheme.light.ToString()));
-                bg.GetComponent<Image>().sprite = sprite;
-            }*/
-
-            if(_pressLogoLabel != null)
+            if (_pressLogoLabel != null)
             {
                 var ls = _pressLogoLabel.GetComponent<LabelShowing>();
                 if (ls.Shadow != null)
@@ -43,29 +33,6 @@ namespace Assets.Scripts
                 Destroy(_pressLogoLabel);
                 PlayerPrefs.SetInt("PressLogoLabel", 1);
             }
-            /*var changeObject = GameObject.Find("StatsButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }
-
-            changeObject = GameObject.Find("HelpButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }
-
-            changeObject = GameObject.Find("SoundButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }
-
-            changeObject = GameObject.Find("AboutButton");
-            if (changeObject != null)
-            {
-                changeObject.GetComponent<Image>().color = GameColors.ForegroundButtonsColor;
-            }*/
         }
 
         void Awake()
@@ -79,37 +46,46 @@ namespace Assets.Scripts
                 statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
             _soundButton.name = "SoundButton";
-            if (SoundEnabled == SoundState.on)      
+            if (SoundEnabled == SoundState.on)
                 _mainCamera.GetComponent<AudioSource>().Play();
 
             UpdateTheme();
             _availableScenes.Add("6x6");
+//#if !DEBUG
             if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("8x8", "6x6", Mode8x8SquarePlayground.ToOpenPoints);
             }
             else
-                _availableScenes.Add("8x8");
+//#endif
+            _availableScenes.Add("8x8");
+//#if !DEBUG
             if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Match3", "8x8", ModeMatch3SquarePlayground.ToOpenPoints);
             }
             else
-                _availableScenes.Add("Match3");
+//#endif
+            _availableScenes.Add("Match3");
+//#if !DEBUG
             if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
             {
                 CloseLevelGUI("Rhombus", "Match3", Mode11RhombusPlayground.ToOpenPoints);
             }
             else
-                _availableScenes.Add("11Rhombus");
+//#endif
+            _availableScenes.Add("11Rhombus");
 
             if (!PlayerPrefs.HasKey("PressLogoLabel"))
             {
                 _pressLogoLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject);
-                _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI").transform);
-                var pressLogoLabelShowing = _pressLogoLabel.GetComponent<LabelShowing>();
-                pressLogoLabelShowing.ShowScalingLabel(new Vector3(125, 370, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
-               GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize - 40, LabelShowing.maxLabelFontSize - 50);
+                if (_pressLogoLabel != null)
+                {
+                    _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI").transform);
+                    var pressLogoLabelShowing = _pressLogoLabel.GetComponent<LabelShowing>();
+                    pressLogoLabelShowing.ShowScalingLabel(new Vector3(125, 350, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
+                        GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize+10, LabelShowing.minLabelFontSize+40, 1, null, false, null, false, 0, new Vector3(0.3f,0.3f,1));
+                }
             }
 
 
@@ -124,29 +100,33 @@ namespace Assets.Scripts
                 var resource = Resources.Load("Prefabs/RateUsUserMessage");
                 PauseButtonScript.PauseMenuActive = true;
                 RateUsHelper.RateUsModule = Instantiate(resource) as GameObject;
-                RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
-                RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
-                RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -6);
-                manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
-                manual.transform.localScale = new Vector3(45, 45, 0);
+                if (RateUsHelper.RateUsModule != null)
+                {
+                    RateUsHelper.RateUsModule.transform.SetParent(gui.transform);
+                    RateUsHelper.RateUsModule.transform.localScale = Vector3.one;
+                    RateUsHelper.RateUsModule.transform.localPosition = new Vector3(0, 0, -10);
+                    manual.transform.SetParent(RateUsHelper.RateUsModule.transform);
+                }
+                manual.transform.localScale = new Vector3(25, 25, 0);
                 manual.transform.localPosition = new Vector3(0, 30, -1);
                 var rateNowButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateNowButton");
                 if (rateNowButton != null)
                 {
                     var text = rateNowButton.GetComponentInChildren<Text>();
                     text.font = Game.textFont;
-                    text.fontSize = LabelShowing.minLabelFontSize;
+                    text.fontSize = LabelShowing.maxLabelFontSize;
                     text.text = LanguageManager.Instance.GetTextValue("RateUs");
+                    text.color = GameColors.DifficultyLevelsColors[DifficultyLevel._hard];
                 }
                 var rateLaterButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateLaterButton");
                 if (rateLaterButton != null)
                 {
                     var text = rateLaterButton.GetComponentInChildren<Text>();
                     text.font = Game.textFont;
-                    text.fontSize = LabelShowing.minLabelFontSize;
-                    text.text = LanguageManager.Instance.GetTextValue("Later");
+                    text.fontSize = 20;
+                    text.text = "X";
+                    text.color = new Color(GameColors.DefaultDark.r,GameColors.DefaultDark.g,GameColors.DefaultDark.b,0.7f);
                 }
-                PlayerPrefs.SetInt("RateUsUserMessage", 1);
             }
 
         }
@@ -157,21 +137,23 @@ namespace Assets.Scripts
             var obj = GameObject.Find("/GUI/MainBlock/" + level);
             var img = obj.GetComponent<Image>();
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
+            var lockLogo = Instantiate(Resources.Load("Prefabs/LockLogo")) as GameObject;
+            lockLogo.transform.SetParent(obj.transform);
+            lockLogo.transform.localPosition = new Vector3(0, -2, -4);
             var label = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
             label.transform.SetParent(obj.transform);
-            label.transform.localPosition = new Vector3(-10, 0, -4);
+            label.transform.localPosition = new Vector3(0, -62, -4);
             var labelText = label.GetComponent<Text>();
             labelText.font = Game.textFont;
             labelText.color = GameColors.ModesColors[previos];
-            labelText.fontSize = LabelShowing.minLabelFontSize;
+            labelText.fontSize = LabelShowing.maxLabelFontSize-10;
             labelText.text = pointsLeft.ToString();
-            labelText.alignment = TextAnchor.MiddleRight;
             var modeLogo = Instantiate(Resources.Load("Prefabs/ModeLogo")) as GameObject;
-            var newsprite = Resources.LoadAll<Sprite>("SD/ModesButtonsAtlas")
+            var modeSprite = Resources.LoadAll<Sprite>("SD/ModesButtonsAtlas")
             .SingleOrDefault(t => t.name.Contains(previos));
-            modeLogo.GetComponent<SpriteRenderer>().sprite = newsprite;
+            modeLogo.GetComponent<SpriteRenderer>().sprite = modeSprite;
             modeLogo.transform.SetParent(obj.transform);
-            modeLogo.transform.localPosition = new Vector3(60, -2, -4);
+            modeLogo.transform.localPosition = new Vector3(0, -31, -5);
         }
 
         public SoundState SoundEnabled
@@ -195,16 +177,16 @@ namespace Assets.Scripts
 
         public void OnSoundButtonPressed()
         {
-            SoundEnabled+=1;
+            SoundEnabled += 1;
             Vibration.Vibrate();
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
         }
 
         public void OnNavigationButtonClick(String scene)
         {
-            #if !DEBUG
+#if !DEBUG
             if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
-            #endif
+#endif
             Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");
@@ -214,13 +196,14 @@ namespace Assets.Scripts
                 if (gui != component.gameObject)
                     Destroy(component.gameObject);
             }
-            var label = Instantiate(Resources.Load("Prefabs/LoadingLabel")) as GameObject;
+            var label = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;
             var txt = label.GetComponent<Text>();
             txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
-            txt.color = GameColors.DefaultLabelColor;
+            txt.fontSize = LabelShowing.minLabelFontSize;
+            txt.color = GameColors.DifficultyLevelsColors[DifficultyLevel._hard];
             Game.Difficulty = DifficultyLevel._easy;
             Application.LoadLevel(scene);
         }

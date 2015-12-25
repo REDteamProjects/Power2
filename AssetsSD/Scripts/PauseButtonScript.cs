@@ -128,7 +128,7 @@ namespace Assets.Scripts
             var pointsLabel = l.GetComponent<LabelShowing>();
             pointsLabel.ShowScalingLabel(new Vector3(0, 50, 0),
                 LanguageManager.Instance.GetTextValue("ConfirmationQuestion"), GameColors.DefaultLabelColor,
-                Color.gray, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
+                GameColors.DefaultDark, LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
         }
 
         public void DestroyResetConfirmationMenu()

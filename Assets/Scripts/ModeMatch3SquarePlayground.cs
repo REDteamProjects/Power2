@@ -62,7 +62,7 @@ namespace Assets.Scripts
                     case DifficultyLevel._hard:
                         if (CurrentScore < 20480) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
-                        MoveTimerMultiple = InitialMoveTimerMultiple - 8;
+                        MoveTimerMultiple = InitialMoveTimerMultiple - 6;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;

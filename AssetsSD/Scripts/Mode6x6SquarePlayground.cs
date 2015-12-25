@@ -11,11 +11,24 @@ namespace Assets.Scripts
 {
     class Mode6x6SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.22F, Z = -1 };
-        private float _pbState;
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -184/*12.8F*/, Y = 176/*12.22F*/, Z = -1 };
+        /*private float _pbState;
         private float _pbUpper;
-        private float _pbMultiplier;
+        private float _pbMultiplier;*/
 
+
+        protected override float HintDelayTime 
+        { get 
+            { 
+                switch(Game.Difficulty)
+                {
+                    case DifficultyLevel._veryhard:
+                        return base.HintDelayTime;
+                    default:
+                        return base.HintDelayTime * 2;
+                }
+            } 
+        }
 
         public override IGameSettingsHelper Preferenses
         {
@@ -85,7 +98,7 @@ namespace Assets.Scripts
 
         public override RealPoint InitialGameItemPosition { get { return _initialGameItemX; } }
 
-        public override float GameItemSize { get { return 5.14f; } }
+        public override float GameItemSize { get { return 73.9f;/*5.14f;*/ } }
 
         void OnLevelWasLoaded()
         {
@@ -123,18 +136,19 @@ namespace Assets.Scripts
                 CurrentTime = sd.CurrentPlaygroundTime;
 
                 var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
-                
+
+                GameMovesCount = sd.MovesCount;
+
                 MaxInitialElementType = mit;
 
                 if (mit == MaxInitialElementType)
                     ShowMaxInitialElement();
 
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
 
-                _pbState = sd.ProgressBarStateData.State;
+                /*_pbState = sd.ProgressBarStateData.State;
                 _pbUpper = sd.ProgressBarStateData.Upper;
-                _pbMultiplier = sd.ProgressBarStateData.Multiplier;
+                _pbMultiplier = sd.ProgressBarStateData.Multiplier;*/
 
                 if (sd.Items != null)
                 {
@@ -143,7 +157,7 @@ namespace Assets.Scripts
                         {
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem ? (
                                 sd.Items[i][j] != GameItemType.DisabledItem ?
-                                GenerateGameItem(sd.Items[i][j], i, j, null, false, null, null, sd.MovingTypes[i][j]) : DisabledItem)
+                                GenerateGameItem(sd.Items[i][j], i, j,null, null, false, null, null, sd.MovingTypes[i][j]) : DisabledItem)
                                 : null;
                             switch (sd.Items[i][j])
                             {
@@ -162,9 +176,9 @@ namespace Assets.Scripts
                 }
             }
 
-            _pbState = ProgressBar.State;
+            /*_pbState = ProgressBar.State;
             _pbUpper = ProgressBar.Upper;
-            _pbMultiplier = ProgressBar.Multiplier;
+            _pbMultiplier = ProgressBar.Multiplier;*/
 
             
 
@@ -184,10 +198,9 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
-            if(Game.Difficulty == DifficultyLevel._veryhard)
+            if (Game.Difficulty == DifficultyLevel._veryhard && !ProgressBar.Exists)
             {
                 ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
-                if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
                 ProgressBar.UpdateTexture();
                 IsTimeLabelShow = true;

@@ -64,13 +64,18 @@ namespace Assets.Scripts.Helpers
             var theme = ActiveTheme;
             var sound = SoundEnabled;
             var pressedLogoLabel = PlayerPrefs.HasKey("PressLogoLabel");
-
+            var ratedUs = PlayerPrefs.HasKey("RateUsUserMessage");
+            //var adPressed = UnityADHelper.AdTaps;
             PlayerPrefs.DeleteAll();
 
             ActiveTheme = theme;
             SoundEnabled = sound;
             if (pressedLogoLabel)
                 PlayerPrefs.SetInt("PressLogoLabel",1);
+            if(ratedUs)
+                PlayerPrefs.SetInt("RateUsUserMessage",1);
+            /*if (adPressed > 0)
+                UnityADHelper.AdTaps = adPressed;*/
         }
     }
 

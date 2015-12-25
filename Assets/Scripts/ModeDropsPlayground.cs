@@ -360,7 +360,7 @@ namespace Assets.Scripts
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
-                            cS.MoveTo(null, GetCellCoordinates(col, row + rowStaticCounter).y, Game.standartItemSpeed, (item, result) =>
+                            cS.MoveTo(null, GetCellCoordinates(col, row + rowStaticCounter).y, Game.StandartItemSpeed, (item, result) =>
                             {
                                 if (!cS.IsMoving)
                                     DropsCount--;
@@ -387,7 +387,7 @@ namespace Assets.Scripts
                     
                     var col1 = col;
                     var row1 = row;
-                    c.MoveTo(null, GetCellCoordinates(col, row + 1).y, Game.standartItemSpeed, (item, result) =>
+                    c.MoveTo(null, GetCellCoordinates(col, row + 1).y, Game.StandartItemSpeed, (item, result) =>
                     {
                         //if (!c.isMoving)
                             DropsCount--;

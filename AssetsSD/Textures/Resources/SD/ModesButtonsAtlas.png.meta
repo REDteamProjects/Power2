@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 97814f6152b53f14f8a39004523ec318
-timeCreated: 1450340456
+timeCreated: 1451060395
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -13,12 +13,15 @@ TextureImporter:
     21300012: ModesButtonsAtlas_8x8
     21300014: ModesButtonsAtlas_Rhombus
     21300016: ModesButtonsAtlas_Match3
-    21300018: ModesButtonsAtlas_rhombus
-    21300020: ModesButtonsAtlas_match3
+    21300018: ModesButtonsAtlas_logo
+    21300020: ModesButtonsAtlas_6x6
+    21300022: ModesButtonsAtlas_8x8
+    21300024: ModesButtonsAtlas_Rhombus
+    21300026: ModesButtonsAtlas_Match3
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -57,7 +60,11 @@ TextureImporter:
   spritePixelsToUnits: 40
   alphaIsTransparency: 0
   textureType: 5
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: 12
+    compressionQuality: 50
   spriteSheet:
     sprites:
     - name: ModesButtonsAtlas_logo
@@ -90,17 +97,17 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_rhombus
+    - name: ModesButtonsAtlas_Rhombus
       rect:
         serializedVersion: 2
-        x: 199
+        x: 200
         y: 200
         width: 200
         height: 200
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: ModesButtonsAtlas_match3
+    - name: ModesButtonsAtlas_Match3
       rect:
         serializedVersion: 2
         x: 0

@@ -11,11 +11,33 @@ namespace Assets.Scripts
 {
     class Mode11RhombusPlayground : RhombusPlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -12.8F, Y = 12.1F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -192/*-12.8F*/, Y = 182/*12.1F*/, Z = -1 };
+        /*private float _pbState;
+        private float _pbUpper;
+        private float _pbMultiplier;*/
 
         protected override String UserHelpPrefix
         {
             get { return "Rhombus"; }
+        }
+
+        public override float ItemSpeedMultiplier
+        {
+            get { return 0.8f; }
+        }
+
+        protected override float HintDelayTime
+        {
+            get
+            {
+                switch (Game.Difficulty)
+                {
+                    case DifficultyLevel._veryhard:
+                        return base.HintDelayTime;
+                    default:
+                        return base.HintDelayTime * 2;
+                }
+            }
         }
 
 
@@ -87,7 +109,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 11; } }
 
-        public override float GameItemSize { get { return 3.7f; } }
+        public override float GameItemSize { get { return 55.5f;/*3.7f;*/ } }
 
         //public override GameItemType MaxInitialElementType
         //{
@@ -110,7 +132,7 @@ namespace Assets.Scripts
         {
             MainMenuScript.UpdateTheme();
 
-            ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+            //ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]
             {
@@ -127,6 +149,7 @@ namespace Assets.Scripts
                 new []{ DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem, null,  DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem },
             };
 
+            IsTimeLabelShow = false;
 
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode11RhombusPlaygroundSavedata { Difficulty = Game.Difficulty };
@@ -137,18 +160,23 @@ namespace Assets.Scripts
                 Game.Difficulty = sd.Difficulty;
 
                 CurrentTime = sd.CurrentPlaygroundTime;
+                GameMovesCount = sd.MovesCount;
 
                 var mit = ((RhombusPlaygroundSavedata)sd).MaxInitialElementType;
-                if (mit != MaxInitialElementType)
-                    MaxInitialElementType = mit;
-                else
+                
+                MaxInitialElementType = mit;
+
+                if (mit == MaxInitialElementType)
                     ShowMaxInitialElement();
 
-                ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
+                /*ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
                 if (!ProgressBar.Exists)
-                ProgressBar.CreateBar();
+                ProgressBar.CreateBar();*/
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
+
+                /*_pbState = sd.ProgressBarStateData.State;
+                _pbUpper = sd.ProgressBarStateData.Upper;
+                _pbMultiplier = sd.ProgressBarStateData.Multiplier;*/
 
                 if (sd.Items != null)
                 {
@@ -158,7 +186,7 @@ namespace Assets.Scripts
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
                                 ? (sd.Items[i][j] == GameItemType.DisabledItem
                                 ? DisabledItem
-                                : GenerateGameItem(sd.Items[i][j], i, j, new Vector2(i % 2 == 1 ? -i : i, i), false, null, null, sd.MovingTypes[i][j]))
+                                : GenerateGameItem(sd.Items[i][j], i, j, new Vector2(i % 2 == 1 ? -i : i, i),null, false, null, null, sd.MovingTypes[i][j]))
                             : null;
                             switch (sd.Items[i][j])
                             {
@@ -177,24 +205,46 @@ namespace Assets.Scripts
                 }
             }
 
-
+            /*_pbState = ProgressBar.State;
+            _pbUpper = ProgressBar.Upper;
+            _pbMultiplier = ProgressBar.Multiplier;*/
             
 
-            if (Preferenses.CurrentItemType == MaxInitialElementType)
-            {
-                var movesRecord = Preferenses.MovesRecord;
-                if (movesRecord == 0 || movesRecord < GameMovesCount)
-                    Preferenses.MovesRecord = GameMovesCount;
-            }
-            if (Preferenses.CurrentItemType < MaxInitialElementType)
-                Preferenses.CurrentItemType = MaxInitialElementType;
+            //if (Preferenses.CurrentItemType == MaxInitialElementType)
+            //{
+            //    var movesRecord = Preferenses.MovesRecord;
+            //    if (movesRecord == 0 || movesRecord < GameMovesCount)
+            //        Preferenses.MovesRecord = GameMovesCount;
+            //}
+            //if (Preferenses.CurrentItemType < MaxInitialElementType)
+            //    Preferenses.CurrentItemType = MaxInitialElementType;
 
-            ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+            /*ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
             if (!ProgressBar.Exists)
-            ProgressBar.CreateBar();
+            ProgressBar.CreateBar();*/
             GenerateField();
             ShowMaxInitialElement();
         }
+
+
+        protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
+        {
+            switch(Game.Difficulty)
+            {
+                case DifficultyLevel._hard:
+                case DifficultyLevel._veryhard:
+                    if (!ProgressBar.Exists)
+                    {
+                        ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
+                        ProgressBar.CreateBar();
+                        ProgressBar.UpdateTexture();
+                        IsTimeLabelShow = true;
+                    }
+                    base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
+                    break;
+            }
+        }
+
 
         public void OnDestroy()
         {

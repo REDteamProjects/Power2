@@ -24,6 +24,11 @@ namespace Assets.Scripts
             get { return _gameItemScale; }
         }
 
+        public override float ItemSpeedMultiplier
+        {
+            get { return _gameItemScale.x; }
+        }
+
         public static Int32 ToOpenPoints
         {
             get { return 65536; }

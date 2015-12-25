@@ -50,7 +50,7 @@ namespace Assets.Scripts
         protected GameItemType MaxType = GameItemType._3;
         protected bool CallClearChainsAfterExchange;
         protected int CurrentExchangeItemsCount;
-        protected float InitialMoveTimerMultiple = 32;
+        protected float InitialMoveTimerMultiple = 34;
         private readonly Vector3 _selectionScale = new Vector3(1.1f, 1.1f, 1f);
 
         #region Scenes Arguments
@@ -67,7 +67,6 @@ namespace Assets.Scripts
 
         #endregion
 
-
         protected virtual String UserHelpPrefix
         {
             get { return ""; }
@@ -81,6 +80,11 @@ namespace Assets.Scripts
         protected virtual Vector3 SelectionScale
         {
             get { return _selectionScale; }
+        }
+
+        public virtual float ItemSpeedMultiplier 
+        {
+            get { return SelectionScale.x; }
         }
 
         protected GameItemType MinType
@@ -481,7 +485,7 @@ namespace Assets.Scripts
                 buttonComponent.onClick.AddListener(ThemeChooserScript.OnScriptGameThemeChange);
             var c = gobj.GetComponent<GameItemMovingScript>();
             LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
-            c.MoveTo(null, 340f, Game.standartItemSpeed / 4, (item, result) =>
+            c.MoveTo(null, 340f, Game.StandartItemSpeed / 4, (item, result) =>
             {
                 if (!result) return;
                 if (cmi != null)
@@ -1087,7 +1091,7 @@ namespace Assets.Scripts
                             {
                                 CallbacksCount++;
                                 Items[cX][cY] = null;
-                                c.MoveTo(null, cell.y, Game.standartItemSpeed, (item, result) =>
+                                c.MoveTo(null, cell.y, Game.StandartItemSpeed, (item, result) =>
                                 {
                                     LogFile.Message(cX + " " + cY, true);
                                     CallbacksCount--;
@@ -1100,7 +1104,7 @@ namespace Assets.Scripts
                         {
                             CallbacksCount++;
                             Items[cX][cY] = null;
-                            c.MoveTo(null, toCell.y, Game.standartItemSpeed, (item, result) =>
+                            c.MoveTo(null, toCell.y, Game.StandartItemSpeed, (item, result) =>
                             {
                                 LogFile.Message(cX + " " + cY, true);
                                 CallbacksCount--;
@@ -1158,7 +1162,7 @@ namespace Assets.Scripts
                             {
                                 CallbacksCount++;
                                 Items[cX][cY] = null;
-                                c.MoveTo(cell.x, null, Game.standartItemSpeed, (item, result) =>
+                                c.MoveTo(cell.x, null, Game.StandartItemSpeed, (item, result) =>
                                 {
                                     LogFile.Message(cX + " " + cY, true);
                                     CallbacksCount--;
@@ -1171,7 +1175,7 @@ namespace Assets.Scripts
                         {
                             CallbacksCount++;
                             Items[cX][cY] = null;
-                            c.MoveTo(toCell.x, null, Game.standartItemSpeed, (item, result) =>
+                            c.MoveTo(toCell.x, null, Game.StandartItemSpeed, (item, result) =>
                             {
                                 LogFile.Message(cX + " " + cY, true);
                                 CallbacksCount--;
@@ -1314,7 +1318,7 @@ namespace Assets.Scripts
                             Items[col][row] = Items[col][fromrow];
                             Items[col][fromrow] = null;
                             CallbacksCount++;
-                            gims.MoveTo(null, GetCellCoordinates(col, row).y, Game.standartItemSpeed, (item, result) =>
+                            gims.MoveTo(null, GetCellCoordinates(col, row).y, Game.StandartItemSpeed, (item, result) =>
                             {
                                 //DropsCount--;
                                 CallbacksCount--;
@@ -1353,11 +1357,10 @@ namespace Assets.Scripts
                             switch (Game.Difficulty)
                             {
                                 case DifficultyLevel._medium:
-                                    if (ToMoveItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
+                                    if (ToMoveItemsCount < MaxAdditionalItemsCount && j > 0)
                                     {
-                                        var resCol = RandomObject.Next(0, FieldSize);
-                                        var resRow = RandomObject.Next(resCol, FieldSize);
-                                        if (resCol == resRow)
+                                        var resCol = RandomObject.Next(ToMoveItemsCount == 0 ? 0 : FieldSize / 2,ToMoveItemsCount == 0 ? FieldSize/2 : FieldSize);
+                                        if (resCol == i)
                                         {
                                             Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(0, generateOnY), GameItemScale);
                                             ToMoveItemsCount++;
@@ -1417,7 +1420,6 @@ namespace Assets.Scripts
                     callback = () =>
                     {
                         MixField();
-                        PlaygroundProgressBar.ProgressBarRun = true;
                     };
                 }
                 var noMovesLabel = o.GetComponent<LabelShowing>();
@@ -1469,7 +1471,7 @@ namespace Assets.Scripts
                     }
                 }
             }
-            var mixSpeed = Game.standartItemSpeed / 3;
+            var mixSpeed = Game.StandartItemSpeed / 3;
             for (var i = FieldSize - 1; i >= 0; i--)
             {
                 for (var j = FieldSize - 1; j >= 0; j--)
@@ -1526,7 +1528,7 @@ namespace Assets.Scripts
                 item1.GetComponent<GameItemMovingScript>()
                     .MoveTo(position2.x,
                        position2.y,
-                        Game.standartItemSpeed, (item, result) =>
+                        Game.StandartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1537,7 +1539,7 @@ namespace Assets.Scripts
                                 currentItem.GetComponent<GameItemMovingScript>()
                                     .MoveTo(position1.x,
                                         position1.y,
-                                        Game.standartItemSpeed, (reverseItem, reverseResult) =>
+                                        Game.StandartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
                                             CurrentExchangeItemsCount--;
@@ -1568,7 +1570,7 @@ namespace Assets.Scripts
             item2.GetComponent<GameItemMovingScript>()
                     .MoveTo(position1.x,
                         position1.y,
-                        Game.standartItemSpeed, (item, result) =>
+                        Game.StandartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
                             if (!result) return;
@@ -1579,7 +1581,7 @@ namespace Assets.Scripts
                                 currentItem.GetComponent<GameItemMovingScript>()
                                     .MoveTo(position2.x,
                                         position2.y,
-                                        Game.standartItemSpeed, (reverseItem, reverseResult) =>
+                                        Game.StandartItemSpeed, (reverseItem, reverseResult) =>
                                         {
                                             CallbacksCount--;
                                             CurrentExchangeItemsCount--;
@@ -1838,7 +1840,7 @@ namespace Assets.Scripts
             LogFile.Message("Revert item to place: " + toCell.x + " " + toCell.y, true);
             var gims = gobj.GetComponent<GameItemMovingScript>();
             CallbacksCount++;
-            gims.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (s, e) =>
+            gims.MoveTo(toCell.x, toCell.y, Game.StandartItemSpeed, (s, e) =>
                 {
                     CallbacksCount--;
                     if (callback != null)

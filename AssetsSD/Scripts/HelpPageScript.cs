@@ -43,7 +43,7 @@ public class HelpPageScript : MonoBehaviour
             _allModulesPostfixList.Insert(0, "UserHelp._easy");
         }
         _allModulesPostfixList.Insert(1, "UserHelp.UserProgress");
-        if (!PlayerPrefs.HasKey("AdsRemoved"))
+        if (UnityADHelper.AdTaps <= 16)
             _allModulesPostfixList.Insert(2, "UserHelp.RemoveAds");
         LoadHelp(0);
         var imgprev = prevbtn.GetComponent<Image>();
@@ -67,7 +67,7 @@ public class HelpPageScript : MonoBehaviour
             Destroy(currentHelp);
         currentHelp = Instantiate(manualPrefab);
         currentHelp.transform.SetParent(InGameHelpModule.transform);
-        currentHelp.transform.localScale = new Vector3(45, 45, 0);
+        currentHelp.transform.localScale = new Vector3(25, 25, 0);
         currentHelp.transform.localPosition = new Vector3(0, 30, -4);
         return true;
     }

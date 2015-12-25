@@ -12,10 +12,12 @@ namespace Assets.Scripts
 {
     class ModeMatch3SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint { X = -13.36F, Y = 12.06F, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint { X = -192/*-13.35F*/, Y = 172/*12.05F*/, Z = -1 };
         public static readonly int GameOverPoints = 32768;
         private GameItemType toBlock;
         private GameItemType lastMoved;
+        private readonly Vector3 _selectionScale = new Vector3(0.8f, 0.8f, 1f);
+        private readonly Vector3 _6x6ItemsScale = new Vector3(0.74f, 0.74f, 1f);
 
         public static Int32 ToOpenPoints
         {
@@ -27,32 +29,40 @@ namespace Assets.Scripts
             get { return "Match3"; }
         }
 
+        protected override Vector3 SelectionScale
+        {
+            get { return _selectionScale; }
+        }
+
+
         public override int CurrentScore
         {
             get { return base.CurrentScore; }
             protected set
             {
                 base.CurrentScore = value;
-                switch(Game.Difficulty)
+                if ((CurrentScore == Preferenses.ScoreRecord && Preferenses.MovesRecord > GameMovesCount) || CurrentScore > Preferenses.ScoreRecord)
+                    Preferenses.MovesRecord = GameMovesCount;
+                switch (Game.Difficulty)
                 {
                     case DifficultyLevel._easy:
-                        if (CurrentScore < 8192) return;
+                        if (CurrentScore < 4096) return;
                         Game.Difficulty = DifficultyLevel._medium;
                         MoveTimerMultiple = InitialMoveTimerMultiple - 2;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._medium:
-                        if (CurrentScore < 16384) return;
+                        if (CurrentScore < 12288) return;
                         Game.Difficulty = DifficultyLevel._hard;
                         MoveTimerMultiple = InitialMoveTimerMultiple - 4;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._hard:
-                        if (CurrentScore < 24576) return;
+                        if (CurrentScore < 20480) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
-                        MoveTimerMultiple = InitialMoveTimerMultiple - 8;
+                        MoveTimerMultiple = InitialMoveTimerMultiple - 6;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
@@ -67,20 +77,13 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActions()
         {
-            /*if (IsTimeLabelShow)
-            {
-                IsTimeLabelShow = false;
-                ShowTimeLabel();
-            }
-            else
-                PlaygroundProgressBar.ProgressBarRun = true;*/
-            switch(Game.Difficulty)
+            switch (Game.Difficulty)
             {
                 case DifficultyLevel._hard:
                     SpawnXItems();
                     break;
                 case DifficultyLevel._veryhard:
-                    toBlock = (GameItemType)RandomObject.Next(1, (int)MaxType+1);
+                    toBlock = (GameItemType)RandomObject.Next(1, (int)MaxType + 1);
                     ProgressBar.TimeBorderActivated += VeryHardLevelAction;
                     ProgressBar.TimeBorderDeActivated += VeryHardLevelActionDeactivate;
                     ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
@@ -90,19 +93,19 @@ namespace Assets.Scripts
 
         protected override void VeryHardLevelAction(object sender, EventArgs e)
         {
-          /*for (int diag1 = 0,row = FieldSize - 1; diag1 < FieldSize; diag1++,row--)
-              {
-                  var gobj = Items[diag1][diag1] as GameObject;
-                  if (gobj == null) continue;
-                  var gi = gobj.GetComponent<GameItem>();
-                  if (gi.MovingType != GameItemMovingType.Static)
-                      RemoveGameItem(diag1, diag1);
-                  gobj = Items[diag1][row] as GameObject;
-                  if (gobj == null) continue;
-                  gi = gobj.GetComponent<GameItem>();
-                  if (gi.MovingType != GameItemMovingType.Static)
-                      RemoveGameItem(diag1, row);
-              }*/
+            /*for (int diag1 = 0,row = FieldSize - 1; diag1 < FieldSize; diag1++,row--)
+                {
+                    var gobj = Items[diag1][diag1] as GameObject;
+                    if (gobj == null) continue;
+                    var gi = gobj.GetComponent<GameItem>();
+                    if (gi.MovingType != GameItemMovingType.Static)
+                        RemoveGameItem(diag1, diag1);
+                    gobj = Items[diag1][row] as GameObject;
+                    if (gobj == null) continue;
+                    gi = gobj.GetComponent<GameItem>();
+                    if (gi.MovingType != GameItemMovingType.Static)
+                        RemoveGameItem(diag1, row);
+                }*/
             for (int col = 0; col < FieldSize; col++)
                 for (int row = 0; row < FieldSize; row++)
                     if (Items[col][row] != null)
@@ -121,12 +124,12 @@ namespace Assets.Scripts
                     if (Items[col][row] != null)
                     {
                         var gi = (Items[col][row] as GameObject).GetComponent<GameItem>();
-                        if(gi.Type == toBlock)
-                        gi.MovingType = GameItemMovingType.Standart;
+                        if (gi.Type == toBlock)
+                            gi.MovingType = GameItemMovingType.Standart;
                     }
-           toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
-           ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
-           MoveTimerMultiple = MoveTimerMultiple + 16;
+            toBlock = (GameItemType)RandomObject.Next(1, FieldSize);
+            ProgressBar.SetSmallXsColor(GameColors.Match3Colors[toBlock]);
+            MoveTimerMultiple = MoveTimerMultiple + 16;
         }
 
         public override IGameSettingsHelper Preferenses
@@ -195,16 +198,7 @@ namespace Assets.Scripts
 
         public override int FieldSize { get { return 8; } }
 
-        //protected override float ScaleMultiplyer
-        //{
-        //    get { return 5.4f; }
-        //}
-
-        public override float GameItemSize { get { return 3.805f; } }
-
-        ModeMatch3SquarePlayground()
-        {          
-        }
+        public override float GameItemSize { get { return 55f;/*3.805f;*/ } }
 
         void OnLevelWasLoaded()
         {
@@ -232,19 +226,19 @@ namespace Assets.Scripts
 
             MaxType = GameItemType._7;
             Preferenses.GamesPlayed++;
-            IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata {Difficulty = Game.Difficulty};
+            IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata { Difficulty = Game.Difficulty };
             if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
-               
-                Game.Difficulty = sd.Difficulty;
 
+                Game.Difficulty = sd.Difficulty;
+                GameMovesCount = sd.MovesCount;
                 CurrentTime = sd.CurrentPlaygroundTime;
                 ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
                 if (!ProgressBar.Exists)
-                ProgressBar.CreateBar();
+                    ProgressBar.CreateBar();
                 RaisePoints(sd.Score);
-                GameMovesCount = sd.MovesCount;
+                
 
                 if (sd.Items != null)
                 {
@@ -252,7 +246,7 @@ namespace Assets.Scripts
                         for (var j = 0; j < FieldSize; j++)
                         {
                             Items[i][j] = sd.Items[i][j] != GameItemType.NullItem
-                                ? GenerateGameItem(sd.Items[i][j], i, j, null, false, null, null, sd.MovingTypes[i][j])
+                                ? GenerateGameItem(sd.Items[i][j], i, j, null, sd.Items[i][j] == GameItemType._XItem ? _6x6ItemsScale : Vector3.one, false, null, null, sd.MovingTypes[i][j])
                                 : null;
                             switch (sd.Items[i][j])
                             {
@@ -270,7 +264,7 @@ namespace Assets.Scripts
                 }
             }
 
-            
+
 
             //if (Preferenses.CurrentItemType == MaxInitialElementType)
             //{
@@ -284,19 +278,19 @@ namespace Assets.Scripts
             ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
             if (!ProgressBar.Exists)
                 ProgressBar.CreateBar();
-            
+
             GenerateField();
             DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
         }
 
         public override GameObject GenerateGameItem(int i, int j, IList<GameItemType> deniedTypes = null, Vector2? generateOn = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
-            var newType = RandomObject.Next((int)(MaxType > (GameItemType)FieldSize ? MinType + 1 : GameItemType._1), (int)MaxInitialElementType + 1);
+            var newType = RandomObject.Next((int)(/*MaxType > (GameItemType)FieldSize ? MinType + 1 :*/ GameItemType._1), (int)MaxInitialElementType + 1);
             if (deniedTypes == null || deniedTypes.Count == 0)
-                return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
+                return GenerateGameItem((GameItemType)newType, i, j, generateOn, null, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
             while (deniedTypes.Contains((GameItemType)newType))
                 newType = RandomObject.Next((int)GameItemType._1, (int)MaxInitialElementType + 1);
-            return GenerateGameItem((GameItemType)newType, i, j, generateOn, isItemDirectionChangable, dropSpeed, movingCallback);
+            return GenerateGameItem((GameItemType)newType, i, j, generateOn, null, isItemDirectionChangable, dropSpeed, movingCallback);
         }
 
         public void OnDestroy()
@@ -329,16 +323,23 @@ namespace Assets.Scripts
                 ChainCounter = 0;
                 if (HintTimeCounter < 0) HintTimeCounter = 0;
 
-                if (!RemoveAdditionalItems() && CallbacksCount == 0 && !CheckForPossibleMoves())
+                if (CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
-                    if(lastMoved != GameItemType._ToMoveItem)
-                    GenerateField(false, true, Game.Difficulty == DifficultyLevel._easy ? false : true);
+
+                    if (lastMoved != GameItemType._ToMoveItem)
+                    {
+                        GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix + "NoMoves"));
+                        if (Game.Difficulty > DifficultyLevel._easy)
+                            lastMoved = GameItemType._ToMoveItem;
+                    }
+
                 }
                 UpdateTime();
                 return 0;
             }
             HintTimeCounter = -1;
+            _isDropDone = false;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
             var linesCount = lines.Count;
             var pointsBank = 0;
@@ -346,7 +347,7 @@ namespace Assets.Scripts
             while (l != null && !IsGameOver)
             {
                 var pointsMultiple = 1;
-                
+
                 var currentObj = Items[l.X2][l.Y2] as GameObject;
                 var gi = currentObj.GetComponent<GameItem>();
                 var cellType = gi.Type;
@@ -357,15 +358,10 @@ namespace Assets.Scripts
                     for (var j = l.Y2; j >= l.Y1; j--)
                     {
                         if (Items[l.X1][j] == null || Items[l.X1][j] == DisabledItem)
-                        {
-                            //LogFile.Message("Items[i][l.Y1] == null");
                             continue;
-                        }
                         if (LinesWithItem(lines, l.X1, j).Count() > 1)
-                        {
-                            //LogFile.Message("Items[" + l.X1 + "][" + j + "] = null;");
                             continue;
-                        }
+
                         var gobj = Items[l.X1][j] as GameObject;
                         if (gobj == null) continue;
                         gobj.transform.localPosition = new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y, -0.5f);
@@ -394,22 +390,11 @@ namespace Assets.Scripts
                     }
                 }
 
-                //var currentObj = Items[l.X2][l.Y2] as GameObject;
-                //if (currentObj != null)
-                //{
-                    //var gi = currentObj.GetComponent<GameItem>();
-                    var points = pointsMultiple * (int)Math.Pow(2, (double)cellType);
-                    /*var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-                    if (scalingLabelObject != null)
-                    {
-                        var pointsLabel = scalingLabelObject.GetComponent<LabelShowing>();
-                        pointsLabel.transform.SetParent(transform);*/
-                        pointsBank += points;
-                        LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
-                            null, 0, cellType);
+                var points = pointsMultiple * (int)Math.Pow(2, (double)cellType);
+                pointsBank += points;
+                LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
+                    null, 0, cellType);
 
-                    //}
-                //}
                 lines.Remove(l);
 
                 if (linesCount == 1)
@@ -444,11 +429,20 @@ namespace Assets.Scripts
         public override bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
             var gobj = Items[x1][y1] as GameObject;
-            if(gobj != null && Items[x1][y1] != DisabledItem)
+            if (gobj != null && Items[x1][y1] != DisabledItem)
             {
                 lastMoved = gobj.GetComponent<GameItem>().Type;
             }
             return base.GameItemsExchange(x1, y1, x2, y2, speed, isReverse, exchangeCallback);
+        }
+
+        protected override void SpawnXItems()
+        {
+            while (XItemsCount < MaxAdditionalItemsCount)
+            {
+                SpawnItemOnRandomPlace(GameItemType._XItem, XItemsCount % 2 == 0 ? MoveDirections.Left : MoveDirections.Right, _6x6ItemsScale);
+                XItemsCount++;
+            }
         }
 
     }

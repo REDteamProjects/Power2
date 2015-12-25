@@ -83,7 +83,7 @@ namespace Assets.Scripts
 
         public override float GameItemSize { get { return 3.84f; } }
 
-        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false)
+        public override void GenerateField(bool completeCurrent = false, bool mixCurrent = false, bool onlyNoMovesLabel = false, LabelAnimationFinishedDelegate callback = null)
         {
             //if (CallbacksCount > 1) return;
 
@@ -360,7 +360,7 @@ namespace Assets.Scripts
                             if (!cS.IsMoving) DropsCount++;
                             var colS = col;
                             var rowS = row;
-                            cS.MoveTo(null, GetCellCoordinates(col, row + rowStaticCounter).y, Game.standartItemSpeed, (item, result) =>
+                            cS.MoveTo(null, GetCellCoordinates(col, row + rowStaticCounter).y, Game.StandartItemSpeed, (item, result) =>
                             {
                                 if (!cS.IsMoving)
                                     DropsCount--;
@@ -387,7 +387,7 @@ namespace Assets.Scripts
                     
                     var col1 = col;
                     var row1 = row;
-                    c.MoveTo(null, GetCellCoordinates(col, row + 1).y, Game.standartItemSpeed, (item, result) =>
+                    c.MoveTo(null, GetCellCoordinates(col, row + 1).y, Game.StandartItemSpeed, (item, result) =>
                     {
                         //if (!c.isMoving)
                             DropsCount--;
@@ -400,8 +400,11 @@ namespace Assets.Scripts
                     });
                 }
             }
-            if (counter == 0 && DropsCount == 0 && generateAfterDrop && CallbacksCount == 0)
+            if (generateAfterDrop)
+            {
+                _isDropDone = true;
                 GenerateField(true);
+            }
         }
 
         void OnLevelWasLoaded()
@@ -479,7 +482,7 @@ namespace Assets.Scripts
                     Game.Difficulty = sd.Difficulty;
 
                     CurrentTime = sd.CurrentPlaygroundTime;
-
+                    GameMovesCount = sd.MovesCount;
                     var mit = ((SquarePlaygroundSavedata)sd).MaxInitialElementType;
                     if (mit != MaxInitialElementType)
                         MaxInitialElementType = mit;
@@ -487,7 +490,7 @@ namespace Assets.Scripts
                         ShowMaxInitialElement();
                     GenerateField(true);
                     RaisePoints(sd.Score);
-                    GameMovesCount = sd.MovesCount;
+                    
 
                     DifficultyRaisedGUI();
                     return;
@@ -533,7 +536,7 @@ namespace Assets.Scripts
             })
                 ;
             var gameItem = (type != GameItemType.NullItem) ?
-                GenerateGameItem(type, col, row, new Vector2(0, 1), true, 2, callback)
+                GenerateGameItem(type, col, row, new Vector2(0, 1),null, true, 2, callback)
                 : GenerateGameItem(col, row, null, new Vector2(0, 1), true, 2, callback);
 
             if (gameItem != null)

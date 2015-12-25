@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e638c747a4870b0439db648ce8a1d4f1
-timeCreated: 1450340739
+timeCreated: 1451059874
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,7 +11,7 @@ TextureImporter:
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -30,8 +30,8 @@ TextureImporter:
   cubemapConvolutionSteps: 8
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
-  textureFormat: -1
-  maxTextureSize: 2048
+  textureFormat: 12
+  maxTextureSize: 1024
   textureSettings:
     filterMode: -1
     aniso: 16
@@ -50,7 +50,11 @@ TextureImporter:
   spritePixelsToUnits: 100
   alphaIsTransparency: 0
   textureType: 5
-  buildTargetSettings: []
+  buildTargetSettings:
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: 12
+    compressionQuality: 50
   spriteSheet:
     sprites:
     - name: GradientAtlas_easy

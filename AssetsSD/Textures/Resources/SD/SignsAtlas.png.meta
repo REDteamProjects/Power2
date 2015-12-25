@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: e465e2fe5c8742948a2ed8b126be603f
-timeCreated: 1450341593
+timeCreated: 1451059732
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -43,10 +43,11 @@ TextureImporter:
     21300072: SignsAtlas_17
     21300074: SignsAtlas_18
     21300076: SignsAtlas_X
+    21300078: SignsAtlas_X
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0
@@ -66,7 +67,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 4096
+  maxTextureSize: 2048
   textureSettings:
     filterMode: 2
     aniso: 16
@@ -116,7 +117,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_3
       rect:
@@ -126,7 +127,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_4
       rect:
@@ -136,7 +137,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_5
       rect:
@@ -156,7 +157,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_7
       rect:
@@ -166,17 +167,17 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_8
       rect:
         serializedVersion: 2
-        x: 1
+        x: 0
         y: 256
-        width: 127
+        width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_9
       rect:
@@ -186,7 +187,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_10
       rect:
@@ -196,7 +197,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_11
       rect:
@@ -206,7 +207,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_12
       rect:
@@ -216,7 +217,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_13
       rect:
@@ -226,7 +227,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_14
       rect:
@@ -236,7 +237,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_15
       rect:
@@ -246,7 +247,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_16
       rect:
@@ -256,7 +257,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_17
       rect:
@@ -266,7 +267,7 @@ TextureImporter:
         width: 128
         height: 128
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: SignsAtlas_18
       rect:
@@ -275,6 +276,16 @@ TextureImporter:
         y: 0
         width: 128
         height: 128
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SignsAtlas_X
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 420
+        width: 60
+        height: 60
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

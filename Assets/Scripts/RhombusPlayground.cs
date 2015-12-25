@@ -27,7 +27,7 @@ namespace Assets.Scripts
                 { MoveDirections.DR, new Vector2(2, -2) },
             })
         {
-            InitialMoveTimerMultiple = 28;
+            InitialMoveTimerMultiple = 32;
             ScaleMultiplyer = 4.1f;
         }
 
@@ -346,7 +346,7 @@ namespace Assets.Scripts
                                 {
                                 CallbacksCount++;
                                 Items[cX][cY] = null;
-                                c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                                c.MoveTo(toCell.x, toCell.y, Game.StandartItemSpeed, (item, result) =>
                                 {
                                     LogFile.Message(cX + " " + cY, true);
                                     CallbacksCount--;
@@ -359,7 +359,7 @@ namespace Assets.Scripts
                         {
                             CallbacksCount++;
                             Items[cX][cY] = null;
-                            c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                            c.MoveTo(toCell.x, toCell.y, Game.StandartItemSpeed, (item, result) =>
                             {
                                 LogFile.Message(cX + " " + cY, true);
                                 CallbacksCount--;
@@ -417,7 +417,7 @@ namespace Assets.Scripts
                                 {
                                 CallbacksCount++;
                                 Items[cX][cY] = null;
-                                c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                                c.MoveTo(toCell.x, toCell.y, Game.StandartItemSpeed, (item, result) =>
                                 {
                                     LogFile.Message(cX + " " + cY, true);
                                     CallbacksCount--;
@@ -430,7 +430,7 @@ namespace Assets.Scripts
                         {
                             CallbacksCount++;
                             Items[cX][cY] = null;
-                            c.MoveTo(toCell.x, toCell.y, Game.standartItemSpeed, (item, result) =>
+                            c.MoveTo(toCell.x, toCell.y, Game.StandartItemSpeed, (item, result) =>
                             {
                                 LogFile.Message(cX + " " + cY, true);
                                 CallbacksCount--;
@@ -504,7 +504,7 @@ namespace Assets.Scripts
 
             var generateAfterDrop = true;
 
-            var rhombusDropSpeed = Game.standartItemSpeed - 4;
+            var rhombusDropSpeed = Game.StandartItemSpeed - 4;
 
             for (var row = FieldSize - 1; row > 0; row--)
             {
@@ -570,8 +570,6 @@ namespace Assets.Scripts
                 for (var i = FieldSize - 1; i >= 0; i--)
                 {
                     var generateOnX = i % 2 == 1 ? -i : i;
-                    var resCol = RandomObject.Next(0, FieldSize);
-
                     for (var j = FieldSize - 1; j >= 0; j--)
                     {
                         var deniedList = new List<GameItemType>();
@@ -581,24 +579,20 @@ namespace Assets.Scripts
                         {
                             case DifficultyLevel._medium:
                             //case DifficultyLevel._veryhard:
-                                if (ToMoveItemsCount < MaxAdditionalItemsCount && j <= FieldSize / 2)
+                                if (ToMoveItemsCount < MaxAdditionalItemsCount)
                                 {
-                                    var resRow = RandomObject.Next(0, FieldSize);
-                                    if (resCol == resRow)
-                                    {
                                         Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), null, false, 10 + i * 2);//may be calculate speed or generateOn vector in another way
                                         //(Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
                                         ToMoveItemsCount++;
                                         generateOnX++;
                                         continue;
-                                    }
                                 }
                                 break;
                         }
                         if (completeCurrent)
                         {
                             LogFile.Message("New gameItem need to i:" + i + "j: " + j, true);
-                            Items[i][j] = GenerateGameItem(i, j, null, new Vector2(generateOnX, i), false, Game.standartItemSpeed/2 + i * 2);//may be calculate speed or generateOn vector in another way
+                            Items[i][j] = GenerateGameItem(i, j, null, new Vector2(generateOnX, i), false, 10 + i * 2);//may be calculate speed or generateOn vector in another way
                             continue;
                         }
                         //Horizontal before
@@ -645,7 +639,6 @@ namespace Assets.Scripts
                         callback = () =>
                         {
                             MixField();
-                            PlaygroundProgressBar.ProgressBarRun = true;
                         };
                     }
                     var noMovesLabel = o.GetComponent<LabelShowing>();

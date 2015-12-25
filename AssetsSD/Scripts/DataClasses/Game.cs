@@ -13,13 +13,18 @@ namespace Assets.Scripts.DataClasses
         public GameTypes Type;
         //public Texture2D emptyProgressBar;
         public Texture2D fullProgressBar;
-        private IPlayground PlaygroundObject;
+        private static IPlayground PlaygroundObject;
         //internal Statistics Stats;
         public static DifficultyLevel Difficulty = DifficultyLevel._easy;
         public static GameTheme _theme = GameTheme.dark;
         public static Font textFont;
         public static Font numbersFont;
-        public static float standartItemSpeed = 24;
+        public static float _standartItemSpeed = 22;
+
+        public static float StandartItemSpeed
+        {
+            get { return _standartItemSpeed * (PlaygroundObject == null ? 1f : PlaygroundObject.ItemSpeedMultiplier); }
+        }
 
         public static GameTheme Theme
         {

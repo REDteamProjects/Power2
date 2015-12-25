@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using GoogleMobileAds.Api;
+using UnityEngine.UI;
 
 public enum AdMobADType
 {
@@ -18,8 +19,28 @@ public class UnityADHelper : MonoBehaviour
 
     public AdMobADType Type = AdMobADType.NoAd;
 
+    public AdSize BannerSize = AdSize.Banner;
+
+    public static int AdTaps
+    {
+       get
+       {
+           return PlayerPrefs.HasKey("AdTaps") ? PlayerPrefs.GetInt("AdTaps") : 0;
+       }
+
+       set
+       {
+            PlayerPrefs.SetInt("AdTaps", value);
+       }
+    }
+
+
     void Awake()
     {
+#if !DEBUG
+        if (AdTaps >= 16)
+            return;
+
         switch (Type)
         {
             case AdMobADType.NoAd:
@@ -35,6 +56,7 @@ public class UnityADHelper : MonoBehaviour
                     interstitialAd.Show();
                 return;
         }
+#endif
     }
 
     private IEnumerator InterstitialAdCoroutine()
@@ -69,11 +91,20 @@ public class UnityADHelper : MonoBehaviour
 
             // Create a 320x50 banner at the top of the screen.
             bannerView = new BannerView(
-                    bannerId, AdSize.Banner, AdPosition.Bottom);
+                    bannerId, BannerSize, AdPosition.Bottom);
             // Create an empty ad request.
             var request = new AdRequest.Builder()
+#if DEBUG
                 .AddTestDevice(AdRequest.TestDeviceSimulator)
+#endif
                 .Build();
+
+            bannerView.AdOpened += (sender, args) =>
+            {
+                AdTaps++;
+                if (AdTaps != 16) return;
+                DeleteBanner();
+            };
             // Load the banner with the request.
             bannerView.LoadAd(request);
         }
@@ -82,7 +113,47 @@ public class UnityADHelper : MonoBehaviour
             LogFile.Message(ex.Message + ex.StackTrace);
         }
     }
+    
+    private void CreateInterstitial()
+    {
+        try
+        {
+            var interstitialId = String.Empty;
 
+#if UNITY_ANDROID && !UNITY_EDITOR
+            interstitialId = "ca-app-pub-8526262957509496/1817366765";
+#endif
+//#if UNITY_IOS && !UNITY_EDITOR
+//        interstitialId = "ca-app-pub-8526262957509496/1817366765";
+//#endif
+            if (String.IsNullOrEmpty(interstitialId))
+                return;
+
+            // Initialize an InterstitialAd.
+            var interstitial = new InterstitialAd(interstitialId);
+            // Create an empty ad request.
+            var request = new AdRequest.Builder()
+#if DEBUG
+                .AddTestDevice(AdRequest.TestDeviceSimulator)
+#endif
+                .Build();
+
+            // Load the interstitial with the request.
+            interstitial.AdOpened += (sender, args) =>
+            {
+                AdTaps++;
+                if (AdTaps != 16) return;
+                DeleteInterstitial();
+            };
+
+            interstitial.LoadAd(request);
+        }
+        catch (Exception ex)
+        {
+            LogFile.Message(ex.Message + ex.StackTrace);
+        }
+    }
+    
     private void DeleteBanner()
     {
         if (bannerView != null)
@@ -95,34 +166,5 @@ public class UnityADHelper : MonoBehaviour
             interstitialAd.Destroy();
     }
 
-    private void CreateInterstitial()
-    {
-
-        try
-        {
-            var interstitialId = String.Empty;
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-            interstitialId = "ca-app-pub-8526262957509496/1817366765";
-#endif
-#if UNITY_IOS && !UNITY_EDITOR
-        interstitialId = "ca-app-pub-8526262957509496/1817366765";
-#endif
-            if (String.IsNullOrEmpty(interstitialId))
-                return;
-
-            // Initialize an InterstitialAd.
-            var interstitial = new InterstitialAd(interstitialId);
-            // Create an empty ad request.
-            var request = new AdRequest.Builder()
-                .AddTestDevice(AdRequest.TestDeviceSimulator)
-                .Build();
-            // Load the interstitial with the request.
-            interstitial.LoadAd(request);
-        }
-        catch (Exception ex)
-        {
-            LogFile.Message(ex.Message + ex.StackTrace);
-        }
-    }
+    
 }

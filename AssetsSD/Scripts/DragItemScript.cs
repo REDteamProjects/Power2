@@ -192,8 +192,9 @@ public class DragItemScript : MonoBehaviour
                                 (!(realTouchPosition.y < gobj.transform.localPosition.y + half))) continue;
 
                             var gims = gobj.GetComponent<GameItemMovingScript>();
+                            var giss = gobj.GetComponent<GameItemScalingScript>();
                             var gi = gobj.GetComponent<GameItem>();
-                            if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving)) continue;
+                            if (gims == null || gi == null || (!gi.IsDraggableWhileMoving && gims.IsMoving) || giss.isScaling || gi.MovingType == GameItemMovingType.Static) continue;
 
                             TouchedItem = new Point { X = col, Y = row };
                             touchedItemOriginalPosition = pg.GetCellCoordinates(col, row);
@@ -230,8 +231,9 @@ public class DragItemScript : MonoBehaviour
                 if (gobj1 == null)
                     return;
                 var giObject = gobj1.GetComponent<GameItem>();
+                /*
                 if (giObject != null &&
-                    giObject.MovingType == GameItemMovingType.Static /*|| giObject.Type == GameItemType._DropDownItem)*/) return;
+                    giObject.MovingType == GameItemMovingType.Static) return;
 
                 var gobj1Gims = gobj1.GetComponent<GameItemMovingScript>();
                 if (gobj1Gims.CurrentDestination != null && gobj1Gims.CurrentDestination.ChangingDirection)
@@ -240,9 +242,8 @@ public class DragItemScript : MonoBehaviour
                     gobj1.transform.localPosition.y,
                     gobj1.transform.localPosition.z);
                     touchOriginalPosition = touchedItemOriginalPosition;
-                    //gobj1.GetComponent<GameItemMovingScript>().CurrentDestination.ChangingDirection = false;
                     return;
-                }
+                }*/
 
 
                 var deltaX = Math.Abs(realTouchPosition.x - touchOriginalPosition.x);
@@ -255,7 +256,7 @@ public class DragItemScript : MonoBehaviour
                     case GameItemMovingType.Standart:
                     case GameItemMovingType.StandartChangable:
                     case GameItemMovingType.StandartExchangable:
-                        if (touchDirection != null /*&& giObject.MovingType == GameItemMovingType.Standart*/)
+                        if (touchDirection != null)
                         {
                             switch(touchDirection)
                             {
@@ -285,10 +286,10 @@ public class DragItemScript : MonoBehaviour
                                                 ? MoveDirections.Up
                                                 : MoveDirections.Down).Value))
                                     {
-                                        var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
+                                        /*var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
                                         if (touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
                                             && movingItemGameObject != null && movingItemGameObject.GetComponent<GameItemMovingScript>()
-                                                .IsMoving) touchDirection = null;
+                                                .IsMoving)*/ touchDirection = null;
                                         return;
                                     }
                                     deltaXYZ = deltaY;
@@ -304,35 +305,17 @@ public class DragItemScript : MonoBehaviour
                                             ? MoveDirections.Up
                                             : MoveDirections.Down).Value))
                                 {
-                                    /*var movingItemGameObject = pg.Items[touchedItem.X][touchedItem.Y] as GameObject;
-                                    var res = touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
-                                              && movingItemGameObject != null &&
-                                              movingItemGameObject.GetComponent<GameItemMovingScript>()
-                                                  .IsMoving;
-                                    if (res){ touchDirection = null;
-                                        return;
-                                    }
-                                    if (
-                                        !pg.IsItemMovingAvailable(touchedItem.X, touchedItem.Y,
-                                            (touchDirection = realTouchPosition.x > touchOriginalPosition.x
-                                                ? MoveDirections.Right
-                                                : MoveDirections.Left).Value))
-                                    {
-                                        //if (res) touchDirection = null;
-                                        return;
-                                    }*/
-
                                     if (
                                         !pg.IsItemMovingAvailable(TouchedItem.X, TouchedItem.Y,
                                             (touchDirection = realTouchPosition.x > touchOriginalPosition.x
                                                 ? MoveDirections.Right
                                                 : MoveDirections.Left).Value))
                                     {
-                                    var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
+                                    /*var movingItemGameObject = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
                                     if( touchDirection == MoveDirections.Down && pg is ModeDropsPlayground
                                              && movingItemGameObject != null &&
                                               movingItemGameObject.GetComponent<GameItemMovingScript>()
-                                                  .IsMoving) touchDirection = null;
+                                                  .IsMoving)*/ touchDirection = null;
                                         return;
                                     }
                                     deltaXYZ = deltaX;
@@ -385,8 +368,6 @@ public class DragItemScript : MonoBehaviour
                     case GameItemMovingType.Free:
                         deltaXYZ = (float)Math.Sqrt(Math.Pow(deltaX, 2) + Math.Pow(deltaY, 2));
                         break;
-                    case GameItemMovingType.Static:
-                        return;
                 }
 
                 if (!touchDirection.HasValue) return;

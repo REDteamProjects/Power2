@@ -9,8 +9,8 @@ using System.Collections.Generic;
 
 public class LabelShowing : MonoBehaviour {
 
-    public static Int32 minLabelFontSize = 70;
-    public static Int32 maxLabelFontSize = 100;
+    public static Int32 minLabelFontSize = 40;
+    public static Int32 maxLabelFontSize = 60;
     private static List<LabelShowing> PointLabels = new List<LabelShowing>();
     private Vector3 _localScale;
     private GameItemType? _type = null;
@@ -103,7 +103,7 @@ public class LabelShowing : MonoBehaviour {
         var mg = GameObject.Find("/Middleground");
         //var wp = initGameObject.transform.position;
         var newPos = mg.transform.InverseTransformPoint(initGameObject.transform.position);// calling it with foreground causes MaxInitialElement z index decreasing(shows under pause menu)...
-        var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z-2);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
+        var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z-5);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
         if(type.HasValue)
         {
             for(int i = 0;i < PointLabels.Count;i++)
@@ -143,7 +143,7 @@ public class LabelShowing : MonoBehaviour {
     }
 
     public void ShowScalingLabel(Vector3 position, String text, Color textColor, Color shadowColor, int animateFromSize, int animateToSize, int step = 1, Font font = null,
-        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, bool toForeground = false, int rotateAngle = 0)
+        bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, bool toForeground = false, int rotateAngle = 0, Vector3? scaleTo = null)
     {
         if (toForeground)
         {
@@ -153,6 +153,7 @@ public class LabelShowing : MonoBehaviour {
             position = fg.transform.InverseTransformPoint(position);
             position.z = z;
         }
+        transform.localScale = scaleTo == null ? Vector3.one : scaleTo.Value;
         _step = step;
         //animateToSize += (animateToSize - animateFromSize) % _step;
 
