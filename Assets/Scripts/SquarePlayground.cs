@@ -1827,7 +1827,7 @@ namespace Assets.Scripts
             }
 
             comboLabel.ShowScalingLabel(new Vector3(isLeft ? -150 : 150, InitialGameItem.Y + GameItemSize * 2.5f, -1),
-                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize / 4, LabelShowing.minLabelFontSize/2, 2, null, true, null, false,
+                LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize - 20, LabelShowing.minLabelFontSize, 1, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
             DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }

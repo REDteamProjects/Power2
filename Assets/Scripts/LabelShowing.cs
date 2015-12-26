@@ -9,8 +9,8 @@ using System.Collections.Generic;
 
 public class LabelShowing : MonoBehaviour {
 
-    public static Int32 minLabelFontSize = 40;
-    public static Int32 maxLabelFontSize = 60;
+    public static Int32 minLabelFontSize = 30;
+    public static Int32 maxLabelFontSize = 50;
     private static List<LabelShowing> PointLabels = new List<LabelShowing>();
     private Vector3 _localScale;
     private GameItemType? _type = null;
@@ -196,7 +196,7 @@ public class LabelShowing : MonoBehaviour {
         _labelText.font = font ? font : Game.textFont;
         _labelText.text = text;
         _destroyAfterAnimation = destroyAfterAnimation;
-        _pauseTimeout = 30 / _step;
+        _pauseTimeout = 40 / _step;
         _animationFinished = callback;
         _localScale = transform.localScale;
     }

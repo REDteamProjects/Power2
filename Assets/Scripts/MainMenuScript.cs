@@ -146,7 +146,7 @@ namespace Assets.Scripts
             var labelText = label.GetComponent<Text>();
             labelText.font = Game.textFont;
             labelText.color = GameColors.ModesColors[previos];
-            labelText.fontSize = LabelShowing.maxLabelFontSize-10;
+            labelText.fontSize = LabelShowing.maxLabelFontSize;
             labelText.text = pointsLeft.ToString();
             var modeLogo = Instantiate(Resources.Load("Prefabs/ModeLogo")) as GameObject;
             var modeSprite = Resources.LoadAll<Sprite>("SD/ModesButtonsAtlas")
@@ -202,7 +202,7 @@ namespace Assets.Scripts
             label.transform.localScale = Vector3.one;
             var txt = label.GetComponent<Text>();
             txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
-            txt.fontSize = LabelShowing.minLabelFontSize;
+            txt.fontSize = LabelShowing.maxLabelFontSize-10;
             txt.color = GameColors.DifficultyLevelsColors[DifficultyLevel._hard];
             Game.Difficulty = DifficultyLevel._easy;
             Application.LoadLevel(scene);

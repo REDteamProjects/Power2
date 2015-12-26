@@ -20,9 +20,8 @@ public class AboutPageScript : MonoBehaviour {
         var modestext = GameObject.Find("AboutText").GetComponent<Text>();
         modestext.text = LanguageManager.Instance.GetTextValue("AboutText");
         GameObject.Find("AboutTextShadow").GetComponent<Text>().text = modestext.text;
-        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", modestext.transform.parent, Vector3.one, new Vector3(3, -350, 0), LanguageManager.Instance.GetTextValue("RateUs"), 60, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
-        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", modestext.transform.parent, Vector3.one, new Vector3(0, -350, 0), btnTextShadow.text, btnTextShadow.fontSize,
-                RateUsHelper.GoToStore);
+        GameObject.Find("GUI/RateNowButton").GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("RateUs");
+        GameObject.Find("GUI/RateNowButtonShadow").GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("RateUs");
     }
 
     
