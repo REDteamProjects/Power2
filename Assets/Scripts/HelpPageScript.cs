@@ -9,7 +9,8 @@ using System;
 
 public class HelpPageScript : MonoBehaviour
 {
-    private GameObject InGameHelpModule;
+    //private GameObject InGameHelpModule;
+    private GameObject Foreground; 
     private GameObject currentHelp;
     private GameObject nextbtn;
     private GameObject prevbtn;
@@ -20,16 +21,16 @@ public class HelpPageScript : MonoBehaviour
 	void Awake ()
 	{
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
-        var fg = GameObject.Find("/Foreground");
-        if (fg == null) return;
-        InGameHelpModule = Instantiate(Resources.Load("Prefabs/HelpPageInGameHelper")) as GameObject;
-        InGameHelpModule.transform.SetParent(fg.transform);
-        InGameHelpModule.transform.localScale = Vector3.one;
-        InGameHelpModule.transform.localPosition = new Vector3(0, -25, 0);
-        GameObject.Find("/Foreground/ToMainMenuButton").transform.SetParent(InGameHelpModule.transform);
-        nextbtn = GameObject.Find("/Foreground/HelpPageInGameHelper(Clone)/NextButton");
+        Foreground = GameObject.Find("/Foreground");
+        //if (fg == null) return;
+        //InGameHelpModule = Instantiate(Resources.Load("Prefabs/HelpPageInGameHelper")) as GameObject;
+        //InGameHelpModule.transform.SetParent(fg.transform);
+        //InGameHelpModule.transform.localScale = Vector3.one;
+        //InGameHelpModule.transform.localPosition = new Vector3(0, -25, 0);
+        //GameObject.Find("/Foreground/ToMainMenuButton").transform.SetParent(InGameHelpModule.transform);
+        nextbtn = GameObject.Find("/Foreground/NextButton");
         nextbtn.GetComponent<Button>().onClick.AddListener(() => NextHelpItem());
-        prevbtn = GameObject.Find("/Foreground/HelpPageInGameHelper(Clone)/PrevButton");
+        prevbtn = GameObject.Find("/Foreground/PrevButton");
         prevbtn.GetComponent<Button>().onClick.AddListener(() => PrevHelpItem());
         _allModulesPostfixList = new List<String>(LanguageManager.Instance.GetKeysWithinCategory("UserHelp."));
         for (int i = 0; i < _allModulesPostfixList.Count;i++)
@@ -66,9 +67,9 @@ public class HelpPageScript : MonoBehaviour
         if (currentHelp != null)
             Destroy(currentHelp);
         currentHelp = Instantiate(manualPrefab);
-        currentHelp.transform.SetParent(InGameHelpModule.transform);
+        currentHelp.transform.SetParent(Foreground.transform);
         currentHelp.transform.localScale = new Vector3(25, 25, 0);
-        currentHelp.transform.localPosition = new Vector3(0, 30, -4);
+        currentHelp.transform.localPosition = new Vector3(0, -20, -12);
         return true;
     }
 

@@ -50,7 +50,7 @@ namespace Assets.Scripts
         protected GameItemType MaxType = GameItemType._3;
         protected bool CallClearChainsAfterExchange;
         protected int CurrentExchangeItemsCount;
-        protected float InitialMoveTimerMultiple = 34;
+        protected float InitialMoveTimerMultiple = 30;
         private readonly Vector3 _selectionScale = new Vector3(1.1f, 1.1f, 1f);
 
         #region Scenes Arguments

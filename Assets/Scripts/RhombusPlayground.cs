@@ -27,7 +27,7 @@ namespace Assets.Scripts
                 { MoveDirections.DR, new Vector2(2, -2) },
             })
         {
-            InitialMoveTimerMultiple = 32;
+            //InitialMoveTimerMultiple = 26;
             ScaleMultiplyer = 4.1f;
         }
 

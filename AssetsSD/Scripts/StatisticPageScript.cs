@@ -84,10 +84,14 @@ public class StatisticPageScript : MonoBehaviour
     {
         LoadLevelData(0);
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
-        var fg = GameObject.Find("/GUI");
-        var btnTextShadow = MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, -370, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 60, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
-        MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, -370, 0), btnTextShadow.text, btnTextShadow.fontSize,
-                CreateResetStatConfirmationMenu);
+        //var fg = GameObject.Find("/GUI");
+        GameObject.Find("/GUI/ResetProgressButtonShadow").GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("ResetAll");//MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(3, 80, 0), LanguageManager.Instance.GetTextValue("ResetAll"), 60, null, GameColors.DefaultDark).GetComponentInChildren<Text>();
+        var rpb = GameObject.Find("/GUI/ResetProgressButton");
+        rpb.GetComponentInChildren<Text>().text = LanguageManager.Instance.GetTextValue("ResetAll");
+        rpb.GetComponent<Button>().onClick.AddListener(() => CreateResetStatConfirmationMenu());
+        //MainMenuScript.GenerateMenuButton("Prefabs/MainMenuButton", fg.transform, Vector3.one, new Vector3(0, 80, 0), btnTextShadow.text, btnTextShadow.fontSize,
+                //CreateResetStatConfirmationMenu);
+
     }
 
     void CreateResetStatConfirmationMenu()

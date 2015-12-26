@@ -76,7 +76,7 @@ namespace Assets.Scripts
 //#endif
             _availableScenes.Add("11Rhombus");
 
-            if (!PlayerPrefs.HasKey("PressLogoLabel"))
+            //if (!PlayerPrefs.HasKey("PressLogoLabel"))
             {
                 _pressLogoLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject);
                 if (_pressLogoLabel != null)

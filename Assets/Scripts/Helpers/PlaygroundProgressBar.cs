@@ -13,8 +13,8 @@ namespace Assets.Scripts.Helpers
         public static readonly float ProgressBarBaseSize = 460;
         private static GameObject _progressBar;
         private GameObject _progressBarLine;
-        private float _moveTimerMultiple = 16;
-        private float _moveTimerMultipleUpper = 32;
+        private float _moveTimerMultiple = 30;
+        private float _moveTimerMultipleUpper;
         private float _progressBarBank = -1;
         private float _progressBarBankUpper;
         private float _maxBarYSize = 0;
@@ -99,7 +99,8 @@ namespace Assets.Scripts.Helpers
                 if (value < 1)
                     _moveTimerMultiple = 1;
                 else
-                _moveTimerMultiple = value; 
+                _moveTimerMultiple = value;
+                _moveTimerMultipleUpper = _moveTimerMultiple * 3f;
             } 
         }
 
