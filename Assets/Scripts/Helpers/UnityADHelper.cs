@@ -97,6 +97,7 @@ public class UnityADHelper : MonoBehaviour
 #if DEBUG
                 .AddTestDevice(AdRequest.TestDeviceSimulator)
 #endif
+                .AddTestDevice("98446DEEDA9D51B42BD040E4FCE04273")
                 .Build();
 
             bannerView.AdOpened += (sender, args) =>
@@ -136,6 +137,7 @@ public class UnityADHelper : MonoBehaviour
 #if DEBUG
                 .AddTestDevice(AdRequest.TestDeviceSimulator)
 #endif
+                .AddTestDevice("98446DEEDA9D51B42BD040E4FCE04273")
                 .Build();
 
             // Load the interstitial with the request.
