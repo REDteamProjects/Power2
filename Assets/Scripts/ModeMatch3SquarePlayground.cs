@@ -331,7 +331,11 @@ namespace Assets.Scripts
                     {
                         GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix + "NoMoves"));
                         if (Game.Difficulty > DifficultyLevel._easy)
+                        {
                             lastMoved = GameItemType._ToMoveItem;
+                            _selectedPoint1Coordinate = null;
+                            _selectedPoint2Coordinate = null;
+                        }
                     }
 
                 }

@@ -30,8 +30,8 @@ namespace Assets.Scripts
 
         private GameObject _selectedPoint1;
         private GameObject _selectedPoint2;
-        private Point _selectedPoint1Coordinate;
-        private Point _selectedPoint2Coordinate;
+        protected Point _selectedPoint1Coordinate;
+        protected Point _selectedPoint2Coordinate;
         private int _chainCounter;
         private GameItemType _nextUpperLevelGameItemType = GameItemType.NullItem;
         private float _currentTime;
@@ -407,7 +407,7 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
             showTimeLabel.ShowScalingLabel(new Vector3(ProgressBar.Coordinate.x, ProgressBar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-                GameColors.DefaultLabelColor, GameColors.DefaultLabelColor, LabelShowing.minLabelFontSize - 30, LabelShowing.maxLabelFontSize - 40, 1, null, true, () =>
+                GameColors.DefaultLabelColor, GameColors.DefaultLabelColor, LabelShowing.minLabelFontSize - 10, LabelShowing.maxLabelFontSize - 30, 1, null, true, () =>
                 {
                     PlaygroundProgressBar.ProgressBarRun = true;
                 });
