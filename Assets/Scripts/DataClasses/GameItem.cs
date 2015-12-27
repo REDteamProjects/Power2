@@ -65,5 +65,52 @@ namespace Assets.Scripts.DataClasses
             CurrentPosition = transform.localPosition;
             GameItemType Type = GameItemType.NullItem;
         }
+
+        public static String GetStandartTextureIDByType(GameItemType type)
+        {
+            switch (type)
+            {
+                case GameItemType._1:
+                    return "_0";
+                case GameItemType._2:
+                    return "_1";
+                case GameItemType._3:
+                    return "_2";
+                case GameItemType._4:
+                    return "_3";
+                case GameItemType._5:
+                    return "_4";
+                case GameItemType._6:
+                    return "_5";
+                case GameItemType._7:
+                    return "_6";
+                case GameItemType._8:
+                    return "_7";
+                case GameItemType._9:
+                    return "_8";
+                case GameItemType._10:
+                    return "_9";
+                case GameItemType._11:
+                    return "_10";
+                case GameItemType._12:
+                    return "_11";
+                case GameItemType._13:
+                    return "_12";
+                case GameItemType._14:
+                    return "_13";
+                case GameItemType._15:
+                    return "_14";
+                case GameItemType._16:
+                    return "_15";
+                case GameItemType._2x:
+                    return "_16";
+                case GameItemType._ToMoveItem:
+                    return "_17";
+                case GameItemType._XItem:
+                    return "_18";
+                default:
+                    return String.Empty;
+            }
+        }
     }
 }

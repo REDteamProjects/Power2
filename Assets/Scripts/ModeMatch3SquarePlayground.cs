@@ -48,21 +48,20 @@ namespace Assets.Scripts
                     case DifficultyLevel._easy:
                         if (CurrentScore < 4096) return;
                         Game.Difficulty = DifficultyLevel._medium;
-                        MoveTimerMultiple = InitialMoveTimerMultiple - 2;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._medium:
                         if (CurrentScore < 12288) return;
                         Game.Difficulty = DifficultyLevel._hard;
-                        MoveTimerMultiple = InitialMoveTimerMultiple - 4;
+                        MoveTimerMultiple = InitialMoveTimerMultiple - 2;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
                     case DifficultyLevel._hard:
                         if (CurrentScore < 20480) return;
                         Game.Difficulty = DifficultyLevel._veryhard;
-                        MoveTimerMultiple = InitialMoveTimerMultiple - 6;
+                        MoveTimerMultiple = InitialMoveTimerMultiple - 4;
                         DifficultyRaisedGUI(true, MaxInitialElementTypeRaisedActionsAdditional);
                         RaiseMaxInitialElement = true;
                         return;
@@ -417,7 +416,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RaisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
+                RaisePoints(pointsBank * ChainCounter);
 
                 pointsBank = 0;
 
@@ -460,7 +459,7 @@ namespace Assets.Scripts
             }
         }
 
-        public override String GetTextureIDByType(GameItemType type)
+        protected override String GetTextureIDByType(GameItemType type)
         {
             switch (type)
             {
@@ -468,6 +467,17 @@ namespace Assets.Scripts
                     return "_7";
                 default:
                     return base.GetTextureIDByType(type);
+            }
+        }
+
+        protected override GameItemMovingType GetMovingTypeByItemType(GameItemType type)
+        {
+            switch (type)
+            {
+                case GameItemType._ToMoveItem:
+                    return GameItemMovingType.StandartExchangable;
+                default:
+                    return base.GetMovingTypeByItemType(type);
             }
         }
 

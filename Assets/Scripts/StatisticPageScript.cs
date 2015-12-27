@@ -30,12 +30,12 @@ public class StatisticPageScript : MonoBehaviour
         if (child != null)
             Destroy(child.gameObject);
 
-        var inststr = type <= GameItemType.DisabledItem ? "Prefabs/GameItem_LostItem" : ItemsNameHelper.GetPrefabPath<T>() + type;
+        var inststr = type <= GameItemType.DisabledItem ? "Prefabs/GameItem_LostItem" : ItemsNameHelper.GetPrefabPath<T>();
         var newgobj =
             Instantiate(Resources.Load(inststr)) as GameObject;
-        
         if (newgobj == null) return;
-
+        if (type > GameItemType.DisabledItem)
+        newgobj.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(inststr.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GameItem.GetStandartTextureIDByType(type)));
         newgobj.transform.SetParent(levelTitle.transform);
         newgobj.transform.localPosition = new Vector3(0, 0);
         //newgobj.transform.localScale = type <= GameItemType.DisabledItem ? new Vector3(80, 80) : new Vector3(10, 10);

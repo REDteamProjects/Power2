@@ -50,7 +50,7 @@ namespace Assets.Scripts
         protected GameItemType MaxType = GameItemType._3;
         protected bool CallClearChainsAfterExchange;
         protected int CurrentExchangeItemsCount;
-        protected float InitialMoveTimerMultiple = 30;
+        protected float InitialMoveTimerMultiple = 32;
         private readonly Vector3 _selectionScale = new Vector3(1.1f, 1.1f, 1f);
         protected List<GameItem> TempGameItems = new List<GameItem>();
 
@@ -234,50 +234,19 @@ namespace Assets.Scripts
             }
         }
 
-        public virtual String GetTextureIDByType(GameItemType type)
+        protected virtual String GetTextureIDByType(GameItemType type)
+        {
+            return GameItem.GetStandartTextureIDByType(type);
+        }
+
+        protected virtual GameItemMovingType GetMovingTypeByItemType(GameItemType type)
         {
             switch (type)
             {
-                case GameItemType._1:
-                    return "_0";
-                case GameItemType._2:
-                    return "_1";
-                case GameItemType._3:
-                    return "_2";
-                case GameItemType._4:
-                    return "_3";
-                case GameItemType._5:
-                    return "_4";
-                case GameItemType._6:
-                    return "_5";
-                case GameItemType._7:
-                    return "_6";
-                case GameItemType._8:
-                    return "_7";
-                case GameItemType._9:
-                    return "_8";
-                case GameItemType._10:
-                    return "_9";
-                case GameItemType._11:
-                    return "_10";
-                case GameItemType._12:
-                    return "_11";
-                case GameItemType._13:
-                    return "_12";
-                case GameItemType._14:
-                    return "_13";
-                case GameItemType._15:
-                    return "_14";
-                case GameItemType._16:
-                    return "_15";
-                case GameItemType._2x:
-                    return "_16";
-                case GameItemType._ToMoveItem:
-                    return "_17";
                 case GameItemType._XItem:
-                    return "_18";
+                    return GameItemMovingType.Static;
                 default:
-                    return String.Empty;
+                    return GameItemMovingType.Standart;
             }
         }
 
@@ -471,7 +440,7 @@ namespace Assets.Scripts
         {
             while (XItemsCount < MaxAdditionalItemsCount)
             {
-                SpawnItemOnRandomPlace(GameItemType._XItem, XItemsCount % 2 == 0 ? MoveDirections.Left : MoveDirections.Right);
+                SpawnItemOnRandomPlace(GameItemType._XItem, XItemsCount % 2 == 0 ? MoveDirections.Left : MoveDirections.Right, null);
                 XItemsCount++;
             }
         }
@@ -515,7 +484,7 @@ namespace Assets.Scripts
             }
             RemoveGameItem(col, row, (item, r) =>
             {
-                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero, scaleTo == null ? GameItemScale : scaleTo);
+                Items[col][row] = GenerateGameItem(type, col, row, Vector2.zero, scaleTo == null ? GameItemScale : scaleTo, false, null, null);
             });
         }
 
@@ -530,7 +499,7 @@ namespace Assets.Scripts
             gobj.transform.SetParent(fg.transform);
             gobj.transform.localPosition = new Vector3(0, 400f, -1);
             gobj.transform.localScale = Vector3.one;//new Vector3(16, 16);
-            gobj.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").SingleOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType)));
+            gobj.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType)));
             gobj.name = "MaximumItem";
             gobj.AddComponent<Button>();
             var image = gobj.AddComponent<Image>();
@@ -820,8 +789,7 @@ namespace Assets.Scripts
             var sprite = Resources.LoadAll<Sprite>(ItemsTextureName(itemType).Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(itemType)));
             newgi.GetComponent<SpriteRenderer>().sprite = sprite;
             newgi.Type = itemType;
-            if (movingType.HasValue)
-               newgi.MovingType = movingType.Value;
+            newgi.MovingType = movingType != null? movingType.Value  : GetMovingTypeByItemType(itemType);
             return newgi.gameObject;
         }
 
@@ -1315,7 +1283,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RaisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
+                RaisePoints(pointsBank * ChainCounter);
 
                 pointsBank = 0;
                 lines = GetAllLines();
@@ -1440,9 +1408,9 @@ namespace Assets.Scripts
                             switch (Game.Difficulty)
                             {
                                 case DifficultyLevel._medium:
-                                    if (ToMoveItemsCount < MaxAdditionalItemsCount && j > 0)
+                                    if (ToMoveItemsCount < MaxAdditionalItemsCount)
                                     {
-                                        var resCol = RandomObject.Next(ToMoveItemsCount == 0 ? 0 : FieldSize / 2,ToMoveItemsCount == 0 ? FieldSize/2 : FieldSize);
+                                        var resCol = RandomObject.Next(ToMoveItemsCount == 0 ? 0 : (FieldSize / 2 - 1),ToMoveItemsCount == 0 ? (FieldSize / 2) : FieldSize);
                                         if (resCol == i)
                                         {
                                             Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(0, generateOnY), GameItemScale);

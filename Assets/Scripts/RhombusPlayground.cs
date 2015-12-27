@@ -486,7 +486,7 @@ namespace Assets.Scripts
 
                 pointsBank *= linesCount;
                 ChainCounter++;
-                RaisePoints(pointsBank * ChainCounter * (int)Game.Difficulty);
+                RaisePoints(pointsBank * ChainCounter);
 
                 pointsBank = 0;
                 lines = GetAllLines();
@@ -578,11 +578,9 @@ namespace Assets.Scripts
                         switch (Game.Difficulty)
                         {
                             case DifficultyLevel._medium:
-                            //case DifficultyLevel._veryhard:
                                 if (ToMoveItemsCount < MaxAdditionalItemsCount)
                                 {
                                         Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), null, false, 12 + i * 2);//may be calculate speed or generateOn vector in another way
-                                        //(Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
                                         ToMoveItemsCount++;
                                         generateOnX++;
                                         continue;
