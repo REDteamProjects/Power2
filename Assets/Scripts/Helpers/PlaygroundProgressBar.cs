@@ -255,7 +255,7 @@ namespace Assets.Scripts.Helpers
         {
             if (_progressBarLine == null) return;
             ProgressBarRun = false;
-            _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("SD/GradientAtlas")
+            _progressBarLine.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>("GradientAtlas")
                .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
         }
 

@@ -352,7 +352,7 @@ namespace Assets.Scripts
                                     CallbacksCount--;
                                     if (!result) return;
 
-                                    Destroy(item);
+                                    DestroyGameItem((GameObject)item);
                                 });
                                 });
                         else
@@ -365,7 +365,7 @@ namespace Assets.Scripts
                                 CallbacksCount--;
                                 if (!result) return;
 
-                                Destroy(item);
+                                DestroyGameItem((GameObject)item);
                             });
                         }
                     }
@@ -423,7 +423,7 @@ namespace Assets.Scripts
                                     CallbacksCount--;
                                     if (!result) return;
 
-                                    Destroy(item); 
+                                    DestroyGameItem((GameObject)item); 
                                 });
                                 });
                         else
@@ -436,7 +436,7 @@ namespace Assets.Scripts
                                 CallbacksCount--;
                                 if (!result) return;
 
-                                Destroy(item);
+                                DestroyGameItem((GameObject)item);
                             });
                         }
                     }
@@ -453,7 +453,7 @@ namespace Assets.Scripts
                         //new Vector3(GameItemSize / ScaleMultiplyer, GameItemSize / ScaleMultiplyer, 1f));
                     if (toGobj.GetComponent<GameItemMovingScript>().IsMoving)
                         CallbacksCount--;
-                    Destroy(toGobj);
+                    DestroyGameItem(toGobj);
                         Items[toObjX][toObjY] = newgobj;
                     var points = pointsMultiple * (int)Math.Pow(2, (double)newgobjtype);
                         if (newgobjtype <= MaxInitialElementType)
@@ -581,7 +581,7 @@ namespace Assets.Scripts
                             //case DifficultyLevel._veryhard:
                                 if (ToMoveItemsCount < MaxAdditionalItemsCount)
                                 {
-                                        Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), null, false, 10 + i * 2);//may be calculate speed or generateOn vector in another way
+                                        Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), null, false, 12 + i * 2);//may be calculate speed or generateOn vector in another way
                                         //(Items[i][j] as GameObject).transform.localScale = new Vector3(4,4);
                                         ToMoveItemsCount++;
                                         generateOnX++;
@@ -592,7 +592,7 @@ namespace Assets.Scripts
                         if (completeCurrent)
                         {
                             LogFile.Message("New gameItem need to i:" + i + "j: " + j, true);
-                            Items[i][j] = GenerateGameItem(i, j, null, new Vector2(generateOnX, i), false, 10 + i * 2);//may be calculate speed or generateOn vector in another way
+                            Items[i][j] = GenerateGameItem(i, j, null, new Vector2(generateOnX, i), false, 12 + i * 2);//may be calculate speed or generateOn vector in another way
                             continue;
                         }
                         //Horizontal before

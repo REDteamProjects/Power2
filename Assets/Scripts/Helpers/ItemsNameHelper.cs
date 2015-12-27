@@ -14,47 +14,23 @@ public class ItemsNameHelper  {
         var typeT = typeof (T);
         if (typeT == typeof(ModeDropsPlayground))
         {
-            /*switch (Game.Theme)
-            {
-                case GameTheme.dark:*/
-                    return "Prefabs/SD/Drops/DropsGameItem";
-                /*case GameTheme.light:
-                    return "Prefabs/SD/Drops/DropsGameItem";
-            }*/
+                    return "Prefabs/Drops/DropsGameItem";
         }
 
         if (typeT == typeof (ModeMatch3SquarePlayground))
         {
-            /*switch (Game.Theme)
-            {
-                case GameTheme.dark:*/
-                    return "Prefabs/SD/Match3Dark/Match3GameItem";
-                /*case GameTheme.light:
-                    return "Prefabs/SD/Match3Light/Match3GameItem";
-            }*/
+                    return "Prefabs/Match3/Match3GameItem";
         }
 
         if (typeT == typeof (RhombusPlayground) || typeT.BaseType == typeof (RhombusPlayground))
         {
-            /*switch (Game.Theme)
-            {
-                case GameTheme.dark:*/
-                    return "Prefabs/SD/Rhombus/RhombusGameItem";
-                /*case GameTheme.light:
-                    return "Prefabs/SD/Rhombus/RhombusGameItem";
-            }*/
+                    return "Prefabs/Rhombus/RhombusGameItem";
         }
             
 
         if (typeT == typeof(SquarePlayground) || typeT.BaseType == typeof(SquarePlayground))
         {
-            /*switch (Game.Theme)
-            {
-                case GameTheme.dark:*/
-                    return "Prefabs/SD/StandardDark/GameItem";
-                /*case GameTheme.light:
-                    return "Prefabs/SD/StandardLight/GameItem";
-            }*/
+                    return "Prefabs/Standard/GameItem";
         }
 
         return null;
@@ -64,19 +40,19 @@ public class ItemsNameHelper  {
     {
         var typeT = typeof(T);
         if (typeT == typeof(ModeDropsPlayground))
-            return "SD/6x6Atlas";
+            return "6x6Atlas";
 
         if (typeT == typeof(ModeMatch3SquarePlayground))
-            return "SD/8x8Atlas";
+            return "8x8Atlas";
 
         if (typeT == typeof(RhombusPlayground) || typeT.BaseType == typeof(RhombusPlayground))
-            return "SD/RhombusAtlas";
+            return "RhombusAtlas";
 
         if (typeT == typeof(Mode8x8SquarePlayground))
-            return "SD/8x8Atlas";
+            return "8x8Atlas";
 
         if (typeT == typeof(Mode6x6SquarePlayground) || typeT.BaseType == typeof(SquarePlayground))
-            return "SD/6x6Atlas";
+            return "6x6Atlas";
 
         return null;
     }

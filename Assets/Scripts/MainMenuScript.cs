@@ -41,11 +41,8 @@ namespace Assets.Scripts
             Game.numbersFont = Game.textFont;
             _mainCamera = GameObject.Find("Main Camera");
             var gui = GameObject.Find("/GUI");
-            var statsButton = GameObject.Find("/GUI/StatsButton");
-            _soundButton = GenerateMenuButton("Prefabs/SoundButton", gui.transform, Vector3.one, new Vector3(-statsButton.transform.localPosition.x,
-                statsButton.transform.localPosition.y, statsButton.transform.localPosition.z), null, 0, OnSoundButtonPressed);
+            _soundButton = GameObject.Find("/GUI/SoundButton");
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
-            _soundButton.name = "SoundButton";
             if (SoundEnabled == SoundState.on)
                 _mainCamera.GetComponent<AudioSource>().Play();
 
@@ -149,7 +146,7 @@ namespace Assets.Scripts
             labelText.fontSize = LabelShowing.maxLabelFontSize;
             labelText.text = pointsLeft.ToString();
             var modeLogo = Instantiate(Resources.Load("Prefabs/ModeLogo")) as GameObject;
-            var modeSprite = Resources.LoadAll<Sprite>("SD/ModesButtonsAtlas")
+            var modeSprite = Resources.LoadAll<Sprite>("ModesButtonsAtlas")
             .SingleOrDefault(t => t.name.Contains(previos));
             modeLogo.GetComponent<SpriteRenderer>().sprite = modeSprite;
             modeLogo.transform.SetParent(obj.transform);

@@ -33,11 +33,11 @@ namespace Assets.Scripts.Helpers
                 switch (SoundEnabled)
                 {
                     case SoundState.on:
-                        return Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("SignsAtlas_4"));
+                        return Resources.LoadAll<Sprite>("SignsAtlas").SingleOrDefault(s => s.name.Contains("SignsAtlas_4"));
                     case SoundState.vibrate:
-                        return Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("SignsAtlas_6"));
+                        return Resources.LoadAll<Sprite>("SignsAtlas").SingleOrDefault(s => s.name.Contains("SignsAtlas_6"));
                     case SoundState.off:
-                        return Resources.LoadAll<Sprite>("SD/SignsAtlas").SingleOrDefault(s => s.name.Contains("SignsAtlas_5"));
+                        return Resources.LoadAll<Sprite>("SignsAtlas").SingleOrDefault(s => s.name.Contains("SignsAtlas_5"));
                     default:
                         return null;
                 }

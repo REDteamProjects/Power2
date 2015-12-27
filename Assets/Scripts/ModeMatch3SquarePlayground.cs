@@ -449,5 +449,27 @@ namespace Assets.Scripts
             }
         }
 
+        protected override String ItemsTextureName(GameItemType type)
+        {
+            switch(type)
+            {
+                case GameItemType._XItem:
+                    return base.ItemPrefabName;
+                default:
+                    return ItemPrefabName;
+            }
+        }
+
+        public override String GetTextureIDByType(GameItemType type)
+        {
+            switch (type)
+            {
+                case GameItemType._ToMoveItem:
+                    return "_7";
+                default:
+                    return base.GetTextureIDByType(type);
+            }
+        }
+
     }
 }

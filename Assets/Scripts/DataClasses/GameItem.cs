@@ -58,5 +58,12 @@ namespace Assets.Scripts.DataClasses
             //if (Type != GameItemType.DisabledItem && Type != GameItemType.NullItem && Type != GameItemType._StaticItem && touch.phase == TouchPhase.Began)
             //    Vibration.Vibrate();
         }
+
+        public void Reset()
+        {
+            IsTouched = false;
+            CurrentPosition = transform.localPosition;
+            GameItemType Type = GameItemType.NullItem;
+        }
     }
 }
