@@ -128,6 +128,16 @@ namespace Assets.Scripts
 
         }
 
+        void Start()
+        {
+            var languageManager = LanguageManager.Instance;
+
+            var deviceCulture = languageManager.GetDeviceCultureIfSupported();
+            if (deviceCulture != null)
+            {
+                languageManager.ChangeLanguage(deviceCulture);
+            }
+        }
 
         private void CloseLevelGUI(String level, String previos, Int32 pointsLeft)
         {
