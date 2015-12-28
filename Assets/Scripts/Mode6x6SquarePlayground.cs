@@ -108,6 +108,9 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            LanguageHelper.ActivateSystemLanguage();
+
+
             MainMenuScript.UpdateTheme();
 
             #if UNITY_WINRT || UNITY_WP8

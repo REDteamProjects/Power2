@@ -130,6 +130,10 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            LanguageHelper.ActivateSystemLanguage();
+
+            InitialMoveTimerMultiple = 30;
+
             MainMenuScript.UpdateTheme();
 
             //ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;

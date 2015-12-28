@@ -20,6 +20,8 @@ public class HelpPageScript : MonoBehaviour
 	// Use this for initialization
 	void Awake ()
 	{
+        LanguageHelper.ActivateSystemLanguage();
+
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
         Foreground = GameObject.Find("/Foreground");
         //if (fg == null) return;

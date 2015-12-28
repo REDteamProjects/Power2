@@ -82,6 +82,8 @@ public class StatisticPageScript : MonoBehaviour
 
     void Awake()
     {
+        LanguageHelper.ActivateSystemLanguage();
+
         LoadLevelData(0);
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
         //var fg = GameObject.Find("/GUI");

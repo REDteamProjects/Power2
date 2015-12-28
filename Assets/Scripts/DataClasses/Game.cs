@@ -16,7 +16,6 @@ namespace Assets.Scripts.DataClasses
         private static IPlayground PlaygroundObject;
         //internal Statistics Stats;
         public static DifficultyLevel Difficulty = DifficultyLevel._easy;
-        public static GameTheme _theme = GameTheme.dark;
         public static Font textFont;
         public static Font numbersFont;
         public static float _standartItemSpeed = 22;

@@ -207,6 +207,8 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            LanguageHelper.ActivateSystemLanguage();
+
             MainMenuScript.UpdateTheme();
 
             ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;

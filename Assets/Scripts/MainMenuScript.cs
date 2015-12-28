@@ -37,6 +37,8 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            LanguageHelper.ActivateSystemLanguage();
+
             Game.textFont = Resources.Load<Font>("Fonts/SEGUIBL");
             Game.numbersFont = Game.textFont;
             _mainCamera = GameObject.Find("Main Camera");
@@ -128,39 +130,30 @@ namespace Assets.Scripts
 
         }
 
-        void Start()
-        {
-            var languageManager = LanguageManager.Instance;
-
-            var deviceCulture = languageManager.GetDeviceCultureIfSupported();
-            if (deviceCulture != null)
-            {
-                languageManager.ChangeLanguage(deviceCulture);
-            }
-        }
 
         private void CloseLevelGUI(String level, String previos, Int32 pointsLeft)
         {
             var obj = GameObject.Find("/GUI/MainBlock/" + level);
             var img = obj.GetComponent<Image>();
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);
-            var lockLogo = Instantiate(Resources.Load("Prefabs/LockLogo")) as GameObject;
-            lockLogo.transform.SetParent(obj.transform);
-            lockLogo.transform.localPosition = new Vector3(0, -2, -4);
-            var label = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
-            label.transform.SetParent(obj.transform);
-            label.transform.localPosition = new Vector3(0, -66, -4);
-            var labelText = label.GetComponent<Text>();
+            //var lockLogo = Instantiate(Resources.Load("Prefabs/LockLogo")) as GameObject;
+            //lockLogo.transform.SetParent(obj.transform);
+            //lockLogo.transform.localPosition = new Vector3(0, -2, -4);
+            //var label = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
+            //label.transform.SetParent(obj.transform);
+            //label.transform.localPosition = new Vector3(0, -66, -4);
+            var labelText = GameObject.Find("/GUI/MainBlock/" + level + "/Lock/ShortLabel").GetComponent<Text>();
             labelText.font = Game.textFont;
             labelText.color = GameColors.ModesColors[previos];
-            labelText.fontSize = LabelShowing.maxLabelFontSize;
             labelText.text = pointsLeft.ToString();
-            var modeLogo = Instantiate(Resources.Load("Prefabs/ModeLogo")) as GameObject;
-            var modeSprite = Resources.LoadAll<Sprite>("ModesButtonsAtlas")
-            .SingleOrDefault(t => t.name.Contains(previos));
-            modeLogo.GetComponent<SpriteRenderer>().sprite = modeSprite;
-            modeLogo.transform.SetParent(obj.transform);
-            modeLogo.transform.localPosition = new Vector3(0, -33, -5);
+            GameObject.Find("/GUI/MainBlock/" + level + "/Lock").transform.localScale = Vector3.one;
+            //labelText.fontSize = LabelShowing.maxLabelFontSize;
+            //var modeLogo = Instantiate(Resources.Load("Prefabs/ModeLogo")) as GameObject;
+            //var modeSprite = Resources.LoadAll<Sprite>("ModesButtonsAtlas")
+            //.SingleOrDefault(t => t.name.Contains(previos));
+            //modeLogo.GetComponent<SpriteRenderer>().sprite = modeSprite;
+            //modeLogo.transform.SetParent(obj.transform);
+            //modeLogo.transform.localPosition = new Vector3(0, -33, -5);
         }
 
         public SoundState SoundEnabled

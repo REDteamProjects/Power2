@@ -50,8 +50,8 @@ namespace Assets.Scripts.Helpers
             {
                 if (PlayerPrefs.HasKey("General_Theme"))
                     return (GameTheme)PlayerPrefs.GetInt("General_Theme");
-                PlayerPrefs.SetInt("General_Theme", (Int32)GameTheme.light);
-                return GameTheme.light;
+                PlayerPrefs.SetInt("General_Theme", (Int32)GameTheme.dark);
+                return GameTheme.dark;
             }
             set
             {

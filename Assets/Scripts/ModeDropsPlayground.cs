@@ -420,6 +420,9 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            LanguageHelper.ActivateSystemLanguage();
+
+
             MainMenuScript.UpdateTheme();
 
             GameItemMovingScript.MovingItemFinished += GameItemMovingScriptMovingItemFinished;

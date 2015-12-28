@@ -16,6 +16,8 @@ public class AboutPageScript : MonoBehaviour {
 
     void Awake()
     {
+        LanguageHelper.ActivateSystemLanguage();
+
         GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = GameColors.BackgroundColor;
         var modestext = GameObject.Find("AboutText").GetComponent<Text>();
         modestext.text = LanguageManager.Instance.GetTextValue("AboutText");
