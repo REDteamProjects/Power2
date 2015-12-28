@@ -4,6 +4,12 @@
         <name>SmartLocalization_Runtime</name>
     </assembly>
     <members>
+        <member name="M:SmartLocalization.LanguageDataHandler.CheckLanguageOverrideCode(SmartLocalization.LocalizedObject)">
+            <summary>
+            Helper method that checks and gets the language override code of the object is overridden.
+            If it's not - it will return the currently loaded language.
+            </summary>
+        </member>
         <member name="T:SmartLocalization.ChangeLanguageEventHandler">
             <summary>
             Change language event handler.
@@ -36,34 +42,12 @@
             create a delegate method(ChangeLanguage(LanguageManager languageManager)) and subscribe
             </summary>
         </member>
-        <member name="F:SmartLocalization.LanguageManager.defaultLanguage">
-            <summary>
-            The default language
-            </summary>
-        </member>
-        <member name="F:SmartLocalization.LanguageManager.loadedLanguage">
-            <summary>
-            The loaded language.
-            </summary>
-        </member>
-        <member name="P:SmartLocalization.LanguageManager.LanguageDatabase">
-            <summary>
-            The loaded language values of the currently loaded language
-            </summary>
-        </member>
         <member name="P:SmartLocalization.LanguageManager.RawTextDatabase">
-            <summary>
-            Gets all the language values in raw text. NOTE: Potentially performance expensive. Use with caution.
-            </summary>
+            <summary> Gets all the language values in raw text. NOTE: Potentially performance expensive. Use with caution. </summary>
         </member>
         <member name="P:SmartLocalization.LanguageManager.NumberOfSupportedLanguages">
             <summary>
             The number of supported languages in this project
-            </summary>
-        </member>
-        <member name="P:SmartLocalization.LanguageManager.LoadedLanguage">
-            <summary>
-            The language code of the currently loaded language
             </summary>
         </member>
         <member name="P:SmartLocalization.LanguageManager.CurrentlyLoadedCulture">
@@ -77,6 +61,7 @@
             Set this to true if you want extensive error logging
             </summary>
         </member>
+        <!--FIXME: Invalid documentation markup was found for member M:SmartLocalization.LanguageManager.GetAllKeys-->
         <member name="M:SmartLocalization.LanguageManager.ChangeLanguage(SmartLocalization.SmartCultureInfo)">
             <summary>
             Change the language into a specified culture
@@ -105,24 +90,28 @@
             <param name="languageDataInResX">The language data to append in the .resx format</param>
             <returns>Returns if the operation was a success</returns>
         </member>
-        <member name="M:SmartLocalization.LanguageManager.IsLanguageSupported(System.String)">
+        <member name="M:SmartLocalization.LanguageManager.GetDeviceCultureIfSupported">
             <summary>
-            Checks if the language is supported by this application
-            languageName = strings like "en", "es", "sv"
+            Gets the SmartCultureInfo of the current device language IF it's supported by the application. Otherwise it will return null
             </summary>
+        </member>
+        <member name="M:SmartLocalization.LanguageManager.IsCultureSupported(System.String)">
+            <summary>
+            Checks if the culture is supported by this application using the ISO-639 code
+            </summary>
+        </member>
+        <member name="M:SmartLocalization.LanguageManager.IsCultureSupported(SmartLocalization.SmartCultureInfo)">
+            <summary>
+            Checks if a culture is supported by this application
+            </summary>
+            <param name="cultureInfo">The culture info to check</param>
+            <returns>If the culture is supported</returns>
         </member>
         <member name="M:SmartLocalization.LanguageManager.IsLanguageSupportedEnglishName(System.String)">
             <summary>
             Checks if the language is supported with the english name. i.e. "English" "French" etc.
             </summary>
             <param name="englishName">The english name of the language</param>
-            <returns>If the language is supported</returns>
-        </member>
-        <member name="M:SmartLocalization.LanguageManager.IsLanguageSupported(SmartLocalization.SmartCultureInfo)">
-            <summary>
-            Checks if a language is supported with a culture info class
-            </summary>
-            <param name="cultureInfo">The culture info to check</param>
             <returns>If the language is supported</returns>
         </member>
         <member name="M:SmartLocalization.LanguageManager.GetCultureInfo(System.String)">
@@ -134,16 +123,6 @@
             <summary>
             Gets the name of the system language in an english name.
             If its SystemLanguage.Unknown, a string with the value "Unknown" will be returned.
-            </summary>
-        </member>
-        <member name="M:SmartLocalization.LanguageManager.GetSupportedSystemLanguage">
-            <summary>
-            Gets the smart culture info of the system language if it is supported. otherwise it will return null
-            </summary>
-        </member>
-        <member name="M:SmartLocalization.LanguageManager.GetSupportedSystemLanguageCode">
-            <summary>
-            Gets the language code of the system language if it is supported. otherwise it will return an empty string.
             </summary>
         </member>
         <member name="M:SmartLocalization.LanguageManager.GetSupportedLanguages">
@@ -175,12 +154,6 @@
         <member name="M:SmartLocalization.LanguageManager.GetTexture(System.String)">
             <summary>
             Gets a texture for the current language, returns null if nothing is found
-            </summary>
-        </member>
-        <member name="M:SmartLocalization.LanguageManager.CheckLanguageOverrideCode(SmartLocalization.LocalizedObject)">
-            <summary>
-            Helper method that checks and gets the language override code of the object is overridden.
-            If it's not - it will return the currently loaded language.
             </summary>
         </member>
         <member name="M:SmartLocalization.LanguageManager.HasKey(System.String)">

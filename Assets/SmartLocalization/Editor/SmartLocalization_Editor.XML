@@ -301,6 +301,16 @@
             Gets the relative path to the textures folder used at runtime for a specific language.
             </summary>
         </member>
+        <member name="M:SmartLocalization.Editor.LocalizationWorkspace.LanguageTextAssetsFolderPathRelative(System.String)">
+            <summary>
+            Gets the relative path to the text assets folder used at runtime for a specific language.
+            </summary>
+        </member>
+        <member name="M:SmartLocalization.Editor.LocalizationWorkspace.LanguageFontsFolderPathRelative(System.String)">
+            <summary>
+            Gets the relative path to the fonts folder used at runtime for a specific language.
+            </summary>
+        </member>
         <member name="M:SmartLocalization.Editor.LocalizationWorkspace.LanguagePrefabsFolderPathRelative(System.String)">
             <summary>
             Gets the relative path to the prefabs folder used at runtime for a specific language.
@@ -354,6 +364,61 @@
             <param name="delimiter">The delimiter to separate values with</param>
         </member>
         <member name="M:SmartLocalization.Editor.CSVExporter.ReadCSV(System.String,System.Char)">
+            <summary>
+            Read a csv file
+            </summary>
+            <param name="path">The path to the file</param>
+            <param name="delimiter">The delimiter used in the file</param>
+            <returns>The parsed csv values</returns>
+        </member>
+        <member name="T:SmartLocalization.Editor.CSVParser">
+            <summary>
+            A CSV Parser
+            </summary>
+        </member>
+        <member name="T:SmartLocalization.Editor.CSVParser.Delimiter">
+            <summary>
+            The delimiter type for CSV
+            </summary>
+        </member>
+        <member name="F:SmartLocalization.Editor.CSVParser.Delimiter.COMMA">
+            <summary> COMMA</summary>
+        </member>
+        <member name="F:SmartLocalization.Editor.CSVParser.Delimiter.SEMI_COLON">
+            <summary> SEMI_COLON</summary>
+        </member>
+        <member name="F:SmartLocalization.Editor.CSVParser.Delimiter.TAB">
+            <summary> TAB</summary>
+        </member>
+        <member name="F:SmartLocalization.Editor.CSVParser.Delimiter.VERTICAL_BAR">
+            <summary> VERTICAL_BAR</summary>
+        </member>
+        <member name="F:SmartLocalization.Editor.CSVParser.Delimiter.CARET">
+            <summary> CARET</summary>
+        </member>
+        <member name="M:SmartLocalization.Editor.CSVParser.GetDelimiter(SmartLocalization.Editor.CSVParser.Delimiter)">
+            <summary>
+            Gets the actual delimiter char based on the CSVDelimiter type
+            </summary>
+            <param name="delimiter">The delimiter type</param>
+            <returns>the delimiter</returns>
+        </member>
+        <member name="M:SmartLocalization.Editor.CSVParser.Write(System.String,System.Char,System.Collections.Generic.List{System.Collections.Generic.List{System.String}})">
+            <summary>
+            Write the csv to file
+            </summary>
+            <param name="path">The destination path</param>
+            <param name="delimiter">The delimiter to separate values with</param>
+            <param name="input">The Values</param>
+        </member>
+        <member name="M:SmartLocalization.Editor.CSVParser.Write(System.String,System.Char,System.Collections.Generic.List{System.String},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.Dictionary{System.String,System.String}})">
+            <summary>
+            Write a combined CSV to File
+            </summary>
+            <param name="path">The destination path</param>
+            <param name="delimiter">The delimiter to separate values with</param>
+        </member>
+        <member name="M:SmartLocalization.Editor.CSVParser.Read(System.String,System.Char)">
             <summary>
             Read a csv file
             </summary>

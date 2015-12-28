@@ -3,6 +3,12 @@
   <version>0</version>
   <CultureInfos>
     <CultureInfo>
+      <languageCode>en</languageCode>
+      <englishName>English</englishName>
+      <nativeName>English</nativeName>
+      <isRightToLeft>false</isRightToLeft>
+    </CultureInfo>
+    <CultureInfo>
       <languageCode>ru</languageCode>
       <englishName>Russian</englishName>
       <nativeName>Русский</nativeName>

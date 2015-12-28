@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 public class LoadAllLanguages : MonoBehaviour 
 {
-	private Dictionary<string,string> currentLanguageValues;
+	private List<string> currentLanguageKeys;
 	private List<SmartCultureInfo> availableLanguages;
 	private LanguageManager languageManager;
 	private Vector2 valuesScrollPosition = Vector2.zero;
@@ -22,15 +22,19 @@ public class LoadAllLanguages : MonoBehaviour
 	{
 		languageManager = LanguageManager.Instance;
 		
-		SmartCultureInfo systemLanguage = languageManager.GetSupportedSystemLanguage();
-		if(systemLanguage != null)
+		SmartCultureInfo deviceCulture = languageManager.GetDeviceCultureIfSupported();
+		if(deviceCulture != null)
 		{
-			languageManager.ChangeLanguage(systemLanguage);	
+			languageManager.ChangeLanguage(deviceCulture);	
+		}
+		else
+		{
+			Debug.Log("The device language is not available in the current application. Loading default."); 
 		}
 		
 		if(languageManager.NumberOfSupportedLanguages > 0)
 		{
-			currentLanguageValues = languageManager.RawTextDatabase;
+			currentLanguageKeys = languageManager.GetAllKeys();
 			availableLanguages = languageManager.GetSupportedLanguages();
 		}
 		else
@@ -51,7 +55,7 @@ public class LoadAllLanguages : MonoBehaviour
 
 	void OnLanguageChanged(LanguageManager languageManager)
 	{
-		currentLanguageValues = languageManager.RawTextDatabase;
+		currentLanguageKeys = languageManager.GetAllKeys();
 	}
 	
 	void OnGUI() 
@@ -69,11 +73,11 @@ public class LoadAllLanguages : MonoBehaviour
 			GUILayout.EndHorizontal();
 			
 			valuesScrollPosition = GUILayout.BeginScrollView(valuesScrollPosition);
-			foreach(KeyValuePair<string,string> languageValue in currentLanguageValues)
+			foreach(var languageKey in currentLanguageKeys)
 			{
 				GUILayout.BeginHorizontal();
-				GUILayout.Label(languageValue.Key, GUILayout.Width(460));
-				GUILayout.Label(languageValue.Value, GUILayout.Width(460));
+				GUILayout.Label(languageKey, GUILayout.Width(460));
+				GUILayout.Label(languageManager.GetTextValue(languageKey), GUILayout.Width(460));
 				GUILayout.EndHorizontal();
 			}
 			GUILayout.EndScrollView();

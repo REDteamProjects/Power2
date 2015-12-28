@@ -1,5 +1,4 @@
-﻿#if UNITY_4_6 || UNITY_5_0
-
+﻿
 namespace SmartLocalization.Editor{
 using UnityEngine.UI;
 using UnityEngine;
@@ -35,4 +34,3 @@ public class LocalizedTextInspector : Editor
 	
 }
 }
-#endif
