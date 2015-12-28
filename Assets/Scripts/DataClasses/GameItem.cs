@@ -62,8 +62,8 @@ namespace Assets.Scripts.DataClasses
         public void Reset()
         {
             IsTouched = false;
-            CurrentPosition = transform.localPosition;
-            GameItemType Type = GameItemType.NullItem;
+            //CurrentPosition = transform.localPosition;
+            Type = GameItemType.NullItem;
         }
 
         public static String GetStandartTextureIDByType(GameItemType type)

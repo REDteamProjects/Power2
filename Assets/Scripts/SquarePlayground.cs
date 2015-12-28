@@ -53,6 +53,7 @@ namespace Assets.Scripts
         protected float InitialMoveTimerMultiple = 32;
         private readonly Vector3 _selectionScale = new Vector3(1.1f, 1.1f, 1f);
         protected List<GameItem> TempGameItems = new List<GameItem>();
+        protected Dictionary<GameItemType, Sprite> GameItemsSprites = new Dictionary<GameItemType, Sprite>();
 
         #region Scenes Arguments
 
@@ -499,7 +500,9 @@ namespace Assets.Scripts
             gobj.transform.SetParent(fg.transform);
             gobj.transform.localPosition = new Vector3(0, 400f, -1);
             gobj.transform.localScale = Vector3.one;//new Vector3(16, 16);
-            gobj.GetComponent<SpriteRenderer>().sprite = Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType)));
+            if (!GameItemsSprites.Keys.Contains(MaxType))
+            GameItemsSprites.Add(MaxType,Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType))));
+            gobj.GetComponent<SpriteRenderer>().sprite = GameItemsSprites[MaxType];
             gobj.name = "MaximumItem";
             gobj.AddComponent<Button>();
             var image = gobj.AddComponent<Image>();
@@ -786,8 +789,9 @@ namespace Assets.Scripts
             }
             newgi.transform.localPosition = localPosition;
             newgi.transform.localScale = localScale;
-            var sprite = Resources.LoadAll<Sprite>(ItemsTextureName(itemType).Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(itemType)));
-            newgi.GetComponent<SpriteRenderer>().sprite = sprite;
+            if(!GameItemsSprites.Keys.Contains(itemType))
+            GameItemsSprites.Add(itemType,Resources.LoadAll<Sprite>(ItemsTextureName(itemType).Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(itemType))));
+            newgi.GetComponent<SpriteRenderer>().sprite = GameItemsSprites[itemType];
             newgi.Type = itemType;
             newgi.MovingType = movingType != null? movingType.Value  : GetMovingTypeByItemType(itemType);
             return newgi.gameObject;
@@ -803,6 +807,7 @@ namespace Assets.Scripts
                 return;
             }
             gi.Reset();
+            gi.transform.localScale = Vector3.zero;
             gi.transform.localPosition = new Vector3(Screen.width, Screen.height, gi.transform.localPosition.z);
         }
 
@@ -1538,7 +1543,7 @@ namespace Assets.Scripts
                     moving.MoveTo(toCell.x, toCell.y, mixSpeed, (item, result) =>
                     {
                         CallbacksCount--;
-                        if (!result) return;
+                        //if (!result) return;
                         if (CallbacksCount == 0)
                         {
                             IsMixing = false;

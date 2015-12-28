@@ -139,7 +139,7 @@ namespace Assets.Scripts
             lockLogo.transform.localPosition = new Vector3(0, -2, -4);
             var label = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
             label.transform.SetParent(obj.transform);
-            label.transform.localPosition = new Vector3(0, -62, -4);
+            label.transform.localPosition = new Vector3(0, -66, -4);
             var labelText = label.GetComponent<Text>();
             labelText.font = Game.textFont;
             labelText.color = GameColors.ModesColors[previos];
@@ -150,7 +150,7 @@ namespace Assets.Scripts
             .SingleOrDefault(t => t.name.Contains(previos));
             modeLogo.GetComponent<SpriteRenderer>().sprite = modeSprite;
             modeLogo.transform.SetParent(obj.transform);
-            modeLogo.transform.localPosition = new Vector3(0, -31, -5);
+            modeLogo.transform.localPosition = new Vector3(0, -33, -5);
         }
 
         public SoundState SoundEnabled

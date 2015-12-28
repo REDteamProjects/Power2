@@ -20,7 +20,7 @@ public static class Vibration
 
     public static void Vibrate()
     {
-        if (GeneralSettings.SoundEnabled > SoundState.vibrate)
+        if (GeneralSettings.SoundEnabled != SoundState.vibrate)
             return;
 #if UNITY_WINRT || UNITY_WP8
         WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(10));
@@ -36,7 +36,7 @@ public static class Vibration
 
     public static void Vibrate(long milliseconds)
     {
-        if (GeneralSettings.SoundEnabled > SoundState.vibrate)
+        if (GeneralSettings.SoundEnabled != SoundState.vibrate)
             return;
 #if UNITY_WINRT || UNITY_WP8
         WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(milliseconds));
@@ -52,7 +52,7 @@ public static class Vibration
 
     public static void Vibrate(long[] pattern, int repeat)
     {
-        if (GeneralSettings.SoundEnabled > SoundState.vibrate)
+        if (GeneralSettings.SoundEnabled != SoundState.vibrate)
             return;
 #if UNITY_WINRT || UNITY_WP8
         while(repeat-- > 0)
