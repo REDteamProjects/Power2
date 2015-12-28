@@ -807,7 +807,6 @@ namespace Assets.Scripts
                 return;
             }
             gi.Reset();
-            gi.transform.localScale = Vector3.zero;
             gi.transform.localPosition = new Vector3(Screen.width, Screen.height, gi.transform.localPosition.z);
         }
 
