@@ -465,7 +465,7 @@ namespace Assets.Scripts
                     toRow = FieldSize - 1;
                     break;
                 case MoveDirections.Right:
-                    fromCol = FieldSize / 2;
+                    fromCol = FieldSize / 2 + FieldSize%2;
                     toCol = FieldSize - 1;
                     fromRow = 1;
                     toRow = FieldSize - 1;
@@ -520,8 +520,8 @@ namespace Assets.Scripts
                 gobj.GetComponent<SpriteRenderer>().sprite = GameItemsSprites[MaxType];
                 gobj.name = "MaximumItem";
                 gobj.AddComponent<Button>();
-                //var image = gobj.AddComponent<Image>();
-                //image.color = new Color(0, 0, 0, 0);
+                var image = gobj.AddComponent<Image>();
+                image.color = new Color(0, 0, 0, 0);
                 var buttonComponent = gobj.GetComponent<Button>();
                 if (buttonComponent != null)
                     buttonComponent.onClick.AddListener(ThemeChooserScript.OnScriptGameThemeChange);
