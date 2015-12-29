@@ -23,7 +23,7 @@ namespace Assets.Scripts
         {
             GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor =
                                 GameColors.BackgroundColor;
-            var bg = GameObject.Find("BackgroundGrid");
+           // var bg = GameObject.Find("BackgroundGrid");
 
             if (_pressLogoLabel != null)
             {

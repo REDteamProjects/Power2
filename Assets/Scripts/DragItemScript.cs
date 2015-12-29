@@ -394,8 +394,6 @@ public class DragItemScript : MonoBehaviour
 
                     var result = pg.TryMakeMove(firstX, firstY, secondX, secondY);
                     LogFile.Message("Result:" + result, true);
-
-					var gobj = pg.Items[TouchedItem.X][TouchedItem.Y] as GameObject;
                     touchDirection = null;
                     TouchedItem = null;
                     /*if (gobj != null)

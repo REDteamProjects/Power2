@@ -46,6 +46,7 @@ namespace Assets.Scripts
         private bool _isGameOver;
         private bool _isMixing;
         protected bool _isDropDone = false;
+        protected bool _clearAfterDropDone = false;
 
         protected GameItemType MaxType = GameItemType._3;
         protected bool CallClearChainsAfterExchange;
@@ -491,33 +492,43 @@ namespace Assets.Scripts
 
         public void ShowMaxInitialElement()
         {
-            var fg = GameObject.Find("/Foreground");
-            var cmi = GameObject.Find("/Foreground/MaximumItem");
-            var gobj = Instantiate(Resources.Load(ItemPrefabName)) as GameObject;
-            if (gobj == null) return;
-            if (cmi != null)
-                cmi.transform.localPosition = new Vector3(cmi.transform.localPosition.x, cmi.transform.localPosition.y, 0);
-            gobj.transform.SetParent(fg.transform);
-            gobj.transform.localPosition = new Vector3(0, 400f, -1);
-            gobj.transform.localScale = Vector3.one;//new Vector3(16, 16);
-            if (!GameItemsSprites.Keys.Contains(MaxType))
-            GameItemsSprites.Add(MaxType,Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType))));
-            gobj.GetComponent<SpriteRenderer>().sprite = GameItemsSprites[MaxType];
-            gobj.name = "MaximumItem";
-            gobj.AddComponent<Button>();
-            var image = gobj.AddComponent<Image>();
-            image.color = new Color(0, 0, 0, 0);
-            var buttonComponent = gobj.GetComponent<Button>();
-            if (buttonComponent != null)
-                buttonComponent.onClick.AddListener(ThemeChooserScript.OnScriptGameThemeChange);
-            var c = gobj.GetComponent<GameItemMovingScript>();
-            LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
-            c.MoveTo(null, 340f, Game.StandartItemSpeed / 4, (item, result) =>
+            var currentMIE = GameObject.Find("/Foreground/MaximumItem");
+            if (currentMIE != null)
             {
-                if (!result) return;
-                if (cmi != null)
-                    Destroy(cmi);
-            });
+                var miess = currentMIE.GetComponent<GameItemScalingScript>();
+                miess.ScaleTo(new Vector3(0.5f, 0.5f, 0), 8, (item, r) =>
+                {
+                    currentMIE.transform.localPosition = new Vector3(0, 400f, -1);
+                    currentMIE.transform.localScale = Vector3.one;
+                    if (!GameItemsSprites.Keys.Contains(MaxType))
+                        GameItemsSprites.Add(MaxType, Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType))));
+                    currentMIE.GetComponent<SpriteRenderer>().sprite = GameItemsSprites[MaxType];
+                    var c = currentMIE.GetComponent<GameItemMovingScript>();
+                    c.MoveTo(null, 340f, Game.StandartItemSpeed / 4);
+                });
+            }
+            else
+            {
+                var fg = GameObject.Find("/Foreground");
+                var gobj = Instantiate(Resources.Load(ItemPrefabName)) as GameObject;
+                if (gobj == null) return;
+                gobj.transform.SetParent(fg.transform);
+                gobj.transform.localPosition = new Vector3(0, 400f, -1);
+                gobj.transform.localScale = Vector3.one;//new Vector3(16, 16);
+                if (!GameItemsSprites.Keys.Contains(MaxType))
+                    GameItemsSprites.Add(MaxType, Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType))));
+                gobj.GetComponent<SpriteRenderer>().sprite = GameItemsSprites[MaxType];
+                gobj.name = "MaximumItem";
+                gobj.AddComponent<Button>();
+                //var image = gobj.AddComponent<Image>();
+                //image.color = new Color(0, 0, 0, 0);
+                var buttonComponent = gobj.GetComponent<Button>();
+                if (buttonComponent != null)
+                    buttonComponent.onClick.AddListener(ThemeChooserScript.OnScriptGameThemeChange);
+                var c = gobj.GetComponent<GameItemMovingScript>();
+                LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
+                c.MoveTo(null, 340f, Game.StandartItemSpeed / 4);
+            }
         }
 
         public void DestroyElements(List<GameItemType> withTypes)
@@ -833,7 +844,7 @@ namespace Assets.Scripts
                     movingCallback(item, result);
                 else
                 {
-                    if (!result) return;
+                    //if (!result) return;
                     if (CallbacksCount == 0)
                         ClearChains();
                     else
@@ -1360,7 +1371,10 @@ namespace Assets.Scripts
                     {
                         var gobj = Items[col][fromrow] as GameObject;
                         if (Items[col][fromrow] == null || Items[col][row] == DisabledItem || (!AreStaticItemsDroppable && gobj.GetComponent<GameItem>().MovingType == GameItemMovingType.Static))
+                        {
                             fromrow--;
+                            _clearAfterDropDone = true;
+                        }
                         else
                         {
                             generateAfterDrop = true;
@@ -1375,9 +1389,13 @@ namespace Assets.Scripts
                             CallbacksCount++;
                             gims.MoveTo(null, GetCellCoordinates(col, row).y, Game.StandartItemSpeed, (item, result) =>
                             {
-                                //DropsCount--;
                                 CallbacksCount--;
                                 if (!result) return;
+                                if (_clearAfterDropDone && CallbacksCount == 0)
+                                {
+                                    _clearAfterDropDone = false;
+                                    ClearChains();
+                                }
                                 LogFile.Message("New item droped Items[" + col + "][" + fromrow + "] DC: " + DropsCount, true);
                             });
                             break;
@@ -1414,7 +1432,7 @@ namespace Assets.Scripts
                                 case DifficultyLevel._medium:
                                     if (ToMoveItemsCount < MaxAdditionalItemsCount)
                                     {
-                                        var resCol = RandomObject.Next(ToMoveItemsCount == 0 ? 0 : (FieldSize / 2 - 1),ToMoveItemsCount == 0 ? (FieldSize / 2) : FieldSize);
+                                        var resCol = RandomObject.Next(ToMoveItemsCount == 0 ? 0 : (FieldSize / 2),ToMoveItemsCount == 0 ? (FieldSize / 2) : FieldSize);
                                         if (resCol == i)
                                         {
                                             Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(0, generateOnY), GameItemScale);
@@ -1941,8 +1959,8 @@ namespace Assets.Scripts
             _isDropDone = false;
             giss.ScaleTo(new Vector3(toSize, toSize, 0), 8, (item, r) =>
             {
-                DestroyGameItem((GameObject)item);
                 CallbacksCount--;
+                DestroyGameItem((GameObject)item);
                 if (removingCallback != null)
                     removingCallback(item, r);
             });

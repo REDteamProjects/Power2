@@ -549,6 +549,11 @@ namespace Assets.Scripts
                                 {
                                     CallbacksCount--;
                                     if (!result) return;
+                                    /*if (_clearAfterDropDone && CallbacksCount == 0)
+                                    {
+                                        _clearAfterDropDone = false;
+                                        ClearChains();
+                                    }*/
                                     LogFile.Message("New item droped Items[" + downItemCol + "][" + downItemRow + "] DC: " + DropsCount, true);
                                 });
                             }
@@ -578,7 +583,7 @@ namespace Assets.Scripts
                         switch (Game.Difficulty)
                         {
                             case DifficultyLevel._medium:
-                                if (ToMoveItemsCount < MaxAdditionalItemsCount)
+                                if (ToMoveItemsCount < MaxAdditionalItemsCount && j < 4)
                                 {
                                         Items[i][j] = GenerateGameItem(GameItemType._ToMoveItem, i, j, new Vector2(generateOnX, i), null, false, 12 + i * 2);//may be calculate speed or generateOn vector in another way
                                         ToMoveItemsCount++;

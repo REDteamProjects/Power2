@@ -32,10 +32,11 @@ namespace Assets.Scripts
             {
                 switch (Game.Difficulty)
                 {
+                    case DifficultyLevel._hard:
                     case DifficultyLevel._veryhard:
                         return base.HintDelayTime;
                     default:
-                        return base.HintDelayTime * 2;
+                        return 8;
                 }
             }
         }

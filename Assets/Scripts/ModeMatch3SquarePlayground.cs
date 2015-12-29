@@ -343,6 +343,8 @@ namespace Assets.Scripts
                 UpdateTime();
                 return 0;
             }
+            if (lastMoved == GameItemType._ToMoveItem)
+                lastMoved = GameItemType.NullItem;
             HintTimeCounter = -1;
             _isDropDone = false;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);

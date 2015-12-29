@@ -18,7 +18,8 @@ namespace Assets.Scripts
 
 
         protected override float HintDelayTime 
-        { get 
+        { 
+            get 
             { 
                 switch(Game.Difficulty)
                 {
