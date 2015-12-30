@@ -53,7 +53,7 @@ namespace Assets.Scripts
 //#if !DEBUG
             if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
             {
-                CloseLevelGUI("8x8", "6x6", Mode8x8SquarePlayground.ToOpenPoints);
+                CloseLevelGUI("8x8"/*, "6x6"*/, Mode8x8SquarePlayground.ToOpenPoints);
             }
             else
 //#endif
@@ -61,7 +61,7 @@ namespace Assets.Scripts
 //#if !DEBUG
             if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
             {
-                CloseLevelGUI("Match3", "8x8", ModeMatch3SquarePlayground.ToOpenPoints);
+                CloseLevelGUI("Match3"/*, "8x8"*/, ModeMatch3SquarePlayground.ToOpenPoints);
             }
             else
 //#endif
@@ -69,7 +69,7 @@ namespace Assets.Scripts
 //#if !DEBUG
             if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
             {
-                CloseLevelGUI("Rhombus", "Match3", Mode11RhombusPlayground.ToOpenPoints);
+                CloseLevelGUI("Rhombus"/*, "Match3"*/, Mode11RhombusPlayground.ToOpenPoints);
             }
             else
 //#endif
@@ -131,7 +131,7 @@ namespace Assets.Scripts
         }
 
 
-        private void CloseLevelGUI(String level, String previos, Int32 pointsLeft)
+        private void CloseLevelGUI(String level/*, String previos*/, Int32 pointsLeft)
         {
             var obj = GameObject.Find("/GUI/MainBlock/" + level);
             var img = obj.GetComponent<Image>();
@@ -144,7 +144,7 @@ namespace Assets.Scripts
             //label.transform.localPosition = new Vector3(0, -66, -4);
             var labelText = GameObject.Find("/GUI/MainBlock/" + level + "/Lock/ShortLabel").GetComponent<Text>();
             labelText.font = Game.textFont;
-            labelText.color = GameColors.ModesColors[previos];
+            labelText.color = GameColors.DefaultDark;//ModesColors[previos];
             labelText.text = pointsLeft.ToString();
             GameObject.Find("/GUI/MainBlock/" + level + "/Lock").transform.localScale = Vector3.one;
             //labelText.fontSize = LabelShowing.maxLabelFontSize;
