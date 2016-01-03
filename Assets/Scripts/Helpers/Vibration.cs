@@ -86,6 +86,9 @@ public static class Vibration
         if (Application.platform == RuntimePlatform.Android)
             vibrationObj.Call("cancel");
 #endif
+#if UNITY_WINRT || UNITY_WP8
+        WinRTDeviceHelper.FireVibratePhone(TimeSpan.FromMilliseconds(0));
+#endif
     }
 
 //    private static bool isAndroid()
