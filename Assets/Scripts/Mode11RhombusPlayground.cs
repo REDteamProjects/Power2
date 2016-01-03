@@ -41,7 +41,6 @@ namespace Assets.Scripts
             }
         }
 
-
         public static Int32 ToOpenPoints
         {
             get { return ModeMatch3SquarePlayground.GameOverPoints; }
@@ -136,8 +135,6 @@ namespace Assets.Scripts
             InitialMoveTimerMultiple = 30;
 
             MainMenuScript.UpdateTheme();
-
-            //ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]
             {

@@ -1996,7 +1996,7 @@ namespace Assets.Scripts
                 manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
             }
             //manual.transform.localScale = new Vector3(45, 45, 0);
-            manual.transform.localPosition = new Vector3(0, 30, -2);
+            manual.transform.localPosition = new Vector3(0, 60, -2);
             UserHelpScript.ShowUserHelpCallback = callback;
             PlayerPrefs.SetInt(modulePostfix, 1);
         }

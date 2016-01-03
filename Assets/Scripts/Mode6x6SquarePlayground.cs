@@ -111,12 +111,7 @@ namespace Assets.Scripts
         {
             LanguageHelper.ActivateSystemLanguage();
 
-
-            MainMenuScript.UpdateTheme();
-
-            #if UNITY_WINRT || UNITY_WP8
-                WinRTDeviceHelper.FireShowAd();
-            #endif          
+            MainMenuScript.UpdateTheme();      
 
             Items = new[]
             {

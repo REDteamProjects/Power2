@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Assets.Scripts.Helpers;
 using UnityEngine;
 using GoogleMobileAds.Api;
 using UnityEngine.UI;
@@ -21,7 +22,7 @@ public class UnityADHelper : MonoBehaviour
 
     public AdSize BannerSize = AdSize.Banner;
 
-    public static int AdTaps
+    public static Int32 AdTaps
     {
        get
        {
@@ -31,16 +32,23 @@ public class UnityADHelper : MonoBehaviour
        set
        {
             PlayerPrefs.SetInt("AdTaps", value);
+#if UNITY_WINRT || UNITY_WP8
+            if (AdTaps != 16) return;
+            WinRTDeviceHelper.FireHideAd();
+#endif
        }
     }
 
 
     void Awake()
     {
-#if !DEBUG
+
         if (AdTaps >= 16)
             return;
 
+#if UNITY_WINRT || UNITY_WP8
+            WinRTDeviceHelper.FireShowAd();
+#else
         switch (Type)
         {
             case AdMobADType.NoAd:
@@ -50,10 +58,6 @@ public class UnityADHelper : MonoBehaviour
                 return;
             case AdMobADType.Interstitial:
                 CreateInterstitial();
-                if (!interstitialAd.IsLoaded())
-                    StartCoroutine(InterstitialAdCoroutine());
-                else
-                    interstitialAd.Show();
                 return;
         }
 #endif
@@ -69,14 +73,19 @@ public class UnityADHelper : MonoBehaviour
 
     public void OnDestroy()
     {
+#if UNITY_WINRT || UNITY_WP8
+            WinRTDeviceHelper.FireHideAd();
+#else
         DeleteBanner();
         DeleteInterstitial();
+#endif
     }
 
     private void CreateBanner()
     {
         try 
         { 
+
             var bannerId = String.Empty;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
@@ -149,6 +158,11 @@ public class UnityADHelper : MonoBehaviour
             };
 
             interstitial.LoadAd(request);
+
+            if (!interstitialAd.IsLoaded())
+                StartCoroutine(InterstitialAdCoroutine());
+            else
+                interstitialAd.Show();
         }
         catch (Exception ex)
         {
