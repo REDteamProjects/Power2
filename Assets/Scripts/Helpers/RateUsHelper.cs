@@ -10,11 +10,15 @@ namespace Assets.Scripts.Helpers
     {
         public static GameObject RateUsModule;
 
+        public static EventHandler RateUsCalled;
+
         public static void GoToStore()
         {
             DestroyRateUsModule();
 #if UNITY_WINRT || UNITY_WP8
-            Application.OpenURL("https://www.windowsphone.com");
+            if (RateUsCalled != null)
+                RateUsCalled(null, EventArgs.Empty);
+            //Application.OpenURL("http://windowsphone.com/s?appid=040e292a-81bf-4fef-88d1-437d314038a7");
 #endif
 #if UNITY_ANDROID
             Application.OpenURL("market://details?id=com.REDteam.TwoX");
