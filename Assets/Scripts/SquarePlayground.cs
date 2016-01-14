@@ -21,7 +21,7 @@ namespace Assets.Scripts
 
         protected const int AdditionalItemCost = 222;
         protected virtual float HintDelayTime { get { return 4; } }
-        protected const int MaxAdditionalItemsCount = 2;
+        protected int MaxAdditionalItemsCount = 2;
 
         private readonly AutoResetEvent _callbackReady = new AutoResetEvent(false);
         private volatile int _callbacksCount;
@@ -39,6 +39,7 @@ namespace Assets.Scripts
         private GameObject _leftComboLabel;
         private GameObject _rightComboLabel;
 
+        protected GameItemType lastMoved;
         protected int ToMoveItemsCount;
         protected int XItemsCount;
         protected int Items2XCount;
@@ -170,7 +171,16 @@ namespace Assets.Scripts
 
         protected virtual String ItemsTextureName(GameItemType type)
         {
-            return ItemPrefabName;
+            switch(type)
+            {
+                case GameItemType._ToMoveItem:
+                    if (Game.isExtreme)
+                        return ItemsNameHelper.GetPrefabPath<ModeMatch3SquarePlayground>();
+                    else
+                        return ItemPrefabName;
+                default:
+                    return ItemPrefabName;
+            }
         }
 
         public virtual string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<SquarePlayground>(); } }
@@ -247,6 +257,11 @@ namespace Assets.Scripts
             {
                 case GameItemType._XItem:
                     return GameItemMovingType.Static;
+                case GameItemType._ToMoveItem:
+                    if (Game.isExtreme)
+                        return GameItemMovingType.StandartExchangable;
+                    else
+                        return GameItemMovingType.Standart;
                 default:
                     return GameItemMovingType.Standart;
             }
@@ -711,6 +726,7 @@ namespace Assets.Scripts
 
         protected virtual bool RemoveAdditionalItems()
         {
+            if (Game.isExtreme) return false;
             bool result = false;
             for (var i = 0; i < FieldSize; i++)
                 if (Items[i][FieldSize - 1] != null && Items[i][FieldSize - 1] != DisabledItem)
@@ -1095,7 +1111,23 @@ namespace Assets.Scripts
                 if (!RemoveAdditionalItems() && CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
-                    GenerateField(false, true);
+                    if (Game.isExtreme)
+                    {
+                        if (lastMoved != GameItemType._ToMoveItem)
+                        {
+                            GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix + "NoMoves"));
+                            if (Game.Difficulty > DifficultyLevel._easy)
+                            {
+                                lastMoved = GameItemType._ToMoveItem;
+                                _selectedPoint1Coordinate = null;
+                                _selectedPoint2Coordinate = null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        GenerateField(false, true);
+                    }
                 }
                 UpdateTime();
                 return 0;
@@ -1573,6 +1605,15 @@ namespace Assets.Scripts
 
         public virtual bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
+            if(Game.isExtreme)
+            {
+                var gobj = Items[x1][y1] as GameObject;
+                if (gobj != null && Items[x1][y1] != DisabledItem)
+                {
+                    lastMoved = gobj.GetComponent<GameItem>().Type;
+                }
+            }
+
             var item1 = Items[x1][y1] as GameObject;
             var item2 = Items[x2][y2] as GameObject;
 
@@ -1902,7 +1943,7 @@ namespace Assets.Scripts
             comboLabel.ShowScalingLabel(new Vector3(isLeft ? -150 : 150, InitialGameItem.Y + GameItemSize * 2.5f, -1),
                 LanguageManager.Instance.GetTextValue("ComboTitle") + count, GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize - 20, LabelShowing.minLabelFontSize, 1, null, true, null, false,
                 count % 2 == 0 ? 30 : -30);
-            DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
+            //DeviceButtonsHelpers.OnSoundAction(Power2Sounds.Combo, false);
         }
 
         public virtual void RevertMovedItem(int col, int row, MovingFinishedDelegate callback = null)

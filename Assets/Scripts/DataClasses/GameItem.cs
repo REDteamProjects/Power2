@@ -105,6 +105,9 @@ namespace Assets.Scripts.DataClasses
                 case GameItemType._2x:
                     return "_16";
                 case GameItemType._ToMoveItem:
+                    if(Game.isExtreme)
+                    return "_7";
+                    else
                     return "_17";
                 case GameItemType._XItem:
                     return "_18";

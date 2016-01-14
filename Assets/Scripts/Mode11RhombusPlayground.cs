@@ -132,7 +132,15 @@ namespace Assets.Scripts
         {
             LanguageHelper.ActivateSystemLanguage();
 
+            if(!Game.isExtreme)
             InitialMoveTimerMultiple = 30;
+            else
+                {
+                    var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
+                    if (extImg != null)
+                        extImg.color = new Color(255f, 255f, 255f, 1f);
+                    MaxAdditionalItemsCount = 3;
+                }
 
             MainMenuScript.UpdateTheme();
 
@@ -155,7 +163,7 @@ namespace Assets.Scripts
 
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode11RhombusPlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (SavedataHelper.IsSaveDataExist(sd))
+            if (!Game.isExtreme && SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 

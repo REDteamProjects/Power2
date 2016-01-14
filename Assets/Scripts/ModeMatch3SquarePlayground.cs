@@ -15,7 +15,6 @@ namespace Assets.Scripts
         private readonly RealPoint _initialGameItemX = new RealPoint { X = -192/*-13.35F*/, Y = 172/*12.05F*/, Z = -1 };
         public static readonly int GameOverPoints = 32768;
         private GameItemType toBlock;
-        private GameItemType lastMoved;
         private readonly Vector3 _selectionScale = new Vector3(0.8f, 0.8f, 1f);
         private readonly Vector3 _6x6ItemsScale = new Vector3(0.74f, 0.74f, 1f);
 
@@ -207,6 +206,15 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            if (Game.isExtreme)
+            {
+                var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
+                if (extImg != null)
+                    extImg.color = new Color(255f, 255f, 255f, 1f);
+                MaxAdditionalItemsCount = 3;
+                InitialMoveTimerMultiple = 38;
+            }
+
             LanguageHelper.ActivateSystemLanguage();
 
             MainMenuScript.UpdateTheme();
@@ -228,7 +236,7 @@ namespace Assets.Scripts
             MaxType = GameItemType._7;
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (SavedataHelper.IsSaveDataExist(sd))
+            if (!Game.isExtreme && SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 

@@ -112,6 +112,15 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            if (Game.isExtreme)
+            {
+                var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
+                if (extImg != null)
+                    extImg.color = new Color(255f, 255f, 255f, 1f);
+                MaxAdditionalItemsCount = 3;
+                InitialMoveTimerMultiple = 38;
+            }
+
             LanguageHelper.ActivateSystemLanguage();
 
             MainMenuScript.UpdateTheme();
@@ -131,7 +140,7 @@ namespace Assets.Scripts
             };
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode8x8SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (SavedataHelper.IsSaveDataExist(sd))
+            if (!Game.isExtreme && SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 

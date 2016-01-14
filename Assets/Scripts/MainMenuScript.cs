@@ -18,6 +18,7 @@ namespace Assets.Scripts
         private static GameObject _mainCamera;
         private List<string> _availableScenes = new List<string>();
         private static GameObject _pressLogoLabel;
+        private const int NumberOfModesPages = 1;
 
         public static void UpdateTheme()
         {
@@ -49,31 +50,8 @@ namespace Assets.Scripts
                 _mainCamera.GetComponent<AudioSource>().Play();
 
             UpdateTheme();
-            _availableScenes.Add("6x6");
-//#if !DEBUG
-            if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
-            {
-                CloseLevelGUI("8x8"/*, "6x6"*/, Mode8x8SquarePlayground.ToOpenPoints);
-            }
-            else
-//#endif
-            _availableScenes.Add("8x8");
-//#if !DEBUG
-            if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
-            {
-                CloseLevelGUI("Match3"/*, "8x8"*/, ModeMatch3SquarePlayground.ToOpenPoints);
-            }
-            else
-//#endif
-            _availableScenes.Add("Match3");
-//#if !DEBUG
-            if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
-            {
-                CloseLevelGUI("Rhombus"/*, "Match3"*/, Mode11RhombusPlayground.ToOpenPoints);
-            }
-            else
-//#endif
-            _availableScenes.Add("11Rhombus");
+
+            InitializeMenuModesPage();
 
             if (!PlayerPrefs.HasKey("PressLogoLabel"))
             {
@@ -130,6 +108,71 @@ namespace Assets.Scripts
 
         }
 
+        public void InitializeMenuModesPage(int page = 0)
+        {
+            if (page == NumberOfModesPages)
+                page = 0;
+            switch(page)
+            { 
+                case 0:
+                _availableScenes.Add("6x6");
+                #if !DEBUG
+                if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.CurrentItemType == GameItemType._2x)
+                #endif
+                    EnableExtreme("6x6");
+                //#if !DEBUG
+                if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
+                {
+                    CloseLevelGUI("8x8", Mode8x8SquarePlayground.ToOpenPoints);
+                }
+                else
+                //#endif
+                {
+                    _availableScenes.Add("8x8");
+                    #if !DEBUG
+                    if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.CurrentItemType == GameItemType._2x)
+                    #endif
+                    EnableExtreme("8x8");
+                }
+                //#if !DEBUG
+                if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
+                {
+                    CloseLevelGUI("Match3", ModeMatch3SquarePlayground.ToOpenPoints);
+                }
+                else
+                //#endif
+                {
+                    _availableScenes.Add("Match3");
+                    #if !DEBUG
+                    if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord >= ModeMatch3SquarePlayground.GameOverPoints)
+                    #endif
+                    EnableExtreme("Match3");
+                }
+                //#if !DEBUG
+                if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
+                {
+                    CloseLevelGUI("Rhombus", Mode11RhombusPlayground.ToOpenPoints);
+                }
+                else
+                //#endif
+                {
+                    _availableScenes.Add("11Rhombus");
+                    #if !DEBUG
+                    if (GameSettingsHelper<Mode11RhombusPlayground>.Preferenses.CurrentItemType == GameItemType._2x)
+                    #endif
+                    EnableExtreme("11Rhombus");
+                }
+                break;
+            }
+        }
+
+
+        private void EnableExtreme(String level)
+        {
+            var obj = GameObject.Find("/GUI/MainBlock/" + level + "/Xtreme");
+            var img = obj.GetComponent<Image>();
+            img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+        }
 
         private void CloseLevelGUI(String level/*, String previos*/, Int32 pointsLeft)
         {
@@ -182,11 +225,12 @@ namespace Assets.Scripts
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
         }
 
-        public void OnNavigationButtonClick(String scene)
+
+        private void LoadScene(String scene, bool isExtreme = false)
         {
-#if !DEBUG
+        #if !DEBUG
             if (scene != "Statistics" && scene != "Help" && scene != "About" && !_availableScenes.Contains(scene)) return;
-#endif
+        #endif
             Vibration.Vibrate();
 
             var gui = GameObject.Find("/GUI");
@@ -202,10 +246,21 @@ namespace Assets.Scripts
             label.transform.localScale = Vector3.one;
             var txt = label.GetComponent<Text>();
             txt.text = LanguageManager.Instance.GetTextValue("LoadingTitle");
-            txt.fontSize = LabelShowing.maxLabelFontSize-10;
+            txt.fontSize = LabelShowing.maxLabelFontSize - 10;
             txt.color = GameColors.DifficultyLevelsColors[DifficultyLevel._hard];
             Game.Difficulty = DifficultyLevel._easy;
+            Game.isExtreme = isExtreme;
             Application.LoadLevel(scene);
+        }
+
+        public void OnNavigationButtonClick(String scene)
+        {
+            LoadScene(scene);
+        }
+
+        public void OnExtremeNavigationButtonClick(String scene)
+        {
+            LoadScene(scene, true);
         }
 
         public static GameObject GenerateMenuButton(String prefabName, Transform parentTransform, Vector3 localScale, Vector3 localPosition, String buttonText

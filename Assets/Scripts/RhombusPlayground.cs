@@ -281,7 +281,23 @@ namespace Assets.Scripts
                 if (!RemoveAdditionalItems() && CallbacksCount == 0 && !CheckForPossibleMoves())
                 {
                     LogFile.Message("No moves", true);
-                    GenerateField(false, true);
+                    if (Game.isExtreme)
+                    {
+                        if (lastMoved != GameItemType._ToMoveItem)
+                        {
+                            GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix + "NoMoves"));
+                            if (Game.Difficulty > DifficultyLevel._easy)
+                            {
+                                lastMoved = GameItemType._ToMoveItem;
+                                _selectedPoint1Coordinate = null;
+                                _selectedPoint2Coordinate = null;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        GenerateField(false, true);
+                    }
                 }
                 UpdateTime();
                 return 0;

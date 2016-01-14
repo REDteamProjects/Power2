@@ -8,6 +8,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 using Assets.Scripts.Interfaces;
 using UnityEngine;
+using Assets.Scripts.DataClasses;
 
 namespace Assets.Scripts.Helpers
 {
@@ -34,6 +35,7 @@ namespace Assets.Scripts.Helpers
 
         public static void SaveData(IPlaygroundSavedata data)
         {
+            if (Game.isExtreme) return;
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
             var bf = new WinRTSerializer();
 #else
