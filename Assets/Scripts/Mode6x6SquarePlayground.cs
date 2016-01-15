@@ -12,9 +12,19 @@ namespace Assets.Scripts
     class Mode6x6SquarePlayground : SquarePlayground
     {
         private readonly RealPoint _initialGameItemX = new RealPoint() { X = -184/*12.8F*/, Y = 176/*12.22F*/, Z = -1 };
+        private readonly Vector3 _match3ItemsScale = new Vector3(1.35f, 1.35f, 1f);
         /*private float _pbState;
         private float _pbUpper;
         private float _pbMultiplier;*/
+
+        protected override String UserHelpPrefix()
+        {
+            if (Game.isExtreme && Game.Difficulty == DifficultyLevel._medium)
+            {
+                return "Match3";
+            }
+            return base.UserHelpPrefix();
+        }
 
 
         protected override float HintDelayTime 
@@ -114,13 +124,15 @@ namespace Assets.Scripts
                 var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
                 if (extImg != null)
                     extImg.color = new Color(255f, 255f, 255f, 1f);
-                MaxAdditionalItemsCount = 3;
                 InitialMoveTimerMultiple = 38;
             }
 
             LanguageHelper.ActivateSystemLanguage();
 
-            MainMenuScript.UpdateTheme();      
+            MainMenuScript.UpdateTheme();
+
+            if (Game.isExtreme)
+                ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]
             {
@@ -132,6 +144,7 @@ namespace Assets.Scripts
                 new System.Object[FieldSize]
             };
 
+            if(!Game.isExtreme)
             IsTimeLabelShow = false;
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode6x6SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
@@ -199,6 +212,13 @@ namespace Assets.Scripts
             //if (Preferenses.CurrentItemType < MaxInitialElementType)
             //    Preferenses.CurrentItemType = MaxInitialElementType;
 
+            if (Game.isExtreme)
+            {
+                ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+                if (!ProgressBar.Exists)
+                    ProgressBar.CreateBar();
+            }
+
             GenerateField();
             ShowMaxInitialElement();
                   
@@ -206,6 +226,11 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
+            if (Game.isExtreme)
+            {
+                base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
+                return;
+            }
             if (Game.Difficulty == DifficultyLevel._veryhard && !ProgressBar.Exists)
             {
                 ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
@@ -230,6 +255,11 @@ namespace Assets.Scripts
             IsGameOver = true;
             GenerateGameOverMenu();
             ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+        }
+
+        public override GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, Vector3? scaleTo = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
+        {
+            return base.GenerateGameItem(itemType, i, j, generateOn, Game.isExtreme && itemType == GameItemType._ToMoveItem ? _match3ItemsScale : scaleTo, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
         }
     }
 }

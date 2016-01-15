@@ -229,6 +229,9 @@ R.E.D.team
 	<data name="[type=GAME_OBJECT]UserHelp.UserProgress" xml:space="preserve">
 		<value>f6499bf0f3016664a84d1df2cfd02d30</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_ExtremeOpened" xml:space="preserve">
+		<value>aaf402a78790865428e99f2b4813fa03</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp_RateUs" xml:space="preserve">
 		<value>79fc8248e02fac4479599e4a70c19ef9</value>
 	</data>

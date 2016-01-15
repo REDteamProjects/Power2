@@ -23,9 +23,9 @@ namespace Assets.Scripts
             get { return 81920; }
         }
 
-        protected override String UserHelpPrefix
+        protected override String UserHelpPrefix()
         {
-            get { return "Match3"; }
+            return "Match3";
         }
 
         protected override Vector3 SelectionScale
@@ -211,7 +211,6 @@ namespace Assets.Scripts
                 var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
                 if (extImg != null)
                     extImg.color = new Color(255f, 255f, 255f, 1f);
-                MaxAdditionalItemsCount = 3;
                 InitialMoveTimerMultiple = 38;
             }
 
@@ -338,7 +337,7 @@ namespace Assets.Scripts
 
                     if (lastMoved != GameItemType._ToMoveItem)
                     {
-                        GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix + "NoMoves"));
+                        GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix() + "NoMoves"));
                         if (Game.Difficulty > DifficultyLevel._easy)
                         {
                             lastMoved = GameItemType._ToMoveItem;

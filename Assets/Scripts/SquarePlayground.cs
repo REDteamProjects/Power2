@@ -71,9 +71,9 @@ namespace Assets.Scripts
 
         #endregion
 
-        protected virtual String UserHelpPrefix
+        protected virtual String UserHelpPrefix()
         {
-            get { return ""; }
+            return "";
         }
 
         protected virtual Vector3 GameItemScale
@@ -368,7 +368,7 @@ namespace Assets.Scripts
 
                 if (!withLabel)
                 {
-                    CreateInGameHelpModule(UserHelpPrefix + Game.Difficulty.ToString(), () =>
+                    CreateInGameHelpModule(UserHelpPrefix() + Game.Difficulty.ToString(), () =>
                     {
                         if (callback != null)
                             callback(null, EventArgs.Empty);
@@ -389,7 +389,7 @@ namespace Assets.Scripts
                 var difficultyRaisedLabel = o.GetComponent<LabelShowing>();
 
                 difficultyRaisedLabel.ShowScalingLabel(new Vector3(0, -2, -4), LanguageManager.Instance.GetTextValue(Game.Difficulty.ToString()),
-                    GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, () => CreateInGameHelpModule(UserHelpPrefix + Game.Difficulty.ToString(), () =>
+                    GameColors.DifficultyLevelsColors[Game.Difficulty], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, () => CreateInGameHelpModule(UserHelpPrefix() + Game.Difficulty.ToString(), () =>
                     {
                         if (callback != null)
                             callback(null, EventArgs.Empty);
@@ -763,7 +763,7 @@ namespace Assets.Scripts
 
             if (!_isDropDone && CallbacksCount == 0)
                 Drop();
-            if (!(HintTimeCounter >= 0)) return;
+            if (Game.isExtreme || !(HintTimeCounter >= 0)) return;
             if (HintTimeCounter > HintDelayTime && _selectedPoint1 == null && _selectedPoint2 == null)
             {
                 if (SelectedPoint1Coordinate == null || SelectedPoint2Coordinate == null) return;
@@ -837,7 +837,7 @@ namespace Assets.Scripts
             gi.transform.localPosition = new Vector3(Screen.width, Screen.height, gi.transform.localPosition.z);
         }
 
-        public GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, Vector3? scaleTo = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
+        public virtual GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, Vector3? scaleTo = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
         {
             if (!generateOn.HasValue)
                 generateOn = new Vector2(0, FieldSize - j);
@@ -912,7 +912,7 @@ namespace Assets.Scripts
         public bool MatchType(int x, int y, GameItemType itemType)
         {
             // убедимся, что фишка не выходит за пределы поля    
-            if ((x < 0) || (x >= FieldSize) || (y < 0) || (y >= FieldSize) || Items[x][y] == null || Items[x][y] == DisabledItem) return false;
+            if ((x < 0) || (x >= FieldSize) || (y < 0) || (y >= FieldSize) || Items[x][y] == null || Items[x][y] == DisabledItem || itemType > GameItemType._2x) return false;
             var gobj = Items[x][y] as GameObject;
             if (gobj == null) return false;
             var gi = gobj.GetComponent<GameItem>();
@@ -1115,7 +1115,7 @@ namespace Assets.Scripts
                     {
                         if (lastMoved != GameItemType._ToMoveItem)
                         {
-                            GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule(UserHelpPrefix + "NoMoves"));
+                            GenerateField(false, true, Game.Difficulty != DifficultyLevel._easy, () => CreateInGameHelpModule("Match3NoMoves"));
                             if (Game.Difficulty > DifficultyLevel._easy)
                             {
                                 lastMoved = GameItemType._ToMoveItem;
@@ -1605,17 +1605,16 @@ namespace Assets.Scripts
 
         public virtual bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
-            if(Game.isExtreme)
-            {
-                var gobj = Items[x1][y1] as GameObject;
-                if (gobj != null && Items[x1][y1] != DisabledItem)
-                {
-                    lastMoved = gobj.GetComponent<GameItem>().Type;
-                }
-            }
-
             var item1 = Items[x1][y1] as GameObject;
             var item2 = Items[x2][y2] as GameObject;
+
+            if (Game.isExtreme)
+            {
+                if (item1 != null && Items[x1][y1] != DisabledItem)
+                {
+                    lastMoved = item1.GetComponent<GameItem>().Type;
+                }
+            }
 
             GameMovesCount++;
 
@@ -2007,7 +2006,7 @@ namespace Assets.Scripts
             });
         }
 
-        protected virtual void CreateInGameHelpModule(string modulePostfix, LabelAnimationFinishedDelegate callback = null)
+        protected void CreateInGameHelpModule(string modulePostfix, LabelAnimationFinishedDelegate callback = null)
         {
             if (PlayerPrefs.HasKey(modulePostfix))
             {

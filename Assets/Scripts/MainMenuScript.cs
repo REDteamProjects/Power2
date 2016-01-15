@@ -19,6 +19,7 @@ namespace Assets.Scripts
         private List<string> _availableScenes = new List<string>();
         private static GameObject _pressLogoLabel;
         private const int NumberOfModesPages = 1;
+        private bool _extremeWasJustEnabled = false;
 
         public static void UpdateTheme()
         {
@@ -94,6 +95,7 @@ namespace Assets.Scripts
                     text.fontSize = LabelShowing.maxLabelFontSize;
                     text.text = LanguageManager.Instance.GetTextValue("RateUs");
                     text.color = GameColors.DifficultyLevelsColors[DifficultyLevel._hard];
+                    rateNowButton.GetComponent<Button>().onClick.AddListener(ShowExtremeUserHelp);
                 }
                 var rateLaterButton = GameObject.Find("/GUI/RateUsUserMessage(Clone)/RateLaterButton");
                 if (rateLaterButton != null)
@@ -103,6 +105,7 @@ namespace Assets.Scripts
                     text.fontSize = 20;
                     text.text = "X";
                     text.color = new Color(GameColors.DefaultDark.r,GameColors.DefaultDark.g,GameColors.DefaultDark.b,0.7f);
+                    rateLaterButton.GetComponent<Button>().onClick.AddListener(ShowExtremeUserHelp);
                 }
             }
 
@@ -120,13 +123,13 @@ namespace Assets.Scripts
                 if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.CurrentItemType == GameItemType._2x)
                 #endif
                     EnableExtreme("6x6");
-                //#if !DEBUG
+                #if !DEBUG
                 if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
                 {
                     CloseLevelGUI("8x8", Mode8x8SquarePlayground.ToOpenPoints);
                 }
                 else
-                //#endif
+                #endif
                 {
                     _availableScenes.Add("8x8");
                     #if !DEBUG
@@ -134,13 +137,13 @@ namespace Assets.Scripts
                     #endif
                     EnableExtreme("8x8");
                 }
-                //#if !DEBUG
+                #if !DEBUG
                 if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
                 {
                     CloseLevelGUI("Match3", ModeMatch3SquarePlayground.ToOpenPoints);
                 }
                 else
-                //#endif
+                #endif
                 {
                     _availableScenes.Add("Match3");
                     #if !DEBUG
@@ -148,19 +151,19 @@ namespace Assets.Scripts
                     #endif
                     EnableExtreme("Match3");
                 }
-                //#if !DEBUG
+                #if !DEBUG
                 if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
                 {
                     CloseLevelGUI("Rhombus", Mode11RhombusPlayground.ToOpenPoints);
                 }
                 else
-                //#endif
+                #endif
                 {
                     _availableScenes.Add("11Rhombus");
                     #if !DEBUG
                     if (GameSettingsHelper<Mode11RhombusPlayground>.Preferenses.CurrentItemType == GameItemType._2x)
                     #endif
-                    EnableExtreme("11Rhombus");
+                    EnableExtreme("Rhombus");
                 }
                 break;
             }
@@ -169,9 +172,49 @@ namespace Assets.Scripts
 
         private void EnableExtreme(String level)
         {
+
             var obj = GameObject.Find("/GUI/MainBlock/" + level + "/Xtreme");
             var img = obj.GetComponent<Image>();
             img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+            _extremeWasJustEnabled = true;
+            ShowExtremeUserHelp();
+        }
+
+        private void ShowExtremeUserHelp()
+        {
+            if (_extremeWasJustEnabled && PlayerPrefs.HasKey("RateUsUserMessage") && !PlayerPrefs.HasKey("ExtremeOpened"))
+            {
+                _extremeWasJustEnabled = false;
+                CreateMenuHelpModule("ExtremeOpened");
+                PlayerPrefs.SetInt("ExtremeOpened", 1);
+            }               
+        }
+
+        protected void CreateMenuHelpModule(string moduleName, LabelAnimationFinishedDelegate callback = null)
+        {
+            if (PlayerPrefs.HasKey(moduleName))
+            {
+                if (callback != null)
+                    callback();
+                return;
+            }
+            var gui = GameObject.Find("/GUI");
+            var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp_" + moduleName);
+            if (manualPrefab == null)
+                return;
+            var manual = Instantiate(manualPrefab);
+            var resource = Resources.Load("Prefabs/InGameHelper");
+            UserHelpScript.InGameHelpModule = Instantiate(resource) as GameObject;
+            if (UserHelpScript.InGameHelpModule != null)
+            {
+                UserHelpScript.InGameHelpModule.transform.SetParent(gui.transform);
+                UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
+                UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -10);
+                manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
+            }
+            manual.transform.localScale = new Vector3(25, 25, 0);
+            manual.transform.localPosition = new Vector3(0, 30, -1);
+            UserHelpScript.ShowUserHelpCallback = callback;
         }
 
         private void CloseLevelGUI(String level/*, String previos*/, Int32 pointsLeft)

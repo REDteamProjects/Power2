@@ -16,9 +16,9 @@ namespace Assets.Scripts
         private float _pbUpper;
         private float _pbMultiplier;*/
 
-        protected override String UserHelpPrefix
+        protected override String UserHelpPrefix()
         {
-            get { return "Rhombus"; }
+            return "Rhombus";
         }
 
         public override float ItemSpeedMultiplier
@@ -139,10 +139,12 @@ namespace Assets.Scripts
                     var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
                     if (extImg != null)
                         extImg.color = new Color(255f, 255f, 255f, 1f);
-                    MaxAdditionalItemsCount = 3;
                 }
 
             MainMenuScript.UpdateTheme();
+
+            if(Game.isExtreme)
+                ProgressBar.ProgressBarOver += ProgressBarOnProgressBarOver;
 
             Items = new[]
             {
@@ -159,6 +161,7 @@ namespace Assets.Scripts
                 new []{ DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem, null,  DisabledItem, DisabledItem, DisabledItem, DisabledItem, DisabledItem },
             };
 
+            if (!Game.isExtreme)
             IsTimeLabelShow = false;
 
             Preferenses.GamesPlayed++;
@@ -229,9 +232,12 @@ namespace Assets.Scripts
             //if (Preferenses.CurrentItemType < MaxInitialElementType)
             //    Preferenses.CurrentItemType = MaxInitialElementType;
 
-            /*ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
-            if (!ProgressBar.Exists)
-            ProgressBar.CreateBar();*/
+            if (Game.isExtreme)
+            {
+                ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+                if (!ProgressBar.Exists)
+                    ProgressBar.CreateBar();
+            }
             GenerateField();
             ShowMaxInitialElement();
         }
@@ -239,6 +245,11 @@ namespace Assets.Scripts
 
         protected override void MaxInitialElementTypeRaisedActionsAdditional(object o, EventArgs e)
         {
+            if(Game.isExtreme)
+            {
+                base.MaxInitialElementTypeRaisedActionsAdditional(o, e);
+                return;
+            }
             switch(Game.Difficulty)
             {
                 case DifficultyLevel._hard:

@@ -14,9 +14,13 @@ namespace Assets.Scripts
         private readonly RealPoint _initialGameItemX = new RealPoint() { X = -192/*-13.35F*/, Y = 172/*12.05F*/, Z = -1 };
         private readonly Vector3 _gameItemScale = new Vector3(0.74f, 0.74f, 1f);
 
-        protected override String UserHelpPrefix
+        protected override String UserHelpPrefix()
         {
-            get { return "8x8"; }
+            if (Game.isExtreme && Game.Difficulty == DifficultyLevel._medium)
+            {
+                return "Match3";
+            }
+            return "8x8"; 
         }
 
         protected override Vector3 GameItemScale

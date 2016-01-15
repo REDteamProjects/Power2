@@ -215,6 +215,9 @@
 	<data name="[type=GAME_OBJECT]UserHelp.Match3_veryhard" xml:space="preserve">
 		<value>Match3 veryhard level help texture</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp.Match3NoMoves" xml:space="preserve">
+		<value>No moves help texture</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp.RemoveAds" xml:space="preserve">
 		<value>Instruction of removing ads</value>
 	</data>
@@ -224,13 +227,13 @@
 	<data name="[type=GAME_OBJECT]UserHelp.UserProgress" xml:space="preserve">
 		<value>Instruction for progress page</value>
 	</data>
+	<data name="[type=GAME_OBJECT]UserHelp_ExtremeOpened" xml:space="preserve">
+		<value>Extreme mode opened user help</value>
+	</data>
 	<data name="[type=GAME_OBJECT]UserHelp_RateUs" xml:space="preserve">
 		<value>Rate us message</value>
 	</data>
 	<data name="YouWinTitle" xml:space="preserve">
 		<value>User win label text</value>
-	</data>
-	<data name="[type=GAME_OBJECT]UserHelp.Match3NoMoves" xml:space="preserve">
-		<value>No moves help texture</value>
 	</data>
 </root>
