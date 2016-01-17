@@ -40,15 +40,25 @@ namespace Assets.Scripts
         void Awake()
         {
             LanguageHelper.ActivateSystemLanguage();
-
             Game.textFont = Resources.Load<Font>("Fonts/SEGUIBL");
             Game.numbersFont = Game.textFont;
+            Game.isExtreme = false;
             _mainCamera = GameObject.Find("Main Camera");
             var gui = GameObject.Find("/GUI");
             _soundButton = GameObject.Find("/GUI/SoundButton");
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
             if (SoundEnabled == SoundState.on)
                 _mainCamera.GetComponent<AudioSource>().Play();
+
+            if(Screen.height >= Screen.width * 0.75)
+            {
+                var logo = GameObject.Find("/GUI/Logo");
+                logo.transform.localScale = new Vector3(0.8f,0.8f,1f);
+                logo.transform.localPosition = new Vector3(0f, 260f, 0f);
+                logo= GameObject.Find("/GUI/LogoBack");
+                logo.transform.localScale = new Vector3(0.8f, 0.8f, 1f);
+                logo.transform.localPosition = new Vector3(0f, 260f, 0f);
+            }
 
             UpdateTheme();
 
@@ -209,7 +219,7 @@ namespace Assets.Scripts
             {
                 UserHelpScript.InGameHelpModule.transform.SetParent(gui.transform);
                 UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
-                UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -10);
+                UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 30, -10);
                 manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);
             }
             manual.transform.localScale = new Vector3(25, 25, 0);

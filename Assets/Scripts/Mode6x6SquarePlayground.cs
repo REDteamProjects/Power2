@@ -148,7 +148,7 @@ namespace Assets.Scripts
             IsTimeLabelShow = false;
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode6x6SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (!Game.isExtreme && SavedataHelper.IsSaveDataExist(sd))
+            if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 
@@ -165,6 +165,12 @@ namespace Assets.Scripts
                 if (mit == MaxInitialElementType)
                     ShowMaxInitialElement();
 
+                if (Game.isExtreme)
+                {
+                    ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+                    if (!ProgressBar.Exists)
+                        ProgressBar.CreateBar();
+                }
                 RaisePoints(sd.Score);
 
                 /*_pbState = sd.ProgressBarStateData.State;

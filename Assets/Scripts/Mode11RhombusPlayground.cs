@@ -166,7 +166,7 @@ namespace Assets.Scripts
 
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode11RhombusPlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (!Game.isExtreme && SavedataHelper.IsSaveDataExist(sd))
+            if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 
@@ -182,9 +182,13 @@ namespace Assets.Scripts
                 if (mit == MaxInitialElementType)
                     ShowMaxInitialElement();
 
-                /*ProgressBar.InnitializeBar(sd.ProgressBarStateData.State, sd.ProgressBarStateData.Upper, sd.ProgressBarStateData.Multiplier);
-                if (!ProgressBar.Exists)
-                ProgressBar.CreateBar();*/
+                if (Game.isExtreme)
+                {
+                    ProgressBar.InnitializeBar(PlaygroundProgressBar.ProgressBarBaseSize, ProgressBar.Upper, ProgressBar.Multiplier);
+                    if (!ProgressBar.Exists)
+                        ProgressBar.CreateBar();
+                }
+
                 RaisePoints(sd.Score);
 
                 /*_pbState = sd.ProgressBarStateData.State;

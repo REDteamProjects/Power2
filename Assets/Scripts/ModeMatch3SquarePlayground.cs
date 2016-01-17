@@ -235,7 +235,7 @@ namespace Assets.Scripts
             MaxType = GameItemType._7;
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new ModeMatch3PlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (!Game.isExtreme && SavedataHelper.IsSaveDataExist(sd))
+            if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 

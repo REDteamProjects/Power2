@@ -23,7 +23,7 @@ namespace Assets.Scripts.Helpers
 #else
             var bf = new BinaryFormatter();
 #endif
-            using (var file = File.Open(Application.persistentDataPath + data.FileName, FileMode.Open))
+            using (var file = File.Open(Application.persistentDataPath + data.FileName + (Game.isExtreme ? "Extreme" : ""), FileMode.Open))
             {               
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
                 data = (IPlaygroundSavedata)bf.Deserialize(file, data.GetType());
@@ -35,14 +35,13 @@ namespace Assets.Scripts.Helpers
 
         public static void SaveData(IPlaygroundSavedata data)
         {
-            if (Game.isExtreme) return;
 #if !UNITY_EDITOR && (UNITY_WINRT || UNITY_WINRT_8_0 || UNITY_WINRT_8_1)
             var bf = new WinRTSerializer();
 #else
             var bf = new BinaryFormatter();
 #endif
             //Application.persistentDataPath is a string, so if you wanted you can put that into debug.log if you want to know where save games are located
-            using (var file = File.Create(Application.persistentDataPath + data.FileName))
+            using (var file = File.Create(Application.persistentDataPath + data.FileName + (Game.isExtreme ? "Extreme" : "")))
             //you can call it anything you want
             {
                 bf.Serialize(file, data);
@@ -52,7 +51,7 @@ namespace Assets.Scripts.Helpers
         public static void RemoveData(IPlaygroundSavedata data)
         {
             if (!IsSaveDataExist(data)) return;
-            File.Delete(Application.persistentDataPath + data.FileName);
+            File.Delete(Application.persistentDataPath + data.FileName + (Game.isExtreme ? "Extreme" : ""));
         }
 
         public static void RemoveAllData()
@@ -66,7 +65,7 @@ namespace Assets.Scripts.Helpers
 
         public static bool IsSaveDataExist(IPlaygroundSavedata data)
         {
-            return File.Exists(Application.persistentDataPath + data.FileName);
+            return File.Exists(Application.persistentDataPath + data.FileName + (Game.isExtreme ? "Extreme" : ""));
         }
     }
 }

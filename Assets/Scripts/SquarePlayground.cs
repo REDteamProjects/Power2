@@ -519,7 +519,7 @@ namespace Assets.Scripts
                         GameItemsSprites.Add(MaxType, Resources.LoadAll<Sprite>(ItemPrefabName.Split('/')[1] + "Tiles").FirstOrDefault(t => t.name.Contains(GetTextureIDByType(MaxType))));
                     currentMIE.GetComponent<SpriteRenderer>().sprite = GameItemsSprites[MaxType];
                     var c = currentMIE.GetComponent<GameItemMovingScript>();
-                    c.MoveTo(null, 340f, Game.StandartItemSpeed / 4);
+                    c.MoveTo(null, 320f, Game.StandartItemSpeed / 4);
                 });
             }
             else
@@ -542,7 +542,7 @@ namespace Assets.Scripts
                     buttonComponent.onClick.AddListener(ThemeChooserScript.OnScriptGameThemeChange);
                 var c = gobj.GetComponent<GameItemMovingScript>();
                 LogFile.Message("GameItem generated to X:" + gobj.transform.localPosition.x + " Y:" + (gobj.transform.localPosition.y), true);
-                c.MoveTo(null, 340f, Game.StandartItemSpeed / 4);
+                c.MoveTo(null, 320f, Game.StandartItemSpeed / 4);
             }
         }
 

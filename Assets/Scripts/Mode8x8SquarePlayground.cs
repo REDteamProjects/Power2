@@ -144,7 +144,7 @@ namespace Assets.Scripts
             };
             Preferenses.GamesPlayed++;
             IPlaygroundSavedata sd = new Mode8x8SquarePlaygroundSavedata { Difficulty = Game.Difficulty };
-            if (!Game.isExtreme && SavedataHelper.IsSaveDataExist(sd))
+            if (SavedataHelper.IsSaveDataExist(sd))
             {
                 SavedataHelper.LoadData(ref sd);
 

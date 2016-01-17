@@ -17,6 +17,7 @@ public class StatisticPageScript : MonoBehaviour
     private static GameTypes? SelectedType;
     private static GameObject SelectedItem;
     private static GameObject _resetConfirmationMenu;
+    private bool isExtremeSwitched = false;
 
     private void GenerateLevelTitle<T>(GameItemType type) where T:IPlayground
     {
@@ -123,6 +124,26 @@ public class StatisticPageScript : MonoBehaviour
             LabelShowing.maxLabelFontSize, LabelShowing.maxLabelFontSize, 1, Game.textFont);
     }
 
+    public void SwitchFromToExtreme()
+    {
+        if(Game.isExtreme)
+        {
+            Game.isExtreme = false;
+            GameObject.Find("/GUI/Extreme").GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.8f);
+        }
+        else
+        {
+            Game.isExtreme = true;
+            GameObject.Find("/GUI/Extreme").GetComponent<Image>().color = new Color(255f, 255f, 255f, 1f);
+        }
+        if (SelectedType.HasValue)
+        {
+            isExtremeSwitched = true;
+            LoadLevelData((int)SelectedType.Value);
+        }
+    }
+
+
     public void ResetProgress()
     {
         GeneralSettings.RemoveAllPrefsExceptGeneral();
@@ -141,7 +162,9 @@ public class StatisticPageScript : MonoBehaviour
     {
         var type = (GameTypes) ttype;
 
-        if (type == SelectedType && SelectedItem != null) return;
+        if (type == SelectedType && SelectedItem != null && !isExtremeSwitched) return;
+
+        isExtremeSwitched = false;
 
         SpriteRenderer lastbOject;
         if (SelectedItem != null)

@@ -6,6 +6,7 @@ using System.Text;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Interfaces;
 using UnityEngine;
+using Assets.Scripts.DataClasses;
 
 namespace Assets.Scripts.Helpers
 {
@@ -150,14 +151,14 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_MaximumOpenedLevel"))
-                    return (DifficultyLevel)PlayerPrefs.GetInt(GetType().FullName + "_MaximumOpenedLevel");
-                PlayerPrefs.SetInt(GetType().FullName + "_MaximumOpenedLevel", (int)DifficultyLevel._easy);
+                if (PlayerPrefs.HasKey(GetType().FullName + "_MaximumOpenedLevel" + (Game.isExtreme ? "Extreme" : "")))
+                    return (DifficultyLevel)PlayerPrefs.GetInt(GetType().FullName + "_MaximumOpenedLevel" + (Game.isExtreme ? "Extreme" : ""));
+                PlayerPrefs.SetInt(GetType().FullName + "_MaximumOpenedLevel" + (Game.isExtreme ? "Extreme" : ""), (int)DifficultyLevel._easy);
                 return DifficultyLevel._easy;
             }
             set
             {
-                PlayerPrefs.SetInt(GetType().FullName + "_MaximumOpenedLevel", (int)value);
+                PlayerPrefs.SetInt(GetType().FullName + "_MaximumOpenedLevel" + (Game.isExtreme ? "Extreme" : ""), (int)value);
             }
         }
 
@@ -165,14 +166,14 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_ScoreRecord"))
-                    return PlayerPrefs.GetInt(GetType().FullName + "_ScoreRecord");
-                PlayerPrefs.SetInt(GetType().FullName + "_ScoreRecord", 0);
+                if (PlayerPrefs.HasKey(GetType().FullName + "_ScoreRecord" + (Game.isExtreme ? "Extreme" : "")))
+                    return PlayerPrefs.GetInt(GetType().FullName + "_ScoreRecord" + (Game.isExtreme ? "Extreme" : ""));
+                PlayerPrefs.SetInt(GetType().FullName + "_ScoreRecord" + (Game.isExtreme ? "Extreme" : ""), 0);
                 return 0;
             }
             set
             {
-                PlayerPrefs.SetInt(GetType().FullName + "_ScoreRecord", value);
+                PlayerPrefs.SetInt(GetType().FullName + "_ScoreRecord" + (Game.isExtreme ? "Extreme" : ""), value);
             }
         }
 
@@ -180,14 +181,14 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_GamesPlayed"))
-                    return PlayerPrefs.GetInt(GetType().FullName + "_GamesPlayed");
-                PlayerPrefs.SetInt(GetType().FullName + "_GamesPlayed", 0);
+                if (PlayerPrefs.HasKey(GetType().FullName + "_GamesPlayed" + (Game.isExtreme ? "Extreme" : "")))
+                    return PlayerPrefs.GetInt(GetType().FullName + "_GamesPlayed" + (Game.isExtreme ? "Extreme" : ""));
+                PlayerPrefs.SetInt(GetType().FullName + "_GamesPlayed" + (Game.isExtreme ? "Extreme" : ""), 0);
                 return 0;
             }
             set
             {
-                PlayerPrefs.SetInt(GetType().FullName + "_GamesPlayed", value);
+                PlayerPrefs.SetInt(GetType().FullName + "_GamesPlayed" + (Game.isExtreme ? "Extreme" : ""), value);
             }
         }
 
@@ -195,14 +196,14 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_CurrentItemType"))
-                    return (GameItemType)PlayerPrefs.GetInt(GetType().FullName + "_CurrentItemType");
-                PlayerPrefs.SetInt(GetType().FullName + "_CurrentItemType", (int)GameItemType.NullItem);
+                if (PlayerPrefs.HasKey(GetType().FullName + "_CurrentItemType" + (Game.isExtreme ? "Extreme" : "")))
+                    return (GameItemType)PlayerPrefs.GetInt(GetType().FullName + "_CurrentItemType" + (Game.isExtreme ? "Extreme" : ""));
+                PlayerPrefs.SetInt(GetType().FullName + "_CurrentItemType" + (Game.isExtreme ? "Extreme" : ""), (int)GameItemType.NullItem);
                 return GameItemType.NullItem;
             }
             set
             {
-                PlayerPrefs.SetInt(GetType().FullName + "_CurrentItemType", (int)value);
+                PlayerPrefs.SetInt(GetType().FullName + "_CurrentItemType" + (Game.isExtreme ? "Extreme" : ""), (int)value);
             }
         }
 
@@ -210,14 +211,14 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_LongestSession"))
-                    return PlayerPrefs.GetFloat(GetType().FullName + "_LongestSession");
-                PlayerPrefs.SetFloat(GetType().FullName + "_LongestSession", 0f);
+                if (PlayerPrefs.HasKey(GetType().FullName + "_LongestSession" + (Game.isExtreme ? "Extreme" : "")))
+                    return PlayerPrefs.GetFloat(GetType().FullName + "_LongestSession" + (Game.isExtreme ? "Extreme" : ""));
+                PlayerPrefs.SetFloat(GetType().FullName + "_LongestSession" + (Game.isExtreme ? "Extreme" : ""), 0f);
                 return 0;
             }
             set
             {
-                PlayerPrefs.SetFloat(GetType().FullName + "_LongestSession", value);
+                PlayerPrefs.SetFloat(GetType().FullName + "_LongestSession" + (Game.isExtreme ? "Extreme" : ""), value);
             }
         }
 
@@ -225,14 +226,14 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_MaxMultiplier"))
-                    return PlayerPrefs.GetInt(GetType().FullName + "_MaxMultiplier");
-                PlayerPrefs.SetInt(GetType().FullName + "_MaxMultiplier", 0);
+                if (PlayerPrefs.HasKey(GetType().FullName + "_MaxMultiplier" + (Game.isExtreme ? "Extreme" : "")))
+                    return PlayerPrefs.GetInt(GetType().FullName + "_MaxMultiplier" + (Game.isExtreme ? "Extreme" : ""));
+                PlayerPrefs.SetInt(GetType().FullName + "_MaxMultiplier" + (Game.isExtreme ? "Extreme" : ""), 0);
                 return 0;
             }
             set
             {
-                PlayerPrefs.SetInt(GetType().FullName + "_MaxMultiplier", value);
+                PlayerPrefs.SetInt(GetType().FullName + "_MaxMultiplier" + (Game.isExtreme ? "Extreme" : ""), value);
             }
         }
 
@@ -240,14 +241,14 @@ namespace Assets.Scripts.Helpers
         {
             get
             {
-                if (PlayerPrefs.HasKey(GetType().FullName + "_MovesRecord"))
-                    return PlayerPrefs.GetInt(GetType().FullName + "_MovesRecord");
-                PlayerPrefs.SetInt(GetType().FullName + "_MovesRecord", 0);
+                if (PlayerPrefs.HasKey(GetType().FullName + "_MovesRecord" + (Game.isExtreme ? "Extreme" : "")))
+                    return PlayerPrefs.GetInt(GetType().FullName + "_MovesRecord" + (Game.isExtreme ? "Extreme" : ""));
+                PlayerPrefs.SetInt(GetType().FullName + "_MovesRecord" + (Game.isExtreme ? "Extreme" : ""), 0);
                 return 0;
             }
             set
             {
-                PlayerPrefs.SetInt(GetType().FullName + "_MovesRecord", value);
+                PlayerPrefs.SetInt(GetType().FullName + "_MovesRecord" + (Game.isExtreme ? "Extreme" : ""), value);
             }
         }
 
@@ -257,23 +258,44 @@ namespace Assets.Scripts.Helpers
             if (PlayerPrefs.HasKey(typeName + "_MaximumOpenedLevel"))
                 PlayerPrefs.DeleteKey(typeName + "_MaximumOpenedLevel");
 
+            if (PlayerPrefs.HasKey(typeName + "_MaximumOpenedLevelExtreme"))
+                PlayerPrefs.DeleteKey(typeName + "_MaximumOpenedLevelExtreme");
+
             if (PlayerPrefs.HasKey(typeName + "_ScoreRecord"))
                 PlayerPrefs.DeleteKey(typeName + "_ScoreRecord");
+
+            if (PlayerPrefs.HasKey(typeName + "_ScoreRecordExtreme"))
+                PlayerPrefs.DeleteKey(typeName + "_ScoreRecordExtreme");
 
             if (PlayerPrefs.HasKey(typeName + "_GamesPlayed"))
                 PlayerPrefs.DeleteKey(typeName + "_GamesPlayed");
 
+            if (PlayerPrefs.HasKey(typeName + "_GamesPlayedExtreme"))
+                PlayerPrefs.DeleteKey(typeName + "_GamesPlayedExtreme");
+
             if (PlayerPrefs.HasKey(typeName + "_CurrentItemType"))
                 PlayerPrefs.DeleteKey(typeName + "_CurrentItemType");
+
+            if (PlayerPrefs.HasKey(typeName + "_CurrentItemTypeExtreme"))
+                PlayerPrefs.DeleteKey(typeName + "_CurrentItemTypeExtreme");
 
             if (PlayerPrefs.HasKey(typeName + "_LongestSession"))
                 PlayerPrefs.DeleteKey(typeName + "_LongestSession");
 
+            if (PlayerPrefs.HasKey(typeName + "_LongestSessionExtreme"))
+                PlayerPrefs.DeleteKey(typeName + "_LongestSessionExtreme");
+
             if (PlayerPrefs.HasKey(typeName + "_MaxMultiplier"))
                 PlayerPrefs.DeleteKey(typeName + "_MaxMultiplier");
 
+            if (PlayerPrefs.HasKey(typeName + "_MaxMultiplierExtreme"))
+                PlayerPrefs.DeleteKey(typeName + "_MaxMultiplierExtreme");
+
             if (PlayerPrefs.HasKey(typeName + "_MovesRecord"))
-                PlayerPrefs.DeleteKey(typeName + "_MovesRecord"); 
+                PlayerPrefs.DeleteKey(typeName + "_MovesRecord");
+
+            if (PlayerPrefs.HasKey(typeName + "_MovesRecordExtreme"))
+                PlayerPrefs.DeleteKey(typeName + "_MovesRecordExtreme");
         }
 
         //public static void RemoveAllPrefs()
