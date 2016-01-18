@@ -50,7 +50,7 @@ namespace Assets.Scripts
             if (SoundEnabled == SoundState.on)
                 _mainCamera.GetComponent<AudioSource>().Play();
 
-            if(Screen.height >= Screen.width * 0.75)
+            if (Screen.width >= (int)(Screen.height * 0.75))
             {
                 var logo = GameObject.Find("/GUI/Logo");
                 logo.transform.localScale = new Vector3(0.8f,0.8f,1f);

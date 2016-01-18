@@ -13,6 +13,7 @@ namespace Assets.Scripts
     {
         private readonly RealPoint _initialGameItemX = new RealPoint() { X = -192/*-13.35F*/, Y = 172/*12.05F*/, Z = -1 };
         private readonly Vector3 _gameItemScale = new Vector3(0.74f, 0.74f, 1f);
+        private readonly Vector3 _match3ItemsScale = new Vector3(1f, 1f, 1f);
 
         protected override String UserHelpPrefix()
         {
@@ -121,7 +122,6 @@ namespace Assets.Scripts
                 var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
                 if (extImg != null)
                     extImg.color = new Color(255f, 255f, 255f, 1f);
-                MaxAdditionalItemsCount = 3;
                 InitialMoveTimerMultiple = 38;
             }
 
@@ -219,6 +219,11 @@ namespace Assets.Scripts
             IsGameOver = true;
             GenerateGameOverMenu();
             ProgressBar.ProgressBarOver -= ProgressBarOnProgressBarOver;
+        }
+
+        public override GameObject GenerateGameItem(GameItemType itemType, int i, int j, Vector2? generateOn = null, Vector3? scaleTo = null, bool isItemDirectionChangable = false, float? dropSpeed = null, MovingFinishedDelegate movingCallback = null, GameItemMovingType? movingType = null)
+        {
+            return base.GenerateGameItem(itemType, i, j, generateOn, Game.isExtreme && itemType == GameItemType._ToMoveItem ? _match3ItemsScale : scaleTo, isItemDirectionChangable, dropSpeed, movingCallback, movingType);
         }
     }
 }

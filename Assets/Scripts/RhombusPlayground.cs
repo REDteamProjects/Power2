@@ -852,5 +852,17 @@ namespace Assets.Scripts
             }
         }
 
+
+        protected override String GetTextureIDByType(GameItemType type)
+        {
+            switch(type)
+            {
+                case GameItemType._ToMoveItem:
+                    return "_17";
+                default:
+                    return GameItem.GetStandartTextureIDByType(type);
+            }
+        }
+
     }
 }
