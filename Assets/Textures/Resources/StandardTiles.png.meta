@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 03e5a3b562acf8641b6601bfccd25b69
-timeCreated: 1449946371
+timeCreated: 1453321480
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -48,6 +48,31 @@ TextureImporter:
     21300082: Power2Tiles_22
     21300084: Power2Tiles_23
     21300086: Power2Tiles_24
+    21300088: StandardTiles_0
+    21300090: StandardTiles_1
+    21300092: StandardTiles_2
+    21300094: StandardTiles_3
+    21300096: StandardTiles_4
+    21300098: StandardTiles_5
+    21300100: StandardTiles_6
+    21300102: StandardTiles_7
+    21300104: StandardTiles_8
+    21300106: StandardTiles_9
+    21300108: StandardTiles_10
+    21300110: StandardTiles_11
+    21300112: StandardTiles_12
+    21300114: StandardTiles_13
+    21300116: StandardTiles_14
+    21300118: StandardTiles_15
+    21300120: StandardTiles_16
+    21300122: StandardTiles_17
+    21300124: StandardTiles_18
+    21300126: StandardTiles_19
+    21300128: StandardTiles_20
+    21300130: StandardTiles_21
+    21300132: StandardTiles_22
+    21300134: StandardTiles_23
+    21300136: StandardTiles_24
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -93,7 +118,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Power2Tiles_0
+    - name: StandardTiles_0
       rect:
         serializedVersion: 2
         x: 0
@@ -101,9 +126,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_1
+    - name: StandardTiles_1
       rect:
         serializedVersion: 2
         x: 256
@@ -111,9 +136,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_2
+    - name: StandardTiles_2
       rect:
         serializedVersion: 2
         x: 512
@@ -121,9 +146,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_3
+    - name: StandardTiles_3
       rect:
         serializedVersion: 2
         x: 768
@@ -131,9 +156,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_4
+    - name: StandardTiles_4
       rect:
         serializedVersion: 2
         x: 1024
@@ -141,9 +166,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_5
+    - name: StandardTiles_5
       rect:
         serializedVersion: 2
         x: 0
@@ -151,9 +176,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_6
+    - name: StandardTiles_6
       rect:
         serializedVersion: 2
         x: 256
@@ -161,9 +186,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_7
+    - name: StandardTiles_7
       rect:
         serializedVersion: 2
         x: 512
@@ -171,9 +196,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_8
+    - name: StandardTiles_8
       rect:
         serializedVersion: 2
         x: 768
@@ -181,9 +206,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_9
+    - name: StandardTiles_9
       rect:
         serializedVersion: 2
         x: 1024
@@ -191,9 +216,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_10
+    - name: StandardTiles_10
       rect:
         serializedVersion: 2
         x: 0
@@ -201,9 +226,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_11
+    - name: StandardTiles_11
       rect:
         serializedVersion: 2
         x: 256
@@ -211,9 +236,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_12
+    - name: StandardTiles_12
       rect:
         serializedVersion: 2
         x: 512
@@ -221,9 +246,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_13
+    - name: StandardTiles_13
       rect:
         serializedVersion: 2
         x: 768
@@ -231,9 +256,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_14
+    - name: StandardTiles_14
       rect:
         serializedVersion: 2
         x: 1024
@@ -241,9 +266,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_15
+    - name: StandardTiles_15
       rect:
         serializedVersion: 2
         x: 0
@@ -251,9 +276,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_16
+    - name: StandardTiles_16
       rect:
         serializedVersion: 2
         x: 256
@@ -261,9 +286,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_17
+    - name: StandardTiles_17
       rect:
         serializedVersion: 2
         x: 512
@@ -271,9 +296,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_18
+    - name: StandardTiles_18
       rect:
         serializedVersion: 2
         x: 768
@@ -281,9 +306,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_19
+    - name: StandardTiles_19
       rect:
         serializedVersion: 2
         x: 1024
@@ -291,9 +316,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_20
+    - name: StandardTiles_20
       rect:
         serializedVersion: 2
         x: 0
@@ -303,7 +328,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_21
+    - name: StandardTiles_21
       rect:
         serializedVersion: 2
         x: 256
@@ -313,7 +338,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_22
+    - name: StandardTiles_22
       rect:
         serializedVersion: 2
         x: 512
@@ -321,9 +346,9 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: .5, y: .5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_23
+    - name: StandardTiles_23
       rect:
         serializedVersion: 2
         x: 768
@@ -333,7 +358,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2Tiles_24
+    - name: StandardTiles_24
       rect:
         serializedVersion: 2
         x: 1024

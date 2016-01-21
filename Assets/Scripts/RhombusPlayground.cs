@@ -14,6 +14,8 @@ namespace Assets.Scripts
 
         public override string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<RhombusPlayground>(); } }
 
+        public override bool isBackgroundInSprite { get { return true; } }
+
         public RhombusPlayground()
             : base(new Dictionary<MoveDirections, Vector2>
             {

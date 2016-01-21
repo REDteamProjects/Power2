@@ -71,6 +71,7 @@ namespace Assets.Scripts
 
         #endregion
 
+
         protected virtual String UserHelpPrefix()
         {
             return "";
@@ -184,6 +185,8 @@ namespace Assets.Scripts
         }
 
         public virtual string ItemBackgroundTextureName { get { return ItemsNameHelper.GetBackgroundTexturePrefix<SquarePlayground>(); } }
+
+        public virtual bool isBackgroundInSprite { get { return false; } }
 
         public virtual bool isDisabledItemActive { get { return false; } }
 
@@ -356,8 +359,10 @@ namespace Assets.Scripts
             oits.SetTransparency(0.1f, (obj, res) =>
             {
                 var backgroundObject = GameObject.Find("/Middleground/Background");
-                backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName)
-                    .SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
+                if(isBackgroundInSprite)
+                backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName).SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
+                else
+                    backgroundObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(ItemBackgroundTextureName + Game.Difficulty.ToString());
 
                 GetComponent<PlaygroundProgressBar>().UpdateTexture();
 

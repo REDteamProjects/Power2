@@ -11,7 +11,7 @@ namespace Assets.Scripts
 {
     class Mode8x8SquarePlayground : SquarePlayground
     {
-        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -192/*-13.35F*/, Y = 172/*12.05F*/, Z = -1 };
+        private readonly RealPoint _initialGameItemX = new RealPoint() { X = -192/*-13.35F*/, Y = 174/*12.05F*/, Z = -1 };
         private readonly Vector3 _gameItemScale = new Vector3(0.74f, 0.74f, 1f);
         private readonly Vector3 _match3ItemsScale = new Vector3(1f, 1f, 1f);
 

@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: cfd081069dd7afd4abbabf135af8bf74
-timeCreated: 1449946385
+timeCreated: 1453321472
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -28,6 +28,31 @@ TextureImporter:
     21300042: Power2RhombTiles_21
     21300044: Power2RhombTiles_22
     21300046: Power2RhombTiles_23
+    21300048: RhombusTiles_0
+    21300050: RhombusTiles_1
+    21300052: RhombusTiles_2
+    21300054: RhombusTiles_3
+    21300056: RhombusTiles_4
+    21300058: RhombusTiles_5
+    21300060: RhombusTiles_6
+    21300062: RhombusTiles_7
+    21300064: RhombusTiles_8
+    21300066: RhombusTiles_9
+    21300068: RhombusTiles_10
+    21300070: RhombusTiles_11
+    21300072: RhombusTiles_12
+    21300074: RhombusTiles_13
+    21300076: RhombusTiles_14
+    21300078: RhombusTiles_15
+    21300080: RhombusTiles_16
+    21300082: RhombusTiles_17
+    21300084: RhombusTiles_18
+    21300086: RhombusTiles_19
+    21300088: RhombusTiles_20
+    21300090: RhombusTiles_21
+    21300092: RhombusTiles_22
+    21300094: RhombusTiles_23
+    21300096: RhombusTiles_24
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -77,7 +102,7 @@ TextureImporter:
     compressionQuality: 50
   spriteSheet:
     sprites:
-    - name: Power2RhombTiles_0
+    - name: RhombusTiles_0
       rect:
         serializedVersion: 2
         x: 0
@@ -87,7 +112,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_1
+    - name: RhombusTiles_1
       rect:
         serializedVersion: 2
         x: 256
@@ -97,7 +122,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_2
+    - name: RhombusTiles_2
       rect:
         serializedVersion: 2
         x: 512
@@ -107,7 +132,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_3
+    - name: RhombusTiles_3
       rect:
         serializedVersion: 2
         x: 768
@@ -117,7 +142,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_4
+    - name: RhombusTiles_4
       rect:
         serializedVersion: 2
         x: 1024
@@ -127,7 +152,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_5
+    - name: RhombusTiles_5
       rect:
         serializedVersion: 2
         x: 0
@@ -137,7 +162,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_6
+    - name: RhombusTiles_6
       rect:
         serializedVersion: 2
         x: 256
@@ -147,7 +172,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_7
+    - name: RhombusTiles_7
       rect:
         serializedVersion: 2
         x: 512
@@ -157,7 +182,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_8
+    - name: RhombusTiles_8
       rect:
         serializedVersion: 2
         x: 768
@@ -167,7 +192,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_9
+    - name: RhombusTiles_9
       rect:
         serializedVersion: 2
         x: 1024
@@ -177,7 +202,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_10
+    - name: RhombusTiles_10
       rect:
         serializedVersion: 2
         x: 0
@@ -187,7 +212,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_11
+    - name: RhombusTiles_11
       rect:
         serializedVersion: 2
         x: 256
@@ -197,7 +222,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_12
+    - name: RhombusTiles_12
       rect:
         serializedVersion: 2
         x: 512
@@ -207,7 +232,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_13
+    - name: RhombusTiles_13
       rect:
         serializedVersion: 2
         x: 768
@@ -217,7 +242,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_14
+    - name: RhombusTiles_14
       rect:
         serializedVersion: 2
         x: 1024
@@ -227,7 +252,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_15
+    - name: RhombusTiles_15
       rect:
         serializedVersion: 2
         x: 0
@@ -237,7 +262,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_16
+    - name: RhombusTiles_16
       rect:
         serializedVersion: 2
         x: 256
@@ -247,7 +272,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_17
+    - name: RhombusTiles_17
       rect:
         serializedVersion: 2
         x: 512
@@ -257,7 +282,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_18
+    - name: RhombusTiles_18
       rect:
         serializedVersion: 2
         x: 768
@@ -267,11 +292,61 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Power2RhombTiles_19
+    - name: RhombusTiles_19
       rect:
         serializedVersion: 2
         x: 1024
         y: 256
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: RhombusTiles_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: RhombusTiles_21
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: RhombusTiles_22
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: RhombusTiles_23
+      rect:
+        serializedVersion: 2
+        x: 768
+        y: 0
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: RhombusTiles_24
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 0
         width: 256
         height: 256
       alignment: 0

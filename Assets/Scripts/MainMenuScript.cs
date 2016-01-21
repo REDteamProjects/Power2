@@ -50,7 +50,7 @@ namespace Assets.Scripts
             if (SoundEnabled == SoundState.on)
                 _mainCamera.GetComponent<AudioSource>().Play();
 
-            if (Screen.width >= (int)(Screen.height * 0.75))
+            if (Screen.width >= (int)(Screen.height * 0.65))
             {
                 var logo = GameObject.Find("/GUI/Logo");
                 logo.transform.localScale = new Vector3(0.8f,0.8f,1f);
@@ -133,13 +133,13 @@ namespace Assets.Scripts
                 if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.CurrentItemType == GameItemType._2x)
                 #endif
                     EnableExtreme("6x6");
-                #if !DEBUG
+               // #if !DEBUG
                 if (GameSettingsHelper<Mode6x6SquarePlayground>.Preferenses.ScoreRecord < Mode8x8SquarePlayground.ToOpenPoints)
                 {
                     CloseLevelGUI("8x8", Mode8x8SquarePlayground.ToOpenPoints);
                 }
                 else
-                #endif
+                //#endif
                 {
                     _availableScenes.Add("8x8");
                     #if !DEBUG
@@ -147,13 +147,13 @@ namespace Assets.Scripts
                     #endif
                     EnableExtreme("8x8");
                 }
-                #if !DEBUG
+                //#if !DEBUG
                 if (GameSettingsHelper<Mode8x8SquarePlayground>.Preferenses.ScoreRecord < ModeMatch3SquarePlayground.ToOpenPoints)
                 {
                     CloseLevelGUI("Match3", ModeMatch3SquarePlayground.ToOpenPoints);
                 }
                 else
-                #endif
+                //#endif
                 {
                     _availableScenes.Add("Match3");
                     #if !DEBUG
@@ -161,13 +161,13 @@ namespace Assets.Scripts
                     #endif
                     EnableExtreme("Match3");
                 }
-                #if !DEBUG
+                //#if !DEBUG
                 if (GameSettingsHelper<ModeMatch3SquarePlayground>.Preferenses.ScoreRecord < Mode11RhombusPlayground.ToOpenPoints)
                 {
                     CloseLevelGUI("Rhombus", Mode11RhombusPlayground.ToOpenPoints);
                 }
                 else
-                #endif
+                //#endif
                 {
                     _availableScenes.Add("11Rhombus");
                     #if !DEBUG
@@ -229,6 +229,7 @@ namespace Assets.Scripts
 
         private void CloseLevelGUI(String level/*, String previos*/, Int32 pointsLeft)
         {
+            GameObject.Find("/GUI/MainBlockBack/" + level).GetComponent<Image>().enabled = true;
             var obj = GameObject.Find("/GUI/MainBlock/" + level);
             var img = obj.GetComponent<Image>();
             img.color = new Color(img.color.r, img.color.g, img.color.b, 0f);

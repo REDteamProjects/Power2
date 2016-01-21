@@ -40,19 +40,19 @@ public class ItemsNameHelper  {
     {
         var typeT = typeof(T);
         if (typeT == typeof(ModeDropsPlayground))
-            return "6x6Atlas";
+            return "8x8Background";
 
         if (typeT == typeof(ModeMatch3SquarePlayground))
-            return "8x8Atlas";
+            return "8x8Background";
 
         if (typeT == typeof(RhombusPlayground) || typeT.BaseType == typeof(RhombusPlayground))
             return "RhombusAtlas";
 
         if (typeT == typeof(Mode8x8SquarePlayground))
-            return "8x8Atlas";
+            return "8x8Background";
 
         if (typeT == typeof(Mode6x6SquarePlayground) || typeT.BaseType == typeof(SquarePlayground))
-            return "6x6Atlas";
+            return "6x6Background";
 
         return null;
     }
