@@ -15,6 +15,9 @@ namespace Assets.Scripts.DataClasses
         public static readonly Color DefaultLight = new Color(1f, 1f, 1f);//new Color(1f, 0.95f, 0.85f);
         public static readonly Color DefaultDark = new Color(0.16f, 0.16f, 0.18f);
         public static readonly Color Additional1 = new Color(0.2f, 0.8f, 1f);//new Color(0.6f, 0.1f, 0f);
+        public static readonly Color Additional2 = new Color(0.65f, 0.45f, 1f);
+        public static readonly Color Additional3 = new Color(0.4f, 1f, 0.7f);
+        public static readonly Color Additional4 = new Color(1f, 0.9f, 0.4f);
 
         public static Color BackgroundColor
         {
@@ -28,6 +31,12 @@ namespace Assets.Scripts.DataClasses
                         return DefaultLight; 
                     case GameTheme.additional_1:
                         return Additional1;
+                    case GameTheme.additional_2:
+                        return Additional2;
+                    case GameTheme.additional_3:
+                        return Additional3;
+                    case GameTheme.additional_4:
+                        return Additional4;
                 }
                 return DefaultLight;
             }

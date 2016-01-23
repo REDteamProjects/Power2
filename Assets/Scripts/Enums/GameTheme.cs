@@ -11,6 +11,9 @@ namespace Assets.Scripts.Enums
     {
         dark,
         light,
-        additional_1
+        additional_1,
+        additional_2,
+        additional_3,
+        additional_4
     }
 }

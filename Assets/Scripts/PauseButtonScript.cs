@@ -53,10 +53,10 @@ namespace Assets.Scripts
 
             var pauseButton = GameObject.Find("/Foreground/PauseButton");
 
-            _soundButton = MainMenuScript.GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-pauseButton.transform.localPosition.x,
+            /*_soundButton = MainMenuScript.GenerateMenuButton("Prefabs/SoundButton", fg.transform, Vector3.one, new Vector3(-pauseButton.transform.localPosition.x,
                 pauseButton.transform.localPosition.y, -3), null, 0, OnSoundButtonPressed);
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
-            _soundButton.name = "SoundButton";
+            _soundButton.name = "SoundButton";*/
         }
 
         void DestroyPauseMenu()
