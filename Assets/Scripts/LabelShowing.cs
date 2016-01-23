@@ -153,6 +153,9 @@ public class LabelShowing : MonoBehaviour {
             position = fg.transform.InverseTransformPoint(position);
             position.z = z;
         }
+
+        
+
         transform.localScale = scaleTo == null ? Vector3.one : scaleTo.Value;
         _step = step;
         //animateToSize += (animateToSize - animateFromSize) % _step;
@@ -174,7 +177,7 @@ public class LabelShowing : MonoBehaviour {
         if (textColor != shadowColor)
         {
             var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
-            
+
             if (scalingLabelObject != null)
             {
                 //scalingLabelObject.name = name + "(Shadow)";
@@ -190,7 +193,10 @@ public class LabelShowing : MonoBehaviour {
             _labelText.color = shadowColor;
         }
         else
+        {
+            textColor = new Color(textColor.r, textColor.g, textColor.b, 0.8f);
             _labelText.color = textColor;
+        }
         _labelText.fontSize = _currentFontSize =_animateFromSize = animateFromSize;
         _scaleFontTo = animateToSize;
         _labelText.font = font ? font : Game.textFont;

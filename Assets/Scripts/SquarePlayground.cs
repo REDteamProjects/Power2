@@ -452,7 +452,7 @@ namespace Assets.Scripts
             var fg = GameObject.Find("/Foreground");
             showTimeLabel.transform.SetParent(fg.transform);
             showTimeLabel.ShowScalingLabel(new Vector3(ProgressBar.Coordinate.x, ProgressBar.Coordinate.y, -4), LanguageManager.Instance.GetTextValue("TimeStart"),
-                GameColors.DefaultLabelColor, GameColors.DefaultLabelColor, LabelShowing.minLabelFontSize - 10, LabelShowing.maxLabelFontSize - 30, 1, null, true, () =>
+                GameColors.BackgroundColor, GameColors.BackgroundColor, LabelShowing.minLabelFontSize - 10, LabelShowing.maxLabelFontSize - 30, 1, null, true, () =>
                 {
                     PlaygroundProgressBar.ProgressBarRun = true;
                 });
