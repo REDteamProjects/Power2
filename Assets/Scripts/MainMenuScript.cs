@@ -71,9 +71,9 @@ namespace Assets.Scripts
                 _pressLogoLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject);
                 if (_pressLogoLabel != null)
                 {
-                    _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI").transform);
+                    _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI/Logo").transform);
                     var pressLogoLabelShowing = _pressLogoLabel.GetComponent<LabelShowing>();
-                    pressLogoLabelShowing.ShowScalingLabel(new Vector3(125, 350, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
+                    pressLogoLabelShowing.ShowScalingLabel(new Vector3(110, 60, -4), LanguageManager.Instance.GetTextValue("PressLogo"),
                         GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize+10, LabelShowing.minLabelFontSize+40, 1, null, false, null, false, 0, new Vector3(0.3f,0.3f,1));
                 }
             }
@@ -186,7 +186,7 @@ namespace Assets.Scripts
 
             var obj = GameObject.Find("/GUI/MainBlock/" + level + "/Xtreme");
             var img = obj.GetComponent<Image>();
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+            img.enabled = true;
             _extremeWasJustEnabled = true;
             ShowExtremeUserHelp();
         }
