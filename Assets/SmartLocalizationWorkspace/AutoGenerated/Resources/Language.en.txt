@@ -137,8 +137,11 @@
 	<data name="AboutText" xml:space="preserve">
 		<value>TwoX game 
 by R.E.D.team
-
-All rights reserved.</value>
+Avaliable on iOS,
+Android 
+and Windows Phone
+All rights 
+reserved</value>
 	</data>
 	<data name="ComboTitle" xml:space="preserve">
 		<value>Combo x</value>

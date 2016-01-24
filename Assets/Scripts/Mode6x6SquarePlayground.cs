@@ -123,7 +123,7 @@ namespace Assets.Scripts
             {
                 var extImg = GameObject.Find("/Foreground/Extreme").GetComponent<Image>();
                 if (extImg != null)
-                    extImg.color = new Color(255f, 255f, 255f, 1f);
+                    extImg.enabled = true;
                 InitialMoveTimerMultiple = 38;
             }
 

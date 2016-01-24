@@ -136,8 +136,12 @@
 	</data>
 	<data name="AboutText" xml:space="preserve">
 		<value>Игра TwoX
-R.E.D.team
-Все права защищены</value>
+от R.E.D.team
+Доступна на iOS,
+Android
+и Windows Phone
+Все права
+защищены</value>
 	</data>
 	<data name="ComboTitle" xml:space="preserve">
 		<value>Комбо x</value>
