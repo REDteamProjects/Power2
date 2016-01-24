@@ -42,6 +42,8 @@ namespace Assets.Scripts.Helpers
             }
 
             MainMenuScript.UpdateTheme();
+            if (!PlayerPrefs.HasKey("PressLogoLabel"))
+                PlayerPrefs.SetInt("PressLogoLabel", 1);
         }
     }
 }

@@ -89,10 +89,10 @@ public class HelpPageScript : MonoBehaviour
         if (_currentIndex == _allModulesPostfixList.Count-1)
         {
             img = nextbtn.GetComponent<Image>();
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
+            img.color = new Color(img.color.r, img.color.g, img.color.b, 0.4f);
         }
         img = prevbtn.GetComponent<Image>();
-        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 0.86f);
     }
 
     public void PrevHelpItem()
@@ -103,9 +103,9 @@ public class HelpPageScript : MonoBehaviour
         if (_currentIndex == 0)
         {
             img = prevbtn.GetComponent<Image>();
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 0.5f);
+            img.color = new Color(img.color.r, img.color.g, img.color.b, 0.4f);
         }
         img = nextbtn.GetComponent<Image>();
-        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 0.86f);
     }
 }

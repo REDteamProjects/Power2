@@ -33,8 +33,9 @@ namespace Assets.Scripts
                 if (ls.Shadow != null)
                     Destroy(ls.Shadow.gameObject);
                 Destroy(_pressLogoLabel);
+                _pressLogoLabel = null;
                 PlayerPrefs.SetInt("PressLogoLabel", 1);
-            }
+            }   
         }
 
         void Awake()
@@ -60,12 +61,13 @@ namespace Assets.Scripts
                 logo.transform.localPosition = new Vector3(0f, 260f, 0f);
             }
 
-            UpdateTheme();
-
             InitializeMenuModesPage();
+
+            UpdateTheme();
 
             if (!PlayerPrefs.HasKey("PressLogoLabel"))
             {
+                
                 _pressLogoLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject);
                 if (_pressLogoLabel != null)
                 {
@@ -75,7 +77,6 @@ namespace Assets.Scripts
                         GameColors.DefaultLabelColor, GameColors.DefaultDark, LabelShowing.minLabelFontSize+10, LabelShowing.minLabelFontSize+40, 1, null, false, null, false, 0, new Vector3(0.3f,0.3f,1));
                 }
             }
-
 
 
             if (PlayerPrefs.HasKey("_hard") && !PlayerPrefs.HasKey("RateUsUserMessage"))
