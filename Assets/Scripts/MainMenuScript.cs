@@ -15,7 +15,7 @@ namespace Assets.Scripts
     {
         public MenuState CurrentState;
         private static GameObject _soundButton;
-        private static GameObject _mainCamera;
+        //private static GameObject _mainCamera;
         private List<string> _availableScenes = new List<string>();
         private static GameObject _pressLogoLabel;
         private const int NumberOfModesPages = 1;
@@ -45,12 +45,12 @@ namespace Assets.Scripts
             Game.textFont = Resources.Load<Font>("Fonts/SEGUIBL");
             Game.numbersFont = Game.textFont;
             Game.isExtreme = false;
-            _mainCamera = GameObject.Find("Main Camera");
+            //_mainCamera = GameObject.Find("Main Camera");
             var gui = GameObject.Find("/GUI");
             _soundButton = GameObject.Find("/GUI/SoundButton");
             _soundButton.GetComponent<Image>().sprite = GeneralSettings.SoundButtonSprite;
-            if (SoundEnabled == SoundState.on)
-                _mainCamera.GetComponent<AudioSource>().Play();
+            //if (SoundEnabled == SoundState.on)
+               // _mainCamera.GetComponent<AudioSource>().Play();
 
             if (Screen.width >= (int)(Screen.height * 0.65))
             {
@@ -264,13 +264,13 @@ namespace Assets.Scripts
             set
             {
                 GeneralSettings.SoundEnabled = value;
-                switch (GeneralSettings.SoundEnabled)
+                /*switch (GeneralSettings.SoundEnabled)
                 {
                     case SoundState.on:
                         _mainCamera.GetComponent<AudioSource>().Play();
                         return;
                 }
-                _mainCamera.GetComponent<AudioSource>().Pause();
+                _mainCamera.GetComponent<AudioSource>().Pause();*/
             }
         }
 
