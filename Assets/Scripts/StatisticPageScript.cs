@@ -129,7 +129,7 @@ public class StatisticPageScript : MonoBehaviour
         if(Game.isExtreme)
         {
             Game.isExtreme = false;
-            GameObject.Find("/GUI/Extreme").GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.8f);
+            GameObject.Find("/GUI/Extreme").GetComponent<Image>().color = new Color(255f, 255f, 255f, 0.7f);
         }
         else
         {

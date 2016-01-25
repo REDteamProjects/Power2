@@ -7,6 +7,8 @@ using Assets.Scripts.Enums;
 using System.Collections.Generic;
 
 
+public delegate void LabelAnimationFinishedDelegate();
+
 public class LabelShowing : MonoBehaviour {
 
     public static Int32 minLabelFontSize = 30;
@@ -96,14 +98,15 @@ public class LabelShowing : MonoBehaviour {
         }
 	}  
 
-    public static void ShowScalingLabel(GameObject initGameObject, String text, Color textColor, Color shadowColor, int animateFromSize,
+    public static void ShowScalingLabel(GameObject initGameObject,bool onTop, bool leftSide, String text, Color textColor, Color shadowColor, int animateFromSize,
          int animateToSize, int step = 1, Font font = null,
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, int rotateAngle = 0, GameItemType? type = null)
     {
         var mg = GameObject.Find("/Middleground");
         //var wp = initGameObject.transform.position;
         var newPos = mg.transform.InverseTransformPoint(initGameObject.transform.position);// calling it with foreground causes MaxInitialElement z index decreasing(shows under pause menu)...
-        var showOn = new Vector3(newPos.x, newPos.y + 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y, newPos.z-10);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
+        var showOn = new Vector3(newPos.x + (onTop ? 0 : ((leftSide ? -25 : 25) * initGameObject.GetComponent<SpriteRenderer>().bounds.size.x)),
+            newPos.y + (onTop ? 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y : 0), newPos.z - 6);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
         if(type.HasValue)
         {
             for(int i = 0;i < PointLabels.Count;i++)

@@ -406,7 +406,7 @@ namespace Assets.Scripts
 
                 var points = pointsMultiple * (int)Math.Pow(2, (double)cellType);
                 pointsBank += points;
-                LabelShowing.ShowScalingLabel(currentObj, "+" + points, GameColors.Match3Colors[cellType], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true,
+                LabelShowing.ShowScalingLabel(currentObj, (l.Orientation == LineOrientation.Horizontal), (l.X1 >= FieldSize / 2), "+" + points, GameColors.Match3Colors[cellType], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true,
                     null, 0, cellType);
 
                 lines.Remove(l);
@@ -442,10 +442,13 @@ namespace Assets.Scripts
 
         public override bool GameItemsExchange(int x1, int y1, int x2, int y2, float speed, bool isReverse, MovingFinishedDelegate exchangeCallback = null)
         {
-            var gobj = Items[x1][y1] as GameObject;
-            if (gobj != null && Items[x1][y1] != DisabledItem)
+            if (!Game.isExtreme)
             {
-                lastMoved = gobj.GetComponent<GameItem>().Type;
+                var gobj = Items[x1][y1] as GameObject;
+                if (gobj != null && Items[x1][y1] != DisabledItem)
+                {
+                    lastMoved = gobj.GetComponent<GameItem>().Type;
+                }
             }
             return base.GameItemsExchange(x1, y1, x2, y2, speed, isReverse, exchangeCallback);
         }

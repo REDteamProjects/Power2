@@ -461,14 +461,14 @@ namespace Assets.Scripts
                         if (newgobjtype <= MaxInitialElementType)
                         {
                             pointsBank += points;
-                            LabelShowing.ShowScalingLabel(newgobj,
-                                "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
+                            LabelShowing.ShowScalingLabel(newgobj, true, false,
+                                "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, null, 0, newgobjtype);
                         }
                         else
                         {
                             pointsBank += 2 * points;
-                            LabelShowing.ShowScalingLabel(newgobj, 
-                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, null, true, null, 0, newgobjtype);
+                            LabelShowing.ShowScalingLabel(newgobj, true, false,
+                                "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, null, true, null, 0, newgobjtype);
                         }
                 }
                 lines.Remove(l);
@@ -811,7 +811,7 @@ namespace Assets.Scripts
                         (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
                          gobj.GetComponent<GameItemMovingScript>().IsMoving)))
                     {
-                        LabelShowing.ShowScalingLabel(gobj, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
+                        LabelShowing.ShowScalingLabel(gobj, true, false, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
                         RaisePoints(AdditionalItemCost);
                         if (ProgressBar != null)
                             ProgressBar.AddTime(AdditionalItemCost * 2);
@@ -827,7 +827,7 @@ namespace Assets.Scripts
                     if (gobj == null ||
                         (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
                          gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
-                    LabelShowing.ShowScalingLabel(gobj, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
+                    LabelShowing.ShowScalingLabel(gobj, true, false, "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
                     RaisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
                         ProgressBar.AddTime(AdditionalItemCost * 2);

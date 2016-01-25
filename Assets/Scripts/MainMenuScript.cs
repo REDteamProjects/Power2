@@ -40,6 +40,7 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            Application.targetFrameRate = 60;
             LanguageHelper.ActivateSystemLanguage();
             Game.textFont = Resources.Load<Font>("Fonts/SEGUIBL");
             Game.numbersFont = Game.textFont;

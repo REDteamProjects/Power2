@@ -12,7 +12,6 @@ using UnityEngine.UI;
 
 namespace Assets.Scripts
 {
-    public delegate void LabelAnimationFinishedDelegate();
     class SquarePlayground : MonoBehaviour, IPlayground
     {
         public static readonly System.Object _disabledItem = new object();
@@ -51,6 +50,7 @@ namespace Assets.Scripts
 
         protected GameItemType MaxType = GameItemType._3;
         protected bool CallClearChainsAfterExchange;
+        protected bool isExchanging = false;
         protected int CurrentExchangeItemsCount;
         protected float InitialMoveTimerMultiple = 34;
         private readonly Vector3 _selectionScale = new Vector3(1.1f, 1.1f, 1f);
@@ -745,8 +745,8 @@ namespace Assets.Scripts
                      {
                          var pointsLabel = o.GetComponent<LabelShowing>();
                          pointsLabel.transform.SetParent(transform);*/
-                    LabelShowing.ShowScalingLabel(gobj/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
-                        "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
+                    LabelShowing.ShowScalingLabel(gobj, false, (i >= FieldSize/2)/*new Vector3(gobj.transform.localPosition.x, gobj.transform.localPosition.y + GameItemSize / 2, gobj.transform.localPosition.z - 1)*/,
+                        "+" + 222, Color.white, Color.white, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, Game.numbersFont, true, null, 0, GameItemType._ToMoveItem);
                     //}
                     RaisePoints(AdditionalItemCost);
                     if (ProgressBar != null)
@@ -869,7 +869,7 @@ namespace Assets.Scripts
                     if (CallbacksCount == 0)
                         ClearChains();
                     else
-                        if (CallbacksCount == CurrentExchangeItemsCount)
+                        if (isExchanging && CallbacksCount == CurrentExchangeItemsCount)
                             CallClearChainsAfterExchange = true;
                 }
             }, new Vector2(InitialGameItem.X, InitialGameItem.Y + GameItemSize / 2), scaleTo != null ? scaleTo : Vector3.one/*new Vector3(toS, toS, 1f)*/, isItemDirectionChangable,
@@ -1137,6 +1137,8 @@ namespace Assets.Scripts
                 UpdateTime();
                 return 0;
             }
+            if (Game.isExtreme && lastMoved == GameItemType._ToMoveItem)
+                lastMoved = GameItemType.NullItem;
             HintTimeCounter = -1;
             _isDropDone = false;
             LogFile.Message("Start clear chaines. Lines: " + lines.Count, true);
@@ -1305,14 +1307,14 @@ namespace Assets.Scripts
                     if (newgobjtype <= MaxInitialElementType)
                     {
                         pointsBank += points;
-                        LabelShowing.ShowScalingLabel(newgobj,
-                            "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
+                        LabelShowing.ShowScalingLabel(newgobj, (l.Orientation == LineOrientation.Horizontal), (toObjX >= FieldSize/2),
+                            "+" + points, GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, Game.numbersFont, true, null, 0, newgobjtype);
                     }
                     else
                     {
                         pointsBank += 2 * points;
-                        LabelShowing.ShowScalingLabel(newgobj,
-                            "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 3, Game.numbersFont, true, null, 0, newgobjtype);
+                        LabelShowing.ShowScalingLabel(newgobj, (l.Orientation == LineOrientation.Horizontal), (toObjX >= FieldSize / 2),
+                            "+" + points + "x2", GameColors.ItemsColors[newgobjtype], GameColors.DefaultDark, LabelShowing.minLabelFontSize, LabelShowing.maxLabelFontSize, 2, Game.numbersFont, true, null, 0, newgobjtype);
                     }
                 }
                 lines.Remove(l);
@@ -1639,8 +1641,8 @@ namespace Assets.Scripts
             var position2 = GetCellCoordinates(x2, y2);
             LogFile.Message("Exchange items: " + position1.x + position1.y + " " + position2.x + " " + position2.y, true);
 
-            if (item1 != null)
-            {
+            if (item1 == null || item2 == null) return false;
+            isExchanging = true;
                 CallbacksCount++;
                 CurrentExchangeItemsCount++;
                 item1.GetComponent<GameItemMovingScript>()
@@ -1648,8 +1650,8 @@ namespace Assets.Scripts
                        position2.y,
                         Game.StandartItemSpeed, (item, result) =>
                         {
-                            CallbacksCount--;
-                            if (!result) return;
+                            CallbacksCount--; 
+                            //if (!result) return;
                             var currentItem = item as GameObject;
                             if (currentItem != null && isReverse)
                             {
@@ -1661,6 +1663,8 @@ namespace Assets.Scripts
                                         {
                                             CallbacksCount--;
                                             CurrentExchangeItemsCount--;
+                                            if (CurrentExchangeItemsCount == 0)
+                                                isExchanging = false;
                                             if (exchangeCallback != null)
                                                 exchangeCallback(gameObject, true);
                                             if (CallbacksCount == 0 && CallClearChainsAfterExchange)
@@ -1672,6 +1676,8 @@ namespace Assets.Scripts
                                 return;
                             }
                             CurrentExchangeItemsCount--;
+                            if (CurrentExchangeItemsCount == 0)
+                                isExchanging = false;
                             if (exchangeCallback != null)
                                 exchangeCallback(gameObject, true);
                             if (CallbacksCount == 0)
@@ -1681,7 +1687,6 @@ namespace Assets.Scripts
                             }
 
                         });
-            }
 
             CallbacksCount++;
             CurrentExchangeItemsCount++;
@@ -1691,7 +1696,7 @@ namespace Assets.Scripts
                         Game.StandartItemSpeed, (item, result) =>
                         {
                             CallbacksCount--;
-                            if (!result) return;
+                            //if (!result) return;
                             var currentItem = item as GameObject;
                             if (currentItem != null && isReverse)
                             {
@@ -1703,20 +1708,28 @@ namespace Assets.Scripts
                                         {
                                             CallbacksCount--;
                                             CurrentExchangeItemsCount--;
+                                            if (CurrentExchangeItemsCount == 0)
+                                                isExchanging = false;
                                             if (exchangeCallback != null)
                                                 exchangeCallback(gameObject, true);
-                                            if (CallbacksCount != 0 || !CallClearChainsAfterExchange) return;
-                                            CallClearChainsAfterExchange = false;
-                                            ClearChains();
+                                            if (CallbacksCount == 0 && CallClearChainsAfterExchange)
+                                            {
+                                                CallClearChainsAfterExchange = false;
+                                                ClearChains();
+                                            }
                                         });
                                 return;
                             }
                             CurrentExchangeItemsCount--;
+                            if (CurrentExchangeItemsCount == 0)
+                                isExchanging = false;
                             if (exchangeCallback != null)
                                 exchangeCallback(gameObject, true);
-                            if (CallbacksCount != 0) return;
-                            CallClearChainsAfterExchange = false;
-                            ClearChains();
+                            if (CallbacksCount == 0)
+                            {
+                                CallClearChainsAfterExchange = false;
+                                ClearChains();
+                            }
                         });
 
             return true;
