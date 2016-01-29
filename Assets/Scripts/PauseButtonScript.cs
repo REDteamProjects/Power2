@@ -41,12 +41,10 @@ namespace Assets.Scripts
 
             Time.timeScale = 0F;
 
-            var fg = GameObject.Find("/Foreground");
-            if (fg == null) return;
             _pauseMenu = Instantiate(Resources.Load("Prefabs/PauseFullMenu")) as GameObject;
             if (_pauseMenu != null)
             {
-                _pauseMenu.transform.SetParent(fg.transform);
+                _pauseMenu.transform.SetParent(Game.Foreground.transform);
                 _pauseMenu.transform.localScale = Vector3.one;
                 _pauseMenu.transform.localPosition = new Vector3(0, 0, -2);
             }
@@ -89,9 +87,7 @@ namespace Assets.Scripts
         public void OnResetConfirmButtonClick()
         {
             Time.timeScale = 1F;
-            var middleground = GameObject.Find("Middleground");
-            if (middleground == null) return;
-            var pg = middleground.GetComponentInChildren<IPlayground>();
+            var pg = Game.Middleground.GetComponentInChildren<IPlayground>();
             if (pg == null) return;
             pg.ResetPlayground();
             pg.UpdateTime();
@@ -105,7 +101,6 @@ namespace Assets.Scripts
 
         public void CreateResetConfirmationMenu()
         {
-            //var fg = GameObject.Find("/Foreground");
 
             _resetConfirmationMenu = Instantiate(Resources.Load("Prefabs/ResetGameConfirmation")) as GameObject;
 
@@ -119,7 +114,7 @@ namespace Assets.Scripts
             _resetConfirmationMenu.transform.localPosition = new Vector3(0, 0, -2);
 
 
-            var l = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            var l = Instantiate(LabelShowing.LabelPrefab) as GameObject;
             if (l == null) return;
 
             l.transform.SetParent(_resetConfirmationMenu.transform);

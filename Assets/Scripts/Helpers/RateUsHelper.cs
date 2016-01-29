@@ -24,7 +24,7 @@ namespace Assets.Scripts.Helpers
             Application.OpenURL("market://details?id=com.REDteam.TwoX");
 #endif
 #if UNITY_IOS
-            Application.OpenURL("http://www.itunes.com");
+            Application.OpenURL("https://itunes.apple.com/app/id1079610712");
 #endif
         }
 

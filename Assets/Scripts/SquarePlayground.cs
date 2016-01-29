@@ -353,16 +353,14 @@ namespace Assets.Scripts
 
         protected void DifficultyRaisedGUI(bool withLabel = true, EventHandler callback = null)
         {
-            var go = GameObject.Find("/Middleground/Background");
-            var oits = go.GetComponent<ObjectImageTransparencyScript>();
+            var oits = Game.Background.GetComponent<ObjectImageTransparencyScript>();
 
             oits.SetTransparency(0.1f, (obj, res) =>
             {
-                var backgroundObject = GameObject.Find("/Middleground/Background");
                 if(isBackgroundInSprite)
-                backgroundObject.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName).SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
+                    Game.Background.GetComponent<Image>().sprite = Resources.LoadAll<Sprite>(ItemBackgroundTextureName).SingleOrDefault(t => t.name.Contains(Game.Difficulty.ToString()));
                 else
-                    backgroundObject.GetComponent<Image>().sprite = Resources.Load<Sprite>(ItemBackgroundTextureName + Game.Difficulty.ToString());
+                    Game.Background.GetComponent<Image>().sprite = Resources.Load<Sprite>(ItemBackgroundTextureName + Game.Difficulty.ToString());
 
                 GetComponent<PlaygroundProgressBar>().UpdateTexture();
 
@@ -389,7 +387,7 @@ namespace Assets.Scripts
                     return;
                 }
 
-                var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                var o = Instantiate(LabelShowing.LabelPrefab) as GameObject;
                 if (o == null) return;
                 var difficultyRaisedLabel = o.GetComponent<LabelShowing>();
 
@@ -446,7 +444,7 @@ namespace Assets.Scripts
 
         protected void ShowTimeLabel()
         {
-            var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            var o = Instantiate(LabelShowing.LabelPrefab) as GameObject;
             if (o == null) return;
             var showTimeLabel = o.GetComponent<LabelShowing>();
             var fg = GameObject.Find("/Foreground");
@@ -740,7 +738,7 @@ namespace Assets.Scripts
                     if (gobj == null ||
                         (gobj.GetComponent<GameItem>().Type != GameItemType._ToMoveItem ||
                          gobj.GetComponent<GameItemMovingScript>().IsMoving)) continue;
-                    /* var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                    /* var o = Instantiate(LabelShowing.LabelPrefab) as GameObject;
                      if (o != null)
                      {
                          var pointsLabel = o.GetComponent<LabelShowing>();
@@ -1354,19 +1352,18 @@ namespace Assets.Scripts
         {
 
             SavedataHelper.RemoveData(SavedataObject);
-            var fg = GameObject.Find("/Foreground");
             var gameOverMenu = Instantiate(Resources.Load("Prefabs/GameOverMenu")) as GameObject;
             if (gameOverMenu == null) return;
             //var pausebackground = Instantiate(Resources.Load("Prefabs/PauseBackground")) as GameObject;
-            var gameOverLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            var gameOverLabelObject = Instantiate(LabelShowing.LabelPrefab) as GameObject;
             if (/*pausebackground == null || */gameOverLabelObject == null) return;
             PauseButtonScript.PauseMenuActive = true;
             Time.timeScale = 0F;
-            if (fg != null)
+            if (Game.Foreground != null)
             {
                 //pausebackground.transform.SetParent(fg.transform);
-                gameOverMenu.transform.SetParent(fg.transform);
-                gameOverLabelObject.transform.SetParent(fg.transform);
+                gameOverMenu.transform.SetParent(Game.Foreground.transform);
+                gameOverLabelObject.transform.SetParent(Game.Foreground.transform);
             }
 
             /*pausebackground.transform.localPosition = Vector3.zero;
@@ -1524,7 +1521,7 @@ namespace Assets.Scripts
             else
             {
                 LogFile.Message("Mix field...", true);
-                var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                var o = Instantiate(LabelShowing.LabelPrefab) as GameObject;
                 if (o == null) return;
                 if (!onlyNoMovesLabel)
                 {
@@ -1928,7 +1925,7 @@ namespace Assets.Scripts
 
         public void ShowComboLabel(int count)
         {
-            var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            var labelObject = Instantiate(LabelShowing.LabelPrefab) as GameObject;
             if (labelObject == null) return;
             var comboLabel = labelObject.GetComponent<LabelShowing>();
             comboLabel.name = "ComboLabel";
@@ -2032,8 +2029,7 @@ namespace Assets.Scripts
                     callback();
                 return;
             }
-            var fg = GameObject.Find("/Foreground");
-            if (fg == null) return;
+            if (Game.Foreground == null) return;
             var manualPrefab = LanguageManager.Instance.GetPrefab("UserHelp." + modulePostfix);
             if (manualPrefab == null)
             {
@@ -2048,7 +2044,7 @@ namespace Assets.Scripts
             UserHelpScript.InGameHelpModule = Instantiate(resource) as GameObject;
             if (UserHelpScript.InGameHelpModule != null)
             {
-                UserHelpScript.InGameHelpModule.transform.SetParent(fg.transform);
+                UserHelpScript.InGameHelpModule.transform.SetParent(Game.Foreground.transform);
                 UserHelpScript.InGameHelpModule.transform.localScale = Vector3.one;
                 UserHelpScript.InGameHelpModule.transform.localPosition = new Vector3(0, 0, -6);
                 manual.transform.SetParent(UserHelpScript.InGameHelpModule.transform);

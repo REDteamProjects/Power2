@@ -153,7 +153,7 @@ namespace Assets.Scripts
                 if (mixCurrent && !IsGameOver)
                 {
                     IsGameOver = true;
-                    //var labelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                    //var labelObject = Instantiate(LabelShowing.LabelPrefab) as GameObject;
                     //if (labelObject != null)
                     //{
                     //    var gameOverLabel = labelObject.GetComponent<LabelShowing>();

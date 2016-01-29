@@ -219,9 +219,8 @@ namespace Assets.Scripts.Helpers
         {
             if (_progressBar == null)
             {
-                var fg = GameObject.Find("/Foreground");
                 _progressBar = Instantiate(Resources.Load("Prefabs/ProgressBar")) as GameObject;
-                _progressBar.transform.SetParent(fg.transform);
+                _progressBar.transform.SetParent(Game.Foreground.transform);
                 _progressBar.transform.localPosition = Coordinate;
                 _progressBar.transform.localScale = Vector3.one;
             }

@@ -69,7 +69,7 @@ namespace Assets.Scripts
             if (!PlayerPrefs.HasKey("PressLogoLabel"))
             {
                 
-                _pressLogoLabel = (Instantiate(Resources.Load("Prefabs/Label")) as GameObject);
+                _pressLogoLabel = (Instantiate(LabelShowing.LabelPrefab) as GameObject);
                 if (_pressLogoLabel != null)
                 {
                     _pressLogoLabel.transform.SetParent(GameObject.Find("/GUI/Logo").transform);
@@ -296,7 +296,7 @@ namespace Assets.Scripts
                 if (gui != component.gameObject)
                     Destroy(component.gameObject);
             }
-            var label = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            var label = Instantiate(LabelShowing.LabelPrefab) as GameObject;
             label.transform.SetParent(gui.transform);
             label.transform.localPosition = Vector3.zero;
             label.transform.localScale = Vector3.one;

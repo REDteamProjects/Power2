@@ -113,7 +113,7 @@ public class StatisticPageScript : MonoBehaviour
         _resetConfirmationMenu.transform.localScale = Vector3.one;
         _resetConfirmationMenu.transform.localPosition = new Vector3(0, 0, -2);
         
-        var l = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+        var l = Instantiate(LabelShowing.LabelPrefab) as GameObject;
         if (l == null) return;
 
         l.transform.SetParent(_resetConfirmationMenu.transform);

@@ -11,6 +11,8 @@ public delegate void LabelAnimationFinishedDelegate();
 
 public class LabelShowing : MonoBehaviour {
 
+    private static UnityEngine.Object _shortLabelPrefab = Resources.Load("Prefabs/ShortLabel");
+    public static UnityEngine.Object LabelPrefab = Resources.Load("Prefabs/Label");
     public static Int32 minLabelFontSize = 30;
     public static Int32 maxLabelFontSize = 50;
     private static List<LabelShowing> PointLabels = new List<LabelShowing>();
@@ -26,6 +28,7 @@ public class LabelShowing : MonoBehaviour {
     private int _step = 1;
     private int _currentFontSize;
     public LabelShowing Shadow = null;
+    
 
 	// Update is called once per frame
 	void Update () {
@@ -102,9 +105,8 @@ public class LabelShowing : MonoBehaviour {
          int animateToSize, int step = 1, Font font = null,
         bool destroyAfterAnimation = false, LabelAnimationFinishedDelegate callback = null, int rotateAngle = 0, GameItemType? type = null)
     {
-        var mg = GameObject.Find("/Middleground");
         //var wp = initGameObject.transform.position;
-        var newPos = mg.transform.InverseTransformPoint(initGameObject.transform.position);// calling it with foreground causes MaxInitialElement z index decreasing(shows under pause menu)...
+        var newPos = Game.Middleground.transform.InverseTransformPoint(initGameObject.transform.position);// calling it with foreground causes MaxInitialElement z index decreasing(shows under pause menu)...
         var showOn = new Vector3(newPos.x + (onTop ? 0 : ((leftSide ? -25 : 25) * initGameObject.GetComponent<SpriteRenderer>().bounds.size.x)),
             newPos.y + (onTop ? 25 * initGameObject.GetComponent<SpriteRenderer>().bounds.size.y : 0), newPos.z - 6);// 25 is default pixels per unit 100 / 2 (half of object size(which is size.y / 2, cause 1 in size = 2 units)
         if(type.HasValue)
@@ -127,13 +129,12 @@ public class LabelShowing : MonoBehaviour {
         }
         GameObject obj;
         if (type.HasValue)
-        obj = Instantiate(Resources.Load("Prefabs/ShortLabel")) as GameObject;
+            obj = Instantiate(_shortLabelPrefab) as GameObject;
         else
-        obj = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            obj = Instantiate(LabelPrefab) as GameObject;
         var label = obj.GetComponent<LabelShowing>();
         label._type = type;
-        var fg = GameObject.Find("/Foreground");
-        label.transform.SetParent(fg.transform);
+        label.transform.SetParent(Game.Foreground.transform);
         label.ShowScalingLabel(showOn, text, textColor, shadowColor, animateFromSize, animateToSize, step, font, destroyAfterAnimation, callback, false, rotateAngle);
         if (label._type.HasValue)
             PointLabels.Add(label);
@@ -150,10 +151,9 @@ public class LabelShowing : MonoBehaviour {
     {
         if (toForeground)
         {
-            var fg = GameObject.Find("/Foreground");
-            transform.SetParent(fg.transform);
+            transform.SetParent(Game.Foreground.transform);
             var z = position.z;
-            position = fg.transform.InverseTransformPoint(position);
+            position = Game.Foreground.transform.InverseTransformPoint(position);
             position.z = z;
         }
 
@@ -179,7 +179,7 @@ public class LabelShowing : MonoBehaviour {
 
         if (textColor != shadowColor)
         {
-            var scalingLabelObject = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+            var scalingLabelObject = Instantiate(LabelShowing.LabelPrefab) as GameObject;
 
             if (scalingLabelObject != null)
             {

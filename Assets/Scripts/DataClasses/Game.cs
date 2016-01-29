@@ -20,6 +20,9 @@ namespace Assets.Scripts.DataClasses
         public static Font textFont;
         public static Font numbersFont;
         public static float _standartItemSpeed = 22;
+        public static GameObject Background;
+        public static GameObject Middleground;
+        public static GameObject Foreground;
 
         public static float StandartItemSpeed
         {
@@ -38,6 +41,9 @@ namespace Assets.Scripts.DataClasses
 
         void Awake()
         {
+            Background = GameObject.Find("/Middleground/Background");
+            Middleground = GameObject.Find("/Middleground");
+            Foreground = GameObject.Find("/Foreground");
 			//Stats = new Statistics(Type);
             switch(Type)
             {
@@ -57,11 +63,12 @@ namespace Assets.Scripts.DataClasses
                     PlaygroundObject = gameObject.AddComponent<ModeDropsPlayground>();
                     break;
             }
+            
         }
 
         // Use this for initialization
         void Start () {
-	
+            
         }
 	
         // Update is called once per frame

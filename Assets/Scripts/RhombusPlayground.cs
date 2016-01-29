@@ -636,7 +636,7 @@ namespace Assets.Scripts
             else
             {
                     LogFile.Message("Mix field...", true);
-                    var o = Instantiate(Resources.Load("Prefabs/Label")) as GameObject;
+                    var o = Instantiate(LabelShowing.LabelPrefab) as GameObject;
                     if (o == null) return;
                     if (!onlyNoMovesLabel)
                     {
