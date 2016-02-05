@@ -40,6 +40,8 @@ namespace Assets.Scripts
 
         void Awake()
         {
+            LabelShowing.ShortLabelPrefab = Resources.Load("Prefabs/ShortLabel");
+            LabelShowing.LabelPrefab = Resources.Load("Prefabs/Label");
             Application.targetFrameRate = 60;
             LanguageHelper.ActivateSystemLanguage();
             Game.textFont = Resources.Load<Font>("Fonts/SEGUIBL");

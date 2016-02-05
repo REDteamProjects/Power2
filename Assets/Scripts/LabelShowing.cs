@@ -11,8 +11,8 @@ public delegate void LabelAnimationFinishedDelegate();
 
 public class LabelShowing : MonoBehaviour {
 
-    private static UnityEngine.Object _shortLabelPrefab = Resources.Load("Prefabs/ShortLabel");
-    public static UnityEngine.Object LabelPrefab = Resources.Load("Prefabs/Label");
+    public static UnityEngine.Object ShortLabelPrefab;
+    public static UnityEngine.Object LabelPrefab;
     public static Int32 minLabelFontSize = 30;
     public static Int32 maxLabelFontSize = 50;
     private static List<LabelShowing> PointLabels = new List<LabelShowing>();
@@ -129,7 +129,7 @@ public class LabelShowing : MonoBehaviour {
         }
         GameObject obj;
         if (type.HasValue)
-            obj = Instantiate(_shortLabelPrefab) as GameObject;
+            obj = Instantiate(ShortLabelPrefab) as GameObject;
         else
             obj = Instantiate(LabelPrefab) as GameObject;
         var label = obj.GetComponent<LabelShowing>();

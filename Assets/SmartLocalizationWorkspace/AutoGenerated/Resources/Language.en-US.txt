@@ -147,7 +147,7 @@ reserved</value>
 		<value>Combo x</value>
 	</data>
 	<data name="ConfirmationQuestion" xml:space="preserve">
-		<value>ConfirmationQuestion</value>
+		<value>Are you sure?</value>
 	</data>
 	<data name="DropsMode" xml:space="preserve">
 		<value>DROPS</value>
